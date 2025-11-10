@@ -2,6 +2,7 @@
 
 use App\Models\Parish;
 use App\Models\Subcounty;
+use App\Models\Village;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
@@ -46,13 +47,16 @@ it('creates a parish for a subcounty', function (): void {
             'slug' => 'central-ward',
         ])
         ->assertJsonPath('subcounty.id', $subcounty->id)
-        ->assertJsonPath('subcounty.county.id', $subcounty->county_id);
+        ->assertJsonPath('subcounty.county.id', $subcounty->county_id)
+        ->assertJsonCount(0, 'villages');
 
     expect(Parish::query()->where('name', 'Central Ward')->where('subcounty_id', $subcounty->id)->exists())->toBeTrue();
 });
 
-it('shows a parish with its subcounty, county, district, region and country', function (): void {
-    $parish = Parish::factory()->create();
+it('shows a parish with its subcounty, county, district, region, country and villages', function (): void {
+    $parish = Parish::factory()
+        ->has(Village::factory()->count(3))
+        ->create();
 
     $response = getJson("/api/v1/parishes/{$parish->id}");
 
@@ -62,7 +66,8 @@ it('shows a parish with its subcounty, county, district, region and country', fu
         ->assertJsonPath('subcounty.county.id', $parish->subcounty->county_id)
         ->assertJsonPath('subcounty.county.district.id', $parish->subcounty->county->district_id)
         ->assertJsonPath('subcounty.county.district.region.id', $parish->subcounty->county->district->region_id)
-        ->assertJsonPath('subcounty.county.district.region.country.id', $parish->subcounty->county->district->region->country_id);
+        ->assertJsonPath('subcounty.county.district.region.country.id', $parish->subcounty->county->district->region->country_id)
+        ->assertJsonCount(3, 'villages');
 });
 
 it('updates a parish', function (): void {

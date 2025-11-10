@@ -14,7 +14,7 @@ class CountryController extends Controller
     public function index()
     {
         return response()->json(
-            Country::query()->with('regions.districts.counties.subcounties.parishes')->get()
+            Country::query()->with('regions.districts.counties.subcounties.parishes.villages')->get()
         );
     }
 
@@ -34,7 +34,7 @@ class CountryController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'countries');
 
-        $country = Country::create($validated)->load('regions.districts.counties.subcounties.parishes');
+        $country = Country::create($validated)->load('regions.districts.counties.subcounties.parishes.villages');
 
         return response()->json($country, 201);
     }
@@ -44,7 +44,7 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        return response()->json($country->load('regions.districts.counties.subcounties.parishes'));
+        return response()->json($country->load('regions.districts.counties.subcounties.parishes.villages'));
     }
 
     /**
@@ -67,7 +67,7 @@ class CountryController extends Controller
 
         $country->fill($validated)->save();
 
-        return response()->json($country->load('regions.districts.counties.subcounties.parishes'));
+        return response()->json($country->load('regions.districts.counties.subcounties.parishes.villages'));
     }
 
     /**
@@ -83,7 +83,7 @@ class CountryController extends Controller
     public function regions(Country $country)
     {
         return response()->json(
-            $country->regions()->with('districts.counties.subcounties.parishes')->get()
+            $country->regions()->with('districts.counties.subcounties.parishes.villages')->get()
         );
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Subcounty extends Model
 {
@@ -31,5 +32,10 @@ class Subcounty extends Model
     public function parishes(): HasMany
     {
         return $this->hasMany(Parish::class);
+    }
+
+    public function villages(): HasManyThrough
+    {
+        return $this->hasManyThrough(Village::class, Parish::class);
     }
 }

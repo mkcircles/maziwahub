@@ -9,6 +9,9 @@ use Database\Seeders\Uganda\DistrictSeeder as UgandaDistrictsSeeder;
 use Database\Seeders\Uganda\CountiesSeeder as UgandaCountiesSeeder;
 use Database\Seeders\Uganda\SubCountiesSeeder as UgandaSubCountiesSeeder;
 use Database\Seeders\Uganda\ParishesSeeder as UgandaParishesSeeder;
+use Database\Seeders\Uganda\VillagesSeeder as UgandaVillagesSeeder;
+use Database\Seeders\MilkCollectionCenterSeeder;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -24,6 +27,8 @@ class DatabaseSeeder extends Seeder
             UgandaCountiesSeeder::class,
             UgandaSubCountiesSeeder::class,
             UgandaParishesSeeder::class,
+            UgandaVillagesSeeder::class,
+            MilkCollectionCenterSeeder::class,
         ]);
     }
 }

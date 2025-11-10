@@ -5,6 +5,7 @@ use App\Models\District;
 use App\Models\Region;
 use App\Models\Subcounty;
 use App\Models\Parish;
+use App\Models\Village;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
@@ -54,12 +55,16 @@ it('creates a county for a district', function (): void {
     expect(County::query()->where('name', 'Central County')->where('district_id', $district->id)->exists())->toBeTrue();
 });
 
-it('shows a county with its district, region, country, subcounties and parishes', function (): void {
+it('shows a county with its district, region, country, subcounties, parishes and villages', function (): void {
     $county = County::factory()
         ->has(
             Subcounty::factory()
                 ->count(3)
-                ->has(Parish::factory()->count(2))
+                ->has(
+                    Parish::factory()
+                        ->count(2)
+                        ->has(Village::factory()->count(3))
+                )
         )
         ->create();
 
@@ -71,7 +76,8 @@ it('shows a county with its district, region, country, subcounties and parishes'
         ->assertJsonPath('district.region.id', $county->district->region_id)
         ->assertJsonPath('district.region.country.id', $county->district->region->country_id)
         ->assertJsonCount(3, 'subcounties')
-        ->assertJsonCount(2, 'subcounties.0.parishes');
+        ->assertJsonCount(2, 'subcounties.0.parishes')
+        ->assertJsonCount(3, 'subcounties.0.parishes.0.villages');
 });
 
 it('updates a county', function (): void {

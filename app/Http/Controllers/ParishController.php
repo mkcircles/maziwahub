@@ -14,7 +14,7 @@ class ParishController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Parish::query()->with('subcounty.county.district.region.country');
+        $query = Parish::query()->with(['subcounty.county.district.region.country', 'villages']);
 
         if ($request->filled('subcounty_id')) {
             $query->where('subcounty_id', $request->integer('subcounty_id'));
@@ -57,7 +57,7 @@ class ParishController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'parishes');
 
-        $parish = Parish::create($validated)->load('subcounty.county.district.region.country');
+        $parish = Parish::create($validated)->load(['subcounty.county.district.region.country', 'villages']);
 
         return response()->json($parish, 201);
     }
@@ -67,7 +67,7 @@ class ParishController extends Controller
      */
     public function show(Parish $parish)
     {
-        return response()->json($parish->load('subcounty.county.district.region.country'));
+        return response()->json($parish->load(['subcounty.county.district.region.country', 'villages']));
     }
 
     /**
@@ -106,5 +106,12 @@ class ParishController extends Controller
         $parish->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function villages(Parish $parish)
+    {
+        return response()->json(
+            $parish->villages()->with('parish.subcounty.county.district.region.country')->get()
+        );
     }
 }

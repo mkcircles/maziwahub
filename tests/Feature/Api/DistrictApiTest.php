@@ -5,6 +5,7 @@ use App\Models\District;
 use App\Models\County;
 use App\Models\Subcounty;
 use App\Models\Parish;
+use App\Models\Village;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
@@ -55,7 +56,7 @@ it('creates a district for a region', function (): void {
     expect(District::query()->where('name', 'Kampala')->where('region_id', $region->id)->exists())->toBeTrue();
 });
 
-it('shows a district with its region, country, counties, subcounties and parishes', function (): void {
+it('shows a district with its region, country, counties, subcounties, parishes and villages', function (): void {
     $district = District::factory()
         ->has(
             County::factory()
@@ -63,7 +64,11 @@ it('shows a district with its region, country, counties, subcounties and parishe
                 ->has(
                     Subcounty::factory()
                         ->count(1)
-                        ->has(Parish::factory()->count(2))
+                        ->has(
+                            Parish::factory()
+                                ->count(2)
+                                ->has(Village::factory()->count(3))
+                        )
                 )
         )
         ->create();
@@ -76,7 +81,8 @@ it('shows a district with its region, country, counties, subcounties and parishe
         ->assertJsonPath('region.country.id', $district->region->country_id)
         ->assertJsonCount(2, 'counties')
         ->assertJsonCount(1, 'counties.0.subcounties')
-        ->assertJsonCount(2, 'counties.0.subcounties.0.parishes');
+        ->assertJsonCount(2, 'counties.0.subcounties.0.parishes')
+        ->assertJsonCount(3, 'counties.0.subcounties.0.parishes.0.villages');
 });
 
 it('updates a district', function (): void {

@@ -14,7 +14,7 @@ class DistrictController extends Controller
      */
     public function index(Request $request)
     {
-        $query = District::query()->with(['region.country', 'counties.subcounties.parishes']);
+        $query = District::query()->with(['region.country', 'counties.subcounties.parishes.villages']);
 
         if ($request->filled('region_id')) {
             $query->where('region_id', $request->integer('region_id'));
@@ -41,7 +41,7 @@ class DistrictController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'districts');
 
-        $district = District::create($validated)->load(['region.country', 'counties.subcounties.parishes']);
+        $district = District::create($validated)->load(['region.country', 'counties.subcounties.parishes.villages']);
 
         return response()->json($district, 201);
     }
@@ -51,7 +51,7 @@ class DistrictController extends Controller
      */
     public function show(District $district)
     {
-        return response()->json($district->load(['region.country', 'counties.subcounties.parishes']));
+        return response()->json($district->load(['region.country', 'counties.subcounties.parishes.villages']));
     }
 
     /**
@@ -79,7 +79,7 @@ class DistrictController extends Controller
 
         $district->fill($validated)->save();
 
-        return response()->json($district->load(['region.country', 'counties.subcounties.parishes']));
+        return response()->json($district->load(['region.country', 'counties.subcounties.parishes.villages']));
     }
 
     /**
@@ -95,7 +95,7 @@ class DistrictController extends Controller
     public function counties(District $district)
     {
         return response()->json(
-            $district->counties()->with('subcounties.parishes')->get()
+            $district->counties()->with('subcounties.parishes.villages')->get()
         );
     }
 }

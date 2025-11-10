@@ -14,7 +14,7 @@ class SubcountyController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Subcounty::query()->with(['county.district.region.country', 'parishes']);
+        $query = Subcounty::query()->with(['county.district.region.country', 'parishes.villages']);
 
         if ($request->filled('county_id')) {
             $query->where('county_id', $request->integer('county_id'));
@@ -53,7 +53,7 @@ class SubcountyController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'subcounties');
 
-        $subcounty = Subcounty::create($validated)->load(['county.district.region.country', 'parishes']);
+        $subcounty = Subcounty::create($validated)->load(['county.district.region.country', 'parishes.villages']);
 
         return response()->json($subcounty, 201);
     }
@@ -63,7 +63,7 @@ class SubcountyController extends Controller
      */
     public function show(Subcounty $subcounty)
     {
-        return response()->json($subcounty->load(['county.district.region.country', 'parishes']));
+        return response()->json($subcounty->load(['county.district.region.country', 'parishes.villages']));
     }
 
     /**
@@ -91,7 +91,7 @@ class SubcountyController extends Controller
 
         $subcounty->fill($validated)->save();
 
-        return response()->json($subcounty->load(['county.district.region.country', 'parishes']));
+        return response()->json($subcounty->load(['county.district.region.country', 'parishes.villages']));
     }
 
     /**
@@ -107,7 +107,7 @@ class SubcountyController extends Controller
     public function parishes(Subcounty $subcounty)
     {
         return response()->json(
-            $subcounty->parishes()->with('subcounty.county.district.region.country')->get()
+            $subcounty->parishes()->with(['subcounty.county.district.region.country', 'villages'])->get()
         );
     }
 }

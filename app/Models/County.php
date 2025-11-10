@@ -38,4 +38,9 @@ class County extends Model
     {
         return $this->hasManyThrough(Parish::class, Subcounty::class);
     }
+
+    public function villages(): HasManyThrough
+    {
+        return $this->hasManyThrough(Village::class, Parish::class);
+    }
 }

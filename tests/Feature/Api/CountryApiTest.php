@@ -6,6 +6,7 @@ use App\Models\Region;
 use App\Models\County;
 use App\Models\Subcounty;
 use App\Models\Parish;
+use App\Models\Village;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\deleteJson;
 use function Pest\Laravel\getJson;
@@ -28,7 +29,11 @@ it('lists countries with their regions, districts, counties, subcounties and par
                                 ->has(
                                     Subcounty::factory()
                                         ->count(1)
-                                        ->has(Parish::factory()->count(1))
+                                        ->has(
+                                            Parish::factory()
+                                                ->count(1)
+                                                ->has(Village::factory()->count(1))
+                                        )
                                 )
                         )
                 )
@@ -44,6 +49,7 @@ it('lists countries with their regions, districts, counties, subcounties and par
         ->assertJsonCount(1, '0.regions.0.districts.0.counties')
         ->assertJsonCount(1, '0.regions.0.districts.0.counties.0.subcounties')
         ->assertJsonCount(1, '0.regions.0.districts.0.counties.0.subcounties.0.parishes')
+        ->assertJsonCount(1, '0.regions.0.districts.0.counties.0.subcounties.0.parishes.0.villages')
         ->assertJsonFragment([
             'id' => $country->id,
             'name' => $country->name,
@@ -83,7 +89,11 @@ it('shows a single country', function (): void {
                                 ->has(
                                     Subcounty::factory()
                                         ->count(2)
-                                        ->has(Parish::factory()->count(3))
+                                        ->has(
+                                            Parish::factory()
+                                                ->count(3)
+                                                ->has(Village::factory()->count(2))
+                                        )
                                 )
                         )
                 )
@@ -97,7 +107,8 @@ it('shows a single country', function (): void {
         ->assertJsonCount(2, 'regions.0.districts')
         ->assertJsonCount(1, 'regions.0.districts.0.counties')
         ->assertJsonCount(2, 'regions.0.districts.0.counties.0.subcounties')
-        ->assertJsonCount(3, 'regions.0.districts.0.counties.0.subcounties.0.parishes');
+        ->assertJsonCount(3, 'regions.0.districts.0.counties.0.subcounties.0.parishes')
+        ->assertJsonCount(2, 'regions.0.districts.0.counties.0.subcounties.0.parishes.0.villages');
 });
 
 it('updates a country', function (): void {
