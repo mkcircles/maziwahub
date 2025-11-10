@@ -1,0 +1,113 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Subcounty;
+use App\Support\SlugGenerator;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+class SubcountyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $query = Subcounty::query()->with(['county.district.region.country', 'parishes']);
+
+        if ($request->filled('county_id')) {
+            $query->where('county_id', $request->integer('county_id'));
+        }
+
+        if ($request->filled('district_id')) {
+            $query->whereHas('county', fn ($countyQuery) => $countyQuery->where('district_id', $request->integer('district_id')));
+        }
+
+        if ($request->filled('region_id')) {
+            $query->whereHas('county.district', fn ($districtQuery) => $districtQuery->where('region_id', $request->integer('region_id')));
+        }
+
+        if ($request->filled('country_id')) {
+            $query->whereHas('county.district.region', fn ($regionQuery) => $regionQuery->where('country_id', $request->integer('country_id')));
+        }
+
+        return response()->json($query->get());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('subcounties', 'name')->where(fn ($query) => $query->where('county_id', $request->input('county_id'))),
+            ],
+            'county_id' => ['required', 'integer', 'exists:counties,id'],
+            'subcounty_code' => ['required', 'string', 'max:255', 'unique:subcounties,subcounty_code'],
+        ]);
+
+        $validated['slug'] = SlugGenerator::generate($validated['name'], 'subcounties');
+
+        $subcounty = Subcounty::create($validated)->load(['county.district.region.country', 'parishes']);
+
+        return response()->json($subcounty, 201);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Subcounty $subcounty)
+    {
+        return response()->json($subcounty->load(['county.district.region.country', 'parishes']));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Subcounty $subcounty)
+    {
+        $countyId = $request->input('county_id', $subcounty->county_id);
+
+        $validated = $request->validate([
+            'name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('subcounties', 'name')->ignore($subcounty->id)->where(fn ($query) => $query->where('county_id', $countyId)),
+            ],
+            'county_id' => ['sometimes', 'required', 'integer', 'exists:counties,id'],
+            'subcounty_code' => ['sometimes', 'required', 'string', 'max:255', Rule::unique('subcounties', 'subcounty_code')->ignore($subcounty->id)],
+        ]);
+
+        if (array_key_exists('name', $validated)) {
+            $validated['slug'] = SlugGenerator::generate($validated['name'], 'subcounties', $subcounty->id);
+        }
+
+        $subcounty->fill($validated)->save();
+
+        return response()->json($subcounty->load(['county.district.region.country', 'parishes']));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Subcounty $subcounty)
+    {
+        $subcounty->delete();
+
+        return response()->json(null, 204);
+    }
+
+    public function parishes(Subcounty $subcounty)
+    {
+        return response()->json(
+            $subcounty->parishes()->with('subcounty.county.district.region.country')->get()
+        );
+    }
+}
