@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('parishes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subcounty_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('parish_name');
             $table->string('parish_code')->unique();
-            $table->string('slug')->unique();
-            $table->unique(['subcounty_id', 'name']);
+            $table->string('parish_slug')->unique();
+            $table->unique(['subcounty_id', 'parish_slug']);
             $table->timestamps();
         });
     }

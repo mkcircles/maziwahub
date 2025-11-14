@@ -27,8 +27,8 @@ class RegionsSeeder extends Seeder
 
         foreach ($data as $region) {
             $country->regions()->updateOrCreate(
-                ['slug' => Str::slug($region['name'])],
-                ['name' => $region['name']]
+                ['region_slug' => Str::slug($region['name'])],
+                ['region_name' => $region['name']]
             );
         }
     }

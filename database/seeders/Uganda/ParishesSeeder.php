@@ -34,7 +34,7 @@ class ParishesSeeder extends Seeder
             if (! $parish) {
                 $parish = Parish::firstOrNew([
                     'subcounty_id' => $subcounty->id,
-                    'name' => $name,
+                    'parish_name' => $name,
                 ]);
             }
 
@@ -42,11 +42,11 @@ class ParishesSeeder extends Seeder
                 continue;
             }
 
-            $parish->name = $name;
+            $parish->parish_name = $name;
             $parish->subcounty_id = $subcounty->id;
             $parish->parish_code = $item['id'];
 
-            $parish->slug = SlugGenerator::generate($name, 'parishes', $parish->exists ? $parish->id : null);
+            $parish->parish_slug = SlugGenerator::generate($name, 'parishes', $parish->exists ? $parish->id : null);
             $parish->save();
         }
     }

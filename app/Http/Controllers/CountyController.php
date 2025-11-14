@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\County;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class CountyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Counties
+     * @description Get all counties with their districts, regions and countries.
      */
     public function index(Request $request)
     {
@@ -32,7 +35,8 @@ class CountyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create County
+     * @description Create a new county.
      */
     public function store(Request $request)
     {
@@ -55,6 +59,8 @@ class CountyController extends Controller
     }
 
     /**
+     * Show County
+     * @description Get a county with its districts, regions and countries.
      * Display the specified resource.
      */
     public function show(County $county)
@@ -63,7 +69,8 @@ class CountyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update County
+     * @description Update a county.
      */
     public function update(Request $request, County $county)
     {
@@ -91,7 +98,8 @@ class CountyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete County
+     * @description Delete a county.
      */
     public function destroy(County $county)
     {
@@ -100,6 +108,10 @@ class CountyController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Subcounties by County
+     * @description Get all subcounties by a county.
+     */
     public function subcounties(County $county)
     {
         return response()->json(

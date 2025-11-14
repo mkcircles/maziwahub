@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('user_type', ['super_admin', 'admin', 'partner', 'mcc', 'user'])->default('user');
+            $table->unsignedBigInteger('milk_collection_center_id')->nullable();
+            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

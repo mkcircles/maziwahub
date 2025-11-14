@@ -18,10 +18,15 @@ class Subcounty extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'subcounty_name',
         'county_id',
         'subcounty_code',
-        'slug',
+        'subcounty_slug',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     public function county(): BelongsTo

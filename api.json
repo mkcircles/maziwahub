@@ -1,0 +1,2951 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "MaziwaHub API Docs",
+        "version": "1.0.0",
+        "description": "The MaziwaHub API surfaces the full milk value-chain data model, covering the national geographic hierarchy, farmers, livestock, milk collection centres, and production records.\n\nAll endpoints are versioned under `/api/v1`, secured through Laravel's default middleware stack, and respond with JSON."
+    },
+    "servers": [
+        {
+            "url": "http://localhost/api",
+            "description": "Local"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Geography"
+        },
+        {
+            "name": "Milk Collection"
+        },
+        {
+            "name": "Farm Management"
+        },
+        {
+            "name": "Milk Operations"
+        }
+    ],
+    "paths": {
+        "/v1/farmers": {
+            "get": {
+                "operationId": "farmers.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Farm Management"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Farmer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "farmers.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Farm Management"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Farmer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/farmers/{farmer}": {
+            "get": {
+                "operationId": "farmers.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "farmer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The farmer ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Farmer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "farmers.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "farmer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The farmer ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Farmer"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "farmers.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "farmer",
+                        "in": "path",
+                        "required": true,
+                        "description": "The farmer ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/cows": {
+            "get": {
+                "operationId": "cows.index",
+                "tags": [
+                    "Farm Management"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cow"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "cows.store",
+                "tags": [
+                    "Farm Management"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cow"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cows/{cow}": {
+            "get": {
+                "operationId": "cows.show",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "cow",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cow"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "cows.update",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "cow",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cow"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "cows.destroy",
+                "tags": [
+                    "Farm Management"
+                ],
+                "parameters": [
+                    {
+                        "name": "cow",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/countries": {
+            "get": {
+                "operationId": "countries.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Country"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "countries.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "iso_code": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "maxLength": 3
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "iso_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/countries/{country}": {
+            "get": {
+                "operationId": "countries.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "countries.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "iso_code": {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "maxLength": 3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "countries.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/regions": {
+            "get": {
+                "operationId": "regions.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "country_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Region"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "regions.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "country_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "country_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Region"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/regions/{region}": {
+            "get": {
+                "operationId": "regions.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "path",
+                        "required": true,
+                        "description": "The region ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Region"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "regions.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "path",
+                        "required": true,
+                        "description": "The region ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "country_id": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Region"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "regions.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "path",
+                        "required": true,
+                        "description": "The region ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/districts": {
+            "get": {
+                "operationId": "districts.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/District"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "districts.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "district_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "region_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "district_code",
+                                    "region_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/District"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/districts/{district}": {
+            "get": {
+                "operationId": "districts.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "district",
+                        "in": "path",
+                        "required": true,
+                        "description": "The district ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/District"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "districts.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "district",
+                        "in": "path",
+                        "required": true,
+                        "description": "The district ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "district_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "region_id": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/District"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "districts.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "district",
+                        "in": "path",
+                        "required": true,
+                        "description": "The district ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/counties": {
+            "get": {
+                "operationId": "counties.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "district_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/County"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "counties.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "district_id": {
+                                        "type": "integer"
+                                    },
+                                    "county_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "district_id",
+                                    "county_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/counties/{county}": {
+            "get": {
+                "operationId": "counties.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "county",
+                        "in": "path",
+                        "required": true,
+                        "description": "The county ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "counties.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "county",
+                        "in": "path",
+                        "required": true,
+                        "description": "The county ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "district_id": {
+                                        "type": "integer"
+                                    },
+                                    "county_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/County"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "counties.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "county",
+                        "in": "path",
+                        "required": true,
+                        "description": "The county ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/subcounties": {
+            "get": {
+                "operationId": "subcounties.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "county_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "district_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Subcounty"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "subcounties.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "county_id": {
+                                        "type": "integer"
+                                    },
+                                    "subcounty_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "county_id",
+                                    "subcounty_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Subcounty"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/subcounties/{subcounty}": {
+            "get": {
+                "operationId": "subcounties.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "subcounty",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subcounty ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Subcounty"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "subcounties.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "subcounty",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subcounty ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "county_id": {
+                                        "type": "integer"
+                                    },
+                                    "subcounty_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Subcounty"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "subcounties.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "subcounty",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subcounty ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/parishes": {
+            "get": {
+                "operationId": "parishes.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "subcounty_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "county_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "district_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Parish"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "parishes.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "subcounty_id": {
+                                        "type": "integer"
+                                    },
+                                    "parish_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "subcounty_id",
+                                    "parish_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Parish"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/parishes/{parish}": {
+            "get": {
+                "operationId": "parishes.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "parish",
+                        "in": "path",
+                        "required": true,
+                        "description": "The parish ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Parish"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "parishes.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "parish",
+                        "in": "path",
+                        "required": true,
+                        "description": "The parish ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "subcounty_id": {
+                                        "type": "integer"
+                                    },
+                                    "parish_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Parish"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "parishes.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "parish",
+                        "in": "path",
+                        "required": true,
+                        "description": "The parish ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/villages": {
+            "get": {
+                "operationId": "villages.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "parish_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "subcounty_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "county_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "district_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "region_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Village"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "villages.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "parish_id": {
+                                        "type": "integer"
+                                    },
+                                    "village_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "parish_id",
+                                    "village_code"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Village"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    }
+                }
+            }
+        },
+        "/v1/villages/{village}": {
+            "get": {
+                "operationId": "villages.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "village",
+                        "in": "path",
+                        "required": true,
+                        "description": "The village ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Village"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "villages.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "village",
+                        "in": "path",
+                        "required": true,
+                        "description": "The village ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "parish_id": {
+                                        "type": "integer"
+                                    },
+                                    "village_code": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Village"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "villages.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "village",
+                        "in": "path",
+                        "required": true,
+                        "description": "The village ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/countries/{country}/regions": {
+            "get": {
+                "operationId": "country.regions",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "path",
+                        "required": true,
+                        "description": "The country ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Region"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/regions/{region}/districts": {
+            "get": {
+                "operationId": "region.districts",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "region",
+                        "in": "path",
+                        "required": true,
+                        "description": "The region ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/District"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/districts/{district}/counties": {
+            "get": {
+                "operationId": "district.counties",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "district",
+                        "in": "path",
+                        "required": true,
+                        "description": "The district ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/County"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/counties/{county}/subcounties": {
+            "get": {
+                "operationId": "county.subcounties",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "county",
+                        "in": "path",
+                        "required": true,
+                        "description": "The county ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Subcounty"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/subcounties/{subcounty}/parishes": {
+            "get": {
+                "operationId": "subcounty.parishes",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "subcounty",
+                        "in": "path",
+                        "required": true,
+                        "description": "The subcounty ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Parish"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/parishes/{parish}/villages": {
+            "get": {
+                "operationId": "parish.villages",
+                "tags": [
+                    "Geography"
+                ],
+                "parameters": [
+                    {
+                        "name": "parish",
+                        "in": "path",
+                        "required": true,
+                        "description": "The parish ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Village"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/milk-collection-centers": {
+            "get": {
+                "operationId": "milk-collection-centers.index",
+                "summary": "Display a listing of the resource",
+                "tags": [
+                    "Milk Collection"
+                ],
+                "parameters": [
+                    {
+                        "name": "has_testing_equipment",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "has_washing_bay",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MilkCollectionCenter"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "milk-collection-centers.store",
+                "summary": "Store a newly created resource in storage",
+                "tags": [
+                    "Milk Collection"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkCollectionCenter"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/milk-collection-centers/{milkCollectionCenter}": {
+            "get": {
+                "operationId": "milk-collection-centers.show",
+                "summary": "Display the specified resource",
+                "tags": [
+                    "Milk Collection"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkCollectionCenter",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk collection center ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkCollectionCenter"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "milk-collection-centers.update",
+                "summary": "Update the specified resource in storage",
+                "tags": [
+                    "Milk Collection"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkCollectionCenter",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk collection center ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkCollectionCenter"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "milk-collection-centers.destroy",
+                "summary": "Remove the specified resource from storage",
+                "tags": [
+                    "Milk Collection"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkCollectionCenter",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk collection center ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/milk-deliveries": {
+            "get": {
+                "operationId": "milk-deliveries.index",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MilkDelivery"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "milk-deliveries.store",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkDelivery"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/milk-deliveries/{milkDelivery}": {
+            "get": {
+                "operationId": "milk-deliveries.show",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkDelivery",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk delivery ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkDelivery"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "milk-deliveries.update",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkDelivery",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk delivery ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MilkDelivery"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "milk-deliveries.destroy",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "milkDelivery",
+                        "in": "path",
+                        "required": true,
+                        "description": "The milk delivery ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        },
+        "/v1/cow-milk-productions": {
+            "get": {
+                "operationId": "cow-milk-productions.index",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CowMilkProduction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "cow-milk-productions.store",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CowMilkProduction"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cow-milk-productions/{cowMilkProduction}": {
+            "get": {
+                "operationId": "cow-milk-productions.show",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "cowMilkProduction",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow milk production ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CowMilkProduction"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "cow-milk-productions.update",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "cowMilkProduction",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow milk production ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CowMilkProduction"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "cow-milk-productions.destroy",
+                "tags": [
+                    "Milk Operations"
+                ],
+                "parameters": [
+                    {
+                        "name": "cowMilkProduction",
+                        "in": "path",
+                        "required": true,
+                        "description": "The cow milk production ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/ModelNotFoundException"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Country": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "iso_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "iso_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Country"
+            },
+            "County": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "district_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "county_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "district_id",
+                    "name",
+                    "county_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "County"
+            },
+            "Cow": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "Cow"
+            },
+            "CowMilkProduction": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "CowMilkProduction"
+            },
+            "District": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "region_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "district_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "region_id",
+                    "name",
+                    "district_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "District"
+            },
+            "Farmer": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "Farmer"
+            },
+            "MilkCollectionCenter": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "registration_number": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "physical_address": {
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "longitude": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "established_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "manager_name": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "manager_phone": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "staff_count": {
+                        "type": "integer"
+                    },
+                    "power_source": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "cooler_capacity_liters": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ]
+                    },
+                    "has_testing_equipment": {
+                        "type": "boolean"
+                    },
+                    "has_washing_bay": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "area": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "registration_number",
+                    "physical_address",
+                    "latitude",
+                    "longitude",
+                    "established_date",
+                    "manager_name",
+                    "manager_phone",
+                    "staff_count",
+                    "power_source",
+                    "cooler_capacity_liters",
+                    "has_testing_equipment",
+                    "has_washing_bay",
+                    "created_at",
+                    "updated_at",
+                    "area"
+                ],
+                "title": "MilkCollectionCenter"
+            },
+            "MilkDelivery": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "minItems": 0,
+                "maxItems": 0,
+                "additionalItems": false,
+                "title": "MilkDelivery"
+            },
+            "Parish": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "subcounty_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "parish_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "subcounty_id",
+                    "name",
+                    "parish_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Parish"
+            },
+            "Region": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "country_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "country_id",
+                    "name",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Region"
+            },
+            "Subcounty": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "county_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "subcounty_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "county_id",
+                    "name",
+                    "subcounty_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Subcounty"
+            },
+            "Village": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "parish_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "village_code": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "parish_id",
+                    "name",
+                    "village_code",
+                    "slug",
+                    "created_at",
+                    "updated_at"
+                ],
+                "title": "Village"
+            }
+        },
+        "responses": {
+            "ValidationException": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Errors overview."
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "description": "A detailed description of each field that failed validation.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "message",
+                                "errors"
+                            ]
+                        }
+                    }
+                }
+            },
+            "ModelNotFoundException": {
+                "description": "Not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

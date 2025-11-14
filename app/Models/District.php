@@ -18,11 +18,17 @@ class District extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'district_name',
         'region_id',
         'district_code',
-        'slug',
+        'district_slug',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     public function region(): BelongsTo
     {

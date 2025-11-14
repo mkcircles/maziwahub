@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Village;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class VillageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Villages
+     * @description Get all villages with their parishes, subcounties, counties, districts, regions and countries.
      */
     public function index(Request $request)
     {
-        $query = Village::query()->with('parish.subcounty.county.district.region.country');
+        $query = Village::query()->with('parish.subcounty');
 
         if ($request->filled('parish_id')) {
             $query->where('parish_id', $request->integer('parish_id'));
@@ -44,7 +47,8 @@ class VillageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Village
+     * @description Create a new village.
      */
     public function store(Request $request)
     {
@@ -67,7 +71,8 @@ class VillageController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show Village
+     * @description Get a village with its parishes, subcounties, counties, districts, regions and countries.
      */
     public function show(Village $village)
     {
@@ -75,7 +80,8 @@ class VillageController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Village
+     * @description Update a village.
      */
     public function update(Request $request, Village $village)
     {
@@ -103,7 +109,8 @@ class VillageController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Village
+     * @description Delete a village.
      */
     public function destroy(Village $village)
     {

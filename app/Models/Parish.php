@@ -17,10 +17,15 @@ class Parish extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'parish_name',
         'subcounty_id',
+        'parish_slug',
         'parish_code',
-        'slug',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     public function subcounty(): BelongsTo

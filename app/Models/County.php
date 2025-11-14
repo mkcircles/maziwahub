@@ -18,10 +18,20 @@ class County extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'county_name',
         'district_id',
         'county_code',
-        'slug',
+        'county_slug',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     public function district(): BelongsTo

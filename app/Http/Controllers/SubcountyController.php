@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Subcounty;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class SubcountyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Subcounties
+     * @description Get all subcounties with their counties, districts, regions and countries.
      */
     public function index(Request $request)
     {
@@ -36,7 +39,8 @@ class SubcountyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Subcounty
+     * @description Create a new subcounty.
      */
     public function store(Request $request)
     {
@@ -59,7 +63,8 @@ class SubcountyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show Subcounty
+     * @description Get a subcounty with its counties, districts, regions and countries.
      */
     public function show(Subcounty $subcounty)
     {
@@ -67,7 +72,8 @@ class SubcountyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Subcounty
+     * @description Update a subcounty.
      */
     public function update(Request $request, Subcounty $subcounty)
     {
@@ -95,7 +101,8 @@ class SubcountyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Subcounty
+     * @description Delete a subcounty.
      */
     public function destroy(Subcounty $subcounty)
     {
@@ -104,10 +111,12 @@ class SubcountyController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Parishes by Subcounty
+     * @description Get all parishes by a subcounty.
+     */
     public function parishes(Subcounty $subcounty)
     {
-        return response()->json(
-            $subcounty->parishes()->with(['subcounty.county.district.region.country', 'villages'])->get()
-        );
+        return response()->json($subcounty->parishes()->get());
     }
 }

@@ -16,12 +16,17 @@ class Village extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'village_name',
         'parish_id',
         'village_code',
-        'slug',
+        'village_slug',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+    
     public function parish(): BelongsTo
     {
         return $this->belongsTo(Parish::class);

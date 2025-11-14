@@ -30,9 +30,9 @@ class SubCountiesSeeder extends Seeder
             $name = Str::title(Str::lower($item['name']));
 
             $subcounty = Subcounty::firstOrNew(['subcounty_code' => $item['id']]);
-            $subcounty->name = $name;
+            $subcounty->subcounty_name = $name;
             $subcounty->county_id = $county->id;
-            $subcounty->slug = SlugGenerator::generate($name, 'subcounties', $subcounty->id);
+            $subcounty->subcounty_slug = SlugGenerator::generate($name, 'subcounties', $subcounty->id);
             $subcounty->save();
         }
     }

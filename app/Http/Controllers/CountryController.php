@@ -3,23 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
-use Illuminate\Http\Request;
+use App\Models\Farmer;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
+use Illuminate\Http\Request;
 
+#[Group('Geography')]
 class CountryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * List Countries
+     * @description Get all countries with their regions, districts, counties, subcounties, parishes and villages.
      */
     public function index()
     {
         return response()->json(
-            Country::query()->with('regions.districts.counties.subcounties.parishes.villages')->get()
+            Country::query()->get()
         );
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Country
+     * @description Create a new country.
      */
     public function store(Request $request)
     {
@@ -34,21 +39,23 @@ class CountryController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'countries');
 
-        $country = Country::create($validated)->load('regions.districts.counties.subcounties.parishes.villages');
+        $country = Country::create($validated)->load('regions');
 
         return response()->json($country, 201);
     }
 
     /**
-     * Display the specified resource.
+     * Show Country
+     * @description Get a country with its regions, districts, counties, subcounties, parishes and villages.
      */
     public function show(Country $country)
     {
-        return response()->json($country->load('regions.districts.counties.subcounties.parishes.villages'));
+        return response()->json($country->load('regions'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Country
+     * @description Update a country.
      */
     public function update(Request $request, Country $country)
     {
@@ -67,11 +74,13 @@ class CountryController extends Controller
 
         $country->fill($validated)->save();
 
-        return response()->json($country->load('regions.districts.counties.subcounties.parishes.villages'));
+        return response()->json($country->load('regions'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Country
+     * @subgroup Country
+     * @description Delete a country.
      */
     public function destroy(Country $country)
     {
@@ -80,10 +89,32 @@ class CountryController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Regions by Country
+     * @description Get all regions by a country.
+     */
     public function regions(Country $country)
     {
-        return response()->json(
-            $country->regions()->with('districts.counties.subcounties.parishes.villages')->get()
-        );
+        return response()->json($country->regions()->get());
+    }
+
+    /**
+     * Get Farmers by Country
+     * @description Get all farmers in a country based on their location.
+     */
+    public function farmers(Country $country, Request $request)
+    {
+        // Get all district names for this country
+        $districts = $country->districts()->pluck('districts.id')->toArray();
+
+        // Query farmers where district matches any of the country's districts
+        $query = Farmer::whereIn('district', $districts);
+
+        // Apply pagination if requested
+        $perPage = $request->get('per_page', 15);
+        $farmers = $query->with(['milkCollectionCenter', 'registeredByAgent', 'cows'])
+            ->paginate($perPage);
+
+        return response()->json($farmers);
     }
 }

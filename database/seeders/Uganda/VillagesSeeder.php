@@ -31,10 +31,10 @@ class VillagesSeeder extends Seeder
             $name = Str::title(Str::lower($item['name']));
 
             $village = Village::firstOrNew(['village_code' => $item['id']]);
-            $village->name = $name;
+            $village->village_name = $name;
             $village->parish_id = $parish->id;
             $village->village_code = $item['id'];
-            $village->slug = SlugGenerator::generate($name, 'villages', $village->id);
+            $village->village_slug = SlugGenerator::generate($name, 'villages', $village->id);
             $village->save();
         }
     }

@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\District;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class DistrictController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Districts
+     * @description Get all districts with their regions, countries and counties.
      */
     public function index(Request $request)
     {
@@ -24,7 +27,8 @@ class DistrictController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create District
+     * @description Create a new district.
      */
     public function store(Request $request)
     {
@@ -47,7 +51,8 @@ class DistrictController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show District
+     * @description Get a district with its regions, countries and counties.
      */
     public function show(District $district)
     {
@@ -55,7 +60,8 @@ class DistrictController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update District
+     * @description Update a district.
      */
     public function update(Request $request, District $district)
     {
@@ -83,7 +89,8 @@ class DistrictController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete District
+     * @description Delete a district.
      */
     public function destroy(District $district)
     {
@@ -92,10 +99,12 @@ class DistrictController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Counties by District
+     * @description Get all counties by a district.
+     */
     public function counties(District $district)
     {
-        return response()->json(
-            $district->counties()->with('subcounties.parishes.villages')->get()
-        );
+        return response()->json($district->counties()->get());
     }
 }

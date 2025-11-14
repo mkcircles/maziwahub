@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\MilkCollectionCenter;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Milk Collection')]
 class MilkCollectionCenterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Milk Collection Centers
+     * @description Get all milk collection centers.
      */
     public function index(Request $request)
     {
@@ -28,11 +31,19 @@ class MilkCollectionCenterController extends Controller
             $query->where('has_washing_bay', filter_var($request->query('has_washing_bay'), FILTER_VALIDATE_BOOL));
         }
 
+        foreach (['country_id', 'region_id', 'district_id', 'county_id', 'subcounty_id', 'parish_id', 'village_id'] as $key) {
+            if ($request->filled($key)) {
+                $value = (int) $request->query($key);
+                $query->whereJsonContains("location->$key", $value);
+            }
+        }
+
         return response()->json($query->orderBy('name')->get());
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Milk Collection Center
+     * @description Create a new milk collection center.
      */
     public function store(Request $request)
     {
@@ -44,7 +55,8 @@ class MilkCollectionCenterController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show Milk Collection Center
+     * @description Get a milk collection center.
      */
     public function show(MilkCollectionCenter $milkCollectionCenter)
     {
@@ -52,7 +64,8 @@ class MilkCollectionCenterController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Milk Collection Center
+     * @description Update a milk collection center.
      */
     public function update(Request $request, MilkCollectionCenter $milkCollectionCenter)
     {
@@ -64,7 +77,8 @@ class MilkCollectionCenterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Milk Collection Center
+     * @description Delete a milk collection center.
      */
     public function destroy(MilkCollectionCenter $milkCollectionCenter)
     {

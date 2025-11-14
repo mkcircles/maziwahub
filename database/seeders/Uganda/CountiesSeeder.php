@@ -31,8 +31,8 @@ class CountiesSeeder extends Seeder
 
             $county = County::firstOrNew(['county_code' => $item['id']]);
             $county->district_id = $district->id;
-            $county->name = $name;
-            $county->slug = SlugGenerator::generate($name, 'counties', $county->id);
+            $county->county_name = $name;
+            $county->county_slug = SlugGenerator::generate($name, 'counties', $county->id);
             $county->save();
         }
     }

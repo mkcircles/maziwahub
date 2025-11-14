@@ -23,8 +23,8 @@ class DistrictSeeder extends Seeder
             $name = Str::title(Str::lower($item['name']));
 
             $district = District::firstOrNew(['district_code' => $item['id']]);
-            $district->name = $name;
-            $district->slug = SlugGenerator::generate($name, 'districts', $district->id);
+            $district->district_name = $name;
+            $district->district_slug = SlugGenerator::generate($name, 'districts', $district->id);
             $district->region_id = 1;
             $district->save();
         }
@@ -34,7 +34,7 @@ class DistrictSeeder extends Seeder
         $regionData = json_decode($regionJson, true);
 
         foreach ($regionData as $mapping) {
-            $district = District::whereRaw('LOWER(name) = ?', [Str::lower($mapping['name'])])->first();
+            $district = District::whereRaw('LOWER(district_name) = ?', [Str::lower($mapping['name'])])->first();
 
             if (! $district) {
                 continue;

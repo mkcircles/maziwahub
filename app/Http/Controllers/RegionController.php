@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Region;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class RegionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Regions
+     * @description Get all regions with their countries, districts, counties, subcounties, parishes and villages.
      */
     public function index(Request $request)
     {
-        $query = Region::query()->with(['country', 'districts.counties.subcounties.parishes.villages']);
+        $query = Region::query()->with(['country']);
 
         if ($request->filled('country_id')) {
             $query->where('country_id', $request->integer('country_id'));
@@ -24,7 +27,8 @@ class RegionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Region
+     * @description Create a new region.
      */
     public function store(Request $request)
     {
@@ -46,7 +50,8 @@ class RegionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show Region
+     * @description Get a region with its countries, districts, counties, subcounties, parishes and villages.
      */
     public function show(Region $region)
     {
@@ -54,7 +59,8 @@ class RegionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Region
+     * @description Update a region.
      */
     public function update(Request $request, Region $region)
     {
@@ -81,7 +87,8 @@ class RegionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Region
+     * @description Delete a region.
      */
     public function destroy(Region $region)
     {
@@ -90,10 +97,12 @@ class RegionController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Districts by Region
+     * @description Get all districts with their regions, countries and counties.
+     */
     public function districts(Region $region)
     {
-        return response()->json(
-            $region->districts()->with('counties.subcounties.parishes.villages')->get()
-        );
+        return response()->json($region->districts()->get());
     }
 }

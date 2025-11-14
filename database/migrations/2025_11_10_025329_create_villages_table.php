@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('villages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('parish_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('village_name');
             $table->string('village_code')->unique();
-            $table->string('slug')->unique();
-            $table->unique(['parish_id', 'name']);
+            $table->string('village_slug')->unique();
+            $table->unique(['parish_id', 'village_slug']);
             $table->timestamps();
         });
     }

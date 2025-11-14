@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Parish;
 use App\Support\SlugGenerator;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+#[Group('Geography')]
 class ParishController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get Parishes
+     * @description Get all parishes with their subcounties, counties, districts, regions and countries.
      */
     public function index(Request $request)
     {
@@ -40,7 +43,8 @@ class ParishController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create Parish
+     * @description Create a new parish.
      */
     public function store(Request $request)
     {
@@ -63,7 +67,8 @@ class ParishController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show Parish
+     * @description Get a parish with its subcounties, counties, districts, regions and countries.
      */
     public function show(Parish $parish)
     {
@@ -71,7 +76,8 @@ class ParishController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Parish
+     * @description Update a parish.
      */
     public function update(Request $request, Parish $parish)
     {
@@ -99,7 +105,8 @@ class ParishController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete Parish
+     * @description Delete a parish.
      */
     public function destroy(Parish $parish)
     {
@@ -108,6 +115,10 @@ class ParishController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Get Villages by Parish
+     * @description Get all villages by a parish.
+     */
     public function villages(Parish $parish)
     {
         return response()->json(

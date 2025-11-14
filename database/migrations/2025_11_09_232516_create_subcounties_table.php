@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('subcounties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('county_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('subcounty_name');
             $table->string('subcounty_code')->unique();
-            $table->string('slug')->unique();
-            $table->unique(['county_id', 'name']);
+            $table->string('subcounty_slug')->unique();
+            $table->unique(['county_id', 'subcounty_slug']);
             $table->timestamps();
         });
     }
