@@ -50,7 +50,7 @@ it('creates a parish for a subcounty', function (): void {
         ->assertJsonPath('subcounty.county.id', $subcounty->county_id)
         ->assertJsonCount(0, 'villages');
 
-    expect(Parish::query()->where('name', 'Central Ward')->where('subcounty_id', $subcounty->id)->exists())->toBeTrue();
+    expect(Parish::query()->where('parish_name', 'Central Ward')->where('subcounty_id', $subcounty->id)->exists())->toBeTrue();
 });
 
 it('shows a parish with its subcounty, county, district, region, country and villages', function (): void {

@@ -48,7 +48,7 @@ it('creates a village for a parish', function (): void {
         ->assertJsonPath('parish.id', $parish->id)
         ->assertJsonPath('parish.subcounty.id', $parish->subcounty_id);
 
-    expect(Village::query()->where('name', 'Central Cell')->where('parish_id', $parish->id)->exists())->toBeTrue();
+    expect(Village::query()->where('village_name', 'Central Cell')->where('parish_id', $parish->id)->exists())->toBeTrue();
 });
 
 it('shows a village with its parish, subcounty, district, region and country', function (): void {

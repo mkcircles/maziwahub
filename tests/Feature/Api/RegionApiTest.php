@@ -52,7 +52,7 @@ it('creates a region for a country', function (): void {
         ->assertJsonPath('country.id', $country->id)
         ->assertJsonCount(0, 'districts');
 
-    expect(Region::query()->where('name', 'Central')->where('country_id', $country->id)->exists())->toBeTrue();
+    expect(Region::query()->where('region_name', 'Central')->where('country_id', $country->id)->exists())->toBeTrue();
 });
 
 it('shows a region with its country, districts, counties, subcounties, parishes and villages', function (): void {

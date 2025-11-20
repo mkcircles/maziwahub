@@ -18,14 +18,23 @@ class Parish extends Model
      */
     protected $fillable = [
         'parish_name',
-        'subcounty_id',
         'parish_slug',
         'parish_code',
+        'subcounty_id',
+        'name',
+        'slug',
     ];
 
     protected $hidden = [
+        'parish_name',
+        'parish_slug',
         'created_at',
         'updated_at',
+    ];
+
+    protected $appends = [
+        'name',
+        'slug',
     ];
 
     public function subcounty(): BelongsTo
@@ -36,5 +45,25 @@ class Parish extends Model
     public function villages(): HasMany
     {
         return $this->hasMany(Village::class);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->attributes['parish_name'] ?? null;
+    }
+
+    public function setNameAttribute(?string $value): void
+    {
+        $this->attributes['parish_name'] = $value;
+    }
+
+    public function getSlugAttribute(): ?string
+    {
+        return $this->attributes['parish_slug'] ?? null;
+    }
+
+    public function setSlugAttribute(?string $value): void
+    {
+        $this->attributes['parish_slug'] = $value;
     }
 }

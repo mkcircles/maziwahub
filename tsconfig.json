@@ -18,7 +18,8 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["./resources/js/*"]
-        }
+        },
+        "types": ["vite/client", "chart.js", "chartjs-adapter-date-fns"]
     },
     "include": [
         "resources/js/**/*.ts",

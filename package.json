@@ -20,6 +20,8 @@
     "dependencies": {
         "@iconify/vue": "^5.0.0",
         "axios": "^1.7.7",
+        "chart.js": "^4.5.1",
+        "chartjs-adapter-date-fns": "^3.0.0",
         "pinia": "^2.3.0",
         "vue-router": "^4.4.5"
     }

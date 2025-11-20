@@ -51,7 +51,7 @@ it('creates a subcounty for a county', function (): void {
         ->assertJsonPath('county.district.id', $county->district_id)
         ->assertJsonCount(0, 'parishes');
 
-    expect(Subcounty::query()->where('name', 'North Division')->where('county_id', $county->id)->exists())->toBeTrue();
+    expect(Subcounty::query()->where('subcounty_name', 'North Division')->where('county_id', $county->id)->exists())->toBeTrue();
 });
 
 it('shows a subcounty with its county, district, region, country, parishes and villages', function (): void {

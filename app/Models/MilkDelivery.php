@@ -31,6 +31,10 @@ class MilkDelivery extends Model
         'total_amount' => 'decimal:2',
     ];
 
+    protected $with = [
+        'farmer',
+    ];
+
     public function farmer(): BelongsTo
     {
         return $this->belongsTo(Farmer::class);

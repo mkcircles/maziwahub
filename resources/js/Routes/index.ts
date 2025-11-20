@@ -39,8 +39,23 @@ router.beforeEach(async (to, _from, next) => {
 
         // Check if route requires specific role
         if (to.matched.some(record => record.meta.requiresRole)) {
-            const requiredRole = to.matched.find(record => record.meta.requiresRole)?.meta.requiresRole;
-            if (requiredRole && authStore.user?.user_type !== requiredRole) {
+            const roleRequirements = to.matched
+                .map(record => record.meta.requiresRole)
+                .filter(Boolean);
+
+            const allowedRoles = roleRequirements.reduce<string[]>((acc, requirement) => {
+                if (Array.isArray(requirement)) {
+                    acc.push(...requirement);
+                } else {
+                    acc.push(requirement as string);
+                }
+                return acc;
+            }, []);
+
+            if (
+                allowedRoles.length &&
+                (!authStore.user?.user_type || !allowedRoles.includes(authStore.user.user_type))
+            ) {
                 next({ name: 'admin-dashboard' });
                 return;
             }

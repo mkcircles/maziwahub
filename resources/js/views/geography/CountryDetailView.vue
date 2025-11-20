@@ -100,50 +100,13 @@
                                 No milk collection centers registered for this country.
                             </div>
                             <div v-else class="mt-6 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                                <div
+                                <CountryMilkCenterCard
                                     v-for="center in milkCenters"
                                     :key="center.id"
-                                    class="flex flex-col gap-3 rounded-lg border border-gray-100 bg-gray-50 p-4"
-                                >
-                                    <div class="flex items-start justify-between">
-                                        <div>
-                                            <h3 class="text-base font-semibold text-gray-900">
-                                                {{ center.name }}
-                                            </h3>
-                                            <p class="text-xs text-gray-500">
-                                                {{ center.registration_number ?? 'Unregistered ID' }}
-                                            </p>
-                                        </div>
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-[11px] font-medium text-blue-700"
-                                        >
-                                            <Icon icon="mdi:snowflake-variant" :size="13" />
-                                            {{ center.cooler_capacity_liters ?? 0 }} L
-                                        </span>
-                                    </div>
-                                    <div class="text-sm text-gray-600">
-                                        {{ center.physical_address }}
-                                    </div>
-                                    <div class="text-xs text-gray-500">
-                                        {{ formatCenterLocation(center) }}
-                                    </div>
-                                    <div class="flex flex-wrap items-center gap-2 text-xs">
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-medium"
-                                            :class="center.has_testing_equipment ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
-                                        >
-                                            <Icon icon="mdi:flask-outline" :size="13" />
-                                            Testing
-                                        </span>
-                                        <span
-                                            class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-medium"
-                                            :class="center.has_washing_bay ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
-                                        >
-                                            <Icon icon="mdi:water-outline" :size="13" />
-                                            Washing
-                                        </span>
-                                    </div>
-                                </div>
+                                    :center="center"
+                                    :format-location="formatCenterLocation"
+                                    :minified="true"
+                                />
                             </div>
                         </template>
                     </div>
@@ -307,14 +270,30 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from '../../components/shared/Icon.vue';
-import { useGeographyStore, type Country, type Farmer, type MilkCollectionCenter } from '../../stores/geographyStore';
+import CountryMilkCenterCard from '../../components/geography/CountryMilkCenterCard.vue';
+import {
+    useGeographyStore,
+    type Country,
+    type Farmer,
+    type MilkCollectionCenter,
+    type Region,
+} from '../../stores/geographyStore';
 
 const route = useRoute();
 const countriesStore = useGeographyStore();
 
 const countryId = computed(() => Number(route.params.id));
 
-const country = ref<Country | null>(null);
+type RegionWithMetrics = Region & {
+    region_name?: string | null;
+    region_slug?: string | null;
+    districts_count?: number | null;
+    counties_count?: number | null;
+    subcounties_count?: number | null;
+    farmers_count?: number | null;
+};
+
+const country = ref<(Country & { regions?: RegionWithMetrics[] }) | null>(null);
 const isCountryLoading = ref(false);
 const errorMessage = ref<string | null>(null);
 

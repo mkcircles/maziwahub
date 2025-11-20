@@ -37,7 +37,7 @@ class RegionController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('regions', 'name')->where(fn ($query) => $query->where('country_id', $request->input('country_id'))),
+                Rule::unique('regions', 'region_name')->where(fn ($query) => $query->where('country_id', $request->input('country_id'))),
             ],
             'country_id' => ['required', 'integer', 'exists:countries,id'],
         ]);
@@ -72,7 +72,7 @@ class RegionController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('regions', 'name')->ignore($region->id)->where(fn ($query) => $query->where('country_id', $countryId)),
+                Rule::unique('regions', 'region_name')->ignore($region->id)->where(fn ($query) => $query->where('country_id', $countryId)),
             ],
             'country_id' => ['sometimes', 'required', 'integer', 'exists:countries,id'],
         ]);

@@ -53,7 +53,7 @@ it('creates a district for a region', function (): void {
         ->assertJsonPath('region.country.id', $region->country_id)
         ->assertJsonCount(0, 'counties');
 
-    expect(District::query()->where('name', 'Kampala')->where('region_id', $region->id)->exists())->toBeTrue();
+    expect(District::query()->where('district_name', 'Kampala')->where('region_id', $region->id)->exists())->toBeTrue();
 });
 
 it('shows a district with its region, country, counties, subcounties, parishes and villages', function (): void {

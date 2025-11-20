@@ -197,6 +197,50 @@
                                                 class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                                             />
                                         </div>
+                                        <div class="space-y-1">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                Herd Size Range
+                                            </label>
+                                            <select
+                                                v-model="form.herd_size"
+                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                            >
+                                                <option value="">Select range</option>
+                                                <option v-for="option in herdSizeOptions" :key="option" :value="option">
+                                                    {{ option }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                Grazing Type
+                                            </label>
+                                            <select
+                                                v-model="form.grazing_type"
+                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                            >
+                                                <option value="">Select grazing type</option>
+                                                <option value="Rotational grazing">Rotational grazing</option>
+                                                <option value="Zero grazing">Zero grazing</option>
+                                                <option value="Continuous grazing">Continuous grazing</option>
+                                                <option value="Strip grazing">Strip grazing</option>
+                                                <option value="Block grazing">Block grazing</option>
+                                                <option value="Creep feeding">Creep feeding</option>
+                                                <option value="Leader-follower grazing">Leader-follower grazing</option>
+                                                <option value="Mob grazing">Mob grazing</option>
+                                            </select>
+                                        </div>
+                                        <div class="space-y-1 sm:col-span-2">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                Water Source
+                                            </label>
+                                            <input
+                                                v-model="form.water_source"
+                                                type="text"
+                                                placeholder="e.g. Borehole, River, Rainwater harvesting"
+                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -239,6 +283,17 @@ import Icon from '../shared/Icon.vue';
 import LocationCascadeSelector, { type LocationSelection } from '../shared/LocationCascadeSelector.vue';
 import { useFarmerStore } from '../../stores/farmerStore';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
+
+const herdSizeOptions = [
+    '1-10',
+    '11-30',
+    '31-50',
+    '51-100',
+    '101-300',
+    '301-700',
+    '701-1000',
+    '1000+',
+];
 
 const props = defineProps<{
     isOpen: boolean;
@@ -290,6 +345,9 @@ const form = reactive({
     farming_type: '',
     crop_production: '',
     animal_production: '',
+    herd_size: '',
+    grazing_type: '',
+    water_source: '',
 });
 
 const resetForm = () => {
@@ -310,6 +368,9 @@ const resetForm = () => {
         farming_type: '',
         crop_production: '',
         animal_production: '',
+        herd_size: '',
+        grazing_type: '',
+        water_source: '',
     });
     Object.assign(locationSelection, defaultLocation());
 };
@@ -326,6 +387,9 @@ const handleSubmit = async () => {
             ...form,
             milk_collection_center_id:
                 form.milk_collection_center_id === '' ? null : Number(form.milk_collection_center_id),
+            herd_size: form.herd_size || null,
+            grazing_type: form.grazing_type || null,
+            water_source: form.water_source || null,
         };
 
         const farmer = await farmerStore.createFarmer(payload);

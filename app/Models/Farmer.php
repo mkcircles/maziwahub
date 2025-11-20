@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Farmer extends Model
 {
@@ -55,6 +56,14 @@ class Farmer extends Model
         'animal_production',
         'is_farmer_insured',
         'support_needed',
+        'herd_size',
+        'grazing_type',
+        'water_source',
+        'primary_feeding_method_id',
+        'supplemental_feeding_method_id',
+        'feeding_last_changed_at',
+        'feeding_metadata',
+        'feeding_notes',
     ];
 
     protected $casts = [
@@ -69,6 +78,8 @@ class Farmer extends Model
         'farm_size' => 'decimal:2',
         'land_under_use' => 'decimal:2',
         'is_farmer_insured' => 'boolean',
+        'feeding_last_changed_at' => 'datetime',
+        'feeding_metadata' => 'array',
     ];
     protected $appends = [
         'location',
@@ -77,28 +88,45 @@ class Farmer extends Model
     public function getLocationAttribute(): array
     {
         $location = [];
+
         if ($this->district) {
             $district = District::find($this->district);
             if ($district) {
-                $location['country'] = $district->region->country->name;
-                $location['region'] = $district->region->region_name;
-                $location['district'] = $district->district_name;
+                $location['district'] = $district->name;
+
+                $region = $district->region;
+                if ($region) {
+                    $location['region'] = $region->name;
+                    $country = $region->country;
+                    if ($country) {
+                        $location['country'] = $country->name;
+                    }
+                }
             }
         }
         if ($this->county) {
             $county = County::find($this->county);
             if ($county) {
-                $location['county'] = $county->county_name;
+                $location['county'] = $county->name;
             }
         }
         if ($this->sub_county) {
-            $location['sub_county'] = Subcounty::find($this->sub_county)->subcounty_name;
+            $subcounty = Subcounty::find($this->sub_county);
+            if ($subcounty) {
+                $location['sub_county'] = $subcounty->name;
+            }
         }
         if ($this->parish) {
-            $location['parish'] = Parish::find($this->parish)->parish_name;
+            $parish = Parish::find($this->parish);
+            if ($parish) {
+                $location['parish'] = $parish->name;
+            }
         }
         if ($this->village) {
-            $location['village'] = Village::find($this->village)->village_name;
+            $village = Village::find($this->village);
+            if ($village) {
+                $location['village'] = $village->name;
+            }
         }
         return $location;
     }
@@ -126,6 +154,37 @@ class Farmer extends Model
     public function milkDeliveries(): HasMany
     {
         return $this->hasMany(MilkDelivery::class);
+    }
+
+    public function primaryFeedingMethod(): BelongsTo
+    {
+        return $this->belongsTo(FeedingMethod::class, 'primary_feeding_method_id');
+    }
+
+    public function supplementalFeedingMethod(): BelongsTo
+    {
+        return $this->belongsTo(FeedingMethod::class, 'supplemental_feeding_method_id');
+    }
+
+    public function feedingHistories(): HasMany
+    {
+        return $this->hasMany(FarmerFeedingHistory::class)->orderByDesc('started_at')->orderByDesc('created_at');
+    }
+
+    public function activePrimaryFeedingHistory(): HasOne
+    {
+        return $this->hasOne(FarmerFeedingHistory::class)
+            ->where('feeding_type', 'primary')
+            ->whereNull('ended_at')
+            ->latestOfMany('started_at');
+    }
+
+    public function activeSupplementalFeedingHistory(): HasOne
+    {
+        return $this->hasOne(FarmerFeedingHistory::class)
+            ->where('feeding_type', 'supplemental')
+            ->whereNull('ended_at')
+            ->latestOfMany('started_at');
     }
 }
 

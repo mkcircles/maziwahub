@@ -6,6 +6,7 @@ use App\Models\MilkDelivery;
 use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 #[Group('Milk Operations')]
 class MilkDeliveryController extends Controller
@@ -40,6 +41,38 @@ class MilkDeliveryController extends Controller
         }
 
         return response()->json($query->orderByDesc('delivery_date')->get());
+    }
+
+    public function dailySummary(Request $request): JsonResponse
+    {
+        $query = MilkDelivery::query()
+            ->selectRaw('delivery_date, SUM(volume_liters) as total_volume')
+            ->groupBy('delivery_date')
+            ->orderBy('delivery_date');
+
+        if ($centerId = $request->query('milk_collection_center_id')) {
+            $query->where('milk_collection_center_id', $centerId);
+        }
+
+        if ($from = $request->query('from')) {
+            $query->whereDate('delivery_date', '>=', $from);
+        }
+
+        if ($to = $request->query('to')) {
+            $query->whereDate('delivery_date', '<=', $to);
+        }
+
+        if ($days = (int) $request->query('days')) {
+            $startDate = Carbon::today()->subDays(max($days - 1, 0));
+            $query->whereDate('delivery_date', '>=', $startDate->toDateString());
+        }
+
+        $summary = $query->get()->map(fn ($row) => [
+            'date' => Carbon::parse($row->delivery_date)->toDateString(),
+            'total_volume' => (float) $row->total_volume,
+        ]);
+
+        return response()->json($summary);
     }
 
     /**

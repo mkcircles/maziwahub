@@ -19,14 +19,23 @@ class District extends Model
      */
     protected $fillable = [
         'district_name',
-        'region_id',
-        'district_code',
         'district_slug',
+        'district_code',
+        'region_id',
+        'name',
+        'slug',
     ];
 
     protected $hidden = [
+        'district_name',
+        'district_slug',
         'created_at',
         'updated_at',
+    ];
+
+    protected $appends = [
+        'name',
+        'slug',
     ];
 
 
@@ -48,5 +57,25 @@ class District extends Model
     public function villages(): HasManyThrough
     {
         return $this->hasManyThrough(Village::class, Parish::class);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->attributes['district_name'] ?? null;
+    }
+
+    public function setNameAttribute(?string $value): void
+    {
+        $this->attributes['district_name'] = $value;
+    }
+
+    public function getSlugAttribute(): ?string
+    {
+        return $this->attributes['district_slug'] ?? null;
+    }
+
+    public function setSlugAttribute(?string $value): void
+    {
+        $this->attributes['district_slug'] = $value;
     }
 }

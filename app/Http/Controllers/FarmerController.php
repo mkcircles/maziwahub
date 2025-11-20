@@ -21,7 +21,13 @@ class FarmerController extends Controller
         $this->authorize('viewAny', Farmer::class);
 
         $user = $request->user();
-        $query = Farmer::query()->with(['cows', 'milkDeliveries.milkCollectionCenter', 'cowMilkProductions']);
+        $query = Farmer::query()->with([
+            'cows',
+            'milkDeliveries.milkCollectionCenter',
+            'cowMilkProductions',
+            'primaryFeedingMethod',
+            'supplementalFeedingMethod',
+        ]);
 
         // Filter by role-based access
         if ($user->isPartner() && $user->partner_id) {
@@ -60,7 +66,7 @@ class FarmerController extends Controller
             $query->where('reg_type', $regType);
         }
 
-        return response()->json($query->orderBy('last_name')->orderBy('first_name')->paginate());
+        return response()->json($query->orderBy('last_name')->orderBy('first_name')->paginate($request->query('per_page', 10)));
     }
 
     /**
@@ -88,8 +94,17 @@ class FarmerController extends Controller
         }
 
         $farmer = Farmer::create($data);
+        $this->maybeCreateInitialFeedingHistory($request, $farmer, $data);
 
-        return response()->json($farmer->load(['cows', 'milkDeliveries']), 201);
+        return response()->json(
+            $farmer->load([
+                'cows',
+                'milkDeliveries',
+                'primaryFeedingMethod',
+                'supplementalFeedingMethod',
+            ]),
+            201
+        );
     }
 
     /**
@@ -100,7 +115,16 @@ class FarmerController extends Controller
     {
         $this->authorize('view', $farmer);
 
-        return response()->json($farmer->load(['cows', 'milkDeliveries.milkCollectionCenter', 'cowMilkProductions']));
+        return response()->json(
+            $farmer->load([
+                'cows',
+                'milkDeliveries.milkCollectionCenter',
+                'cowMilkProductions',
+                'primaryFeedingMethod',
+                'supplementalFeedingMethod',
+                'feedingHistories.feedingMethod',
+            ])
+        );
     }
 
     /**
@@ -117,9 +141,19 @@ class FarmerController extends Controller
             $data['farmer_id'] = Str::upper($data['farmer_id']);
         }
 
+        $this->syncFeedingTimestamps($farmer, $data);
+
         $farmer->fill($data)->save();
 
-        return response()->json($farmer->load(['cows', 'milkDeliveries.milkCollectionCenter']));
+        return response()->json(
+            $farmer->load([
+                'cows',
+                'milkDeliveries.milkCollectionCenter',
+                'primaryFeedingMethod',
+                'supplementalFeedingMethod',
+                'feedingHistories.feedingMethod',
+            ])
+        );
     }
 
     /**
@@ -190,6 +224,41 @@ class FarmerController extends Controller
             'animal_production' => ['nullable', 'string'],
             'is_farmer_insured' => ['nullable', 'boolean'],
             'support_needed' => ['nullable', 'string'],
+            'herd_size' => [
+                'nullable',
+                'string',
+                'max:50',
+                Rule::in([
+                    '1-10',
+                    '11-30',
+                    '31-50',
+                    '51-100',
+                    '101-300',
+                    '301-700',
+                    '701-1000',
+                    '1000+',
+                ]),
+            ],
+            'grazing_type' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::in([
+                    'Rotational grazing',
+                    'Zero grazing',
+                    'Continuous grazing',
+                    'Strip grazing',
+                    'Block grazing',
+                    'Creep feeding',
+                    'Leader-follower grazing',
+                    'Mob grazing',
+                ]),
+            ],
+            'water_source' => ['nullable', 'string', 'max:150'],
+            'primary_feeding_method_id' => ['nullable', 'integer', 'exists:feeding_methods,id'],
+            'supplemental_feeding_method_id' => ['nullable', 'integer', 'exists:feeding_methods,id'],
+            'feeding_notes' => ['nullable', 'string'],
+            'feeding_metadata' => ['nullable', 'array'],
         ]);
 
         if (! empty($data['coordinates'])) {
@@ -212,6 +281,63 @@ class FarmerController extends Controller
         }
 
         return $data;
+    }
+
+    protected function maybeCreateInitialFeedingHistory(Request $request, Farmer $farmer, array $data): void
+    {
+        $userId = $request->user()?->id;
+        $timestamp = now();
+
+        if (! empty($data['primary_feeding_method_id'])) {
+            $farmer->feedingHistories()->create([
+                'feeding_method_id' => $data['primary_feeding_method_id'],
+                'feeding_type' => 'primary',
+                'started_at' => $timestamp,
+                'notes' => $data['feeding_notes'] ?? null,
+                'metadata' => $data['feeding_metadata'] ?? null,
+                'recorded_by_id' => $userId,
+            ]);
+
+            $farmer->feeding_last_changed_at = $timestamp;
+            $farmer->save();
+        }
+
+        if (! empty($data['supplemental_feeding_method_id'])) {
+            $farmer->feedingHistories()->create([
+                'feeding_method_id' => $data['supplemental_feeding_method_id'],
+                'feeding_type' => 'supplemental',
+                'started_at' => $timestamp,
+                'notes' => $data['feeding_notes'] ?? null,
+                'metadata' => $data['feeding_metadata'] ?? null,
+                'recorded_by_id' => $userId,
+            ]);
+
+            $farmer->feeding_last_changed_at = $timestamp;
+            $farmer->save();
+        }
+    }
+
+    protected function syncFeedingTimestamps(Farmer $farmer, array $data): void
+    {
+        $touched = false;
+
+        if (
+            array_key_exists('primary_feeding_method_id', $data)
+            && $data['primary_feeding_method_id'] !== $farmer->primary_feeding_method_id
+        ) {
+            $touched = true;
+        }
+
+        if (
+            array_key_exists('supplemental_feeding_method_id', $data)
+            && $data['supplemental_feeding_method_id'] !== $farmer->supplemental_feeding_method_id
+        ) {
+            $touched = true;
+        }
+
+        if ($touched) {
+            $farmer->feeding_last_changed_at = now();
+        }
     }
 
     protected function generateFarmerId(): string

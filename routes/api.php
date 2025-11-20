@@ -14,6 +14,8 @@ use App\Http\Controllers\CowController;
 use App\Http\Controllers\MilkDeliveryController;
 use App\Http\Controllers\CowMilkProductionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedingMethodController;
+use App\Http\Controllers\FarmerFeedingHistoryController;
 
 Route::prefix('v1')->group(function () {
    
@@ -48,15 +50,24 @@ Route::prefix('v1')->group(function () {
 
             // Farmers - with policy checks
             Route::apiResource('farmers', FarmerController::class);
+            Route::apiResource('feeding-methods', FeedingMethodController::class);
+            Route::get('farmers/{farmer}/feeding-history', [FarmerFeedingHistoryController::class, 'index']);
+            Route::post('farmers/{farmer}/feeding-history', [FarmerFeedingHistoryController::class, 'store']);
+            Route::put('farmers/{farmer}/feeding-history/{feedingHistory}', [FarmerFeedingHistoryController::class, 'update']);
+            Route::delete('farmers/{farmer}/feeding-history/{feedingHistory}', [FarmerFeedingHistoryController::class, 'destroy']);
 
             // Cows - accessible to all authenticated users
             Route::apiResource('cows', CowController::class);
 
             // Milk Deliveries - with policy checks
+            Route::get('milk-deliveries/summary/daily', [MilkDeliveryController::class, 'dailySummary']);
             Route::apiResource('milk-deliveries', MilkDeliveryController::class);
 
             // Cow Milk Productions - accessible to all authenticated users
             Route::apiResource('cow-milk-productions', CowMilkProductionController::class);
+
+            Route::apiResource('vets', \App\Http\Controllers\VetController::class);
+            Route::apiResource('cow-treatments', \App\Http\Controllers\CowTreatmentController::class);
 
 
         // User management - super_admin only

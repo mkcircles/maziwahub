@@ -18,7 +18,9 @@ class CountryController extends Controller
     public function index()
     {
         return response()->json(
-            Country::query()->get()
+            Country::query()
+                ->with($this->geographyRelations())
+                ->get()
         );
     }
 
@@ -39,7 +41,7 @@ class CountryController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'countries');
 
-        $country = Country::create($validated)->load('regions');
+        $country = Country::create($validated)->load($this->geographyRelations());
 
         return response()->json($country, 201);
     }
@@ -50,7 +52,7 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        return response()->json($country->load('regions'));
+        return response()->json($country->load($this->geographyRelations()));
     }
 
     /**
@@ -95,7 +97,11 @@ class CountryController extends Controller
      */
     public function regions(Country $country)
     {
-        return response()->json($country->regions()->get());
+        return response()->json(
+            $country->regions()
+                ->with($this->regionRelations())
+                ->get()
+        );
     }
 
     /**
@@ -116,5 +122,28 @@ class CountryController extends Controller
             ->paginate($perPage);
 
         return response()->json($farmers);
+    }
+
+    protected function geographyRelations(): array
+    {
+        return [
+            'regions',
+            'regions.districts',
+            'regions.districts.counties',
+            'regions.districts.counties.subcounties',
+            'regions.districts.counties.subcounties.parishes',
+            'regions.districts.counties.subcounties.parishes.villages',
+        ];
+    }
+
+    protected function regionRelations(): array
+    {
+        return [
+            'districts',
+            'districts.counties',
+            'districts.counties.subcounties',
+            'districts.counties.subcounties.parishes',
+            'districts.counties.subcounties.parishes.villages',
+        ];
     }
 }

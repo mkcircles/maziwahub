@@ -5,6 +5,7 @@ import farmerRoutes from './FarmerRoutes';
 import cowRoutes from './CowRoutes';
 import milkOperationsRoutes from './MilkOperationsRoutes';
 import userRoutes from './UserRoutes';
+import vetRoutes from './VetRoutes';
 
 // Prefix all routes with /admin and wrap in AdminLayout
 const prefixRoutes = (routes: RouteRecordRaw[], prefix: string): RouteRecordRaw[] => {
@@ -36,6 +37,7 @@ const adminRoutes: RouteRecordRaw[] = [
             ...prefixRoutes(farmerRoutes, '/admin'),
             ...prefixRoutes(cowRoutes, '/admin'),
             ...prefixRoutes(milkOperationsRoutes, '/admin'),
+            ...prefixRoutes(vetRoutes, '/admin'),
             ...prefixRoutes(userRoutes, '/admin'),
         ],
     },

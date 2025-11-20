@@ -12,7 +12,9 @@ use Database\Seeders\Uganda\ParishesSeeder as UgandaParishesSeeder;
 use Database\Seeders\Uganda\VillagesSeeder as UgandaVillagesSeeder;
 use Database\Seeders\MilkCollectionCenterSeeder;
 use Database\Seeders\FarmerSeeder;
+use Database\Seeders\FeedingMethodSeeder;
 use Database\Seeders\AdminUserSeeder;
+use Database\Seeders\VetSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,7 +33,9 @@ class DatabaseSeeder extends Seeder
             UgandaParishesSeeder::class,
             UgandaVillagesSeeder::class,
             MilkCollectionCenterSeeder::class,
+            FeedingMethodSeeder::class,
             FarmerSeeder::class,
+            VetSeeder::class,
             AdminUserSeeder::class,
         ]);
     }

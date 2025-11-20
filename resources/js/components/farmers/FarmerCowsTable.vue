@@ -1,5 +1,5 @@
 <template>
-    
+
     <div v-if="!cows.length" class="rounded-lg border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
         No cows registered for this farmer yet.
     </div>
@@ -18,7 +18,9 @@
             <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
                 <tr v-for="cow in cows" :key="cow.id" class="hover:bg-gray-50">
                     <td class="px-4 py-3 font-semibold text-gray-900">
-                        {{ cow.tag_number }}
+                        <router-link :to="`/admin/cows/${cow.id}`" class="hover:underline">
+                                    {{ cow.tag_number }}
+                                </router-link>
                     </td>
                     <td class="px-4 py-3">
                         {{ cow.breed ?? '—' }}

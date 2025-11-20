@@ -62,6 +62,11 @@ class FarmerFactory extends Factory
             'animal_production' => $this->faker->randomElement(['dairy', 'beef', 'poultry', 'goats']),
             'is_farmer_insured' => $this->faker->boolean(),
             'support_needed' => $this->faker->optional()->sentence(),
+            'primary_feeding_method_id' => null,
+            'supplemental_feeding_method_id' => null,
+            'feeding_last_changed_at' => null,
+            'feeding_metadata' => null,
+            'feeding_notes' => $this->faker->optional()->sentence(),
         ];
     }
 

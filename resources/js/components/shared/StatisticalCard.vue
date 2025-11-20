@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-lg bg-white p-3 shadow">
+    <div class="rounded-lg bg-white p-3">
         <div class="flex items-center justify-between">
             <div>
                 <h3 class="text-xs font-semibold uppercase tracking-wide text-gray-500">

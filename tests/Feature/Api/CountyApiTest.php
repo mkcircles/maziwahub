@@ -52,7 +52,7 @@ it('creates a county for a district', function (): void {
         ->assertJsonPath('district.id', $district->id)
         ->assertJsonCount(0, 'subcounties');
 
-    expect(County::query()->where('name', 'Central County')->where('district_id', $district->id)->exists())->toBeTrue();
+    expect(County::query()->where('county_name', 'Central County')->where('district_id', $district->id)->exists())->toBeTrue();
 });
 
 it('shows a county with its district, region, country, subcounties, parishes and villages', function (): void {

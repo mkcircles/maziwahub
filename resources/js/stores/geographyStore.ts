@@ -69,7 +69,6 @@ export interface MilkDelivery {
     delivery_date: string;
     volume_liters: number;
     quality_grade?: string | null;
-    fat_content?: number | null;
     price_per_liter?: number | null;
     total_amount?: number | null;
     recorded_by?: string | null;
@@ -101,6 +100,43 @@ export interface Cow {
     notes?: string | null;
     milk_productions?: CowMilkProduction[];
     milkProductions?: CowMilkProduction[];
+    farmer?: Farmer | null;
+    treatments?: CowTreatment[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface FeedingMethod {
+    id: number;
+    name: string;
+    code: string;
+    category?: string | null;
+    description?: string | null;
+    requires_details: boolean;
+    is_active: boolean;
+    metadata?: Record<string, any> | null;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface FarmerFeedingHistory {
+    id: number;
+    farmer_id: number;
+    feeding_method_id?: number | null;
+    feeding_type: 'primary' | 'supplemental' | 'other';
+    started_at?: string | null;
+    ended_at?: string | null;
+    notes?: string | null;
+    metadata?: Record<string, any> | null;
+    recorded_by_id?: number | null;
+    created_at?: string;
+    updated_at?: string;
+    feedingMethod?: FeedingMethod | null;
+    recordedBy?: {
+        id: number;
+        name: string;
+        email: string;
+    } | null;
 }
 
 export interface Farmer {
@@ -126,6 +162,17 @@ export interface Farmer {
     land_under_use?: number | null;
     is_farmer_insured?: boolean | null;
     support_needed?: string | null;
+    herd_size?: number | null;
+    grazing_type?: string | null;
+    water_source?: string | null;
+    primary_feeding_method_id?: number | null;
+    supplemental_feeding_method_id?: number | null;
+    feeding_notes?: string | null;
+    feeding_metadata?: Record<string, any> | null;
+    feeding_last_changed_at?: string | null;
+    primaryFeedingMethod?: FeedingMethod | null;
+    supplementalFeedingMethod?: FeedingMethod | null;
+    feedingHistories?: FarmerFeedingHistory[] | null;
     milkCollectionCenter?: MilkCollectionCenter | null;
     registeredByAgent?: any;
     cows?: Cow[];
@@ -160,6 +207,50 @@ export interface MilkCollectionCenter {
     cooler_capacity_liters?: number | null;
     has_testing_equipment?: boolean;
     has_washing_bay?: boolean;
+}
+
+export interface Vet {
+    id: number;
+    first_name: string;
+    last_name: string;
+    license_number: string;
+    license_expiry_date?: string | null;
+    phone_number?: string | null;
+    email?: string | null;
+    specialization?: string | null;
+    employer?: string | null;
+    milk_collection_center_id?: number | null;
+    bio?: string | null;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+    milkCollectionCenter?: MilkCollectionCenter | null;
+    treatments?: CowTreatment[];
+}
+
+export interface CowTreatment {
+    id: number;
+    cow_id: number;
+    vet_id?: number | null;
+    recorded_by_id?: number | null;
+    treatment_date: string;
+    diagnosis?: string | null;
+    reason?: string | null;
+    medication?: string | null;
+    dosage?: string | null;
+    dosage_unit?: string | null;
+    route?: string | null;
+    follow_up_date?: string | null;
+    status?: string | null;
+    outcome?: string | null;
+    next_steps?: string | null;
+    cost?: number | null;
+    notes?: string | null;
+    attachment_path?: string | null;
+    life_cycle_status?: string | null;
+    cow?: Cow | null;
+    vet?: Vet | null;
+    recordedBy?: any;
 }
 
 export const useGeographyStore = defineStore('geography', () => {

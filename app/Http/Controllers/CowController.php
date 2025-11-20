@@ -46,7 +46,7 @@ class CowController extends Controller
 
         $cow = Cow::create($data);
 
-        return response()->json($cow->load('farmer'), 201);
+        return response()->json($cow->load(['farmer', 'milkProductions', 'treatments.vet', 'treatments.recordedBy']), 201);
     }
 
     /**
@@ -55,7 +55,7 @@ class CowController extends Controller
      */
     public function show(Cow $cow): JsonResponse
     {
-        return response()->json($cow->load(['farmer', 'milkProductions']));
+        return response()->json($cow->load(['farmer', 'milkProductions', 'treatments.vet', 'treatments.recordedBy']));
     }
 
     /**
@@ -68,7 +68,7 @@ class CowController extends Controller
 
         $cow->fill($data)->save();
 
-        return response()->json($cow->load(['farmer', 'milkProductions']));
+        return response()->json($cow->load(['farmer', 'milkProductions', 'treatments.vet', 'treatments.recordedBy']));
     }
 
     /**

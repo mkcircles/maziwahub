@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reactive, ref } from 'vue';
 import axios from 'axios';
-import type { Farmer } from './geographyStore';
+import type { Farmer, FeedingMethod, FarmerFeedingHistory } from './geographyStore';
 
 interface FarmerFilters {
     search: string;
@@ -24,6 +24,12 @@ interface FarmerMetrics {
     active: number;
     pending: number;
     insured: number;
+}
+
+interface FeedingHistoryFilters {
+    feeding_type: string;
+    per_page: number;
+    page: number;
 }
 
 const defaultFilters = (): FarmerFilters => ({
@@ -49,11 +55,18 @@ const initialMetrics = (): FarmerMetrics => ({
     insured: 0,
 });
 
+const defaultFeedingHistoryFilters = (): FeedingHistoryFilters => ({
+    feeding_type: '',
+    per_page: 10,
+    page: 1,
+});
+
 export const useFarmerStore = defineStore('farmers', () => {
     const farmers = ref<Farmer[]>([]);
     const selectedFarmer = ref<Farmer | null>(null);
     const pagination = reactive<PaginationState>(initialPagination());
     const filters = reactive<FarmerFilters>(defaultFilters());
+    const feedingHistoryFilters = reactive<FeedingHistoryFilters>(defaultFeedingHistoryFilters());
 
     const loading = ref(false);
     const metricsLoading = ref(false);
@@ -67,6 +80,18 @@ export const useFarmerStore = defineStore('farmers', () => {
     const updateError = ref<string | null>(null);
     const creatingCow = ref(false);
     const createCowError = ref<string | null>(null);
+    const creatingMilkRecord = ref(false);
+    const createMilkRecordError = ref<string | null>(null);
+    const creatingMilkDelivery = ref(false);
+    const createMilkDeliveryError = ref<string | null>(null);
+    const feedingMethods = ref<FeedingMethod[]>([]);
+    const feedingMethodsLoading = ref(false);
+    const feedingMethodsError = ref<string | null>(null);
+    const feedingMethodsLoaded = ref(false);
+    const feedingHistory = ref<FarmerFeedingHistory[]>([]);
+    const feedingHistoryLoading = ref(false);
+    const feedingHistoryError = ref<string | null>(null);
+    const feedingHistoryPagination = reactive<PaginationState>(initialPagination());
 
     const applyPagination = (payload: any) => {
         const meta = payload.meta ?? {};
@@ -178,7 +203,11 @@ export const useFarmerStore = defineStore('farmers', () => {
 
         try {
             const response = await axios.get<Farmer>(`/farmers/${id}`);
-            selectedFarmer.value = response.data;
+            const payload = response.data;
+            selectedFarmer.value = payload;
+            if (Array.isArray((payload as any)?.feedingHistories)) {
+                feedingHistory.value = (payload as any).feedingHistories as FarmerFeedingHistory[];
+            }
             return selectedFarmer.value;
         } catch (err: any) {
             detailError.value = err.response?.data?.message || 'Failed to load farmer.';
@@ -223,6 +252,9 @@ export const useFarmerStore = defineStore('farmers', () => {
 
             await fetchMetrics();
             await fetchFarmers({ page: filters.page });
+            if (farmer?.id) {
+                await fetchFeedingHistory(farmer.id);
+            }
 
             return farmer;
         } catch (err: any) {
@@ -254,6 +286,166 @@ export const useFarmerStore = defineStore('farmers', () => {
         }
     }
 
+    async function createMilkProduction(payload: Record<string, any>) {
+        creatingMilkRecord.value = true;
+        createMilkRecordError.value = null;
+
+        try {
+            const response = await axios.post('/cow-milk-productions', payload);
+            const record = response.data;
+
+            if (payload.farmer_id) {
+                await fetchFarmer(payload.farmer_id);
+            } else if (payload.cow_id) {
+                const farmerFromCow = farmers.value.find((farmer) =>
+                    farmer.cows?.some((cow) => cow.id === payload.cow_id)
+                );
+                if (farmerFromCow?.id) {
+                    await fetchFarmer(farmerFromCow.id);
+                }
+            }
+
+            return record;
+        } catch (err: any) {
+            createMilkRecordError.value =
+                err.response?.data?.message || 'Failed to record milk production.';
+            throw err;
+        } finally {
+            creatingMilkRecord.value = false;
+        }
+    }
+
+    async function createMilkDelivery(payload: Record<string, any>) {
+        creatingMilkDelivery.value = true;
+        createMilkDeliveryError.value = null;
+
+        try {
+            const response = await axios.post('/milk-deliveries', payload);
+            const delivery = response.data;
+
+            if (payload.farmer_id) {
+                try {
+                    await fetchFarmer(payload.farmer_id);
+                } catch (err) {
+                    // ignore errors refreshing farmer context
+                }
+            }
+
+            return delivery;
+        } catch (err: any) {
+            createMilkDeliveryError.value = err.response?.data?.message || 'Failed to record milk delivery.';
+            throw err;
+        } finally {
+            creatingMilkDelivery.value = false;
+        }
+    }
+
+    async function fetchFeedingMethods(force = false) {
+        if (!force && feedingMethodsLoaded.value && feedingMethods.value.length) {
+            return feedingMethods.value;
+        }
+
+        feedingMethodsLoading.value = true;
+        feedingMethodsError.value = null;
+
+        try {
+            const response = await axios.get<FeedingMethod[]>('feeding-methods');
+            feedingMethods.value = Array.isArray(response.data) ? response.data : [];
+            feedingMethodsLoaded.value = true;
+            return feedingMethods.value;
+        } catch (err: any) {
+            feedingMethodsError.value = err.response?.data?.message || 'Failed to load feeding methods.';
+            feedingMethods.value = [];
+            feedingMethodsLoaded.value = false;
+            throw err;
+        } finally {
+            feedingMethodsLoading.value = false;
+        }
+    }
+
+    async function fetchFeedingHistory(
+        farmerId: number | string,
+        extra: Partial<FeedingHistoryFilters> = {},
+    ) {
+        feedingHistoryLoading.value = true;
+        feedingHistoryError.value = null;
+
+        const params = {
+            ...feedingHistoryFilters,
+            ...extra,
+        };
+
+        feedingHistoryFilters.page = params.page ?? feedingHistoryFilters.page;
+        feedingHistoryFilters.per_page = params.per_page ?? feedingHistoryFilters.per_page;
+        feedingHistoryFilters.feeding_type = params.feeding_type ?? feedingHistoryFilters.feeding_type;
+
+        try {
+            const response = await axios.get(`farmers/${farmerId}/feeding-history`, {
+                params,
+            });
+
+            const payload = response.data ?? {};
+            feedingHistory.value = extractData(payload) as FarmerFeedingHistory[];
+            applyPaginationState(feedingHistoryPagination, payload);
+        } catch (err: any) {
+            feedingHistoryError.value = err.response?.data?.message || 'Failed to load feeding history.';
+            feedingHistory.value = [];
+            applyPaginationState(feedingHistoryPagination, { data: [] });
+            throw err;
+        } finally {
+            feedingHistoryLoading.value = false;
+        }
+    }
+
+    async function recordFeedingHistory(
+        farmerId: number | string,
+        payload: Record<string, any>,
+    ) {
+        try {
+            const response = await axios.post(`farmers/${farmerId}/feeding-history`, payload);
+            const record = response.data as FarmerFeedingHistory;
+
+            feedingHistory.value = [record, ...feedingHistory.value];
+
+            if (selectedFarmer.value?.id === Number(farmerId)) {
+                await fetchFarmer(farmerId);
+            }
+
+            return record;
+        } catch (err: any) {
+            feedingHistoryError.value =
+                err.response?.data?.message || 'Failed to record feeding information.';
+            throw err;
+        }
+    }
+
+    async function deleteFeedingHistory(
+        farmerId: number | string,
+        historyId: number | string,
+    ) {
+        try {
+            await axios.delete(`farmers/${farmerId}/feeding-history/${historyId}`);
+            feedingHistory.value = feedingHistory.value.filter((item) => item.id !== Number(historyId));
+
+            if (selectedFarmer.value?.id === Number(farmerId)) {
+                await fetchFarmer(farmerId);
+            }
+        } catch (err: any) {
+            feedingHistoryError.value =
+                err.response?.data?.message || 'Failed to delete feeding history entry.';
+            throw err;
+        }
+    }
+
+    function applyPaginationState(target: PaginationState, payload: any) {
+        const meta = payload?.meta ?? {};
+
+        target.current_page = payload.current_page ?? meta.current_page ?? 1;
+        target.last_page = payload.last_page ?? meta.last_page ?? 1;
+        target.per_page = payload.per_page ?? meta.per_page ?? target.per_page ?? 10;
+        target.total = payload.total ?? meta.total ?? (Array.isArray(payload.data) ? payload.data.length : 0);
+    }
+
     function setFilter<K extends keyof FarmerFilters>(key: K, value: FarmerFilters[K]) {
         filters[key] = value;
     }
@@ -267,6 +459,7 @@ export const useFarmerStore = defineStore('farmers', () => {
         selectedFarmer,
         pagination,
         filters,
+        feedingHistoryFilters,
         loading,
         metricsLoading,
         creating,
@@ -275,6 +468,17 @@ export const useFarmerStore = defineStore('farmers', () => {
         updateError,
         creatingCow,
         createCowError,
+        creatingMilkRecord,
+        createMilkRecordError,
+        creatingMilkDelivery,
+        createMilkDeliveryError,
+        feedingMethods,
+        feedingMethodsLoading,
+        feedingMethodsError,
+        feedingHistory,
+        feedingHistoryLoading,
+        feedingHistoryError,
+        feedingHistoryPagination,
         detailLoading,
         error,
         detailError,
@@ -285,6 +489,12 @@ export const useFarmerStore = defineStore('farmers', () => {
         createFarmer,
         updateFarmer,
         createCow,
+        createMilkProduction,
+        createMilkDelivery,
+        fetchFeedingMethods,
+        fetchFeedingHistory,
+        recordFeedingHistory,
+        deleteFeedingHistory,
         setFilter,
         resetFilters,
     };

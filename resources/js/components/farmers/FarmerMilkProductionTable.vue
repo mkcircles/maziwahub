@@ -1,4 +1,5 @@
 <template>
+    
     <div v-if="!records.length" class="rounded-lg border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
         No milk production records found for this farmer.
     </div>

@@ -22,13 +22,22 @@ class Region extends Model
      */
     protected $fillable = [
         'region_name',
-        'country_id',
         'region_slug',
+        'country_id',
+        'name',
+        'slug',
     ];
 
     protected $hidden = [
+        'region_name',
+        'region_slug',
         'created_at',
         'updated_at',
+    ];
+
+    protected $appends = [
+        'name',
+        'slug',
     ];
     protected $withCount = [
         'districts',
@@ -102,5 +111,25 @@ class Region extends Model
         $districtIdsAsStrings = array_map('strval', $districtIds);
 
         return Farmer::query()->whereIn('district', $districtIdsAsStrings);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->attributes['region_name'] ?? null;
+    }
+
+    public function setNameAttribute(?string $value): void
+    {
+        $this->attributes['region_name'] = $value;
+    }
+
+    public function getSlugAttribute(): ?string
+    {
+        return $this->attributes['region_slug'] ?? null;
+    }
+
+    public function setSlugAttribute(?string $value): void
+    {
+        $this->attributes['region_slug'] = $value;
     }
 }

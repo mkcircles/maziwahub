@@ -454,6 +454,20 @@
                                                     class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                                                 />
                                             </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Herd Size Range
+                                                </label>
+                                                <select
+                                                    v-model="form.herd_size"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                >
+                                                    <option value="">Select range</option>
+                                                    <option v-for="option in herdSizeOptions" :key="option" :value="option">
+                                                        {{ option }}
+                                                    </option>
+                                                </select>
+                                            </div>
                                             <div class="sm:col-span-2">
                                                 <label class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
                                                     <input
@@ -520,11 +534,23 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import Icon from '../shared/Icon.vue';
+import LocationCascadeSelector, { type LocationSelection } from '../shared/LocationCascadeSelector.vue';
 import { useFarmerStore } from '../../stores/farmerStore';
 import type { Farmer, MilkCollectionCenter } from '../../stores/geographyStore';
+
+const herdSizeOptions = [
+    '1-10',
+    '11-30',
+    '31-50',
+    '51-100',
+    '101-300',
+    '301-700',
+    '701-1000',
+    '1000+',
+];
 
 const props = defineProps<{
     isOpen: boolean;
@@ -582,6 +608,9 @@ const defaultForm = () => ({
     farming_type: '',
     crop_production: '',
     animal_production: '',
+    herd_size: '',
+    grazing_type: '',
+    water_source: '',
     is_farmer_insured: false,
     support_needed: '',
 });
@@ -639,6 +668,9 @@ const populateFromFarmer = (farmer: Farmer) => {
     form.farming_type = anyFarmer.farming_type ?? '';
     form.crop_production = anyFarmer.crop_production ?? '';
     form.animal_production = anyFarmer.animal_production ?? '';
+    form.herd_size = anyFarmer.herd_size ?? '';
+    form.grazing_type = anyFarmer.grazing_type ?? '';
+    form.water_source = anyFarmer.water_source ?? '';
     form.is_farmer_insured = Boolean(anyFarmer.is_farmer_insured);
     form.support_needed = anyFarmer.support_needed ?? '';
 };
@@ -717,6 +749,9 @@ const handleSubmit = async () => {
             farming_type: toNullableString(form.farming_type),
             crop_production: toNullableString(form.crop_production),
             animal_production: toNullableString(form.animal_production),
+            herd_size: toNullableString(form.herd_size),
+            grazing_type: toNullableString(form.grazing_type),
+            water_source: toNullableString(form.water_source),
             is_farmer_insured: form.is_farmer_insured,
             support_needed: toNullableString(form.support_needed),
         };

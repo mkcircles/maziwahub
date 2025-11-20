@@ -17,8 +17,8 @@ class Cow extends Model
         'breed',
         'date_of_birth',
         'acquired_date',
-        'milk_capacity_liters',
         'health_status',
+        'milk_capacity_liters',
         'notes',
     ];
 
@@ -36,5 +36,10 @@ class Cow extends Model
     public function milkProductions(): HasMany
     {
         return $this->hasMany(CowMilkProduction::class);
+    }
+
+    public function treatments(): HasMany
+    {
+        return $this->hasMany(CowTreatment::class);
     }
 }

@@ -19,9 +19,11 @@ class County extends Model
      */
     protected $fillable = [
         'county_name',
-        'district_id',
-        'county_code',
         'county_slug',
+        'county_code',
+        'district_id',
+        'name',
+        'slug',
     ];
 
     /**
@@ -30,8 +32,15 @@ class County extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'county_name',
+        'county_slug',
         'created_at',
         'updated_at',
+    ];
+
+    protected $appends = [
+        'name',
+        'slug',
     ];
 
     public function district(): BelongsTo
@@ -52,5 +61,25 @@ class County extends Model
     public function villages(): HasManyThrough
     {
         return $this->hasManyThrough(Village::class, Parish::class);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->attributes['county_name'] ?? null;
+    }
+
+    public function setNameAttribute(?string $value): void
+    {
+        $this->attributes['county_name'] = $value;
+    }
+
+    public function getSlugAttribute(): ?string
+    {
+        return $this->attributes['county_slug'] ?? null;
+    }
+
+    public function setSlugAttribute(?string $value): void
+    {
+        $this->attributes['county_slug'] = $value;
     }
 }
