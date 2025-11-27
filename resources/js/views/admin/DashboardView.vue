@@ -230,6 +230,20 @@ const quickLinks = [
         pill: 'Support',
         icon: 'mdi:medical-bag',
     },
+    {
+        path: '/admin/partners',
+        label: 'Partners',
+        description: 'Onboard partner organisations and manage their access.',
+        pill: 'Allies',
+        icon: 'mdi:handshake',
+    },
+        {
+            path: '/admin/partner-claims',
+            label: 'MCC Claims',
+            description: 'Review and action partner requests to manage collection centers.',
+            pill: 'Approvals',
+            icon: 'mdi:handshake-outline',
+        },
 ];
 </script>
 

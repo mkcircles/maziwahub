@@ -49,6 +49,8 @@ class MilkCollectionCenterController extends Controller
     {
         $validated = $this->validateData($request);
 
+        $validated['partner_id'] = $this->resolvePartnerIdForRequest($request, $validated['partner_id'] ?? null);
+
         $center = MilkCollectionCenter::create($validated);
 
         return response()->json($center, 201);
@@ -70,6 +72,8 @@ class MilkCollectionCenterController extends Controller
     public function update(Request $request, MilkCollectionCenter $milkCollectionCenter)
     {
         $validated = $this->validateData($request, $milkCollectionCenter->id);
+
+        $validated['partner_id'] = $this->resolvePartnerIdForRequest($request, $validated['partner_id'] ?? $milkCollectionCenter->partner_id);
 
         $milkCollectionCenter->fill($validated)->save();
 
@@ -111,7 +115,27 @@ class MilkCollectionCenterController extends Controller
             'cooler_capacity_liters' => ['nullable', 'integer', 'min:0'],
             'has_testing_equipment' => ['boolean'],
             'has_washing_bay' => ['boolean'],
+            'partner_id' => ['nullable', 'integer', 'exists:partners,id'],
         ]);
+    }
+
+    protected function resolvePartnerIdForRequest(Request $request, ?int $incomingPartnerId = null): ?int
+    {
+        $user = $request->user();
+
+        if ($user->isAdminOrSuperAdmin()) {
+            return $incomingPartnerId;
+        }
+
+        if ($user->isPartner() && $user->partner_id) {
+            return $user->partner_id;
+        }
+
+        if ($user->agent && $user->agent->partner_id) {
+            return $user->agent->partner_id;
+        }
+
+        return $incomingPartnerId;
     }
 }
 

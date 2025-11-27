@@ -16,12 +16,17 @@ use App\Http\Controllers\CowMilkProductionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedingMethodController;
 use App\Http\Controllers\FarmerFeedingHistoryController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PartnerInvitationController;
+use App\Http\Controllers\MilkCollectionCenterClaimController;
 
 Route::prefix('v1')->group(function () {
    
 
     Route::post('auth/register', [AuthController::class, 'register']);
     Route::post('auth/login', [AuthController::class, 'login']);
+
+    Route::post('partner-invitations/{token}/accept', [PartnerInvitationController::class, 'accept']);
 
     Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::get('auth/user', [AuthController::class, 'user']);
@@ -47,6 +52,10 @@ Route::prefix('v1')->group(function () {
 
             // Milk Collection Centers - with policy checks
             Route::apiResource('milk-collection-centers', MilkCollectionCenterController::class);
+            Route::get('milk-collection-center-claims', [MilkCollectionCenterClaimController::class, 'index']);
+            Route::post('milk-collection-centers/{milkCollectionCenter}/claims', [MilkCollectionCenterClaimController::class, 'store']);
+            Route::post('milk-collection-center-claims/{claim}/approve', [MilkCollectionCenterClaimController::class, 'approve']);
+            Route::post('milk-collection-center-claims/{claim}/reject', [MilkCollectionCenterClaimController::class, 'reject']);
 
             // Farmers - with policy checks
             Route::apiResource('farmers', FarmerController::class);
@@ -68,17 +77,16 @@ Route::prefix('v1')->group(function () {
 
             Route::apiResource('vets', \App\Http\Controllers\VetController::class);
             Route::apiResource('cow-treatments', \App\Http\Controllers\CowTreatmentController::class);
+            Route::apiResource('partners', PartnerController::class);
+            Route::get('partners/{partner}/invitations', [PartnerInvitationController::class, 'index']);
+            Route::post('partners/{partner}/invitations', [PartnerInvitationController::class, 'store']);
+            Route::delete('partners/{partner}/invitations/{invitation}', [PartnerInvitationController::class, 'destroy']);
 
 
         // User management - super_admin only
         Route::middleware('role:super_admin')->group(function () {
             Route::apiResource('users', \App\Http\Controllers\UserController::class);
             Route::post('users/{user}/toggle-active', [\App\Http\Controllers\UserController::class, 'toggleActive']);
-        });
-
-        // Partners - super_admin, admin, and partners can view; only super_admin/admin can manage
-        Route::middleware('role:super_admin|admin')->group(function () {
-            Route::apiResource('partners', \App\Http\Controllers\PartnerController::class);
         });
 
         // Agents - super_admin, admin, partners, and mcc can manage

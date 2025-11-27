@@ -8,6 +8,9 @@ interface FarmerFilters {
     status: string;
     is_farmer_insured: string;
     reg_type: string;
+    milk_collection_center_id: number | '' | null;
+    milk_collection_center_ids: number[];
+    partner_id: number | '' | null;
     per_page: number;
     page: number;
 }
@@ -37,6 +40,9 @@ const defaultFilters = (): FarmerFilters => ({
     status: '',
     is_farmer_insured: '',
     reg_type: '',
+    milk_collection_center_id: '',
+    milk_collection_center_ids: [],
+    partner_id: '',
     per_page: 15,
     page: 1,
 });
@@ -124,10 +130,34 @@ export const useFarmerStore = defineStore('farmers', () => {
 
         filters.page = params.page ?? filters.page;
         filters.per_page = params.per_page ?? filters.per_page;
+        filters.milk_collection_center_id = params.milk_collection_center_id ?? '';
+        filters.partner_id = params.partner_id ?? '';
+        filters.milk_collection_center_ids = Array.isArray(params.milk_collection_center_ids)
+            ? [...params.milk_collection_center_ids]
+            : [];
 
         try {
+            const queryParams: Record<string, any> = {
+                search: params.search || undefined,
+                status: params.status || undefined,
+                is_farmer_insured: params.is_farmer_insured || undefined,
+                reg_type: params.reg_type || undefined,
+                milk_collection_center_id:
+                    params.milk_collection_center_id === '' || params.milk_collection_center_id === null
+                        ? undefined
+                        : params.milk_collection_center_id,
+                partner_id:
+                    params.partner_id === '' || params.partner_id === null ? undefined : params.partner_id,
+                per_page: params.per_page ?? undefined,
+                page: params.page ?? undefined,
+            };
+
+            if (Array.isArray(params.milk_collection_center_ids) && params.milk_collection_center_ids.length) {
+                queryParams.milk_collection_center_ids = params.milk_collection_center_ids;
+            }
+
             const response = await axios.get('/farmers', {
-                params,
+                params: queryParams,
             });
 
             const payload = response.data ?? {};
@@ -497,6 +527,7 @@ export const useFarmerStore = defineStore('farmers', () => {
         deleteFeedingHistory,
         setFilter,
         resetFilters,
+        getCount,
     };
 });
 

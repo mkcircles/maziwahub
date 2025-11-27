@@ -10,7 +10,7 @@
                     Back to vets
                 </router-link>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ vetName }}</h1>
+                    <h1 class="text-2xl font-bold text-gray-200">{{ vetName }}</h1>
                     <p class="text-sm text-gray-500">License {{ vet?.license_number ?? 'N/A' }}</p>
                 </div>
             </div>
@@ -24,8 +24,8 @@
                     Refresh
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg"
-                    :class="vet?.is_active ? 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50' : 'bg-emerald-600 text-white hover:bg-emerald-700'"
+                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium transition"
+                    :class="vet?.is_active ? 'border border-gray-200 bg-gray-300 text-gray-700 hover:bg-gray-400' : 'bg-emerald-600 text-white hover:bg-emerald-700'"
                     @click="toggleActive"
                     :disabled="loading"
                 >

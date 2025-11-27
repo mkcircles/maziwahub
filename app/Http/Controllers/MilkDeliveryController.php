@@ -32,6 +32,12 @@ class MilkDeliveryController extends Controller
             $query->where('milk_collection_center_id', $centerId);
         }
 
+        if ($partnerId = $request->query('partner_id')) {
+            $query->whereHas('milkCollectionCenter', function ($query) use ($partnerId) {
+                $query->where('partner_id', $partnerId);
+            });
+        }
+
         if ($from = $request->query('from')) {
             $query->whereDate('delivery_date', '>=', $from);
         }
@@ -52,6 +58,10 @@ class MilkDeliveryController extends Controller
 
         if ($centerId = $request->query('milk_collection_center_id')) {
             $query->where('milk_collection_center_id', $centerId);
+        }
+
+        if ($partnerId = $request->query('partner_id')) {
+            $query->whereHas('milkCollectionCenter', fn ($q) => $q->where('partner_id', $partnerId));
         }
 
         if ($from = $request->query('from')) {

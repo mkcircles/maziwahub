@@ -36,6 +36,9 @@ export const useMilkDeliveriesStore = defineStore('milkDeliveries', () => {
     const dailySummaryLoading = ref(false);
     const dailySummaryError = ref<string | null>(null);
 
+    const centerDailyTotals = ref<Record<string, number>>({});
+    const centerTotalsLoading = ref<Record<string, boolean>>({});
+
     const filters = ref<DeliveryFilters>({
         search: '',
         center_id: null,
@@ -79,7 +82,7 @@ export const useMilkDeliveriesStore = defineStore('milkDeliveries', () => {
         await fetchDeliveries();
     };
 
-    const fetchDailySummary = async (params: { days?: number; from?: string; to?: string; center_id?: number | null } = {}) => {
+    const fetchDailySummary = async (params: { days?: number; from?: string; to?: string; center_id?: number | null; partner_id?: number | null } = {}) => {
         dailySummaryLoading.value = true;
         dailySummaryError.value = null;
 
@@ -90,6 +93,7 @@ export const useMilkDeliveriesStore = defineStore('milkDeliveries', () => {
                     from: params.from ?? undefined,
                     to: params.to ?? undefined,
                     milk_collection_center_id: params.center_id ?? undefined,
+                    partner_id: params.partner_id ?? undefined,
                 },
             });
 
@@ -99,6 +103,46 @@ export const useMilkDeliveriesStore = defineStore('milkDeliveries', () => {
             dailySummary.value = [];
         } finally {
             dailySummaryLoading.value = false;
+        }
+    };
+
+    const fetchCenterDailyTotal = async (centerId: number, options: { date?: string } = {}) => {
+        const date = options.date ?? new Date().toISOString().slice(0, 10);
+        const key = `${centerId}:${date}`;
+
+        centerTotalsLoading.value = {
+            ...centerTotalsLoading.value,
+            [key]: true,
+        };
+
+        try {
+            const response = await axios.get<DailySummary[]>('milk-deliveries/summary/daily', {
+                params: {
+                    milk_collection_center_id: centerId,
+                    from: date,
+                    to: date,
+                },
+            });
+
+            const total = (response.data ?? []).reduce((sum, entry) => sum + (entry.total_volume ?? 0), 0);
+
+            centerDailyTotals.value = {
+                ...centerDailyTotals.value,
+                [key]: total,
+            };
+
+            return total;
+        } catch (err) {
+            centerDailyTotals.value = {
+                ...centerDailyTotals.value,
+                [key]: 0,
+            };
+            throw err;
+        } finally {
+            centerTotalsLoading.value = {
+                ...centerTotalsLoading.value,
+                [key]: false,
+            };
         }
     };
 
@@ -113,5 +157,8 @@ export const useMilkDeliveriesStore = defineStore('milkDeliveries', () => {
         dailySummaryLoading,
         dailySummaryError,
         fetchDailySummary,
+        centerDailyTotals,
+        centerTotalsLoading,
+        fetchCenterDailyTotal,
     };
 });

@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-gray-500/65 transition-opacity" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-slate-500/40 backdrop-blur-sm transition-opacity" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -51,8 +51,8 @@
 
                                 <div class="space-y-6 px-6">
                                     <section class="space-y-4">
-                                    <h3 class="text-xs font-semibold uppercase tracking-wide text-sky-500">Basic Details</h3>
-                                    <hr class="border-b border-gray-200" />
+                                    <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Basic Details</h3>
+                                    <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
                                                 <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -63,7 +63,7 @@
                                                     type="text"
                                                     required
                                                     placeholder="Enter first name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -75,7 +75,7 @@
                                                     type="text"
                                                     required
                                                     placeholder="Enter last name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -86,7 +86,7 @@
                                                     v-model="form.farmer_id"
                                                     type="text"
                                                     placeholder="e.g. AB1234"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -96,7 +96,7 @@
                                                 <input
                                                     v-model="form.dob"
                                                     type="date"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -105,7 +105,7 @@
                                                 </label>
                                                 <select
                                                     v-model="form.gender"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select gender</option>
                                                     <option value="male">Male</option>
@@ -121,7 +121,7 @@
                                                     v-model="form.educational_level"
                                                     type="text"
                                                     placeholder="e.g. Secondary, Diploma"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -130,7 +130,7 @@
                                                 </label>
                                                 <select
                                                     v-model="form.status"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="pending">Pending</option>
                                                     <option value="active">Active</option>
@@ -143,7 +143,7 @@
                                                 </label>
                                                 <select
                                                     v-model="form.reg_type"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select type</option>
                                                     <option value="individual">Individual</option>
@@ -159,7 +159,7 @@
                                                     v-model="form.registered_by"
                                                     type="text"
                                                     placeholder="Registrar name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -171,15 +171,15 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Agent identifier"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                         </div>
                                     </section>
 
                                     <section class="space-y-4">
-                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-sky-500">Contact & Identification</h3>
-                                        <hr class="border-b border-gray-200" />
+                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Contact & Identification</h3>
+                                        <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
                                                 <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -189,7 +189,7 @@
                                                     v-model="form.phone_number"
                                                     type="tel"
                                                     placeholder="Enter phone number"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -200,7 +200,7 @@
                                                     v-model="form.id_number"
                                                     type="text"
                                                     placeholder="Enter ID number"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -211,7 +211,7 @@
                                                     v-model="form.marital_status"
                                                     type="text"
                                                     placeholder="e.g. Married, Single"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -222,7 +222,7 @@
                                                     v-model="form.next_of_kin"
                                                     type="text"
                                                     placeholder="Full name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -233,7 +233,7 @@
                                                     v-model="form.next_of_kin_contact"
                                                     type="text"
                                                     placeholder="Contact details"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -244,7 +244,7 @@
                                                     v-model="form.next_of_kin_relationship"
                                                     type="text"
                                                     placeholder="Relationship"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                         </div>
@@ -252,8 +252,8 @@
 
                                    
                                     <section class="space-y-4">
-                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-sky-500">Household & Demographics</h3>
-                                        <hr class="border-b border-gray-200" />
+                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Household & Demographics</h3>
+                                        <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
                                                 <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -264,7 +264,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Total household members"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -276,7 +276,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Family size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -288,7 +288,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Number of males"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -300,7 +300,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Number of females"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -312,7 +312,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Members above 18"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -324,7 +324,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Members below 5"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="sm:col-span-2">
@@ -332,7 +332,7 @@
                                                     <input
                                                         v-model="form.household_head"
                                                         type="checkbox"
-                                                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                        class="h-4 w-4 rounded border-gray-300 text-teal-500 focus:ring-teal-400"
                                                     />
                                                     Household Head
                                                 </label>
@@ -341,8 +341,8 @@
                                     </section>
 
                                     <section class="space-y-4">
-                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-sky-500">Milk Production & Resources</h3>
-                                        <hr class="border-b border-gray-200" />
+                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Milk Production & Resources</h3>
+                                        <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-4">
                                             <div class="space-y-1 sm:col-span-2">
                                                 <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -350,7 +350,7 @@
                                                 </label>
                                                 <select
                                                     v-model="form.milk_collection_center_id"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select center</option>
                                                     <option
@@ -370,7 +370,7 @@
                                                     v-model="form.financial_instrument"
                                                     type="text"
                                                     placeholder="e.g. Bank account, Mobile money"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -381,7 +381,7 @@
                                                     v-model="form.available_energy_source"
                                                     type="text"
                                                     placeholder="e.g. Grid, Solar"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -394,7 +394,7 @@
                                                     step="0.01"
                                                     min="0"
                                                     placeholder="Total farm size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -407,7 +407,7 @@
                                                     step="0.01"
                                                     min="0"
                                                     placeholder="Land under production"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -418,7 +418,7 @@
                                                     v-model="form.land_ownership"
                                                     type="text"
                                                     placeholder="e.g. Owned, Leased"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -429,7 +429,7 @@
                                                     v-model="form.farming_type"
                                                     type="text"
                                                     placeholder="e.g. Mixed, Crop"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -440,7 +440,7 @@
                                                     v-model="form.crop_production"
                                                     type="text"
                                                     placeholder="Main crops"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -451,7 +451,7 @@
                                                     v-model="form.animal_production"
                                                     type="text"
                                                     placeholder="Livestock details"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
@@ -460,7 +460,7 @@
                                                 </label>
                                                 <select
                                                     v-model="form.herd_size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select range</option>
                                                     <option v-for="option in herdSizeOptions" :key="option" :value="option">
@@ -468,12 +468,37 @@
                                                     </option>
                                                 </select>
                                             </div>
+                                            <div class="space-y-1 sm:col-span-2">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Grazing Type
+                                                </label>
+                                                <select
+                                                    v-model="form.grazing_type"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                >
+                                                    <option value="">Select grazing type</option>
+                                                    <option v-for="option in grazingOptions" :key="option" :value="option">
+                                                        {{ option }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="space-y-1 sm:col-span-2">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Primary Water Source
+                                                </label>
+                                                <input
+                                                    v-model="form.water_source"
+                                                    type="text"
+                                                    placeholder="e.g. Borehole, River"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                />
+                                            </div>
                                             <div class="sm:col-span-2">
                                                 <label class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
                                                     <input
                                                         v-model="form.is_farmer_insured"
                                                         type="checkbox"
-                                                        class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                        class="h-4 w-4 rounded border-gray-300 text-teal-500 focus:ring-teal-400"
                                                     />
                                                     Farmer is insured
                                                 </label>
@@ -482,10 +507,21 @@
                                     </section>
 
                                     <section class="space-y-4">
-                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-sky-500">Additional Information</h3>
+                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Compliance & Notes</h3>
+                                        <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-2">
-                                            
-                                            <div class="space-y-1 sm:col-span-2">
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Validation Reason
+                                                </label>
+                                                <textarea
+                                                    v-model="form.validation_reason"
+                                                    rows="3"
+                                                    placeholder="Provide validation feedback or requirements"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                ></textarea>
+                                            </div>
+                                            <div class="space-y-1">
                                                 <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                     Support Needed
                                                 </label>
@@ -493,8 +529,102 @@
                                                     v-model="form.support_needed"
                                                     rows="3"
                                                     placeholder="Describe support needs"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 ></textarea>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Coordinates · Latitude
+                                                </label>
+                                                <input
+                                                    v-model="form.coordinates_latitude"
+                                                    type="number"
+                                                    step="0.000001"
+                                                    placeholder="Latitude"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                />
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Coordinates · Longitude
+                                                </label>
+                                                <input
+                                                    v-model="form.coordinates_longitude"
+                                                    type="number"
+                                                    step="0.000001"
+                                                    placeholder="Longitude"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                />
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="space-y-4">
+                                        <h3 class="text-xs font-semibold uppercase tracking-wide text-teal-500">Feeding Practices</h3>
+                                        <hr class="border-b border-teal-100" />
+                                        <div class="grid gap-4 sm:grid-cols-2">
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Primary Feeding Method
+                                                </label>
+                                                <select
+                                                    v-model="form.primary_feeding_method_id"
+                                                    :disabled="feedingMethodsLoading"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                >
+                                                    <option value="">Select method</option>
+                                                    <option
+                                                        v-for="method in feedingMethods"
+                                                        :key="method.id"
+                                                        :value="method.id"
+                                                    >
+                                                        {{ method.name }}
+                                                    </option>
+                                                </select>
+                                                <p v-if="feedingMethodsLoading" class="mt-1 text-xs text-gray-500">Loading feeding methods…</p>
+                                                <p v-else-if="!feedingMethods.length" class="mt-1 text-xs text-gray-500">No feeding methods configured yet.</p>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Supplemental Feeding Method
+                                                </label>
+                                                <select
+                                                    v-model="form.supplemental_feeding_method_id"
+                                                    :disabled="feedingMethodsLoading"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                >
+                                                    <option value="">Select method</option>
+                                                    <option
+                                                        v-for="method in feedingMethods"
+                                                        :key="method.id"
+                                                        :value="method.id"
+                                                    >
+                                                        {{ method.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Feeding Notes
+                                                </label>
+                                                <textarea
+                                                    v-model="form.feeding_notes"
+                                                    rows="3"
+                                                    placeholder="Record any additional feeding notes"
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                ></textarea>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                    Feeding Metadata (JSON)
+                                                </label>
+                                                <textarea
+                                                    v-model="form.feeding_metadata"
+                                                    rows="3"
+                                                    placeholder='{"frequency":"Twice daily"}'
+                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 font-mono text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                ></textarea>
+                                                <p class="mt-1 text-xs text-gray-500">Provide structured details such as frequency, ration, or supplements.</p>
                                             </div>
                                         </div>
                                     </section>
@@ -509,7 +639,7 @@
                                 <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-teal-100 px-4 py-2 text-sm font-medium text-teal-600 hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"
                                         @click="handleClose"
                                         :disabled="updating"
                                     >
@@ -517,7 +647,7 @@
                                     </button>
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-teal-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-teal-600 disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="updating"
                                     >
                                         <Icon icon="mdi:content-save" :size="18" />
@@ -534,10 +664,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { reactive, watch, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import Icon from '../shared/Icon.vue';
-import LocationCascadeSelector, { type LocationSelection } from '../shared/LocationCascadeSelector.vue';
 import { useFarmerStore } from '../../stores/farmerStore';
 import type { Farmer, MilkCollectionCenter } from '../../stores/geographyStore';
 
@@ -552,6 +681,17 @@ const herdSizeOptions = [
     '1000+',
 ];
 
+const grazingOptions = [
+    'Rotational grazing',
+    'Zero grazing',
+    'Continuous grazing',
+    'Strip grazing',
+    'Block grazing',
+    'Creep feeding',
+    'Leader-follower grazing',
+    'Mob grazing',
+];
+
 const props = defineProps<{
     isOpen: boolean;
     farmer: Farmer | null;
@@ -564,7 +704,13 @@ const emit = defineEmits<{
 }>();
 
 const farmerStore = useFarmerStore();
-const { updating, updateError } = storeToRefs(farmerStore);
+const farmersStoreRefs = storeToRefs(farmerStore);
+const {
+    updating,
+    updateError,
+    feedingMethods,
+    feedingMethodsLoading,
+} = farmersStoreRefs;
 
 const defaultForm = () => ({
     farmer_id: '',
@@ -613,6 +759,10 @@ const defaultForm = () => ({
     water_source: '',
     is_farmer_insured: false,
     support_needed: '',
+    primary_feeding_method_id: '' as number | '' | null,
+    supplemental_feeding_method_id: '' as number | '' | null,
+    feeding_notes: '',
+    feeding_metadata: '',
 });
 
 const form = reactive(defaultForm());
@@ -673,6 +823,12 @@ const populateFromFarmer = (farmer: Farmer) => {
     form.water_source = anyFarmer.water_source ?? '';
     form.is_farmer_insured = Boolean(anyFarmer.is_farmer_insured);
     form.support_needed = anyFarmer.support_needed ?? '';
+    form.primary_feeding_method_id = anyFarmer.primary_feeding_method_id ?? '';
+    form.supplemental_feeding_method_id = anyFarmer.supplemental_feeding_method_id ?? '';
+    form.feeding_notes = anyFarmer.feeding_notes ?? '';
+    form.feeding_metadata = anyFarmer.feeding_metadata
+        ? JSON.stringify(anyFarmer.feeding_metadata, null, 2)
+        : '';
 };
 
 const handleClose = () => {
@@ -754,7 +910,21 @@ const handleSubmit = async () => {
             water_source: toNullableString(form.water_source),
             is_farmer_insured: form.is_farmer_insured,
             support_needed: toNullableString(form.support_needed),
+            primary_feeding_method_id: toNullableNumber(form.primary_feeding_method_id),
+            supplemental_feeding_method_id: toNullableNumber(form.supplemental_feeding_method_id),
+            feeding_notes: toNullableString(form.feeding_notes),
         };
+
+        if (form.feeding_metadata && form.feeding_metadata.trim().length) {
+            try {
+                payload.feeding_metadata = JSON.parse(form.feeding_metadata);
+            } catch (error) {
+                updateError.value = 'Feeding metadata must be valid JSON.';
+                return;
+            }
+        } else {
+            payload.feeding_metadata = null;
+        }
 
         const farmer = await farmerStore.updateFarmer(props.farmer.id, payload);
         emit('updated', farmer?.id);
@@ -764,9 +934,29 @@ const handleSubmit = async () => {
     }
 };
 
+const ensureFeedingMethods = async () => {
+    if (feedingMethods.value.length || feedingMethodsLoading.value) {
+        return;
+    }
+
+    try {
+        await farmerStore.fetchFeedingMethods();
+    } catch {
+        // handled by store
+    }
+};
+
+onMounted(() => {
+    ensureFeedingMethods();
+});
+
 watch(
     () => props.isOpen,
     (open) => {
+        if (open) {
+            ensureFeedingMethods();
+        }
+
         if (open && props.farmer) {
             updateError.value = null;
             populateFromFarmer(props.farmer);
@@ -781,6 +971,10 @@ watch(
     (value) => {
         if (props.isOpen && value) {
             populateFromFarmer(value);
+        }
+
+        if (!props.isOpen) {
+            updateError.value = null;
         }
     }
 );

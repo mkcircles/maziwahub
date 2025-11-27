@@ -39,6 +39,33 @@ const adminRoutes: RouteRecordRaw[] = [
             ...prefixRoutes(milkOperationsRoutes, '/admin'),
             ...prefixRoutes(vetRoutes, '/admin'),
             ...prefixRoutes(userRoutes, '/admin'),
+            {
+                path: 'partners',
+                name: 'admin-partners',
+                component: () => import('../views/admin/PartnersView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['super_admin', 'admin'],
+                },
+            },
+            {
+                path: 'partners/:id',
+                name: 'admin-partners-detail',
+                component: () => import('../views/admin/PartnerDetailView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['super_admin', 'admin'],
+                },
+            },
+            {
+                path: 'partner-claims',
+                name: 'admin-partner-claims',
+                component: () => import('../views/partner/PartnerClaimsView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['super_admin', 'admin'],
+                },
+            },
         ],
     },
 ];

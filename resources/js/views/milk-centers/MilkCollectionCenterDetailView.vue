@@ -10,7 +10,7 @@
                     Back to centers
                 </router-link>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ center?.name ?? 'Milk Collection Center' }}</h1>
+                    <h1 class="text-2xl font-bold text-gray-200">{{ center?.name ?? 'Milk Collection Center' }}</h1>
                     <p class="text-sm text-gray-500">
                         {{ center?.registration_number ?? 'Unregistered center' }}
                     </p>

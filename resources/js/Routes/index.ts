@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import adminRoutes from './AdminRoutes';
 import authRoutes from './AuthRoutes';
+import partnerRoutes from './PartnerRoutes';
 import { useAuthStore } from '../stores/authStore';
 
 const router = createRouter({
@@ -13,6 +14,7 @@ const router = createRouter({
         },
         ...authRoutes,
         ...adminRoutes,
+        ...partnerRoutes,
         {
             path: '/:pathMatch(.*)*',
             name: 'not-found',
@@ -56,6 +58,11 @@ router.beforeEach(async (to, _from, next) => {
                 allowedRoles.length &&
                 (!authStore.user?.user_type || !allowedRoles.includes(authStore.user.user_type))
             ) {
+                if (authStore.user?.user_type === 'partner') {
+                    next({ name: 'partner-dashboard' });
+                    return;
+                }
+
                 next({ name: 'admin-dashboard' });
                 return;
             }
@@ -66,7 +73,11 @@ router.beforeEach(async (to, _from, next) => {
     // Check if route requires guest (not authenticated)
     else if (to.matched.some(record => record.meta.requiresGuest)) {
         if (authStore.isAuthenticated) {
-            next({ name: 'admin-dashboard' });
+            if (authStore.user?.user_type === 'partner') {
+                next({ name: 'partner-dashboard' });
+            } else {
+                next({ name: 'admin-dashboard' });
+            }
         } else {
             next();
         }

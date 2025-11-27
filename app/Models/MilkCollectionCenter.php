@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MilkCollectionCenterClaim;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -69,6 +70,16 @@ class MilkCollectionCenter extends Model
     public function milkDeliveries(): HasMany
     {
         return $this->hasMany(MilkDelivery::class);
+    }
+
+    public function claims(): HasMany
+    {
+        return $this->hasMany(MilkCollectionCenterClaim::class);
+    }
+
+    public function pendingClaims(): HasMany
+    {
+        return $this->claims()->where('status', MilkCollectionCenterClaim::STATUS_PENDING);
     }
 
     public function getAreaAttribute(): ?array

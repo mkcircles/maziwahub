@@ -79,7 +79,20 @@ const form = ref({
 const handleLogin = async () => {
     authStore.clearError();
     try {
-        await authStore.login(form.value);
+        const response = await authStore.login(form.value);
+        const redirect = (router.currentRoute.value.query.redirect as string) || null;
+        const userType = response?.user?.user_type || authStore.user?.user_type;
+
+        if (redirect) {
+            router.push(redirect);
+            return;
+        }
+
+        if (userType === 'partner') {
+            router.push('/partner/dashboard');
+            return;
+        }
+
         router.push('/admin/dashboard');
     } catch (error) {
         // Error is handled by the store

@@ -226,6 +226,26 @@ const navLinks = computed<NavLink[]>(() => {
         });
     }
 
+    if (isSuperAdmin.value || isAdmin.value) {
+        links.push({
+            path: '/admin/partners',
+            label: 'Partners',
+            icon: 'mdi:handshake',
+            tone: 'cyan',
+            helper: 'Onboard & monitor',
+        });
+    }
+
+    if (isSuperAdmin.value || isAdmin.value) {
+        links.push({
+            path: '/admin/partner-claims',
+            label: 'MCC Claims',
+            icon: 'mdi:handshake-outline',
+            tone: 'cyan',
+            helper: 'Review requests',
+        });
+    }
+
     // Farmers - visible to all except basic users
     if (!authStore.user?.user_type || authStore.user.user_type !== 'user') {
         links.push({
@@ -263,7 +283,7 @@ const navLinks = computed<NavLink[]>(() => {
             path: '/admin/milk-deliveries',
             label: 'Deliveries',
             icon: 'mdi:truck-delivery-outline',
-            tone: 'cyan',
+            tone: 'sky',
             helper: 'Logistics & payouts',
         });
     }

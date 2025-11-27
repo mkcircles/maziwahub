@@ -54,6 +54,24 @@ class FarmerController extends Controller
             });
         }
 
+        if ($centerId = $request->query('milk_collection_center_id')) {
+            $query->where('milk_collection_center_id', $centerId);
+        }
+
+        if ($request->filled('milk_collection_center_ids')) {
+            $centerIds = $request->query('milk_collection_center_ids');
+            $centerIds = is_array($centerIds) ? $centerIds : explode(',', (string) $centerIds);
+            $centerIds = array_values(array_filter(array_map('intval', $centerIds)));
+
+            if ($centerIds) {
+                $query->whereIn('milk_collection_center_id', $centerIds);
+            }
+        }
+
+        if ($partnerId = $request->query('partner_id')) {
+            $query->whereHas('milkCollectionCenter', fn ($q) => $q->where('partner_id', $partnerId));
+        }
+
         if ($status = $request->query('status')) {
             $query->where('status', $status);
         }
@@ -66,7 +84,13 @@ class FarmerController extends Controller
             $query->where('reg_type', $regType);
         }
 
-        return response()->json($query->orderBy('last_name')->orderBy('first_name')->paginate($request->query('per_page', 10)));
+        $query->orderBy('last_name')->orderBy('first_name');
+
+        if ($request->boolean('paginate') || $request->hasAny(['page', 'per_page'])) {
+            return response()->json($query->paginate($request->integer('per_page') ?: 10));
+        }
+
+        return response()->json($query->get());
     }
 
     /**

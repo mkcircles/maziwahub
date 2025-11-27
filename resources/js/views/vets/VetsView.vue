@@ -60,7 +60,7 @@
                                     v-model="searchTerm"
                                     type="search"
                                     placeholder="Search by name or license number"
-                                    class="flex-1 rounded-l-lg border-none px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                    class="flex-1 rounded-l-lg border-none text-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
                                     @keyup.enter="applyFilters"
                                 />
                                 <button
@@ -97,8 +97,8 @@
                                 <th class="px-6 py-3">Name</th>
                                 <th class="px-6 py-3">License</th>
                                 <th class="px-6 py-3">Contacts</th>
-                                <th class="px-6 py-3">Specialization</th>
-                                <th class="px-6 py-3">Assigned MCC</th>
+                                <!-- <th class="px-6 py-3">Specialization</th>
+                                <th class="px-6 py-3">Assigned MCC</th> -->
                                 <th class="px-6 py-3">Status</th>
                                 <th class="px-6 py-3 text-right">Actions</th>
                             </tr>
@@ -120,8 +120,8 @@
                                     <div>{{ vet.phone_number ?? '—' }}</div>
                                     <div class="text-xs text-gray-500">{{ vet.email ?? '—' }}</div>
                                 </td>
-                                <td class="px-6 py-4">{{ vet.specialization ?? '—' }}</td>
-                                <td class="px-6 py-4">{{ vet.milkCollectionCenter?.name ?? 'Unassigned' }}</td>
+                                <!-- <td class="px-6 py-4">{{ vet.specialization ?? '—' }}</td>
+                                <td class="px-6 py-4">{{ vet.milkCollectionCenter?.name ?? 'Unassigned' }}</td> -->
                                 <td class="px-6 py-4">
                                     <span
                                         class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
