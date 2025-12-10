@@ -48,7 +48,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'user_type' => ['required', 'string', Rule::in(['super_admin', 'admin', 'partner', 'mcc', 'user'])],
+            'user_type' => ['required', 'string', Rule::in(['super_admin', 'admin', 'partner', 'mcc', 'user', 'agent'])],
             'milk_collection_center_id' => ['nullable', 'integer', 'exists:milk_collection_centers,id'],
             'partner_id' => ['nullable', 'integer', 'exists:partners,id'],
             'is_active' => ['boolean'],
