@@ -281,7 +281,7 @@ const form = reactive({
     has_washing_bay: false,
 });
 
-const locationSelection = reactive<LocationSelection>({
+let locationSelection = reactive<LocationSelection>({
     country_id: null,
     country_name: '',
     region_id: null,

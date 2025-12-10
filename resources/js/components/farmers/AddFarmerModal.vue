@@ -326,7 +326,7 @@ const defaultLocation = (): LocationSelection => ({
     village_name: '',
 });
 
-const locationSelection = reactive<LocationSelection>(defaultLocation());
+let locationSelection = reactive<LocationSelection>(defaultLocation());
 
 const form = reactive({
     first_name: '',
