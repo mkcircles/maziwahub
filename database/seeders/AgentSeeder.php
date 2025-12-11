@@ -75,7 +75,7 @@ class AgentSeeder extends Seeder
                 'partner_id' => $agentData['partner_id'],
                 'is_active' => true,
             ]);
-            $user->assignRole($agentData['user_type']);
+            //$user->assignRole($agentData['user_type']);
 
             // Create the agent record
             Agent::create([
