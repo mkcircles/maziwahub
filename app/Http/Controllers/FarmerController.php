@@ -35,7 +35,7 @@ class FarmerController extends Controller
             $query->whereIn('milk_collection_center_id', $mccIds);
         } elseif ($user->isMcc() && $user->milk_collection_center_id) {
             $query->where('milk_collection_center_id', $user->milk_collection_center_id);
-        } elseif ($user->agent) {
+        } elseif ($user->isAgent() && $user->agent) {
             $agent = $user->agent;
             if ($agent->milk_collection_center_id) {
                 $query->where('milk_collection_center_id', $agent->milk_collection_center_id);
@@ -69,7 +69,7 @@ class FarmerController extends Controller
         }
 
         if ($partnerId = $request->query('partner_id')) {
-            $query->whereHas('milkCollectionCenter', fn ($q) => $q->where('partner_id', $partnerId));
+            $query->whereHas('milkCollectionCenter', fn($q) => $q->where('partner_id', $partnerId));
         }
 
         if ($status = $request->query('status')) {
@@ -109,13 +109,46 @@ class FarmerController extends Controller
         // Set MCC and agent based on user role
         if ($user->isMcc() && $user->milk_collection_center_id) {
             $data['milk_collection_center_id'] = $user->milk_collection_center_id;
-        } elseif ($user->agent) {
+        } elseif ($user->isAgent() && $user->agent) {
             $agent = $user->agent;
+
+            // Set the MCC from agent's assignment
             if ($agent->milk_collection_center_id) {
                 $data['milk_collection_center_id'] = $agent->milk_collection_center_id;
+            } elseif ($agent->partner_id && !isset($data['milk_collection_center_id'])) {
+                // If agent is assigned to a partner and no MCC is specified,
+                // we need the request to specify which MCC under the partner
+                // This is validated in the request, so if we get here, it's already set
+                // or we can optionally pick the first MCC from the partner
             }
+
+            // Always set the agent who registered the farmer
             $data['registered_by_agent_id'] = $agent->id;
         }
+
+        // Validate that partner-assigned agents specify a valid MCC
+        if ($user->isAgent() && $user->agent && $user->agent->partner_id) {
+            if (empty($data['milk_collection_center_id'])) {
+                return response()->json([
+                    'message' => 'Agents assigned to a partner must specify a milk_collection_center_id when creating farmers.',
+                    'errors' => [
+                        'milk_collection_center_id' => ['This field is required for partner-assigned agents.']
+                    ]
+                ], 422);
+            }
+
+            // Verify the MCC belongs to the agent's partner
+            $validMccIds = $user->agent->partner->milkCollectionCenters()->pluck('id')->toArray();
+            if (!in_array($data['milk_collection_center_id'], $validMccIds)) {
+                return response()->json([
+                    'message' => 'The specified milk collection center does not belong to your partner organization.',
+                    'errors' => [
+                        'milk_collection_center_id' => ['Invalid milk collection center for your partner.']
+                    ]
+                ], 422);
+            }
+        }
+
 
         $farmer = Farmer::create($data);
         $this->maybeCreateInitialFeedingHistory($request, $farmer, $data);
@@ -285,7 +318,7 @@ class FarmerController extends Controller
             'feeding_metadata' => ['nullable', 'array'],
         ]);
 
-        if (! empty($data['coordinates'])) {
+        if (!empty($data['coordinates'])) {
             $data['coordinates'] = [
                 'latitude' => $data['coordinates']['latitude'] ?? null,
                 'longitude' => $data['coordinates']['longitude'] ?? null,
@@ -300,7 +333,7 @@ class FarmerController extends Controller
             $data['is_farmer_insured'] = (bool) $data['is_farmer_insured'];
         }
 
-        if (! empty($data['farmer_id'])) {
+        if (!empty($data['farmer_id'])) {
             $data['farmer_id'] = Str::upper($data['farmer_id']);
         }
 
@@ -312,7 +345,7 @@ class FarmerController extends Controller
         $userId = $request->user()?->id;
         $timestamp = now();
 
-        if (! empty($data['primary_feeding_method_id'])) {
+        if (!empty($data['primary_feeding_method_id'])) {
             $farmer->feedingHistories()->create([
                 'feeding_method_id' => $data['primary_feeding_method_id'],
                 'feeding_type' => 'primary',
@@ -326,7 +359,7 @@ class FarmerController extends Controller
             $farmer->save();
         }
 
-        if (! empty($data['supplemental_feeding_method_id'])) {
+        if (!empty($data['supplemental_feeding_method_id'])) {
             $farmer->feedingHistories()->create([
                 'feeding_method_id' => $data['supplemental_feeding_method_id'],
                 'feeding_type' => 'supplemental',
@@ -370,7 +403,7 @@ class FarmerController extends Controller
 
         do {
             $id = collect(range(1, 6))
-                ->map(fn () => $characters[random_int(0, strlen($characters) - 1)])
+                ->map(fn() => $characters[random_int(0, strlen($characters) - 1)])
                 ->implode('');
         } while (Farmer::where('farmer_id', $id)->exists());
 
