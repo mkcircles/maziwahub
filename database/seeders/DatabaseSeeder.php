@@ -15,6 +15,8 @@ use Database\Seeders\FarmerSeeder;
 use Database\Seeders\FeedingMethodSeeder;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\VetSeeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\AgentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +27,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CountrySeeder::class,
-            //Uganda Data Seeding
+                //Uganda Data Seeding
             UgandaRegionsSeeder::class,
             UgandaDistrictsSeeder::class,
             UgandaCountiesSeeder::class,
@@ -38,6 +40,8 @@ class DatabaseSeeder extends Seeder
             FarmerSeeder::class,
             VetSeeder::class,
             AdminUserSeeder::class,
+            UserSeeder::class,
+            AgentSeeder::class,
         ]);
     }
 }

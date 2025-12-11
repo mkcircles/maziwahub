@@ -94,6 +94,11 @@ class User extends Authenticatable
         return $this->user_type === 'user';
     }
 
+    public function isAgent(): bool
+    {
+        return $this->user_type === 'agent';
+    }
+
     public function isAdminOrSuperAdmin(): bool
     {
         return $this->isSuperAdmin() || $this->isAdmin();

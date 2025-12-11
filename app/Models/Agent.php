@@ -43,5 +43,21 @@ class Agent extends Model
     {
         return $this->hasMany(Farmer::class, 'registered_by_agent_id');
     }
+
+    /**
+     * Get the agent's full name from the user relationship.
+     */
+    public function getFullNameAttribute(): ?string
+    {
+        return $this->user?->name;
+    }
+
+    /**
+     * Get the agent's email from the user relationship.
+     */
+    public function getEmailAttribute(): ?string
+    {
+        return $this->user?->email;
+    }
 }
 

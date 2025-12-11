@@ -12,8 +12,8 @@ class FarmerPolicy
      */
     public function viewAny(User $user): bool
     {
-        // Super admin, admin, partner, mcc, and user can view
-        return in_array($user->user_type, ['super_admin', 'admin', 'partner', 'mcc', 'user']);
+        // Super admin, admin, partner, mcc, user, and agent can view
+        return in_array($user->user_type, ['super_admin', 'admin', 'partner', 'mcc', 'user', 'agent']);
     }
 
     /**
