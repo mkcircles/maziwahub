@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             FarmerSeeder::class,
             VetSeeder::class,
             AdminUserSeeder::class,
-            UserSeeder::class,
+                //UserSeeder::class,
             AgentSeeder::class,
         ]);
     }
