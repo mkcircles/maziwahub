@@ -17,15 +17,15 @@ class AgentSeeder extends Seeder
     public function run(): void
     {
         $agents = [
-            [
-                'name' => 'John Kamau',
-                'email' => 'john.kamau@maziwahub.com',
-                'password' => Hash::make('password'),
-                'phone' => '+254712345678',
-                'address' => 'Nakuru, Kenya',
-                'milk_collection_center_id' => MilkCollectionCenter::inRandomOrder()->first()?->id,
-                'partner_id' => null,
-            ],
+            // [
+            //     'name' => 'John Kamau',
+            //     'email' => 'john.kamau@maziwahub.com',
+            //     'password' => Hash::make('password'),
+            //     'phone' => '+254712345678',
+            //     'address' => 'Nakuru, Kenya',
+            //     'milk_collection_center_id' => MilkCollectionCenter::inRandomOrder()->first()?->id,
+            //     'partner_id' => null,
+            // ],
             [
                 'name' => 'Sarah Nakato',
                 'email' => 'sarah.nakato@maziwahub.com',
