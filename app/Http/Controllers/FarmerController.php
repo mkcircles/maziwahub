@@ -130,39 +130,81 @@ class FarmerController extends Controller
         if ($user->isAgent() && $user->agent && $user->agent->partner_id) {
             if (empty($data['milk_collection_center_id'])) {
                 return response()->json([
-                    'message' => 'Agents assigned to a partner must specify a milk_collection_center_id when creating farmers.',
-                    'errors' => [
-                        'milk_collection_center_id' => ['This field is required for partner-assigned agents.']
-                    ]
-                ], 422);
-            }
-
-            // Verify the MCC belongs to the agent's partner
-            $validMccIds = $user->agent->partner->milkCollectionCenters()->pluck('id')->toArray();
-            if (!in_array($data['milk_collection_center_id'], $validMccIds)) {
-                return response()->json([
-                    'message' => 'The specified milk collection center does not belong to your partner organization.',
-                    'errors' => [
-                        'milk_collection_center_id' => ['Invalid milk collection center for your partner.']
-                    ]
+                    'message' => 'Milk collection center is required for agents assigned to a partner.',
+                    'errors' => ['milk_collection_center_id' => ['The milk collection center id field is required.']],
                 ], 422);
             }
         }
 
-
         $farmer = Farmer::create($data);
-        $this->maybeCreateInitialFeedingHistory($request, $farmer, $data);
 
-        return response()->json(
-            $farmer->load([
-                'cows',
-                'milkDeliveries',
-                'primaryFeedingMethod',
-                'supplementalFeedingMethod',
-            ]),
-            201
-        );
+        return response()->json($farmer, 201);
     }
+    // {
+    //     $this->authorize('create', Farmer::class);
+
+    //     $data = $this->validatedData($request);
+    //     $user = $request->user();
+
+    //     $data['farmer_id'] = $data['farmer_id'] ?? $this->generateFarmerId();
+
+    //     // Set MCC and agent based on user role
+    //     if ($user->isMcc() && $user->milk_collection_center_id) {
+    //         $data['milk_collection_center_id'] = $user->milk_collection_center_id;
+    //     } elseif ($user->isAgent() && $user->agent) {
+    //         $agent = $user->agent;
+
+    //         // Set the MCC from agent's assignment
+    //         if ($agent->milk_collection_center_id) {
+    //             $data['milk_collection_center_id'] = $agent->milk_collection_center_id;
+    //         } elseif ($agent->partner_id && !isset($data['milk_collection_center_id'])) {
+    //             // If agent is assigned to a partner and no MCC is specified,
+    //             // we need the request to specify which MCC under the partner
+    //             // This is validated in the request, so if we get here, it's already set
+    //             // or we can optionally pick the first MCC from the partner
+    //         }
+
+    //         // Always set the agent who registered the farmer
+    //         $data['registered_by_agent_id'] = $agent->id;
+    //     }
+
+    //     // Validate that partner-assigned agents specify a valid MCC
+    //     if ($user->isAgent() && $user->agent && $user->agent->partner_id) {
+    //         if (empty($data['milk_collection_center_id'])) {
+    //             return response()->json([
+    //                 'message' => 'Agents assigned to a partner must specify a milk_collection_center_id when creating farmers.',
+    //                 'errors' => [
+    //                     'milk_collection_center_id' => ['This field is required for partner-assigned agents.']
+    //                 ]
+    //             ], 422);
+    //         }
+
+    //         // Verify the MCC belongs to the agent's partner
+    //         $validMccIds = $user->agent->partner->milkCollectionCenters()->pluck('id')->toArray();
+    //         if (!in_array($data['milk_collection_center_id'], $validMccIds)) {
+    //             return response()->json([
+    //                 'message' => 'The specified milk collection center does not belong to your partner organization.',
+    //                 'errors' => [
+    //                     'milk_collection_center_id' => ['Invalid milk collection center for your partner.']
+    //                 ]
+    //             ], 422);
+    //         }
+    //     }
+
+
+    //     $farmer = Farmer::create($data);
+    //     $this->maybeCreateInitialFeedingHistory($request, $farmer, $data);
+
+    //     return response()->json(
+    //         $farmer->load([
+    //             'cows',
+    //             'milkDeliveries',
+    //             'primaryFeedingMethod',
+    //             'supplementalFeedingMethod',
+    //         ]),
+    //         201
+    //     );
+    // }
 
     /**
      * Show Farmer
