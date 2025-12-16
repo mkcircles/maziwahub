@@ -1,90 +1,77 @@
 import { RouteRecordRaw } from 'vue-router';
 
-import CountriesView from '../views/geography/CountriesView.vue';
-import CountryDetailView from '../views/geography/CountryDetailView.vue';
-import RegionsView from '../views/geography/RegionsView.vue';
-import RegionDetailView from '../views/geography/RegionDetailView.vue';
-import DistrictsView from '../views/geography/DistrictsView.vue';
-import DistrictDetailView from '../views/geography/DistrictDetailView.vue';
-import CountiesView from '../views/geography/CountiesView.vue';
-import CountyDetailView from '../views/geography/CountyDetailView.vue';
-import SubcountiesView from '../views/geography/SubcountiesView.vue';
-import SubcountyDetailView from '../views/geography/SubcountyDetailView.vue';
-import ParishesView from '../views/geography/ParishesView.vue';
-import ParishDetailView from '../views/geography/ParishDetailView.vue';
-import VillagesView from '../views/geography/VillagesView.vue';
-import VillageDetailView from '../views/geography/VillageDetailView.vue';
+
 
 const geographyRoutes: RouteRecordRaw[] = [
     {
         path: '/countries',
         name: 'countries',
-        component: () => CountriesView,
+        component: () => import('../views/geography/CountriesView.vue'),
     },
     {
         path: '/countries/:id',
         name: 'country-detail',
-        component: () => CountryDetailView,
+        component: () => import('../views/geography/CountryDetailView.vue'),
     },
     {
         path: '/regions',
         name: 'regions',
-        component: () => RegionsView,
+        component: () => import('../views/geography/RegionsView.vue'),
     },
     {
         path: '/regions/:id',
         name: 'region-detail',
-        component: () => RegionDetailView,
+        component: () => import('../views/geography/RegionDetailView.vue'),
     },
     {
         path: '/districts',
         name: 'districts',
-        component: () => DistrictsView,
+        component: () => import('../views/geography/DistrictsView.vue'),
     },
     {
         path: '/districts/:id',
         name: 'district-detail',
-        component: () => DistrictDetailView,
+        component: () => import('../views/geography/DistrictDetailView.vue'),
     },
     {
         path: '/counties',
         name: 'counties',
-        component: () => CountiesView,
+        component: () => import('../views/geography/CountiesView.vue'),
     },
     {
         path: '/counties/:id',
         name: 'county-detail',
-        component: () => CountyDetailView,
+        component: () => import('../views/geography/CountyDetailView.vue'),
     },
     {
         path: '/subcounties',
         name: 'subcounties',
-        component: () => SubcountiesView,
+        component: () => import('../views/geography/SubcountiesView.vue'),
     },
     {
         path: '/subcounties/:id',
         name: 'subcounty-detail',
-        component: () => SubcountyDetailView,
+        component: () => import('../views/geography/SubcountyDetailView.vue'),
     },
     {
         path: '/parishes',
         name: 'parishes',
-        component: () => ParishesView,
+        component: () => import('../views/geography/ParishesView.vue'),
     },
     {
         path: '/parishes/:id',
         name: 'parish-detail',
-        component: () => ParishDetailView,
+        component: () => import('../views/geography/ParishDetailView.vue'),
     },
     {
         path: '/villages',
         name: 'villages',
-        component: () => VillagesView,
+        component: () => import('../views/geography/VillagesView.vue'),
     },
     {
         path: '/villages/:id',
         name: 'village-detail',
-        component: () => VillageDetailView,
+        component: () => import('../views/geography/VillageDetailView.vue'),
     },
 ];
 
