@@ -20,6 +20,11 @@ class CheckUserRole
             return response()->json(['message' => 'Unauthenticated.'], 401);
         }
 
+        // Support pipe-separated roles in a single argument (e.g. "admin|partner")
+        if (count($roles) === 1 && str_contains($roles[0], '|')) {
+            $roles = explode('|', $roles[0]);
+        }
+
         if (!in_array($request->user()->user_type, $roles)) {
             return response()->json([
                 'message' => 'You do not have permission to access this resource.',

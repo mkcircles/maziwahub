@@ -288,6 +288,17 @@ const navLinks = computed<NavLink[]>(() => {
         });
     }
 
+    // Agents
+    if (isSuperAdmin.value || isAdmin.value || isPartner.value || isMcc.value) {
+        links.push({
+            path: '/admin/agents',
+            label: 'Agents',
+            icon: 'mdi:account-tie-outline',
+            tone: 'indigo',
+            helper: 'Field agents',
+        });
+    }
+
     // User Management - super_admin only
     if (canManageUsers.value) {
         links.push({

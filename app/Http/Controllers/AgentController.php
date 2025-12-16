@@ -23,10 +23,10 @@ class AgentController extends Controller
         $query = Agent::query()->with(['user', 'milkCollectionCenter', 'partner']);
 
         // Filter by role-based access
-        if ($user->isPartner() && $user->partner_id) {
-            $query->where('partner_id', $user->partner_id);
-        } elseif ($user->isMcc() && $user->milk_collection_center_id) {
-            $query->where('milk_collection_center_id', $user->milk_collection_center_id);
+        if ($user->isPartner()) {
+            $query->where('agents.partner_id', $user->partner_id);
+        } elseif ($user->isMcc()) {
+            $query->where('agents.milk_collection_center_id', $user->milk_collection_center_id);
         }
 
         // Search functionality
@@ -40,14 +40,26 @@ class AgentController extends Controller
             });
         }
 
+        // Generic role/id filter for easier frontend request customization
+        if ($request->has(['role', 'id'])) {
+            $role = $request->input('role');
+            $id = $request->input('id');
+
+            if ($role === 'mcc') {
+                $query->where('agents.milk_collection_center_id', $id);
+            } elseif ($role === 'partner') {
+                $query->where('agents.partner_id', $id);
+            }
+        }
+
         // Filter by milk collection center
         if ($centerId = $request->query('milk_collection_center_id')) {
-            $query->where('milk_collection_center_id', $centerId);
+            $query->where('agents.milk_collection_center_id', $centerId);
         }
 
         // Filter by partner
         if ($partnerId = $request->query('partner_id')) {
-            $query->where('partner_id', $partnerId);
+            $query->where('agents.partner_id', $partnerId);
         }
 
         // Filter by active status

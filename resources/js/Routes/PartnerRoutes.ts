@@ -43,6 +43,26 @@ const partnerRoutes: RouteRecordRaw[] = [
                     layout: 'partner',
                 },
             },
+            {
+                path: 'agents',
+                name: 'partner-agents',
+                component: () => import('../views/admin/AgentsView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['partner'],
+                    layout: 'partner',
+                },
+            },
+            {
+                path: 'agents/:id',
+                name: 'partner-agent-detail',
+                component: () => import('../views/admin/AgentDetailView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['partner'],
+                    layout: 'partner',
+                },
+            },
         ],
     },
 ];

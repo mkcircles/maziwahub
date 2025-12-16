@@ -213,6 +213,14 @@
                 </section>
             </section>
 
+            <section v-else-if="activeTab === 'agents'" class="space-y-6">
+                <AgentsTable 
+                    :agents="mccAgents" 
+                    :loading="mccAgentsLoading" 
+                    @edit="openAgentEditModal"
+                />
+            </section>
+
             <section v-else class="space-y-6">
                 <MilkDeliveriesTable
                     :deliveries="allDeliveries"
@@ -243,6 +251,9 @@ import StatisticalCard from '../../components/shared/StatisticalCard.vue';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
 import MilkDeliveriesTable from '../../components/milk-centers/MilkDeliveriesTable.vue';
 import CreateMilkDeliveryModal from '../../components/milk-centers/CreateMilkDeliveryModal.vue';
+import AgentsTable from '../../components/agents/AgentsTable.vue';
+import { useAgentStore } from '../../stores/agentStore';
+import { storeToRefs } from 'pinia';
 
 interface MilkDeliverySummary {
     id: number;
@@ -254,11 +265,14 @@ interface MilkDeliverySummary {
     price_per_liter?: number | null;
 }
 
-type TabKey = 'overview' | 'deliveries';
+type TabKey = 'overview' | 'deliveries' | 'agents';
 
 const route = useRoute();
 const centerIdParam = route.params.id;
 const centerId = Number(centerIdParam);
+
+const agentStore = useAgentStore();
+const { agents: mccAgents, loading: mccAgentsLoading } = storeToRefs(agentStore);
 
 const center = ref<MilkCollectionCenter | null>(null);
 const loading = ref(false);
@@ -278,6 +292,7 @@ const activeTab = ref<TabKey>('overview');
 const tabs = [
     { id: 'overview' as TabKey, label: 'Overview' },
     { id: 'deliveries' as TabKey, label: 'Milk Deliveries' },
+    { id: 'agents' as TabKey, label: 'Agents' },
 ];
 
 const fetchCenter = async () => {
@@ -349,6 +364,8 @@ const refresh = async () => {
     await Promise.all([fetchMetrics(), fetchDeliveries()]);
     if (activeTab.value === 'deliveries') {
         await fetchAllDeliveries();
+    } else if (activeTab.value === 'agents') {
+        await agentStore.fetchAgents({ milk_collection_center_id: centerId });
     }
 };
 
@@ -356,6 +373,8 @@ const selectTab = async (tab: TabKey) => {
     activeTab.value = tab;
     if (tab === 'deliveries' && !allDeliveries.value.length) {
         await fetchAllDeliveries();
+    } else if (tab === 'agents') {
+        await agentStore.fetchAgents({ milk_collection_center_id: centerId });
     }
 };
 
@@ -372,6 +391,10 @@ const handleDeliveryCreated = async () => {
     if (activeTab.value === 'deliveries') {
         await fetchAllDeliveries();
     }
+};
+
+const openAgentEditModal = (agent: any) => {
+    console.log('Edit agent', agent);
 };
 
 const formatDate = (value?: string | null) => {

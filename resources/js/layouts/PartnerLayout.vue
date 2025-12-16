@@ -118,6 +118,11 @@ const navigation = computed(() =>
                 : undefined,
         },
         {
+            path: '/partner/agents',
+            label: 'Agents',
+            icon: 'mdi:account-tie-outline',
+        },
+        {
             path: '/partner/farmers',
             label: 'Farmers',
             icon: 'mdi:account-group-outline',
