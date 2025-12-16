@@ -73,7 +73,7 @@ class FarmerPolicy
         }
 
         // Agents can create farmers
-        if ($user->agent) {
+        if ($user->isAgent()) {
             return true;
         }
 
