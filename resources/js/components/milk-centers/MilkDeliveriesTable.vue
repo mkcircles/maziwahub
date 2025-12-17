@@ -19,7 +19,7 @@
                     @click="onCreate"
                     :disabled="loading"
                 >
-                    <Icon icon="mdi:plus" :size="16" />
+                     <Icon icon="mdi:plus" :size="16" />
                     Record Delivery
                 </button>
             </div>
