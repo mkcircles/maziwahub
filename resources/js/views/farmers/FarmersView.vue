@@ -185,20 +185,21 @@
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Farmer</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Contact</th>
-                            <!-- <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Milk Collection Center</th> -->
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Milk Collection Center</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Location</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Herd Size</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
+                            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white text-sm text-slate-700">
                         <tr v-if="loading" class="bg-white">
-                            <td colspan="5" class="px-6 py-6 text-center text-sm text-slate-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-sm text-slate-500">
                                 Loading farmers...
                             </td>
                         </tr>
                         <tr v-else-if="!loading && farmers.length === 0" class="bg-white">
-                            <td colspan="5" class="px-6 py-6 text-center text-sm text-slate-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-sm text-slate-500">
                                 No farmers match the selected filters.
                             </td>
                         </tr>
@@ -218,12 +219,12 @@
                                 <div><Icon icon="mdi:phone" :size="10" class="inline-block text-emerald-500" /> <span class="text-[12px] text-slate-400">  {{ farmer.phone_number ?? '—' }}</span></div>
                                 
                             </td>
-                            <!-- <td class="px-6 py-4 text-sm text-slate-600">
+                            <td class="px-6 py-4 text-sm text-slate-600">
                                 <div>{{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}</div>
                                 <div v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-slate-400">
                                     {{ farmer.milkCollectionCenter.physical_address }}
                                 </div>
-                            </td> -->
+                            </td>
                             <td class="px-6 py-4 text-[12px] text-slate-500">
                                 <div>{{ formatFarmerLocation(farmer) }}</div>
                             </td>
@@ -241,6 +242,15 @@
                                     <Icon :icon="statusChipIcon(farmer.status)" :size="14" />
                                     {{ farmer.status ?? 'Unknown' }}
                                 </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button
+                                    class="inline-flex items-center justify-center rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-blue-600"
+                                    title="Edit"
+                                    @click="openEditModal(farmer)"
+                                >
+                                    <Icon icon="mdi:pencil-outline" :size="18" />
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -295,6 +305,13 @@
         @close="closeAddModal"
         @created="handleFarmerCreated"
     />
+    <EditFarmerModal
+        :is-open="showEditModal"
+        :farmer="selectedFarmerForEdit"
+        :milk-centers="milkCenters"
+        @close="closeEditModal"
+        @updated="handleFarmerUpdated"
+    />
 </template>
 
 <script setup lang="ts">
@@ -302,6 +319,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import Icon from '../../components/shared/Icon.vue';
 import StatisticalCard from '../../components/shared/StatisticalCard.vue';
 import AddFarmerModal from '../../components/farmers/AddFarmerModal.vue';
+import EditFarmerModal from '../../components/farmers/EditFarmerModal.vue';
 import { useFarmerStore } from '../../stores/farmerStore';
 import { useGeographyStore } from '../../stores/geographyStore';
 import type { Farmer } from '../../stores/geographyStore';
@@ -319,6 +337,8 @@ const milkCentersLoading = ref(false);
 const milkCentersError = ref<string | null>(null);
 
 const showAddModal = ref(false);
+const showEditModal = ref(false);
+const selectedFarmerForEdit = ref<Farmer | null>(null);
 
 const farmers = computed(() => farmerStore.farmers);
 const pagination = computed(() => farmerStore.pagination);
@@ -375,9 +395,25 @@ const closeAddModal = () => {
     showAddModal.value = false;
 };
 
+const openEditModal = (farmer: Farmer) => {
+    selectedFarmerForEdit.value = farmer;
+    showEditModal.value = true;
+};
+
+const closeEditModal = () => {
+    showEditModal.value = false;
+    selectedFarmerForEdit.value = null;
+};
+
 const handleFarmerCreated = async () => {
     showAddModal.value = false;
     await refresh();
+};
+
+const handleFarmerUpdated = async () => {
+    showEditModal.value = false;
+    selectedFarmerForEdit.value = null;
+    await applyFilters(pagination.value.current_page);
 };
 
 const resetFilters = async () => {

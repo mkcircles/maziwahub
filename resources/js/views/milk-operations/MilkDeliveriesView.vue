@@ -152,9 +152,6 @@
                                 <div class="text-sm font-semibold text-slate-900">
                                     {{ delivery.milk_collection_center?.name ?? `Center #${delivery.milk_collection_center_id}` }}
                                 </div>
-                                <div class="text-xs uppercase tracking-wide text-slate-400">
-                                    ID: {{ delivery.milk_collection_center_id }}
-                                </div>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm font-semibold text-slate-900">

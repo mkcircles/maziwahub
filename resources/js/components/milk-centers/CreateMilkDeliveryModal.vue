@@ -53,16 +53,25 @@
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1">
                                             <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                                Farmer ID <span class="text-red-500">*</span>
+                                                Select Farmer <span class="text-red-500">*</span>
                                             </label>
-                                            <input
+                                            <div v-if="loadingFarmers" class="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-400">
+                                                Loading farmers...
+                                            </div>
+                                            <div v-else-if="!farmers.length" class="text-sm text-red-500">
+                                                No farmers found for this center.
+                                            </div>
+                                            <select
+                                                v-else
                                                 v-model.number="form.farmer_id"
-                                                type="text"
-                                                min="5"
                                                 required
-                                                placeholder="Enter farmer identifier"
                                                 class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                                            />
+                                            >
+                                                <option value="" disabled>Choose a farmer</option>
+                                                <option v-for="farmer in farmers" :key="farmer.id" :value="farmer.id">
+                                                    {{ farmer.name + ' - ' + farmer.farmer_id }}
+                                                </option>
+                                            </select>
                                         </div>
                                         <div class="space-y-1">
                                             <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -172,9 +181,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, computed } from 'vue';
+import { reactive, watch, computed, ref } from 'vue';
 import Icon from '../../components/shared/Icon.vue';
 import { useFarmerStore } from '../../stores/farmerStore';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
     isOpen: boolean;
@@ -187,8 +197,10 @@ const emit = defineEmits<{
 }>();
 
 const farmerStore = useFarmerStore();
+const { farmers } = storeToRefs(farmerStore);
 const submitting = computed(() => farmerStore.creating);
 const error = computed(() => farmerStore.createError);
+const loadingFarmers = ref(false);
 
 const form = reactive({
     farmer_id: '' as number | '' | null,
@@ -203,7 +215,7 @@ const form = reactive({
 const resetForm = () => {
     Object.assign(form, {
         farmer_id: '',
-        delivery_date: '',
+        delivery_date: new Date().toISOString().split('T')[0],
         volume_liters: '',
         quality_grade: '',
         price_per_liter: '',
@@ -222,6 +234,19 @@ const toNullableNumber = (value: number | '' | null) => {
     if (value === '' || value === null || value === undefined) return null;
     const parsed = Number(value);
     return Number.isNaN(parsed) ? null : parsed;
+};
+
+const fetchFarmers = async () => {
+    if (!props.centerId) return;
+    loadingFarmers.value = true;
+    try {
+        await farmerStore.fetchFarmers({
+            milk_collection_center_id: Number(props.centerId),
+            per_page: 100, // Fetch top 100 farmers for dropdown
+        });
+    } finally {
+        loadingFarmers.value = false;
+    }
 };
 
 const handleSubmit = async () => {
@@ -251,6 +276,8 @@ watch(
     (open) => {
         if (open) {
             farmerStore.createError = null;
+            resetForm(); // Ensure date is set
+            fetchFarmers();
         } else {
             resetForm();
         }

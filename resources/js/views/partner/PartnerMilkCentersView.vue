@@ -387,7 +387,7 @@
             </p>
         </section>
 
-        <CreateMilkCollectionCenterModal :is-open="createModalOpen" @close="closeCreateModal" @created="handleCenterCreated" />
+        <MilkCollectionCenterFormModal :is-open="createModalOpen" @close="closeCreateModal" @created="handleCenterCreated" />
         <InvitePartnerMemberModal
             :is-open="invitationModalOpen"
             :partner-id="partnerId"
@@ -401,7 +401,7 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Icon from '../../components/shared/Icon.vue';
-import CreateMilkCollectionCenterModal from '../../components/milk-centers/CreateMilkCollectionCenterModal.vue';
+import MilkCollectionCenterFormModal from '../../components/milk-centers/MilkCollectionCenterFormModal.vue';
 import InvitePartnerMemberModal from '../../components/partner/InvitePartnerMemberModal.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { usePartnerStore, type PartnerInvitation } from '../../stores/partnerStore';

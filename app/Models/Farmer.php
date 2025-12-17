@@ -83,6 +83,7 @@ class Farmer extends Model
     ];
     protected $appends = [
         'location',
+        'name',
     ];
 
     public function getLocationAttribute(): array
@@ -177,6 +178,11 @@ class Farmer extends Model
             ->where('feeding_type', 'primary')
             ->whereNull('ended_at')
             ->latestOfMany('started_at');
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function activeSupplementalFeedingHistory(): HasOne

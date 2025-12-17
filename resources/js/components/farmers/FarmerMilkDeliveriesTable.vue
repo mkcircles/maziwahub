@@ -29,7 +29,9 @@
                     <tr v-for="delivery in deliveries" :key="delivery.id" class="hover:bg-gray-50">
                         <td class="px-6 py-4">{{ formatDate(delivery.delivery_date) }}</td>
                         <td class="px-6 py-4">
-                            {{ delivery.milkCollectionCenter?.name ?? `Center #${delivery.milk_collection_center_id ?? '—'}` }}
+                           <router-link :to="`/admin/milk-collection-centers/${delivery.milk_collection_center?.id}`">
+                            {{ delivery.milk_collection_center?.name }}
+                           </router-link>
                         </td>
                         <td class="px-6 py-4">{{ formatLiters(delivery.volume_liters) }}</td>
                         <td class="px-6 py-4">{{ delivery.quality_grade ?? '—' }}</td>

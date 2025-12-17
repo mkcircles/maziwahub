@@ -49,7 +49,10 @@
                     </tr>
                     <tr v-for="delivery in deliveries" :key="delivery.id" class="hover:bg-gray-50">
                         <td class="px-6 py-4">{{ formatDate(delivery.delivery_date) }}</td>
-                        <td class="px-6 py-4">Farmer #{{ delivery.farmer_id }}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-semibold text-slate-900"><router-link :to="`/admin/farmers/${delivery.farmer.id}`" class="hover:text-blue-600 hover:underline">{{ delivery.farmer.name }}</a></div>
+                            <div class="text-xs text-slate-400 uppercase tracking-wide"> ID: {{ delivery.farmer.farmer_id }}</div>
+                        </td>
                         <td class="px-6 py-4">{{ formatLiters(delivery.volume_liters) }}</td>
                         <td class="px-6 py-4">{{ delivery.quality_grade ?? '—' }}</td>
                         <td class="px-6 py-4">{{ formatCurrency(delivery.price_per_liter) }}</td>

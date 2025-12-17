@@ -33,6 +33,7 @@ class MilkDelivery extends Model
 
     protected $with = [
         'farmer',
+        'milkCollectionCenter'
     ];
 
     public function farmer(): BelongsTo

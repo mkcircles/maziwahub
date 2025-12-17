@@ -19,7 +19,7 @@ class MilkCollectionCenterController extends Controller
         $query = MilkCollectionCenter::query();
 
         if ($search = $request->query('search')) {
-            $query->where(fn ($q) => $q->where('name', 'like', "%{$search}%")
+            $query->where(fn($q) => $q->where('name', 'like', "%{$search}%")
                 ->orWhere('registration_number', 'like', "%{$search}%"));
         }
 
@@ -78,6 +78,24 @@ class MilkCollectionCenterController extends Controller
         $milkCollectionCenter->fill($validated)->save();
 
         return response()->json($milkCollectionCenter);
+    }
+
+    /**
+     * Get Deliveries for Center
+     * @description Get all milk deliveries for a specific milk collection center.
+     */
+    public function deliveries(Request $request, MilkCollectionCenter $milkCollectionCenter)
+    {
+        $query = $milkCollectionCenter->milkDeliveries()
+            ->with(['farmer'])
+            ->latest('delivery_date');
+
+        if ($request->has('limit')) {
+            $limit = (int) $request->query('limit');
+            return response()->json($query->limit($limit)->get());
+        }
+
+        return response()->json($query->get());
     }
 
     /**

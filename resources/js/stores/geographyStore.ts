@@ -73,7 +73,7 @@ export interface MilkDelivery {
     total_amount?: number | null;
     recorded_by?: string | null;
     notes?: string | null;
-    milkCollectionCenter?: MilkCollectionCenter | null;
+    milk_collection_center?: MilkCollectionCenter | null;
 }
 
 export interface CowMilkProduction {
@@ -315,7 +315,7 @@ export const useGeographyStore = defineStore('geography', () => {
             loading.value = false;
         }
     }
-    
+
 
     async function getCountryFarmers(countryId: number, page: number = 1, perPage: number = 15) {
         loading.value = true;
@@ -346,7 +346,7 @@ export const useGeographyStore = defineStore('geography', () => {
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Failed to delete country';
             throw err;
-        } 
+        }
     }
 
     async function getMilkCollectionCenters(params: Record<string, any> = {}) {
@@ -366,12 +366,33 @@ export const useGeographyStore = defineStore('geography', () => {
         }
     }
 
+    async function updateMilkCollectionCenter(id: number, data: Record<string, any>) {
+        loading.value = true;
+        error.value = null;
+        try {
+            const response = await axios.put<MilkCollectionCenter>(`/milk-collection-centers/${id}`, data);
+
+            // Update local state if the center exists in the list
+            const index = milkCenters.value.findIndex(c => c.id === id);
+            if (index !== -1) {
+                milkCenters.value[index] = response.data;
+            }
+
+            return response.data;
+        } catch (err: any) {
+            error.value = err.response?.data?.message || 'Failed to update milk collection center';
+            throw err;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     // Regions
     async function getRegions(countryId?: number) {
         loading.value = true;
         error.value = null;
         try {
-            const url = countryId 
+            const url = countryId
                 ? `/countries/${countryId}/regions`
                 : '/regions';
             const response = await axios.get<Region[]>(url);
@@ -404,7 +425,7 @@ export const useGeographyStore = defineStore('geography', () => {
         loading.value = true;
         error.value = null;
         try {
-            const url = regionId 
+            const url = regionId
                 ? `/regions/${regionId}/districts`
                 : '/districts';
             const response = await axios.get<District[]>(url);
@@ -437,7 +458,7 @@ export const useGeographyStore = defineStore('geography', () => {
         loading.value = true;
         error.value = null;
         try {
-            const url = districtId 
+            const url = districtId
                 ? `/districts/${districtId}/counties`
                 : '/counties';
             const response = await axios.get<County[]>(url);
@@ -456,7 +477,7 @@ export const useGeographyStore = defineStore('geography', () => {
         loading.value = true;
         error.value = null;
         try {
-            const url = countyId 
+            const url = countyId
                 ? `/counties/${countyId}/subcounties`
                 : '/subcounties';
             const response = await axios.get<Subcounty[]>(url);
@@ -475,7 +496,7 @@ export const useGeographyStore = defineStore('geography', () => {
         loading.value = true;
         error.value = null;
         try {
-            const url = subcountyId 
+            const url = subcountyId
                 ? `/subcounties/${subcountyId}/parishes`
                 : '/parishes';
             const response = await axios.get<Parish[]>(url);
@@ -494,7 +515,7 @@ export const useGeographyStore = defineStore('geography', () => {
         loading.value = true;
         error.value = null;
         try {
-            const url = parishId 
+            const url = parishId
                 ? `/parishes/${parishId}/villages`
                 : '/villages';
             const response = await axios.get<Village[]>(url);
@@ -538,6 +559,7 @@ export const useGeographyStore = defineStore('geography', () => {
         getParishes,
         getVillages,
         getMilkCollectionCenters,
+        updateMilkCollectionCenter,
         clearError,
     };
 });

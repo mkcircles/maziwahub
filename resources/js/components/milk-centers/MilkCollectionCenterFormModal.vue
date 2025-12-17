@@ -35,9 +35,9 @@
                             <form @submit.prevent="handleSubmit" class="space-y-6">
                                 <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">Add Milk Collection Center</h2>
+                                        <h2 class="text-lg font-semibold text-gray-900">{{ title }}</h2>
                                         <p class="text-sm text-gray-500">
-                                            Register a new collection center with infrastructure details.
+                                            {{ description }}
                                         </p>
                                     </div>
                                     <button
@@ -235,7 +235,7 @@
                                         :disabled="submitting"
                                     >
                                         <Icon icon="mdi:warehouse" :size="18" />
-                                        <span>{{ submitting ? 'Saving...' : 'Save Center' }}</span>
+                                        <span>{{ submitting ? 'Saving...' : submitLabel }}</span>
                                     </button>
                                 </div>
                             </form>
@@ -252,18 +252,28 @@ import { computed, reactive, watch, ref } from 'vue';
 import axios from 'axios';
 import Icon from '../../components/shared/Icon.vue';
 import LocationCascadeSelector, { type LocationSelection } from '../shared/LocationCascadeSelector.vue';
+import { useGeographyStore } from '../../stores/geographyStore';
 
 const props = defineProps<{
     isOpen: boolean;
+    centerId?: number;
+    initialData?: Record<string, any>;
 }>();
 
 const emit = defineEmits<{
     (e: 'close'): void;
     (e: 'created'): void;
+    (e: 'updated'): void;
 }>();
 
+const geographyStore = useGeographyStore();
 const submitting = ref(false);
 const errorMessage = ref<string | null>(null);
+
+const isEditing = computed(() => !!props.centerId);
+const title = computed(() => isEditing.value ? 'Edit Milk Collection Center' : 'Add Milk Collection Center');
+const description = computed(() => isEditing.value ? 'Update collection center details and infrastructure.' : 'Register a new collection center with infrastructure details.');
+const submitLabel = computed(() => isEditing.value ? 'Update Center' : 'Save Center');
 
 const form = reactive({
     name: '',
@@ -299,43 +309,74 @@ let locationSelection = reactive<LocationSelection>({
 });
 
 const resetForm = () => {
-    Object.assign(form, {
-        name: '',
-        registration_number: '',
-        physical_address: '',
-        latitude: '',
-        longitude: '',
-        established_date: '',
-        manager_name: '',
-        manager_phone: '',
-        staff_count: '',
-        power_source: '',
-        cooler_capacity_liters: '',
-        has_testing_equipment: false,
-        has_washing_bay: false,
-    });
-    Object.assign(locationSelection, {
-        country_id: null,
-        country_name: '',
-        region_id: null,
-        region_name: '',
-        district_id: null,
-        district_name: '',
-        county_id: null,
-        county_name: '',
-        subcounty_id: null,
-        subcounty_name: '',
-        parish_id: null,
-        parish_name: '',
-        village_id: null,
-        village_name: '',
-    });
+    if (isEditing.value && props.initialData) {
+        const data = props.initialData;
+        Object.assign(form, {
+            name: data.name,
+            registration_number: data.registration_number ?? '',
+            physical_address: data.physical_address,
+            latitude: data.latitude ?? '',
+            longitude: data.longitude ?? '',
+            established_date: data.established_date ?? '',
+            manager_name: data.manager_name ?? '',
+            manager_phone: data.manager_phone ?? '',
+            staff_count: data.staff_count ?? '',
+            power_source: data.power_source ?? '',
+            cooler_capacity_liters: data.cooler_capacity_liters ?? '',
+            has_testing_equipment: !!data.has_testing_equipment,
+            has_washing_bay: !!data.has_washing_bay,
+        });
+        
+        // Populate location selection if available
+        if (data.location) {
+             Object.assign(locationSelection, {
+                country_id: data.location.country_id ?? null,
+                region_id: data.location.region_id ?? null,
+                district_id: data.location.district_id ?? null,
+                county_id: data.location.county_id ?? null,
+                subcounty_id: data.location.subcounty_id ?? null,
+                parish_id: data.location.parish_id ?? null,
+                village_id: data.location.village_id ?? null,
+            });
+        }
+    } else {
+        Object.assign(form, {
+            name: '',
+            registration_number: '',
+            physical_address: '',
+            latitude: '',
+            longitude: '',
+            established_date: '',
+            manager_name: '',
+            manager_phone: '',
+            staff_count: '',
+            power_source: '',
+            cooler_capacity_liters: '',
+            has_testing_equipment: false,
+            has_washing_bay: false,
+        });
+        Object.assign(locationSelection, {
+            country_id: null,
+            country_name: '',
+            region_id: null,
+            region_name: '',
+            district_id: null,
+            district_name: '',
+            county_id: null,
+            county_name: '',
+            subcounty_id: null,
+            subcounty_name: '',
+            parish_id: null,
+            parish_name: '',
+            village_id: null,
+            village_name: '',
+        });
+    }
     errorMessage.value = null;
 };
 
 const handleClose = () => {
     if (submitting.value) return;
-    resetForm();
     emit('close');
 };
 
@@ -383,8 +424,7 @@ const handleSubmit = async () => {
     submitting.value = true;
     errorMessage.value = null;
 
-    try {
-        await axios.post('/milk-collection-centers', {
+    const payload = {
             name: form.name,
             registration_number: form.registration_number || null,
             physical_address: form.physical_address,
@@ -399,12 +439,19 @@ const handleSubmit = async () => {
             has_testing_equipment: form.has_testing_equipment,
             has_washing_bay: form.has_washing_bay,
             location: buildLocationPayload(),
-        });
+    };
 
-        emit('created');
+    try {
+        if (isEditing.value && props.centerId) {
+            await geographyStore.updateMilkCollectionCenter(props.centerId, payload);
+            emit('updated');
+        } else {
+            await axios.post('/milk-collection-centers', payload);
+            emit('created');
+        }
         handleClose();
     } catch (err: any) {
-        errorMessage.value = err.response?.data?.message || 'Failed to create milk collection center.';
+        errorMessage.value = err.response?.data?.message || 'Failed to save milk collection center.';
     } finally {
         submitting.value = false;
     }

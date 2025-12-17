@@ -61,7 +61,7 @@ class MilkDeliveryController extends Controller
         }
 
         if ($partnerId = $request->query('partner_id')) {
-            $query->whereHas('milkCollectionCenter', fn ($q) => $q->where('partner_id', $partnerId));
+            $query->whereHas('milkCollectionCenter', fn($q) => $q->where('partner_id', $partnerId));
         }
 
         if ($from = $request->query('from')) {
@@ -77,7 +77,7 @@ class MilkDeliveryController extends Controller
             $query->whereDate('delivery_date', '>=', $startDate->toDateString());
         }
 
-        $summary = $query->get()->map(fn ($row) => [
+        $summary = $query->get()->map(fn($row) => [
             'date' => Carbon::parse($row->delivery_date)->toDateString(),
             'total_volume' => (float) $row->total_volume,
         ]);

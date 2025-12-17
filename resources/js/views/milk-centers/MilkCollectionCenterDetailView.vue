@@ -18,6 +18,14 @@
             </div>
             <div class="flex items-center gap-2">
                 <button
+                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    @click="openEditModal"
+                    :disabled="loading || !center"
+                >
+                    <Icon icon="mdi:pencil" :size="18" />
+                    Edit
+                </button>
+                <button
                     class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
                     @click="refresh"
                     :disabled="loading"
@@ -214,6 +222,20 @@
             </section>
 
             <section v-else-if="activeTab === 'agents'" class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-100">Assigned Agents</h2>
+                        <p class="text-sm text-gray-500">Agents managing this collection center.</p>
+                    </div>
+                    <button
+                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        @click="openCreateAgentModal"
+                        :disabled="loading"
+                    >
+                        <Icon icon="mdi:account-plus" :size="16" />
+                        Create Agent
+                    </button>
+                </div>
                 <AgentsTable 
                     :agents="mccAgents" 
                     :loading="mccAgentsLoading" 
@@ -222,6 +244,10 @@
             </section>
 
             <section v-else class="space-y-6">
+                <MilkCenterDeliveryTrend
+                    v-if="allDeliveries.length > 0"
+                    :deliveries="allDeliveries"
+                />
                 <MilkDeliveriesTable
                     :deliveries="allDeliveries"
                     :loading="allDeliveriesLoading"
@@ -240,6 +266,19 @@
         @close="closeCreateDeliveryModal"
         @created="handleDeliveryCreated"
     />
+    <MilkCollectionCenterFormModal
+        :is-open="showEditModal"
+        :center-id="center?.id"
+        :initial-data="center ?? undefined"
+        @close="closeEditModal"
+        @updated="handleCenterUpdated"
+    />
+    <CreateAgentModal
+        :is-open="showCreateAgentModal"
+        :preselected-mcc-id="center?.id"
+        @close="closeCreateAgentModal"
+        @created="handleAgentCreated"
+    />
 </template>
 
 <script setup lang="ts">
@@ -250,7 +289,10 @@ import Icon from '../../components/shared/Icon.vue';
 import StatisticalCard from '../../components/shared/StatisticalCard.vue';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
 import MilkDeliveriesTable from '../../components/milk-centers/MilkDeliveriesTable.vue';
+import MilkCenterDeliveryTrend from '../../components/milk-centers/MilkCenterDeliveryTrend.vue';
 import CreateMilkDeliveryModal from '../../components/milk-centers/CreateMilkDeliveryModal.vue';
+import MilkCollectionCenterFormModal from '../../components/milk-centers/MilkCollectionCenterFormModal.vue';
+import CreateAgentModal from '../../components/agents/CreateAgentModal.vue';
 import AgentsTable from '../../components/agents/AgentsTable.vue';
 import { useAgentStore } from '../../stores/agentStore';
 import { storeToRefs } from 'pinia';
@@ -287,6 +329,7 @@ const recentDeliveries = ref<MilkDeliverySummary[]>([]);
 const allDeliveriesLoading = ref(false);
 const allDeliveries = ref<MilkDeliverySummary[]>([]);
 const showCreateDeliveryModal = ref(false);
+const showCreateAgentModal = ref(false);
 
 const activeTab = ref<TabKey>('overview');
 const tabs = [
@@ -395,6 +438,33 @@ const handleDeliveryCreated = async () => {
 
 const openAgentEditModal = (agent: any) => {
     console.log('Edit agent', agent);
+};
+
+const showEditModal = ref(false);
+
+const openEditModal = () => {
+    showEditModal.value = true;
+};
+
+const closeEditModal = () => {
+    showEditModal.value = false;
+};
+
+const handleCenterUpdated = async () => {
+    await fetchCenter();
+    showEditModal.value = false;
+};
+
+const openCreateAgentModal = () => {
+    showCreateAgentModal.value = true;
+};
+
+const closeCreateAgentModal = () => {
+    showCreateAgentModal.value = false;
+};
+
+const handleAgentCreated = async () => {
+    await agentStore.fetchAgents({ milk_collection_center_id: centerId });
 };
 
 const formatDate = (value?: string | null) => {

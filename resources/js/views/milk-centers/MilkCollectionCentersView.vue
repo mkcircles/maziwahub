@@ -176,7 +176,7 @@
             </div>
         </div>
     </div>
-    <CreateMilkCollectionCenterModal
+    <MilkCollectionCenterFormModal
         :is-open="showCreateModal"
         @close="closeCreateModal"
         @created="handleCenterCreated"
@@ -187,7 +187,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import Icon from '../../components/shared/Icon.vue';
 import StatisticalCard from '../../components/shared/StatisticalCard.vue';
-import CreateMilkCollectionCenterModal from '../../components/milk-centers/CreateMilkCollectionCenterModal.vue';
+import MilkCollectionCenterFormModal from '../../components/milk-centers/MilkCollectionCenterFormModal.vue';
 import axios from 'axios';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
 
