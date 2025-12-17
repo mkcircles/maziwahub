@@ -50,7 +50,7 @@
                     <tr v-for="delivery in deliveries" :key="delivery.id" class="hover:bg-gray-50">
                         <td class="px-6 py-4">{{ formatDate(delivery.delivery_date) }}</td>
                         <td class="px-6 py-4">
-                            <div class="text-sm font-semibold text-slate-900"><router-link :to="`/admin/farmers/${delivery.farmer.id}`" class="hover:text-blue-600 hover:underline">{{ delivery.farmer.name }}</a></div>
+                            <div class="text-sm font-semibold text-slate-900"><router-link :to="`/admin/farmers/${delivery.farmer.id}`" class="hover:text-blue-600 hover:underline">{{ delivery.farmer.name }}</router-link></div>
                             <div class="text-xs text-slate-400 uppercase tracking-wide"> ID: {{ delivery.farmer.farmer_id }}</div>
                         </td>
                         <td class="px-6 py-4">{{ formatLiters(delivery.volume_liters) }}</td>
