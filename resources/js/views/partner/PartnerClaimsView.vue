@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-10">
-        <section class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
+        <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.28),transparent_65%)] opacity-80"></div>
             <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div class="max-w-2xl space-y-4">
@@ -41,18 +41,18 @@
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/95 p-8 shadow-sm shadow-slate-100">
+        <section class="rounded-md border border-surface-200 bg-white/95 p-8 shadow-sm shadow-slate-100">
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div class="flex flex-col gap-3 md:flex-row md:items-end md:gap-6">
                     <div>
-                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Status</p>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Status</p>
                         <div class="mt-2 flex flex-wrap gap-2">
                             <button
                                 v-for="option in statusOptions"
                                 :key="option.value"
                                 type="button"
                                 class="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition"
-                                :class="statusFilter === option.value ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-800'"
+                                :class="statusFilter === option.value ? 'border-slate-900 bg-primary-600 text-white' : 'border-surface-200 bg-white text-surface-600 hover:border-slate-300 hover:text-surface-800'"
                                 @click="setStatus(option.value)"
                             >
                                 <Icon :icon="option.icon" :size="14" />
@@ -61,56 +61,56 @@
                         </div>
                     </div>
                     <div>
-                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                             Search
                         </label>
-                        <div class="mt-2 flex items-center gap-2 rounded-xl border border-slate-200 px-3 py-2">
-                            <Icon icon="mdi:magnify" :size="18" class="text-slate-400" />
+                        <div class="mt-2 flex items-center gap-2 rounded-md border border-surface-200 px-3 py-2">
+                            <Icon icon="mdi:magnify" :size="18" class="text-surface-400" />
                             <input
                                 v-model.trim="searchTerm"
                                 type="text"
                                 placeholder="Search by partner, center, or notes"
-                                class="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none"
+                                class="w-full bg-transparent text-sm text-surface-800 placeholder:text-surface-400 focus:outline-none"
                             />
                         </div>
                     </div>
                 </div>
-                <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500">
+                <div class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-500">
                     <Icon icon="mdi:filter-variant" :size="16" />
                     {{ filteredClaims.length }} results
                 </div>
             </div>
 
-            <div v-if="globalError" class="mt-4 rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700">
+            <div v-if="globalError" class="mt-4 rounded-md border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700">
                 {{ globalError }}
             </div>
-            <div v-if="successMessage" class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-700">
+            <div v-if="successMessage" class="mt-4 rounded-md border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-700">
                 {{ successMessage }}
             </div>
 
-            <div v-if="claimsLoading" class="mt-6 flex h-60 items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 text-sm text-slate-500">
+            <div v-if="claimsLoading" class="mt-6 flex h-60 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                 Loading milk collection center claims…
             </div>
             <div
                 v-else-if="!filteredClaims.length"
-                class="mt-6 flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 px-6 py-12 text-center"
+                class="mt-6 flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 px-6 py-12 text-center"
             >
-                <Icon icon="mdi:inbox-outline" :size="32" class="text-slate-400" />
-                <p class="text-sm font-semibold text-slate-600">No claims match the current filters.</p>
-                <p class="text-xs text-slate-500">Try removing a filter or switching to a different status.</p>
+                <Icon icon="mdi:inbox-outline" :size="32" class="text-surface-400" />
+                <p class="text-sm font-semibold text-surface-600">No claims match the current filters.</p>
+                <p class="text-xs text-surface-500">Try removing a filter or switching to a different status.</p>
             </div>
             <div v-else class="mt-6 grid gap-4 2xl:grid-cols-2">
                 <article
                     v-for="claim in filteredClaims"
                     :key="claim.id"
-                    class="flex h-full flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600"
+                    class="flex h-full flex-col gap-4 rounded-lg border border-surface-200 bg-white p-6 text-sm text-surface-600"
                 >
                     <div class="flex items-start justify-between gap-4">
                         <div>
-                            <p class="text-base font-semibold text-slate-900">
+                            <p class="text-base font-semibold text-surface-900">
                                 {{ claim.milk_collection_center?.name ?? 'Milk Collection Center' }}
                             </p>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">
+                            <p class="text-xs uppercase tracking-wide text-surface-400">
                                 {{ claim.partner?.name ?? 'Partner' }}
                             </p>
                         </div>
@@ -121,16 +121,16 @@
                         </span>
                     </div>
 
-                    <div class="flex items-start gap-2 text-xs text-slate-500">
+                    <div class="flex items-start gap-2 text-xs text-surface-500">
                         <Icon icon="mdi:map-marker-outline" :size="16" />
                         <span>{{ claim.milk_collection_center?.physical_address || 'Address unavailable' }}</span>
                     </div>
 
-                    <div v-if="claim.message" class="rounded-xl bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                    <div v-if="claim.message" class="rounded-md bg-surface-50 px-3 py-2 text-xs text-surface-500">
                         “{{ claim.message }}”
                     </div>
 
-                    <div class="space-y-1 text-xs text-slate-400">
+                    <div class="space-y-1 text-xs text-surface-400">
                         <p>
                             Requested {{ formatDateTime(claim.created_at) }}
                             <span v-if="claim.requestedBy?.name"> by {{ claim.requestedBy.name }}</span>
@@ -141,20 +141,20 @@
                         </p>
                     </div>
 
-                    <div v-if="claim.status === 'pending' && canModerate" class="space-y-3 rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <div v-if="claim.status === 'pending' && canModerate" class="space-y-3 rounded-lg border border-surface-200 bg-surface-50/70 p-4">
+                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                             Response notes
                         </label>
                         <textarea
                             v-model.trim="responseNotes[claim.id]"
                             rows="3"
                             placeholder="Optional: add context for the partner team"
-                            class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                            class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                         ></textarea>
                         <div class="flex flex-wrap justify-end gap-2">
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+                                class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1.5 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
                                 :disabled="isProcessing(claim.id)"
                                 @click="rejectClaim(claim)"
                             >
@@ -163,7 +163,7 @@
                             </button>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
                                 :disabled="isProcessing(claim.id)"
                                 @click="approveClaim(claim)"
                             >
@@ -173,7 +173,7 @@
                         </div>
                     </div>
 
-                    <div v-else-if="claim.response_notes" class="rounded-xl bg-emerald-50/70 px-3 py-2 text-xs text-emerald-700">
+                    <div v-else-if="claim.response_notes" class="rounded-md bg-emerald-50/70 px-3 py-2 text-xs text-emerald-700">
                         {{ claim.response_notes }}
                     </div>
                 </article>

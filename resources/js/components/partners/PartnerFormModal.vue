@@ -10,7 +10,7 @@
         >
             <div
                 v-if="isOpen"
-                class="fixed inset-0 z-[10000] flex min-h-screen items-end justify-center overflow-y-auto bg-slate-900/50 px-4 py-8 sm:items-center"
+                class="fixed inset-0 z-[10000] flex min-h-screen items-end justify-center overflow-y-auto bg-primary-600/50 px-4 py-8 sm:items-center"
                 role="dialog"
                 aria-modal="true"
                 @click.self="handleClose"
@@ -25,24 +25,24 @@
                 >
                     <div
                         v-if="isOpen"
-                        class="w-full max-w-3xl max-h-[calc(100vh-4rem)] overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-xl sm:max-h-[90vh]"
+                        class="w-full max-w-3xl max-h-[calc(100vh-4rem)] overflow-hidden rounded-md border border-surface-200 bg-white text-surface-900 shadow-xl sm:max-h-[90vh]"
                     >
                         <form @submit.prevent="handleSubmit" class="flex h-full flex-col">
-                            <header class="flex items-start justify-between gap-3 border-b border-slate-200 px-6 py-5">
+                            <header class="flex items-start justify-between gap-3 border-b border-surface-200 px-6 py-5">
                                 <div>
-                                    <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-slate-400">
+                                    <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-surface-400">
                                         {{ mode === 'create' ? 'Create Partner' : 'Edit Partner' }}
                                     </p>
-                                    <h2 class="mt-1 text-xl font-semibold text-slate-900">
+                                    <h2 class="mt-1 text-xl font-semibold text-surface-900">
                                         {{ mode === 'create' ? 'New partner organisation' : form.name || partner?.name }}
                                     </h2>
-                                    <p class="mt-1 text-sm text-slate-500">
+                                    <p class="mt-1 text-sm text-surface-500">
                                         Capture organisation contacts, registration details, and activation status.
                                     </p>
                                 </div>
                                 <button
                                     type="button"
-                                    class="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                                    class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600"
                                     @click="handleClose"
                                 >
                                     <Icon icon="mdi:close" :size="20" />
@@ -52,7 +52,7 @@
                             <div class="flex-1 overflow-y-auto px-6 py-6 max-h-[calc(100vh-10rem)] pb-10">
                                 <section class="grid gap-6 md:grid-cols-3">
                                     <div class="md:col-span-3">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Organisation name <span class="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -60,12 +60,12 @@
                                             type="text"
                                             required
                                         placeholder="Enter partner organisation name"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Contact email <span class="text-rose-500">*</span>
                                         </label>
                                         <input
@@ -73,136 +73,136 @@
                                             type="email"
                                             required
                                             placeholder="hello@partner.test"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Phone number
                                         </label>
                                         <input
                                             v-model.trim="form.phone"
                                             type="tel"
                                             placeholder="+256 700 123456"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Registration number
                                         </label>
                                         <input
                                             v-model.trim="form.registration_number"
                                             type="text"
                                             placeholder="REG-XXXX"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Website
                                         </label>
                                         <input
                                             v-model.trim="form.website"
                                             type="url"
                                             placeholder="https://partner.test"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Contact person
                                         </label>
                                         <input
                                             v-model.trim="form.contact_name"
                                             type="text"
                                             placeholder="Full name"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Contact title
                                         </label>
                                         <input
                                             v-model.trim="form.contact_title"
                                             type="text"
                                             placeholder="e.g. Operations Manager"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Country
                                         </label>
                                         <input
                                             v-model.trim="form.country"
                                             type="text"
                                             placeholder="Uganda"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             City / Town
                                         </label>
                                         <input
                                             v-model.trim="form.city"
                                             type="text"
                                             placeholder="Kampala"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div>
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Postal code
                                         </label>
                                         <input
                                             v-model.trim="form.postal_code"
                                             type="text"
                                             placeholder="25601"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
 
                                     <div class="md:col-span-3">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Address
                                         </label>
                                         <textarea
                                             v-model.trim="form.address"
                                             rows="2"
                                             placeholder="Street, plot, or additional guidance"
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         ></textarea>
                                     </div>
 
                                     <div class="md:col-span-3">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Description
                                         </label>
                                         <textarea
                                             v-model.trim="form.description"
                                             rows="3"
                                             placeholder="Brief summary of the partner's operations."
-                                            class="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         ></textarea>
                                     </div>
 
                                     <div class="md:col-span-2">
-                                        <label class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700">
+                                        <label class="inline-flex items-center gap-2 rounded-md border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-700">
                                             <input
                                                 v-model="form.is_active"
                                                 type="checkbox"
-                                                class="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
+                                                class="h-4 w-4 rounded border-slate-300 text-primary-700 focus:ring-primary-500"
                                             />
                                             Partner is active
                                         </label>
@@ -210,16 +210,16 @@
                                 </section>
 
                                 <section v-if="errorMessage" class="mt-4">
-                                    <div class="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                                    <div class="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
                                         {{ errorMessage }}
                                     </div>
                                 </section>
                             </div>
 
-                            <footer class="flex flex-col gap-2 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:justify-end">
+                            <footer class="flex flex-col gap-2 border-t border-surface-200 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                 <button
                                     type="button"
-                                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-white hover:text-slate-800"
+                                    class="inline-flex items-center gap-2 rounded-md border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-white hover:text-surface-800"
                                     :disabled="submitting"
                                     @click="handleClose"
                                 >
@@ -227,7 +227,7 @@
                                 </button>
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                    class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
                                     :disabled="submitting"
                                 >
                                     <Icon icon="mdi:content-save-outline" :size="18" />

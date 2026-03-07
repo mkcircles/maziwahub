@@ -1,9 +1,9 @@
 <template>
     <div class="rounded-lg bg-white shadow">
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <table class="min-w-full divide-y divide-surface-200">
+                <thead class="bg-surface-50">
+                    <tr class="text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
                         <th class="px-6 py-3">Date</th>
                         <th class="px-6 py-3">Cow</th>
                         <th class="px-6 py-3">Diagnosis / Reason</th>
@@ -15,37 +15,37 @@
                         <th class="px-6 py-3 text-right">Cost</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
-                    <tr v-if="treatments.length === 0" class="hover:bg-gray-50">
-                        <td colspan="8" class="px-6 py-6 text-center text-sm text-gray-500">
+                <tbody class="divide-y divide-surface-200 text-sm text-surface-700">
+                    <tr v-if="treatments.length === 0" class="hover:bg-surface-50">
+                        <td colspan="8" class="px-6 py-6 text-center text-sm text-surface-500">
                             No treatments recorded for this cow yet.
                         </td>
                     </tr>
-                    <tr v-for="treatment in treatments" :key="treatment.id" class="hover:bg-gray-50">
+                    <tr v-for="treatment in treatments" :key="treatment.id" class="hover:bg-surface-50">
                         <td class="px-6 py-4">{{ formatDate(treatment.treatment_date) }}</td>
                         <td class="px-6 py-4">
                             <router-link
                                 v-if="cowRoute(treatment)"
                                 :to="cowRoute(treatment)"
-                                class="text-sm font-semibold text-blue-600 hover:text-blue-700"
+                                class="text-sm font-semibold text-primary-600 hover:text-primary-700"
                             >
                                 {{ cowDisplayName(treatment) }}
                             </router-link>
                             <span v-else>{{ cowDisplayName(treatment) }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900">{{ treatment.diagnosis ?? '—' }}</div>
-                            <div class="text-xs text-gray-500">{{ treatment.reason ?? '' }}</div>
+                            <div class="font-medium text-surface-900">{{ treatment.diagnosis ?? '—' }}</div>
+                            <div class="text-xs text-surface-500">{{ treatment.reason ?? '' }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <div>{{ treatment.medication ?? '—' }}</div>
-                            <div v-if="treatment.dosage" class="text-xs text-gray-500">
+                            <div v-if="treatment.dosage" class="text-xs text-surface-500">
                                 {{ treatment.dosage }} {{ treatment.dosage_unit ?? '' }} ({{ treatment.route ?? 'route N/A' }})
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900">{{ vetName(treatment) }}</div>
-                            <div v-if="vetLicense(treatment)" class="text-xs text-gray-500">
+                            <div class="font-medium text-surface-900">{{ vetName(treatment) }}</div>
+                            <div v-if="vetLicense(treatment)" class="text-xs text-surface-500">
                                 License: {{ vetLicense(treatment) }}
                             </div>
                         </td>
@@ -68,7 +68,7 @@
                             </span>
                         </td>
                         <td class="px-6 py-4">{{ formatDate(treatment.follow_up_date) }}</td>
-                        <td class="px-6 py-4 text-right font-semibold text-gray-900">
+                        <td class="px-6 py-4 text-right font-semibold text-surface-900">
                             {{ formatCurrency(treatment.cost) }}
                         </td>
                         <td class="px-6 py-4">{{ recordedByName(treatment) }}</td>
@@ -105,13 +105,13 @@ const props = defineProps({
 });
 
 const statusChipClass = (status?: string | null) => {
-    if (!status) return 'bg-gray-100 text-gray-600';
+    if (!status) return 'bg-surface-100 text-surface-600';
     const normalized = status.toLowerCase();
     if (normalized.includes('scheduled')) return 'bg-amber-100 text-amber-700';
-    if (normalized.includes('in_progress') || normalized.includes('progress')) return 'bg-blue-100 text-blue-700';
+    if (normalized.includes('in_progress') || normalized.includes('progress')) return 'bg-primary-100 text-primary-700';
     if (normalized.includes('completed')) return 'bg-emerald-100 text-emerald-700';
-    if (normalized.includes('cancel')) return 'bg-gray-200 text-gray-600';
-    return 'bg-gray-100 text-gray-600';
+    if (normalized.includes('cancel')) return 'bg-surface-200 text-surface-600';
+    return 'bg-surface-100 text-surface-600';
 };
 
 const statusChipIcon = (status?: string | null) => {
@@ -125,13 +125,13 @@ const statusChipIcon = (status?: string | null) => {
 };
 
 const outcomeChipClass = (outcome?: string | null) => {
-    if (!outcome) return 'bg-gray-100 text-gray-600';
+    if (!outcome) return 'bg-surface-100 text-surface-600';
     const normalized = outcome.toLowerCase();
     if (normalized.includes('recover')) return 'bg-emerald-100 text-emerald-700';
-    if (normalized.includes('improved')) return 'bg-blue-100 text-blue-700';
+    if (normalized.includes('improved')) return 'bg-primary-100 text-primary-700';
     if (normalized.includes('unchanged')) return 'bg-amber-100 text-amber-700';
     if (normalized.includes('deterior') || normalized.includes('deceased')) return 'bg-red-100 text-red-700';
-    return 'bg-gray-100 text-gray-600';
+    return 'bg-surface-100 text-surface-600';
 };
 
 const outcomeChipIcon = (outcome?: string | null) => {

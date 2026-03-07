@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-gray-900/60" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-surface-900/60" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -33,16 +33,16 @@
                             class="inline-block w-full max-w-4xl transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">Onboard Vet</h2>
-                                        <p class="text-sm text-gray-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">Onboard Vet</h2>
+                                        <p class="text-sm text-surface-500">
                                             Register a veterinary professional and link them to a milk collection center.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -52,80 +52,80 @@
                                 <div class="space-y-6 px-6">
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">First Name <span class="text-red-500">*</span></label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">First Name <span class="text-red-500">*</span></label>
                                             <input
                                                 v-model.trim="form.first_name"
                                                 type="text"
                                                 required
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Last Name <span class="text-red-500">*</span></label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Last Name <span class="text-red-500">*</span></label>
                                             <input
                                                 v-model.trim="form.last_name"
                                                 type="text"
                                                 required
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">License Number <span class="text-red-500">*</span></label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">License Number <span class="text-red-500">*</span></label>
                                             <input
                                                 v-model.trim="form.license_number"
                                                 type="text"
                                                 required
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">License Expiry</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">License Expiry</label>
                                             <input
                                                 v-model="form.license_expiry_date"
                                                 type="date"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Phone</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Phone</label>
                                             <input
                                                 v-model.trim="form.phone_number"
                                                 type="tel"
                                                 placeholder="e.g. +256700000000"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Email</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Email</label>
                                             <input
                                                 v-model.trim="form.email"
                                                 type="email"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Specialization</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Specialization</label>
                                             <input
                                                 v-model.trim="form.specialization"
                                                 type="text"
                                                 placeholder="e.g. Dairy Health"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Employer</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Employer</label>
                                             <input
                                                 v-model.trim="form.employer"
                                                 type="text"
                                                 placeholder="Organization or MCC"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Milk Collection Center</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Milk Collection Center</label>
                                             <select
                                                 v-model.number="form.milk_collection_center_id"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select center (optional)</option>
                                                 <option
@@ -138,17 +138,17 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Bio / Notes</label>
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Bio / Notes</label>
                                             <textarea
                                                 v-model.trim="form.bio"
                                                 rows="3"
                                                 placeholder="Background, areas of expertise, coverage region, etc."
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             ></textarea>
                                         </div>
                                         <div class="flex items-center gap-3 sm:col-span-2">
-                                            <input id="is_active" type="checkbox" v-model="form.is_active" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                            <label for="is_active" class="text-sm text-gray-700">Active</label>
+                                            <input id="is_active" type="checkbox" v-model="form.is_active" class="h-4 w-4 rounded border-surface-300 text-primary-600 focus:ring-primary-500" />
+                                            <label for="is_active" class="text-sm text-surface-700">Active</label>
                                         </div>
                                     </div>
                                 </div>
@@ -159,10 +159,10 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
+                                <div class="flex flex-col gap-2 border-t border-surface-100 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                                         @click="handleClose"
                                         :disabled="submitting"
                                     >
@@ -170,7 +170,7 @@
                                     </button>
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="submitting"
                                     >
                                         <Icon icon="mdi:content-save" :size="18" />

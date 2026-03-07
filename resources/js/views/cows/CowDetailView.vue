@@ -2,17 +2,17 @@
     <div class="space-y-8 pb-16">
         <div
             v-if="loading"
-            class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-100"
+            class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100"
         >
             <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <router-link
                     to="/admin/cows"
-                    class="inline-flex items-center gap-2 self-start rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                    class="inline-flex items-center gap-2 self-start rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200"
                 >
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to cows
                 </router-link>
-                <div class="flex items-center gap-3 text-slate-500">
+                <div class="flex items-center gap-3 text-surface-500">
                     <Icon icon="mdi:loading" :size="22" class="animate-spin" />
                     <span class="text-sm font-medium">Loading cow details…</span>
                 </div>
@@ -20,7 +20,7 @@
         </div>
         <div
             v-else-if="error"
-            class="rounded-3xl border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100"
+            class="rounded-md border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100"
         >
             <div class="flex flex-col gap-4">
                 <router-link
@@ -35,12 +35,12 @@
         </div>
         <div
             v-else-if="!cow"
-            class="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-600 shadow-sm shadow-slate-100"
+            class="rounded-md border border-surface-200 bg-white p-10 text-center text-surface-600 shadow-sm shadow-slate-100"
         >
             <div class="mx-auto flex max-w-xl flex-col items-center gap-4">
                 <router-link
                     to="/admin/cows"
-                    class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                    class="inline-flex items-center gap-2 rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200"
                 >
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to cows
@@ -51,7 +51,7 @@
 
         <template v-else>
             <div
-                class="relative overflow-hidden rounded-xl bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40"
+                class="relative overflow-hidden rounded-md bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40"
             >
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
                 <div class="relative flex flex-col gap-8">
@@ -139,7 +139,7 @@
                 <StatisticalCard
                     icon="mdi:cow"
                     icon-class="text-emerald-500"
-                    class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                 >
                     <template #title>Breed</template>
                     <template #default>{{ cow.breed ?? 'Unknown' }}</template>
@@ -147,8 +147,8 @@
                 </StatisticalCard>
                 <StatisticalCard
                     icon="mdi:bucket-outline"
-                    icon-class="text-blue-500"
-                    class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                    icon-class="text-primary-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                 >
                     <template #title>Milk Capacity</template>
                     <template #default>{{ formatLiters(cow.milk_capacity_liters) }}</template>
@@ -157,7 +157,7 @@
                 <StatisticalCard
                     icon="mdi:calendar"
                     icon-class="text-amber-500"
-                    class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                 >
                     <template #title>Age</template>
                     <template #default>{{ formatAge(cow.date_of_birth) }}</template>
@@ -166,7 +166,7 @@
                 <StatisticalCard
                     icon="mdi:leaf"
                     icon-class="text-lime-500"
-                    class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                 >
                     <template #title>Health Status</template>
                     <template #default>{{ cow.health_status ?? 'Not recorded' }}</template>
@@ -174,13 +174,13 @@
                 </StatisticalCard>
             </div>
 
-            <div class="rounded-2xl border border-slate-200 bg-white p-2 shadow-sm shadow-slate-100">
+            <div class="rounded-lg border border-surface-200 bg-white p-2 shadow-sm shadow-slate-100">
                 <nav class="flex flex-wrap gap-2" aria-label="Cow detail tabs">
                     <button
                         v-for="tab in tabs"
                         :key="tab.id"
                         type="button"
-                        class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                        class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
                         :class="tabButtonClass(tab.id)"
                         @click="setActiveTab(tab.id)"
                     >
@@ -191,13 +191,13 @@
             </div>
 
             <div v-if="activeTab === 'overview'" class="grid gap-6 lg:grid-cols-2">
-                <section class="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
+                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-900">Ownership &amp; Identification</h2>
+                        <h2 class="text-lg font-semibold text-surface-900">Ownership &amp; Identification</h2>
                         <router-link
                             v-if="cow.farmer?.id"
                             :to="`/admin/farmers/${cow.farmer.id}`"
-                            class="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+                            class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
                         >
                             View farmer
                             <Icon icon="mdi:chevron-right" :size="16" />
@@ -205,33 +205,33 @@
                     </div>
                     <dl class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Tag Number</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{ cow.tag_number }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Tag Number</dt>
+                            <dd class="text-sm font-medium text-surface-900">{{ cow.tag_number }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Farmer</dt>
-                            <dd class="text-sm font-medium text-gray-900">
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Farmer</dt>
+                            <dd class="text-sm font-medium text-surface-900">
                                 {{ formatFarmerName(cow) }}
                             </dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Date of Birth</dt>
-                            <dd class="text-sm text-gray-700">{{ formatDate(cow.date_of_birth) }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Date of Birth</dt>
+                            <dd class="text-sm text-surface-700">{{ formatDate(cow.date_of_birth) }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Acquired Date</dt>
-                            <dd class="text-sm text-gray-700">{{ formatDate(cow.acquired_date) }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Acquired Date</dt>
+                            <dd class="text-sm text-surface-700">{{ formatDate(cow.acquired_date) }}</dd>
                         </div>
                         <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Notes</dt>
-                            <dd class="text-sm text-gray-700">{{ cow.notes ?? 'No notes recorded.' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Notes</dt>
+                            <dd class="text-sm text-surface-700">{{ cow.notes ?? 'No notes recorded.' }}</dd>
                         </div>
                     </dl>
                 </section>
 
-                <section class="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
-                    <h2 class="text-lg font-semibold text-gray-900">Quick Facts</h2>
-                    <ul class="divide-y divide-slate-100 text-sm text-gray-700">
+                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                    <h2 class="text-lg font-semibold text-surface-900">Quick Facts</h2>
+                    <ul class="divide-y divide-slate-100 text-sm text-surface-700">
                         <li class="flex items-center justify-between py-2 first:pt-0">
                             <span>Milk Capacity</span>
                             <span>{{ formatLiters(cow.milk_capacity_liters) }}</span>
@@ -253,11 +253,11 @@
             </div>
 
             <div v-else-if="activeTab === 'milk'" class="space-y-6">
-                <section class="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
+                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-900">Milk Production Metrics</h2>
+                        <h2 class="text-lg font-semibold text-surface-900">Milk Production Metrics</h2>
                         <button
-                            class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                            class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                             @click="refreshMilkRecords"
                             :disabled="milkLoading"
                         >
@@ -266,34 +266,34 @@
                         </button>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Last Recording</p>
-                            <p class="text-sm font-medium text-gray-900">{{ formatDate(lastRecordDate) }}</p>
-                            <p class="text-xs text-gray-500">Most recent entry</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Last Recording</p>
+                            <p class="text-sm font-medium text-surface-900">{{ formatDate(lastRecordDate) }}</p>
+                            <p class="text-xs text-surface-500">Most recent entry</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Average Daily Total</p>
-                            <p class="text-sm font-medium text-gray-900">{{ formatLiters(averageDailyVolume) }}</p>
-                            <p class="text-xs text-gray-500">Across all recorded days</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Average Daily Total</p>
+                            <p class="text-sm font-medium text-surface-900">{{ formatLiters(averageDailyVolume) }}</p>
+                            <p class="text-xs text-surface-500">Across all recorded days</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Peak Daily Total</p>
-                            <p class="text-sm font-medium text-gray-900">{{ formatLiters(peakDailyVolume) }}</p>
-                            <p class="text-xs text-gray-500">Highest recorded yield</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Peak Daily Total</p>
+                            <p class="text-sm font-medium text-surface-900">{{ formatLiters(peakDailyVolume) }}</p>
+                            <p class="text-xs text-surface-500">Highest recorded yield</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Records Count</p>
-                            <p class="text-sm font-medium text-gray-900">{{ milkRecords.length }}</p>
-                            <p class="text-xs text-gray-500">Total production entries</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Records Count</p>
+                            <p class="text-sm font-medium text-surface-900">{{ milkRecords.length }}</p>
+                            <p class="text-xs text-surface-500">Total production entries</p>
                         </div>
                     </div>
                 </section>
 
-                <section class="space-y-4 rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
+                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Milk Production Trends</h2>
-                            <p class="text-sm text-gray-500">Morning, midday, and evening volumes over time.</p>
+                            <h2 class="text-lg font-semibold text-surface-900">Milk Production Trends</h2>
+                            <p class="text-sm text-surface-500">Morning, midday, and evening volumes over time.</p>
                         </div>
                     </div>
                     <div class="h-80">
@@ -303,11 +303,11 @@
             </div>
 
             <div v-else-if="activeTab === 'treatments'" class="space-y-4">
-                <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
+                <div class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Veterinary Treatments</h2>
-                            <p class="text-sm text-gray-500">Track interventions, follow-ups, and health outcomes.</p>
+                            <h2 class="text-lg font-semibold text-surface-900">Veterinary Treatments</h2>
+                            <p class="text-sm text-surface-500">Track interventions, follow-ups, and health outcomes.</p>
                         </div>
                         <button
                             class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
@@ -319,26 +319,26 @@
                         </button>
                     </div>
 
-                    <div v-if="treatmentsLoading" class="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
+                    <div v-if="treatmentsLoading" class="mt-6 rounded-lg border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                         Loading treatments...
                     </div>
 
                     <template v-else>
                         <div class="mt-6 grid gap-4 sm:grid-cols-3">
-                            <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-5 shadow-sm">
-                                <p class="text-xs uppercase tracking-wide text-gray-500">Total Treatments</p>
-                                <p class="text-2xl font-semibold text-gray-900">{{ treatmentsSummary.totalTreatments }}</p>
-                                <p class="text-xs text-gray-500">All recorded interventions</p>
+                            <div class="rounded-lg border border-emerald-100 bg-emerald-50/70 p-5 shadow-sm">
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Total Treatments</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{ treatmentsSummary.totalTreatments }}</p>
+                                <p class="text-xs text-surface-500">All recorded interventions</p>
                             </div>
-                            <div class="rounded-2xl border border-purple-100 bg-purple-50/70 p-5 shadow-sm">
-                                <p class="text-xs uppercase tracking-wide text-gray-500">Treatment Cost</p>
-                                <p class="text-2xl font-semibold text-gray-900">{{ formatCurrency(treatmentsSummary.totalCost) }}</p>
-                                <p class="text-xs text-gray-500">Cumulative spend</p>
+                            <div class="rounded-lg border border-purple-100 bg-purple-50/70 p-5 shadow-sm">
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Treatment Cost</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{ formatCurrency(treatmentsSummary.totalCost) }}</p>
+                                <p class="text-xs text-surface-500">Cumulative spend</p>
                             </div>
-                            <div class="rounded-2xl border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
-                                <p class="text-xs uppercase tracking-wide text-gray-500">Upcoming Follow-ups</p>
-                                <p class="text-2xl font-semibold text-gray-900">{{ treatmentsSummary.upcomingFollowUps }}</p>
-                                <p class="text-xs text-gray-500">From today onward</p>
+                            <div class="rounded-lg border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Upcoming Follow-ups</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{ treatmentsSummary.upcomingFollowUps }}</p>
+                                <p class="text-xs text-surface-500">From today onward</p>
                             </div>
                         </div>
                     </template>
@@ -353,7 +353,7 @@
 
                 <div
                     v-if="!treatmentsLoading"
-                    class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100"
+                    class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200"
                 >
                     <CowTreatmentsTable
                         :treatments="treatments"
@@ -620,8 +620,8 @@ const tabButtonClass = (tabId: typeof tabs[number]['id']) => {
     const isActive = activeTab.value === tabId;
     return [
         isActive
-            ? 'bg-slate-900 text-white shadow-lg shadow-slate-400/40'
-            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100',
+            ? 'bg-primary-600 text-white shadow-lg shadow-slate-400/40'
+            : 'text-surface-600 hover:text-surface-900 hover:bg-surface-100',
     ];
 };
 </script>

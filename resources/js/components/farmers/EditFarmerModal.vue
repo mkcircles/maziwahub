@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-slate-500/40 backdrop-blur-sm transition-opacity" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-surface-500/40 backdrop-blur-sm transition-opacity" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -33,16 +33,16 @@
                             class="inline-block w-full max-w-4xl transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">Edit Farmer Profile</h2>
-                                        <p class="text-sm text-gray-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">Edit Farmer Profile</h2>
+                                        <p class="text-sm text-surface-500">
                                             Update the farmer’s complete profile, household data, and operational details.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -55,7 +55,7 @@
                                     <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     First Name <span class="text-red-500">*</span>
                                                 </label>
                                                 <input
@@ -63,11 +63,11 @@
                                                     type="text"
                                                     required
                                                     placeholder="Enter first name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Last Name <span class="text-red-500">*</span>
                                                 </label>
                                                 <input
@@ -75,37 +75,37 @@
                                                     type="text"
                                                     required
                                                     placeholder="Enter last name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Farmer ID
                                                 </label>
                                                 <input
                                                     v-model="form.farmer_id"
                                                     type="text"
                                                     placeholder="e.g. AB1234"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Date of Birth
                                                 </label>
                                                 <input
                                                     v-model="form.dob"
                                                     type="date"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Gender
                                                 </label>
                                                 <select
                                                     v-model="form.gender"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select gender</option>
                                                     <option value="male">Male</option>
@@ -114,23 +114,23 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Educational Level
                                                 </label>
                                                 <input
                                                     v-model="form.educational_level"
                                                     type="text"
                                                     placeholder="e.g. Secondary, Diploma"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Status
                                                 </label>
                                                 <select
                                                     v-model="form.status"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="pending">Pending</option>
                                                     <option value="active">Active</option>
@@ -138,12 +138,12 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Registration Type
                                                 </label>
                                                 <select
                                                     v-model="form.reg_type"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select type</option>
                                                     <option value="individual">Individual</option>
@@ -152,18 +152,18 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Registered By
                                                 </label>
                                                 <input
                                                     v-model="form.registered_by"
                                                     type="text"
                                                     placeholder="Registrar name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Registered By Agent ID
                                                 </label>
                                                 <input
@@ -171,7 +171,7 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Agent identifier"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                         </div>
@@ -182,69 +182,69 @@
                                         <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Phone Number
                                                 </label>
                                                 <input
                                                     v-model="form.phone_number"
                                                     type="tel"
                                                     placeholder="Enter phone number"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     National ID Number
                                                 </label>
                                                 <input
                                                     v-model="form.id_number"
                                                     type="text"
                                                     placeholder="Enter ID number"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Marital Status
                                                 </label>
                                                 <input
                                                     v-model="form.marital_status"
                                                     type="text"
                                                     placeholder="e.g. Married, Single"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Next of Kin
                                                 </label>
                                                 <input
                                                     v-model="form.next_of_kin"
                                                     type="text"
                                                     placeholder="Full name"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Next of Kin Contact
                                                 </label>
                                                 <input
                                                     v-model="form.next_of_kin_contact"
                                                     type="text"
                                                     placeholder="Contact details"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Relationship
                                                 </label>
                                                 <input
                                                     v-model="form.next_of_kin_relationship"
                                                     type="text"
                                                     placeholder="Relationship"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@
                                         <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-3">
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Household Members
                                                 </label>
                                                 <input
@@ -264,11 +264,11 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Total household members"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Family Size
                                                 </label>
                                                 <input
@@ -276,11 +276,11 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Family size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Male Members
                                                 </label>
                                                 <input
@@ -288,11 +288,11 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Number of males"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Female Members
                                                 </label>
                                                 <input
@@ -300,11 +300,11 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Number of females"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Adults (18+)
                                                 </label>
                                                 <input
@@ -312,11 +312,11 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Members above 18"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Children (&lt;5 years)
                                                 </label>
                                                 <input
@@ -324,15 +324,15 @@
                                                     type="number"
                                                     min="0"
                                                     placeholder="Members below 5"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="sm:col-span-2">
-                                                <label class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
+                                                <label class="inline-flex items-center gap-2 text-sm font-medium text-surface-700">
                                                     <input
                                                         v-model="form.household_head"
                                                         type="checkbox"
-                                                        class="h-4 w-4 rounded border-gray-300 text-teal-500 focus:ring-teal-400"
+                                                        class="h-4 w-4 rounded border-surface-300 text-teal-500 focus:ring-teal-400"
                                                     />
                                                     Household Head
                                                 </label>
@@ -345,12 +345,12 @@
                                         <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-4">
                                             <div class="space-y-1 sm:col-span-2">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Milk Collection Center
                                                 </label>
                                                 <select
                                                     v-model="form.milk_collection_center_id"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select center</option>
                                                     <option
@@ -363,29 +363,29 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Financial Instrument
                                                 </label>
                                                 <input
                                                     v-model="form.financial_instrument"
                                                     type="text"
                                                     placeholder="e.g. Bank account, Mobile money"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Available Energy Source
                                                 </label>
                                                 <input
                                                     v-model="form.available_energy_source"
                                                     type="text"
                                                     placeholder="e.g. Grid, Solar"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Farm Size (acres)
                                                 </label>
                                                 <input
@@ -394,11 +394,11 @@
                                                     step="0.01"
                                                     min="0"
                                                     placeholder="Total farm size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Land Under Use (acres)
                                                 </label>
                                                 <input
@@ -407,60 +407,60 @@
                                                     step="0.01"
                                                     min="0"
                                                     placeholder="Land under production"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Land Ownership
                                                 </label>
                                                 <input
                                                     v-model="form.land_ownership"
                                                     type="text"
                                                     placeholder="e.g. Owned, Leased"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Farming Type
                                                 </label>
                                                 <input
                                                     v-model="form.farming_type"
                                                     type="text"
                                                     placeholder="e.g. Mixed, Crop"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Crop Production
                                                 </label>
                                                 <input
                                                     v-model="form.crop_production"
                                                     type="text"
                                                     placeholder="Main crops"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Animal Production
                                                 </label>
                                                 <input
                                                     v-model="form.animal_production"
                                                     type="text"
                                                     placeholder="Livestock details"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Herd Size Range
                                                 </label>
                                                 <select
                                                     v-model="form.herd_size"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select range</option>
                                                     <option v-for="option in herdSizeOptions" :key="option" :value="option">
@@ -469,12 +469,12 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1 sm:col-span-2">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Grazing Type
                                                 </label>
                                                 <select
                                                     v-model="form.grazing_type"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select grazing type</option>
                                                     <option v-for="option in grazingOptions" :key="option" :value="option">
@@ -483,22 +483,22 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1 sm:col-span-2">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Primary Water Source
                                                 </label>
                                                 <input
                                                     v-model="form.water_source"
                                                     type="text"
                                                     placeholder="e.g. Borehole, River"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="sm:col-span-2">
-                                                <label class="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
+                                                <label class="inline-flex items-center gap-2 text-sm font-medium text-surface-700">
                                                     <input
                                                         v-model="form.is_farmer_insured"
                                                         type="checkbox"
-                                                        class="h-4 w-4 rounded border-gray-300 text-teal-500 focus:ring-teal-400"
+                                                        class="h-4 w-4 rounded border-surface-300 text-teal-500 focus:ring-teal-400"
                                                     />
                                                     Farmer is insured
                                                 </label>
@@ -511,29 +511,29 @@
                                         <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-2">
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Validation Reason
                                                 </label>
                                                 <textarea
                                                     v-model="form.validation_reason"
                                                     rows="3"
                                                     placeholder="Provide validation feedback or requirements"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 ></textarea>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Support Needed
                                                 </label>
                                                 <textarea
                                                     v-model="form.support_needed"
                                                     rows="3"
                                                     placeholder="Describe support needs"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 ></textarea>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Coordinates · Latitude
                                                 </label>
                                                 <input
@@ -541,11 +541,11 @@
                                                     type="number"
                                                     step="0.000001"
                                                     placeholder="Latitude"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Coordinates · Longitude
                                                 </label>
                                                 <input
@@ -553,7 +553,7 @@
                                                     type="number"
                                                     step="0.000001"
                                                     placeholder="Longitude"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 />
                                             </div>
                                         </div>
@@ -564,13 +564,13 @@
                                         <hr class="border-b border-teal-100" />
                                         <div class="grid gap-4 sm:grid-cols-2">
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Primary Feeding Method
                                                 </label>
                                                 <select
                                                     v-model="form.primary_feeding_method_id"
                                                     :disabled="feedingMethodsLoading"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select method</option>
                                                     <option
@@ -581,17 +581,17 @@
                                                         {{ method.name }}
                                                     </option>
                                                 </select>
-                                                <p v-if="feedingMethodsLoading" class="mt-1 text-xs text-gray-500">Loading feeding methods…</p>
-                                                <p v-else-if="!feedingMethods.length" class="mt-1 text-xs text-gray-500">No feeding methods configured yet.</p>
+                                                <p v-if="feedingMethodsLoading" class="mt-1 text-xs text-surface-500">Loading feeding methods…</p>
+                                                <p v-else-if="!feedingMethods.length" class="mt-1 text-xs text-surface-500">No feeding methods configured yet.</p>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Supplemental Feeding Method
                                                 </label>
                                                 <select
                                                     v-model="form.supplemental_feeding_method_id"
                                                     :disabled="feedingMethodsLoading"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 >
                                                     <option value="">Select method</option>
                                                     <option
@@ -604,27 +604,27 @@
                                                 </select>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Feeding Notes
                                                 </label>
                                                 <textarea
                                                     v-model="form.feeding_notes"
                                                     rows="3"
                                                     placeholder="Record any additional feeding notes"
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 ></textarea>
                                             </div>
                                             <div class="space-y-1">
-                                                <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                                <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                     Feeding Metadata (JSON)
                                                 </label>
                                                 <textarea
                                                     v-model="form.feeding_metadata"
                                                     rows="3"
                                                     placeholder='{"frequency":"Twice daily"}'
-                                                    class="w-full rounded-lg border border-gray-200 px-3 py-2 font-mono text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
+                                                    class="w-full rounded-lg border border-surface-200 px-3 py-2 font-mono text-sm focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-100"
                                                 ></textarea>
-                                                <p class="mt-1 text-xs text-gray-500">Provide structured details such as frequency, ration, or supplements.</p>
+                                                <p class="mt-1 text-xs text-surface-500">Provide structured details such as frequency, ration, or supplements.</p>
                                             </div>
                                         </div>
                                     </section>
@@ -636,7 +636,7 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
+                                <div class="flex flex-col gap-2 border-t border-surface-100 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
                                         class="inline-flex items-center justify-center gap-2 rounded-lg border border-teal-100 px-4 py-2 text-sm font-medium text-teal-600 hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-50"

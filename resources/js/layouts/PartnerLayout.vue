@@ -1,89 +1,105 @@
 <template>
-    <div class="flex min-h-screen bg-slate-50 text-slate-900">
+    <div class="relative flex min-h-screen bg-surface-50 text-surface-800 font-sans">
+        <!-- Desktop Sidebar -->
         <aside
-            class="hidden w-72 flex-shrink-0 flex-col border-r border-slate-200/70 bg-[#0F172A] px-6 py-8 text-white lg:flex"
-        >
-            <div class="flex items-center gap-3">
-                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/90">
-                    <Icon icon="mdi:handshake-outline" :size="22" />
-                </div>
-                <div>
-                    <p class="text-xs uppercase tracking-[0.3em] text-slate-200/70">Partner Hub</p>
-                    <p class="text-sm font-semibold text-white">
-                        {{ partnerTitle }}
-                    </p>
+            class="relative z-30 hidden w-72 flex-col border-r border-surface-200 bg-white shadow-sm transition-all duration-300 lg:flex">
+            <div class="flex h-16 items-center px-6 border-b border-surface-100">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+                        <Icon icon="mdi:handshake-outline" :size="20" />
+                    </span>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-surface-400">Partner Hub</p>
+                        <p class="text-sm font-bold text-primary-700 truncate w-40" :title="partnerTitle">
+                            {{ partnerTitle }}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <nav class="mt-10 space-y-2 text-sm">
-                <router-link
-                    v-for="item in navigation"
-                    :key="item.path"
-                    :to="item.path"
-                    class="flex items-center gap-3 rounded-xl px-3 py-2 transition"
-                    :class="isActive(item.path) ? 'bg-white text-[#0F172A]' : 'text-slate-200 hover:bg-white/10'"
-                >
-                    <Icon :icon="item.icon" :size="18" />
-                    <span class="font-medium">{{ item.label }}</span>
+            <nav class="flex-1 overflow-y-auto px-4 py-4 scrollbar-thin scrollbar-thumb-surface-200">
+                <p class="px-2 pb-2 pt-2 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                    Workspace Menu
+                </p>
+
+                <router-link v-for="item in navigation" :key="item.path" :to="item.path"
+                    class="group mb-0.5 flex items-center rounded-md px-2.5 py-1.5 transition-all duration-200"
+                    :class="isActive(item.path) ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'">
                     <span
-                        v-if="item.badge"
-                        class="ml-auto rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white/80"
-                    >
+                        class="flex h-7 w-7 items-center justify-center rounded-md shadow-sm transition-colors duration-200"
+                        :class="isActive(item.path) ? 'bg-primary-100 text-primary-600' : 'bg-transparent text-surface-400 group-hover:bg-surface-100 group-hover:text-surface-600'">
+                        <Icon :icon="item.icon" :size="16" />
+                    </span>
+                    <span class="ml-2.5 text-sm font-medium transition-colors duration-200">
+                        {{ item.label }}
+                    </span>
+                    <span v-if="item.badge"
+                        class="ml-auto rounded-full bg-primary-100 px-2 py-0.5 text-[10px] font-bold text-primary-700">
                         {{ item.badge }}
                     </span>
                 </router-link>
             </nav>
 
-            <div class="mt-auto rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-200/80">
-                <p class="font-semibold text-white">Need a hand?</p>
-                <p class="mt-2 leading-relaxed">
-                    Invite team members, manage your collection centers, and stay aligned with the admin team from this
-                    workspace.
+            <div class="m-4 rounded-2xl border border-surface-200 bg-surface-50 p-4 text-xs shadow-sm">
+                <p class="font-bold text-surface-800">Need a hand?</p>
+                <p class="mt-1 text-surface-500 leading-relaxed">
+                    Invite team members, manage centers, and coordinate from this workspace.
                 </p>
             </div>
         </aside>
 
-        <div class="flex min-h-screen flex-1 flex-col">
-            <header class="border-b border-slate-200/70 bg-white/80 backdrop-blur">
-                <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
-                    <div class="space-y-1">
-                        <p class="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500">
-                            Partner Workspace
-                        </p>
-                        <h1 class="text-2xl font-semibold tracking-tight text-slate-900">
-                            {{ pageTitle }}
-                        </h1>
-                        <p class="text-sm text-slate-500">
-                            {{ pageSubtitle }}
-                        </p>
+        <!-- Main Content Wrapper -->
+        <div class="flex flex-1 flex-col min-w-0 overflow-hidden">
+            <!-- Top Header -->
+            <header class="sticky top-0 z-20 border-b border-surface-200 bg-white/80 backdrop-blur-md shadow-sm">
+                <div class="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-4">
+                        <div class="space-y-0.5 hidden sm:block">
+                            <h1 class="text-xl font-bold tracking-tight text-surface-900">
+                                {{ pageTitle }}
+                            </h1>
+                            <p class="text-xs text-surface-500">
+                                {{ pageSubtitle }}
+                            </p>
+                        </div>
+                        <div class="sm:hidden flex items-center gap-2">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+                                <Icon icon="mdi:handshake-outline" :size="20" />
+                            </div>
+                            <span class="font-bold text-surface-800 truncate w-32">{{ pageTitle }}</span>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500/10 text-sky-600">
-                            <Icon icon="mdi:account-tie" :size="20" />
+                    <div class="flex items-center gap-3 sm:gap-5">
+                        <!-- Profile Dropdown (Simplified) -->
+                        <div class="flex items-center gap-3">
+                            <div class="hidden sm:flex flex-col items-end">
+                                <span class="text-sm font-semibold text-surface-800">{{ authStore.user?.name }}</span>
+                                <span class="text-xs text-surface-500 truncate max-w-[120px]">{{ partnerTitle }}</span>
+                            </div>
+                            <div
+                                class="h-9 w-9 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
+                                {{ (authStore.user?.name ?? 'P').charAt(0).toUpperCase() }}
+                            </div>
+                            <div class="h-6 w-px bg-surface-200 mx-1"></div>
+                            <button @click="handleLogout" title="Logout"
+                                class="p-2 text-surface-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50">
+                                <Icon icon="mdi:logout" :size="20" />
+                            </button>
                         </div>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-800">
-                                {{ authStore.user?.name }}
-                            </p>
-                            <p class="text-xs text-slate-500">
-                                {{ partnerTitle }}
-                            </p>
-                        </div>
-                        <button
-                            class="ml-4 inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
-                            @click="handleLogout"
-                        >
-                            <Icon icon="mdi:logout" :size="16" />
-                            Sign out
-                        </button>
                     </div>
                 </div>
             </header>
 
-            <main class="flex-1 bg-slate-50">
-                <div class="mx-auto w-full max-w-6xl px-6 py-10">
-                    <router-view />
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto bg-surface-50 p-4 sm:p-6 lg:p-8">
+                <div class="mx-auto w-full max-w-6xl">
+                    <router-view v-slot="{ Component }">
+                        <transition name="fade" mode="out-in">
+                            <component :is="Component" />
+                        </transition>
+                    </router-view>
                 </div>
             </main>
         </div>
@@ -170,6 +186,3 @@ onMounted(() => {
     }
 });
 </script>
-
-
-

@@ -1,50 +1,50 @@
 <template>
-    <div class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100">
-        <h2 class="text-lg font-semibold text-gray-900">Treatment Timeline</h2>
-        <p class="text-sm text-gray-500">Track treatment history and follow-up status.</p>
-        <div v-if="treatments.length === 0" class="mt-6 rounded-2xl border border-slate-100 bg-slate-50/80 p-5 text-sm text-gray-600">
+    <div class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+        <h2 class="text-lg font-semibold text-surface-900">Treatment Timeline</h2>
+        <p class="text-sm text-surface-500">Track treatment history and follow-up status.</p>
+        <div v-if="treatments.length === 0" class="mt-6 rounded-lg border border-surface-100 bg-surface-50/80 p-5 text-sm text-surface-600">
             No treatments recorded yet.
         </div>
         <div v-else class="mt-6 space-y-6">
             <div v-for="treatment in sortedTreatments" :key="treatment.id" class="relative flex gap-4">
-                <span class="absolute left-[10px] top-0 h-full w-px bg-slate-200" aria-hidden="true"></span>
-                <span class="relative z-10 mt-1 h-4 w-4 rounded-full border-2 border-slate-100 bg-blue-500"></span>
-                <div class="flex-1 rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
+                <span class="absolute left-[10px] top-0 h-full w-px bg-surface-200" aria-hidden="true"></span>
+                <span class="relative z-10 mt-1 h-4 w-4 rounded-full border-2 border-surface-100 bg-primary-500"></span>
+                <div class="flex-1 rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <div>
-                            <p class="text-sm font-semibold text-gray-900">{{ formatDate(treatment.treatment_date) }}</p>
-                            <p class="text-xs uppercase tracking-wide text-gray-500">
+                            <p class="text-sm font-semibold text-surface-900">{{ formatDate(treatment.treatment_date) }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">
                                 {{ treatment.status ?? 'Status N/A' }}
                             </p>
                         </div>
-                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <div class="flex items-center gap-2 text-xs text-surface-500">
                             <Icon icon="mdi:account-heart-outline" :size="14" />
                             {{ treatment.vet?.first_name ? `${treatment.vet.first_name} ${treatment.vet.last_name}` : 'Vet not assigned' }}
                         </div>
                     </div>
-                    <div class="mt-3 space-y-2 text-sm text-gray-700">
-                        <div v-if="treatment.diagnosis" class="font-medium text-gray-900">Diagnosis: {{ treatment.diagnosis }}</div>
-                        <div v-if="treatment.reason" class="text-xs text-gray-500">Reason: {{ treatment.reason }}</div>
-                        <div class="text-xs text-gray-500">
+                    <div class="mt-3 space-y-2 text-sm text-surface-700">
+                        <div v-if="treatment.diagnosis" class="font-medium text-surface-900">Diagnosis: {{ treatment.diagnosis }}</div>
+                        <div v-if="treatment.reason" class="text-xs text-surface-500">Reason: {{ treatment.reason }}</div>
+                        <div class="text-xs text-surface-500">
                             Cow:
                             <router-link
                                 v-if="cowRoute(treatment)"
                                 :to="cowRoute(treatment)"
-                                class="font-medium text-blue-600 hover:text-blue-700"
+                                class="font-medium text-primary-600 hover:text-primary-700"
                             >
                                 {{ cowDisplayName(treatment) }}
                             </router-link>
-                            <span v-else class="font-medium text-gray-900">{{ cowDisplayName(treatment) }}</span>
+                            <span v-else class="font-medium text-surface-900">{{ cowDisplayName(treatment) }}</span>
                         </div>
                         <div v-if="treatment.medication">
-                            <span class="font-medium text-gray-900">Medication:</span>
+                            <span class="font-medium text-surface-900">Medication:</span>
                             {{ treatment.medication }}
                             <span v-if="treatment.dosage">• {{ treatment.dosage }} {{ treatment.dosage_unit ?? '' }}</span>
-                            <span v-if="treatment.route" class="text-xs text-gray-500"> ({{ treatment.route }})</span>
+                            <span v-if="treatment.route" class="text-xs text-surface-500"> ({{ treatment.route }})</span>
                         </div>
                         <div v-if="treatment.notes">{{ treatment.notes }}</div>
                     </div>
-                    <div class="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                    <div class="mt-3 flex flex-wrap items-center gap-3 text-xs text-surface-500">
                         <div class="flex items-center gap-1">
                             <Icon icon="mdi:calendar-clock" :size="14" />
                             Follow-up: {{ formatDate(treatment.follow_up_date) }}

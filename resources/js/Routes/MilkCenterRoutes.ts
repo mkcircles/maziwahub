@@ -6,12 +6,12 @@ const milkCenterRoutes: RouteRecordRaw[] = [
     {
         path: '/milk-collection-centers',
         name: 'milk-collection-centers',
-        component: () => MilkCollectionCentersView,
+        component: MilkCollectionCentersView,
     },
     {
         path: '/milk-collection-centers/:id',
         name: 'milk-collection-center-detail',
-        component: () => MilkCollectionCenterDetailView,
+        component: MilkCollectionCenterDetailView,
     },
 ];
 

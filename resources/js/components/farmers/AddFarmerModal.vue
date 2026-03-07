@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-gray-500/65 transition-opacity" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-surface-500/65 transition-opacity" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -33,16 +33,16 @@
                             class="inline-block w-full max-w-3xl transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">Register New Farmer</h2>
-                                        <p class="text-sm text-gray-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">Register New Farmer</h2>
+                                        <p class="text-sm text-surface-500">
                                             Capture the farmer’s personal details and link them to a milk collection center.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -52,7 +52,7 @@
                                 <div class="grid gap-6 px-6">
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 First Name <span class="text-red-500">*</span>
                                             </label>
                                             <input
@@ -60,11 +60,11 @@
                                                 type="text"
                                                 required
                                                 placeholder="Enter first name"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Last Name <span class="text-red-500">*</span>
                                             </label>
                                             <input
@@ -72,27 +72,27 @@
                                                 type="text"
                                                 required
                                                 placeholder="Enter last name"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Phone Number
                                             </label>
                                             <input
                                                 v-model="form.phone_number"
                                                 type="tel"
                                                 placeholder="Enter phone number"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Gender
                                             </label>
                                             <select
                                                 v-model="form.gender"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select gender</option>
                                                 <option value="male">Male</option>
@@ -101,12 +101,12 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Status
                                             </label>
                                             <select
                                                 v-model="form.status"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="pending">Pending</option>
                                                 <option value="active">Active</option>
@@ -114,12 +114,12 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Registration Type
                                             </label>
                                             <select
                                                 v-model="form.reg_type"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select type</option>
                                                 <option value="individual">Individual</option>
@@ -128,12 +128,12 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Milk Collection Center
                                             </label>
                                             <select
                                                 v-model.number="form.milk_collection_center_id"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select center</option>
                                                 <option
@@ -154,56 +154,56 @@
 
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Land Ownership
                                             </label>
                                             <input
                                                 v-model="form.land_ownership"
                                                 type="text"
                                                 placeholder="e.g. Owned, Leased"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Farming Type
                                             </label>
                                             <input
                                                 v-model="form.farming_type"
                                                 type="text"
                                                 placeholder="e.g. Mixed, Crop"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Crop Production
                                             </label>
                                             <input
                                                 v-model="form.crop_production"
                                                 type="text"
                                                 placeholder="Main crops"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Animal Production
                                             </label>
                                             <input
                                                 v-model="form.animal_production"
                                                 type="text"
                                                 placeholder="Livestock details"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Herd Size Range
                                             </label>
                                             <select
                                                 v-model="form.herd_size"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select range</option>
                                                 <option v-for="option in herdSizeOptions" :key="option" :value="option">
@@ -212,12 +212,12 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Grazing Type
                                             </label>
                                             <select
                                                 v-model="form.grazing_type"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select grazing type</option>
                                                 <option value="Rotational grazing">Rotational grazing</option>
@@ -231,14 +231,14 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Water Source
                                             </label>
                                             <input
                                                 v-model="form.water_source"
                                                 type="text"
                                                 placeholder="e.g. Borehole, River, Rainwater harvesting"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                     </div>
@@ -250,10 +250,10 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
+                                <div class="flex flex-col gap-2 border-t border-surface-100 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-white"
+                                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 hover:bg-white"
                                         @click="handleClose"
                                         :disabled="creating"
                                     >
@@ -261,7 +261,7 @@
                                     </button>
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="creating"
                                     >
                                         <Icon icon="mdi:content-save" :size="18" />

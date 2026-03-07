@@ -16,7 +16,7 @@
                 @keydown.esc.prevent="handleClose"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-slate-900/60"></div>
+                <div class="fixed inset-0 bg-primary-600/60"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -31,19 +31,19 @@
                     >
                         <div
                             v-if="isOpen"
-                            class="inline-block w-full max-w-3xl transform overflow-hidden rounded-3xl bg-white text-left align-bottom shadow-2xl transition-all sm:my-10 sm:align-middle"
+                            class="inline-block w-full max-w-3xl transform overflow-hidden rounded-md bg-white text-left align-bottom shadow-2xl transition-all sm:my-10 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-slate-100 px-6 py-5">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-5">
                                     <div class="space-y-1.5">
-                                        <h2 class="text-lg font-semibold text-slate-900">Record Feeding Update</h2>
-                                        <p class="text-sm text-slate-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">Record Feeding Update</h2>
+                                        <p class="text-sm text-surface-500">
                                             Log how this farmer is currently feeding their herd. Active records remain open until you end them.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -53,7 +53,7 @@
                                 <div class="space-y-6 px-6">
                                     <div class="grid gap-4 md:grid-cols-3">
                                         <div class="md:col-span-3 space-y-1.5">
-                                            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+                                            <p class="text-xs font-semibold uppercase tracking-[0.25em] text-surface-400">
                                                 Feeding Type <span class="text-red-500">*</span>
                                             </p>
                                             <div class="flex flex-wrap gap-2">
@@ -63,8 +63,8 @@
                                                     type="button"
                                                     class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold transition"
                                                     :class="form.feeding_type === option.value
-                                                        ? 'border-slate-900 bg-slate-900 text-white shadow-sm shadow-slate-400/40'
-                                                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900'"
+                                                        ? 'border-slate-900 bg-primary-600 text-white shadow-sm shadow-slate-400/40'
+                                                        : 'border-surface-200 bg-white text-surface-600 hover:bg-surface-100 hover:text-surface-900'"
                                                     @click="updateFeedingType(option.value)"
                                                 >
                                                     <Icon :icon="option.icon" :size="14" />
@@ -74,14 +74,14 @@
                                         </div>
 
                                         <div class="space-y-1 md:col-span-2" :class="{ 'opacity-50': isOtherType }">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Feeding Method
                                                 <span v-if="!isOtherType" class="text-red-500">*</span>
                                             </label>
                                             <select
                                                 v-model.number="form.feeding_method_id"
                                                 :disabled="isOtherType"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed"
                                             >
                                                 <option :value="null">Select method</option>
                                                 <option
@@ -99,18 +99,18 @@
                                         </div>
 
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Started At
                                             </label>
                                             <input
                                                 v-model="form.started_at"
                                                 type="datetime-local"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
 
                                         <div class="space-y-1">
-                                            <label class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 <input
                                                     v-model="form.is_ongoing"
                                                     type="checkbox"
@@ -118,63 +118,63 @@
                                                 />
                                                 Still ongoing
                                             </label>
-                                            <p class="text-[11px] text-slate-500">
+                                            <p class="text-[11px] text-surface-500">
                                                 Uncheck if this feeding arrangement has ended.
                                             </p>
                                         </div>
 
                                         <div class="space-y-1" :class="{ 'opacity-50': form.is_ongoing }">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Ended At
                                             </label>
                                             <input
                                                 v-model="form.ended_at"
                                                 type="datetime-local"
                                                 :disabled="form.is_ongoing"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed"
                                             />
                                         </div>
                                     </div>
 
                                     <div class="grid gap-4 md:grid-cols-2">
                                         <div class="space-y-1 md:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Feeding Notes
                                             </label>
                                             <textarea
                                                 v-model.trim="form.notes"
                                                 rows="3"
                                                 placeholder="Describe ration details, supplements, preparation, etc."
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             ></textarea>
                                         </div>
 
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Feeding Frequency (per day)
                                             </label>
                                             <input
                                                 v-model.trim="form.frequency"
                                                 type="text"
                                                 placeholder="e.g. Twice daily"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
 
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Supplements Used
                                             </label>
                         <input
                                                 v-model.trim="form.supplements"
                                                 type="text"
                                                 placeholder="e.g. Mineral lick, dairy meal"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
 
-                                        <div class="space-y-2 md:col-span-2 rounded-2xl border border-slate-200/70 bg-slate-50/80 p-4">
-                                            <label class="flex items-start gap-3 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <div class="space-y-2 md:col-span-2 rounded-lg border border-surface-200/70 bg-surface-50/80 p-4">
+                                            <label class="flex items-start gap-3 text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 <input
                                                     v-model="form.update_farmer_notes"
                                                     type="checkbox"
@@ -187,7 +187,7 @@
                                                 :disabled="!form.update_farmer_notes"
                                                 rows="2"
                                                 placeholder="Summary that appears on the farmer profile"
-                                                class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed"
                                             ></textarea>
                                         </div>
                                     </div>
@@ -197,10 +197,10 @@
                                     </div>
                                 </div>
 
-                                <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/70 px-6 py-4">
+                                <div class="flex items-center justify-between border-t border-surface-100 bg-surface-50/70 px-6 py-4">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-white px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
                                         @click="handleClose"
                                     >
                                         Cancel

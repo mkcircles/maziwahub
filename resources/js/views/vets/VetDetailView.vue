@@ -4,19 +4,19 @@
             <div class="flex items-center gap-3">
                 <router-link
                     to="/admin/vets"
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                 >
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to vets
                 </router-link>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-200">{{ vetName }}</h1>
-                    <p class="text-sm text-gray-500">License {{ vet?.license_number ?? 'N/A' }}</p>
+                    <h1 class="text-2xl font-bold text-surface-200">{{ vetName }}</h1>
+                    <p class="text-sm text-surface-500">License {{ vet?.license_number ?? 'N/A' }}</p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     @click="refresh"
                     :disabled="loading"
                 >
@@ -24,8 +24,8 @@
                     Refresh
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium transition"
-                    :class="vet?.is_active ? 'border border-gray-200 bg-gray-300 text-gray-700 hover:bg-gray-400' : 'bg-emerald-600 text-white hover:bg-emerald-700'"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium transition"
+                    :class="vet?.is_active ? 'border border-surface-200 bg-surface-300 text-surface-700 hover:bg-surface-400' : 'bg-emerald-600 text-white hover:bg-emerald-700'"
                     @click="toggleActive"
                     :disabled="loading"
                 >
@@ -35,9 +35,9 @@
             </div>
         </div>
 
-        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-gray-600 shadow">Loading vet details...</div>
+        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Loading vet details...</div>
         <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">{{ error }}</div>
-        <div v-else-if="!vet" class="rounded-lg bg-white p-8 text-center text-gray-600 shadow">Vet not found.</div>
+        <div v-else-if="!vet" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Vet not found.</div>
         <template v-else>
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <StatisticalCard icon="mdi:check-circle" icon-class="text-emerald-500">
@@ -55,7 +55,7 @@
                     <template #default>{{ treatments.length }}</template>
                     <template #caption>Total records captured</template>
                 </StatisticalCard>
-                <StatisticalCard icon="mdi:currency-usd" icon-class="text-blue-500">
+                <StatisticalCard icon="mdi:currency-usd" icon-class="text-primary-500">
                     <template #title>Treatment Spend</template>
                     <template #default>{{ formatCurrency(totalTreatmentCost) }}</template>
                     <template #caption>Across all entries</template>
@@ -64,46 +64,46 @@
 
             <section class="grid gap-6 lg:grid-cols-3">
                 <div class="space-y-4 rounded-lg bg-white p-6 shadow lg:col-span-2">
-                    <h2 class="text-lg font-semibold text-gray-900">Profile</h2>
+                    <h2 class="text-lg font-semibold text-surface-900">Profile</h2>
                     <dl class="grid gap-4 sm:grid-cols-2">
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Full Name</dt>
-                            <dd class="text-sm font-medium text-gray-900">{{ vetName }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Full Name</dt>
+                            <dd class="text-sm font-medium text-surface-900">{{ vetName }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">License Number</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.license_number }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">License Number</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.license_number }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Phone</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.phone_number ?? '—' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Phone</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.phone_number ?? '—' }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Email</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.email ?? '—' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Email</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.email ?? '—' }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Specialization</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.specialization ?? '—' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Specialization</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.specialization ?? '—' }}</dd>
                         </div>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Employer</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.employer ?? '—' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Employer</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.employer ?? '—' }}</dd>
                         </div>
                         <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Assigned Milk Collection Center</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.milkCollectionCenter?.name ?? 'Not assigned' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Assigned Milk Collection Center</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.milkCollectionCenter?.name ?? 'Not assigned' }}</dd>
                         </div>
                         <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-gray-500">Bio</dt>
-                            <dd class="text-sm text-gray-700">{{ vet.bio?.trim() || 'No bio provided.' }}</dd>
+                            <dt class="text-xs uppercase tracking-wide text-surface-500">Bio</dt>
+                            <dd class="text-sm text-surface-700">{{ vet.bio?.trim() || 'No bio provided.' }}</dd>
                         </div>
                     </dl>
                 </div>
 
                 <div class="space-y-4 rounded-lg bg-white p-6 shadow">
-                    <h2 class="text-lg font-semibold text-gray-900">Quick Stats</h2>
-                    <ul class="space-y-3 text-sm text-gray-700">
+                    <h2 class="text-lg font-semibold text-surface-900">Quick Stats</h2>
+                    <ul class="space-y-3 text-sm text-surface-700">
                         <li class="flex items-center justify-between">
                             <span>Recent Activity</span>
                             <span>{{ formatDate(treatments[0]?.treatment_date) }}</span>
@@ -127,15 +127,15 @@
             <section class="space-y-4 rounded-lg bg-white p-6 shadow">
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h2 class="text-lg font-semibold text-gray-900">Treatment History</h2>
-                        <p class="text-sm text-gray-500">Recent treatment records attributed to this vet.</p>
+                        <h2 class="text-lg font-semibold text-surface-900">Treatment History</h2>
+                        <p class="text-sm text-surface-500">Recent treatment records attributed to this vet.</p>
                     </div>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <table class="min-w-full divide-y divide-surface-200">
+                        <thead class="bg-surface-50">
+                            <tr class="text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
                                 <th class="px-6 py-3">Date</th>
                                 <th class="px-6 py-3">Cow</th>
                                 <th class="px-6 py-3">Diagnosis</th>
@@ -145,25 +145,25 @@
                                 <th class="px-6 py-3">Recorded By</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
+                        <tbody class="divide-y divide-surface-200 text-sm text-surface-700">
                             <tr v-if="treatments.length === 0">
-                                <td colspan="7" class="px-6 py-6 text-center text-sm text-gray-500">No treatment history found.</td>
+                                <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">No treatment history found.</td>
                             </tr>
-                            <tr v-for="record in treatments" :key="record.id" class="hover:bg-gray-50">
+                            <tr v-for="record in treatments" :key="record.id" class="hover:bg-surface-50">
                                 <td class="px-6 py-4">{{ formatDate(record.treatment_date) }}</td>
                                 <td class="px-6 py-4">
                                     <router-link
                                         v-if="record.cow_id"
                                         :to="`/admin/cows/${record.cow_id}`"
-                                        class="text-sm font-semibold text-blue-600 hover:text-blue-700"
+                                        class="text-sm font-semibold text-primary-600 hover:text-primary-700"
                                     >
                                         Cow #{{ record.cow_id }}
                                     </router-link>
                                     <span v-else>—</span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">{{ record.diagnosis ?? '—' }}</div>
-                                    <div class="text-xs text-gray-500">{{ record.reason ?? '' }}</div>
+                                    <div class="font-medium text-surface-900">{{ record.diagnosis ?? '—' }}</div>
+                                    <div class="text-xs text-surface-500">{{ record.reason ?? '' }}</div>
                                 </td>
                                 <td class="px-6 py-4">{{ record.medication ?? '—' }}</td>
                                 <td class="px-6 py-4">{{ record.outcome ?? '—' }}</td>

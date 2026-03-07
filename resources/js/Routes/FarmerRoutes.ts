@@ -6,12 +6,12 @@ const farmerRoutes: RouteRecordRaw[] = [
     {
         path: '/farmers',
         name: 'farmers',
-        component: () => FarmersView,
+        component: FarmersView,
     },
     {
         path: '/farmers/:id',
         name: 'farmer-detail',
-        component: () => FarmerDetailView,
+        component: FarmerDetailView,
     },
 ];
 

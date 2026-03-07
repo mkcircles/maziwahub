@@ -2,21 +2,21 @@
     <div class="space-y-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Milk Collection Centers</h1>
-                <p class="text-sm text-gray-500">
+                <h1 class="text-2xl font-bold text-surface-900">Milk Collection Centers</h1>
+                <p class="text-sm text-surface-500">
                     Monitor registered centers, infrastructure, and geographical footprint.
                 </p>
             </div>
             <div class="flex items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700"
                     @click="openCreateModal"
                 >
                     <Icon icon="mdi:plus" :size="18" />
                     Add Center
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-4 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     @click="refresh"
                     :disabled="loading"
                 >
@@ -32,7 +32,7 @@
                 <template #default>{{ loading ? '•••' : centers.length }}</template>
                 <template #caption>Registered milk collection facilities</template>
             </StatisticalCard>
-            <StatisticalCard icon="mdi:grid" icon-class="text-blue-600">
+            <StatisticalCard icon="mdi:grid" icon-class="text-primary-600">
                 <template #title>Average Cooler Capacity</template>
                 <template #default>{{ loading ? '•••' : averageCapacity }}</template>
                 <template #caption>Daily cooling potential in liters</template>
@@ -52,24 +52,24 @@
         <div class="rounded-lg bg-white p-6 shadow space-y-4">
             <div class="grid gap-4 md:grid-cols-3">
                 <div>
-                    <label class="text-sm font-medium text-gray-700" for="mcc-search">Search</label>
+                    <label class="text-sm font-medium text-surface-700" for="mcc-search">Search</label>
                     <div class="relative mt-1">
                         <input
                             id="mcc-search"
                             v-model="searchTerm"
                             type="search"
                             placeholder="Search by name or registration number"
-                            class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                            class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                         />
-                        <Icon icon="mdi:magnify" :size="18" class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <Icon icon="mdi:magnify" :size="18" class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-surface-400" />
                     </div>
                 </div>
                 <div>
-                    <label class="text-sm font-medium text-gray-700" for="mcc-power">Power Source</label>
+                    <label class="text-sm font-medium text-surface-700" for="mcc-power">Power Source</label>
                     <select
                         id="mcc-power"
                         v-model="powerFilter"
-                        class="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     >
                         <option value="">Any</option>
                         <option value="grid">Grid</option>
@@ -78,11 +78,11 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-sm font-medium text-gray-700" for="mcc-testing">Testing Equipment</label>
+                    <label class="text-sm font-medium text-surface-700" for="mcc-testing">Testing Equipment</label>
                     <select
                         id="mcc-testing"
                         v-model="testingFilter"
-                        class="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     >
                         <option value="">Any</option>
                         <option value="true">Available</option>
@@ -92,7 +92,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-4 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     @click="clearFilters"
                     :disabled="loading"
                 >
@@ -107,9 +107,9 @@
 
         <div class="rounded-lg bg-white shadow">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <table class="min-w-full divide-y divide-surface-200">
+                    <thead class="bg-surface-50">
+                        <tr class="text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
                             <th class="px-6 py-3">Center</th>
                             <th class="px-6 py-3">Location</th>
                             <th class="px-6 py-3">Capacity (L)</th>
@@ -118,25 +118,25 @@
                             <th class="px-6 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
-                        <tr v-if="loading" class="hover:bg-gray-50">
-                            <td colspan="6" class="px-6 py-6 text-center text-sm text-gray-500">
+                    <tbody class="divide-y divide-surface-200 text-sm text-surface-700">
+                        <tr v-if="loading" class="hover:bg-surface-50">
+                            <td colspan="6" class="px-6 py-6 text-center text-sm text-surface-500">
                                 Loading milk collection centers...
                             </td>
                         </tr>
-                        <tr v-else-if="filteredCenters.length === 0" class="hover:bg-gray-50">
-                            <td colspan="6" class="px-6 py-6 text-center text-sm text-gray-500">
+                        <tr v-else-if="filteredCenters.length === 0" class="hover:bg-surface-50">
+                            <td colspan="6" class="px-6 py-6 text-center text-sm text-surface-500">
                                 No milk collection centers match the selected filters.
                             </td>
                         </tr>
-                        <tr v-for="center in filteredCenters" :key="center.id" class="hover:bg-gray-50">
+                        <tr v-for="center in filteredCenters" :key="center.id" class="hover:bg-surface-50">
                             <td class="px-6 py-4">
-                                <div class="text-sm font-semibold text-gray-900">{{ center.name }}</div>
-                                <div class="text-xs uppercase tracking-wide text-gray-400">
+                                <div class="text-sm font-semibold text-surface-900">{{ center.name }}</div>
+                                <div class="text-xs uppercase tracking-wide text-surface-400">
                                     {{ center.registration_number ?? 'Unregistered' }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-xs text-gray-500">
+                            <td class="px-6 py-4 text-xs text-surface-500">
                                 {{ formatLocation(center) }}
                             </td>
                             <td class="px-6 py-4">
@@ -155,7 +155,7 @@
                                     </span>
                                     <span
                                         v-if="center.has_washing_bay"
-                                        class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-[11px] font-medium text-blue-700"
+                                        class="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2 py-1 text-[11px] font-medium text-primary-700"
                                     >
                                         <Icon icon="mdi:water" :size="12" /> Washing
                                     </span>
@@ -164,7 +164,7 @@
                             <td class="px-6 py-4 text-right">
                                 <router-link
                                     :to="`/admin/milk-collection-centers/${center.id}`"
-                                    class="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+                                    class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
                                 >
                                     View
                                     <Icon icon="mdi:chevron-right" :size="16" />

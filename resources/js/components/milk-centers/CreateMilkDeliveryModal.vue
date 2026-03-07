@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-gray-800/60" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-surface-800/60" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -33,16 +33,16 @@
                             class="inline-block w-full max-w-2xl transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">Record Milk Delivery</h2>
-                                        <p class="text-sm text-gray-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">Record Milk Delivery</h2>
+                                        <p class="text-sm text-surface-500">
                                             Capture a new delivery for this milk collection center.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -52,10 +52,10 @@
                                 <div class="space-y-6 px-6">
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Select Farmer <span class="text-red-500">*</span>
                                             </label>
-                                            <div v-if="loadingFarmers" class="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-400">
+                                            <div v-if="loadingFarmers" class="rounded-lg border border-surface-200 px-3 py-2 text-sm text-surface-400">
                                                 Loading farmers...
                                             </div>
                                             <div v-else-if="!farmers.length" class="text-sm text-red-500">
@@ -65,7 +65,7 @@
                                                 v-else
                                                 v-model.number="form.farmer_id"
                                                 required
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="" disabled>Choose a farmer</option>
                                                 <option v-for="farmer in farmers" :key="farmer.id" :value="farmer.id">
@@ -74,18 +74,18 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Delivery Date <span class="text-red-500">*</span>
                                             </label>
                                             <input
                                                 v-model="form.delivery_date"
                                                 type="date"
                                                 required
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Volume (Liters) <span class="text-red-500">*</span>
                                             </label>
                                             <input
@@ -95,11 +95,11 @@
                                                 step="0.01"
                                                 required
                                                 placeholder="Total volume in liters"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Price per Liter (Optional)
                                             </label>
                                             <input
@@ -108,40 +108,40 @@
                                                 min="0"
                                                 step="0.01"
                                                 placeholder="Unit price"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Quality Grade
                                             </label>
                                             <input
                                                 v-model.trim="form.quality_grade"
                                                 type="text"
                                                 placeholder="e.g. A, B, C"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Recorded By
                                             </label>
                                             <input
                                                 v-model.trim="form.recorded_by"
                                                 type="text"
                                                 placeholder="Staff member"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Notes
                                             </label>
                                             <textarea
                                                 v-model.trim="form.notes"
                                                 rows="3"
                                                 placeholder="Additional remarks"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             ></textarea>
                                         </div>
                                     </div>
@@ -153,10 +153,10 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
+                                <div class="flex flex-col gap-2 border-t border-surface-100 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                                         @click="handleClose"
                                         :disabled="submitting"
                                     >
@@ -164,7 +164,7 @@
                                     </button>
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="submitting"
                                     >
                                         <Icon icon="mdi:bucket" :size="18" />

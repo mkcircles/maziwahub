@@ -10,7 +10,7 @@
         >
             <div
                 v-if="isOpen"
-                class="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-900/40 px-4 py-8 backdrop-blur"
+                class="fixed inset-0 z-[10000] flex items-center justify-center bg-primary-600/40 px-4 py-8 backdrop-blur"
                 role="dialog"
                 aria-modal="true"
                 @click.self="handleClose"
@@ -25,19 +25,19 @@
                 >
                     <div
                         v-if="isOpen"
-                        class="w-full max-w-lg overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-xl"
+                        class="w-full max-w-lg overflow-hidden rounded-md border border-surface-200 bg-white text-surface-900 shadow-xl"
                     >
                         <form @submit.prevent="handleSubmit" class="flex flex-col">
-                            <header class="flex items-start justify-between gap-3 border-b border-slate-200 px-6 py-5">
+                            <header class="flex items-start justify-between gap-3 border-b border-surface-200 px-6 py-5">
                                 <div>
-                                    <h2 class="text-lg font-semibold text-slate-900">Invite partner member</h2>
-                                    <p class="mt-1 text-sm text-slate-500">
+                                    <h2 class="text-lg font-semibold text-surface-900">Invite partner member</h2>
+                                    <p class="mt-1 text-sm text-surface-500">
                                         Send an invitation email to add an administrator or an agent to your partner team.
                                     </p>
                                 </div>
                                 <button
                                     type="button"
-                                    class="rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                                    class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600"
                                     @click="handleClose"
                                 >
                                     <Icon icon="mdi:close" :size="20" />
@@ -46,7 +46,7 @@
 
                             <section class="space-y-5 px-6 py-6">
                                 <div class="space-y-1">
-                                    <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                         Email <span class="text-rose-500">*</span>
                                     </label>
                                     <input
@@ -54,80 +54,80 @@
                                         type="email"
                                         required
                                         placeholder="team.member@example.com"
-                                        class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                        class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                     />
                                 </div>
 
                                 <div class="space-y-1">
-                                    <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                         Full name
                                     </label>
                                     <input
                                         v-model.trim="form.name"
                                         type="text"
                                         placeholder="Optional — helps personalise the invite"
-                                        class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                        class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                     />
                                 </div>
 
                                 <div class="grid gap-4 sm:grid-cols-2">
                                     <div class="space-y-1">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Role <span class="text-rose-500">*</span>
                                         </label>
                                         <select
                                             v-model="form.role"
-                                            class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         >
                                             <option value="partner_admin">Partner admin</option>
                                             <option value="partner_agent">Partner agent</option>
                                         </select>
-                                        <p class="text-xs text-slate-400">
+                                        <p class="text-xs text-surface-400">
                                             Admins can manage centers & invitations. Agents record field activity.
                                         </p>
                                     </div>
 
                                     <div class="space-y-1">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Expires
                                         </label>
                                         <input
                                             v-model="form.expires_at"
                                             type="date"
-                                            class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                            class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                         />
                                     </div>
                                 </div>
 
                                 <div class="space-y-1">
-                                    <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                         Notes
                                     </label>
                                     <textarea
                                         v-model.trim="form.notes"
                                         rows="3"
                                         placeholder="Any extra context you'd like to share with the invitee."
-                                        class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                                        class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                     ></textarea>
                                 </div>
 
-                                <p class="rounded-xl bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                                <p class="rounded-md bg-surface-50 px-3 py-2 text-xs text-surface-500">
                                     Invitational links are single-use. Once accepted, the member receives a login and appears in
                                     your partner workspace immediately.
                                 </p>
 
-                                <div v-if="errorMessage" class="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                                <div v-if="errorMessage" class="rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
                                     {{ errorMessage }}
                                 </div>
-                                <div v-if="successMessage" class="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+                                <div v-if="successMessage" class="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
                                     {{ successMessage }}
                                 </div>
                             </section>
 
-                            <footer class="flex flex-col gap-2 border-t border-slate-200 bg-slate-50 px-6 py-4 sm:flex-row sm:justify-end">
+                            <footer class="flex flex-col gap-2 border-t border-surface-200 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                 <button
                                     type="button"
-                                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-white hover:text-slate-800"
+                                    class="inline-flex items-center gap-2 rounded-md border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-white hover:text-surface-800"
                                     :disabled="submitting"
                                     @click="handleClose"
                                 >
@@ -135,7 +135,7 @@
                                 </button>
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+                                    class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
                                     :disabled="submitting || !partnerId"
                                 >
                                     <Icon icon="mdi:email-send-outline" :size="18" />

@@ -2,12 +2,12 @@
     <div class="space-y-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-300">Veterinary Network</h1>
-                <p class="text-sm text-gray-500">Manage registered vets and track their engagement across milk collection centers.</p>
+                <h1 class="text-2xl font-bold text-surface-300">Veterinary Network</h1>
+                <p class="text-sm text-surface-500">Manage registered vets and track their engagement across milk collection centers.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     :disabled="loading"
                     @click="refresh"
                 >
@@ -15,7 +15,7 @@
                     Refresh
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                     @click="openCreateModal"
                 >
                     <Icon icon="mdi:account-plus" :size="18" />
@@ -24,11 +24,11 @@
             </div>
         </div>
 
-        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-gray-600 shadow">Loading vets...</div>
+        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Loading vets...</div>
         <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">{{ error }}</div>
         <div v-else>
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <StatisticalCard icon="mdi:stethoscope" icon-class="text-blue-600">
+                <StatisticalCard icon="mdi:stethoscope" icon-class="text-primary-600">
                     <template #title>Total Vets</template>
                     <template #default>{{ pagination.total }}</template>
                     <template #caption>Registered across the platform</template>
@@ -54,17 +54,17 @@
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-center">
                         <div class="flex-1">
-                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Search</label>
-                            <div class="mt-1 flex rounded-lg border border-gray-200">
+                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Search</label>
+                            <div class="mt-1 flex rounded-lg border border-surface-200">
                                 <input
                                     v-model="searchTerm"
                                     type="search"
                                     placeholder="Search by name or license number"
-                                    class="flex-1 rounded-l-lg border-none text-gray-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                    class="flex-1 rounded-l-lg border-none text-surface-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-200"
                                     @keyup.enter="applyFilters"
                                 />
                                 <button
-                                    class="rounded-r-lg border-l border-gray-200 bg-gray-50 px-3 text-sm font-medium text-gray-600 hover:bg-gray-100"
+                                    class="rounded-r-lg border-l border-surface-200 bg-surface-50 px-3 text-sm font-medium text-surface-600 hover:bg-surface-100"
                                     @click="applyFilters"
                                 >
                                     Search
@@ -72,16 +72,16 @@
                             </div>
                         </div>
                         <div>
-                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">Status</label>
+                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">Status</label>
                             <div class="mt-1 flex items-center gap-2">
-                                <input id="active-only" type="checkbox" v-model="activeOnly" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-                                <label for="active-only" class="text-sm text-gray-700">Active vets only</label>
+                                <input id="active-only" type="checkbox" v-model="activeOnly" class="h-4 w-4 rounded border-surface-300 text-primary-600 focus:ring-primary-500" />
+                                <label for="active-only" class="text-sm text-surface-700">Active vets only</label>
                             </div>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
                         <button
-                            class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50"
                             @click="resetFilters"
                         >
                             <Icon icon="mdi:filter-off" :size="16" />
@@ -91,9 +91,9 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    <table class="min-w-full divide-y divide-surface-200">
+                        <thead class="bg-surface-50">
+                            <tr class="text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
                                 <th class="px-6 py-3">Name</th>
                                 <th class="px-6 py-3">License</th>
                                 <th class="px-6 py-3">Contacts</th>
@@ -103,29 +103,29 @@
                                 <th class="px-6 py-3 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
+                        <tbody class="divide-y divide-surface-200 text-sm text-surface-700">
                             <tr v-if="vets.length === 0">
-                                <td colspan="7" class="px-6 py-6 text-center text-sm text-gray-500">No vets found for the current filters.</td>
+                                <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">No vets found for the current filters.</td>
                             </tr>
-                            <tr v-for="vet in vets" :key="vet.id" class="hover:bg-gray-50">
+                            <tr v-for="vet in vets" :key="vet.id" class="hover:bg-surface-50">
                                 <td class="px-6 py-4">
-                                    <div class="font-semibold text-gray-900">{{ vet.first_name }} {{ vet.last_name }}</div>
-                                    <div class="text-xs text-gray-500">Joined {{ formatDate(vet.created_at) }}</div>
+                                    <div class="font-semibold text-surface-900">{{ vet.first_name }} {{ vet.last_name }}</div>
+                                    <div class="text-xs text-surface-500">Joined {{ formatDate(vet.created_at) }}</div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-900">{{ vet.license_number }}</div>
-                                    <div class="text-xs text-gray-500">Expiry: {{ formatDate(vet.license_expiry_date) }}</div>
+                                    <div class="font-medium text-surface-900">{{ vet.license_number }}</div>
+                                    <div class="text-xs text-surface-500">Expiry: {{ formatDate(vet.license_expiry_date) }}</div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div>{{ vet.phone_number ?? '—' }}</div>
-                                    <div class="text-xs text-gray-500">{{ vet.email ?? '—' }}</div>
+                                    <div class="text-xs text-surface-500">{{ vet.email ?? '—' }}</div>
                                 </td>
                                 <!-- <td class="px-6 py-4">{{ vet.specialization ?? '—' }}</td>
                                 <td class="px-6 py-4">{{ vet.milkCollectionCenter?.name ?? 'Unassigned' }}</td> -->
                                 <td class="px-6 py-4">
                                     <span
                                         class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                                        :class="vet.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-200 text-gray-600'"
+                                        :class="vet.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-200 text-surface-600'"
                                     >
                                         <Icon :icon="vet.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'" :size="14" />
                                         {{ vet.is_active ? 'Active' : 'Inactive' }}
@@ -135,13 +135,13 @@
                                     <div class="flex justify-end gap-2">
                                         <router-link
                                             :to="`/admin/vets/${vet.id}`"
-                                            class="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                            class="inline-flex items-center gap-1 rounded-lg border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-700 hover:bg-surface-50"
                                         >
                                             <Icon icon="mdi:eye-outline" :size="14" />
                                             View
                                         </router-link>
                                         <button
-                                            class="inline-flex items-center gap-1 rounded-lg border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                                            class="inline-flex items-center gap-1 rounded-lg border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-700 hover:bg-surface-50"
                                             @click="toggleActive(vet)"
                                             :disabled="updating && vet.id === updatingVetId"
                                         >
@@ -155,20 +155,20 @@
                     </table>
                 </div>
 
-                <div v-if="pagination.last_page > 1" class="flex items-center justify-between border-t border-gray-100 pt-4 text-sm text-gray-600">
+                <div v-if="pagination.last_page > 1" class="flex items-center justify-between border-t border-surface-100 pt-4 text-sm text-surface-600">
                     <div>
                         Showing page {{ pagination.current_page }} of {{ pagination.last_page }} • {{ pagination.total }} total
                     </div>
                     <div class="flex items-center gap-2">
                         <button
-                            class="rounded-lg border border-gray-200 px-3 py-1 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                            class="rounded-lg border border-surface-200 px-3 py-1 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
                             @click="changePage(pagination.current_page - 1)"
                             :disabled="pagination.current_page <= 1"
                         >
                             Previous
                         </button>
                         <button
-                            class="rounded-lg border border-gray-200 px-3 py-1 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                            class="rounded-lg border border-surface-200 px-3 py-1 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
                             @click="changePage(pagination.current_page + 1)"
                             :disabled="pagination.current_page >= pagination.last_page"
                         >

@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-10 pb-16">
         <div
-            class="relative overflow-hidden rounded-3xl bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
+            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
         >
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -62,17 +62,17 @@
             </div>
         </div>
 
-        <div class="rounded-2xl border border-slate-100 bg-white/90 p-2 shadow-lg shadow-slate-100">
+        <div class="rounded-lg border border-surface-100 bg-white/90 p-2 shadow-sm border border-surface-200">
             <div class="flex flex-wrap gap-2">
                 <button
                     v-for="tab in tabs"
                     :key="tab.id"
                     type="button"
-                    class="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                    class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
                     :class="[
                         activeTab === tab.id
-                            ? 'bg-slate-900 text-white shadow-lg shadow-slate-400/40'
-                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                            ? 'bg-primary-600 text-white shadow-lg shadow-slate-400/40'
+                            : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900',
                     ]"
                     @click="selectTab(tab.id)"
                 >
@@ -81,10 +81,10 @@
             </div>
         </div>
 
-        <div v-if="detailLoading" class="rounded-3xl border border-slate-200 bg-white p-8 text-slate-600 shadow-lg shadow-slate-100">
+        <div v-if="detailLoading" class="rounded-md border border-surface-200 bg-white p-8 text-surface-600 shadow-sm border border-surface-200">
             Loading farmer details…
         </div>
-        <div v-else-if="detailError" class="rounded-3xl border border-red-200 bg-red-50/80 p-6 text-red-700 shadow-lg shadow-red-100">
+        <div v-else-if="detailError" class="rounded-md border border-red-200 bg-red-50/80 p-6 text-red-700 shadow-lg shadow-red-100">
             {{ detailError }}
         </div>
 
@@ -94,7 +94,7 @@
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
                 <!-- <button
                         type="button"
-                        class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:cursor-not-allowed disabled:opacity-50"
                         @click="openEditModal"
                         :disabled="detailLoading || !farmer"
                     >
@@ -106,7 +106,7 @@
                 <StatisticalCard
                         icon="mdi:cow"
                         icon-class="text-rose-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                     <template #title>Herd Size</template>
                     <template #default>{{ farmer.herd_size ?? '-' }}</template>
@@ -116,7 +116,7 @@
                 <StatisticalCard
                         icon="mdi:nature"
                         icon-class="text-lime-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                     <template #title>Farm Size</template>
                     <template #default>{{ farmer.farm_size ?? 0 }} acres</template>
@@ -124,8 +124,8 @@
                 </StatisticalCard>
                 <StatisticalCard
                         icon="mdi:account-outline"
-                        icon-class="text-sky-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        icon-class="text-primary-600"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                     <template #title>Household Members</template>
                     <template #default>{{ farmer.family_size ?? '—' }}</template>
@@ -135,7 +135,7 @@
                 <StatisticalCard
                         icon="mdi:human-male-female-child"
                         icon-class="text-emerald-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                     <template #title>Adults</template>
                     <template #default>{{ farmer.above_18 ?? 0 }}</template>
@@ -145,7 +145,7 @@
                 <StatisticalCard
                         icon="mdi:baby-face-outline"
                         icon-class="text-amber-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                     <template #title>Children</template>
                     <template #default>{{ farmer.below_5 ?? 0 }}</template>
@@ -156,135 +156,135 @@
             </div>
 
                 <div class="grid gap-6 lg:grid-cols-2">
-                <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100 space-y-4">
-                    <h2 class="text-lg font-semibold text-slate-900">Personal Information</h2>
-                    <div class="grid gap-4 sm:grid-cols-2 text-slate-700">
+                <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                    <h2 class="text-lg font-semibold text-surface-900">Personal Information</h2>
+                    <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">First Name</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.first_name }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">First Name</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.first_name }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Last Name</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.last_name }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Last Name</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.last_name }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Gender</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.gender ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Gender</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.gender ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Date of Birth</p>
-                            <p class="text-sm font-medium text-slate-900">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Date of Birth</p>
+                            <p class="text-sm font-medium text-surface-900">
                                 {{ formatDate(farmer.dob) }}
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Phone Number</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.phone_number ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Phone Number</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.phone_number ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">National ID</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.id_number ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">National ID</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.id_number ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Marital Status</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.marital_status ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Marital Status</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.marital_status ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Education Level</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.educational_level ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Education Level</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.educational_level ?? '—' }}</p>
                         </div>
                     </div>
                 </section>
 
-                <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100 space-y-4">
-                    <h2 class="text-lg font-semibold text-slate-900">Household &amp; Next of Kin</h2>
-                    <div class="grid gap-4 sm:grid-cols-2 text-slate-700">
+                <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                    <h2 class="text-lg font-semibold text-surface-900">Household &amp; Next of Kin</h2>
+                    <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Household Head</p>
-                            <p class="text-sm font-medium text-slate-900">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Household Head</p>
+                            <p class="text-sm font-medium text-surface-900">
                                 {{ farmer.household_head ? 'Yes' : 'No' }}
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Registered By</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.registered_by ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Registered By</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.registered_by ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Next of Kin</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.next_of_kin ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Next of Kin Contact</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.next_of_kin_contact ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin Contact</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_contact ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Relationship</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.next_of_kin_relationship ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Relationship</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_relationship ?? '—' }}</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-500">Financial Instrument</p>
-                            <p class="text-sm font-medium text-slate-900">{{ farmer.financial_instrument ?? '—' }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Financial Instrument</p>
+                            <p class="text-sm font-medium text-surface-900">{{ farmer.financial_instrument ?? '—' }}</p>
                         </div>
                         
                     </div>
                 </section>
             </div>
 
-            <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100 space-y-4">
-                <h2 class="text-lg font-semibold text-slate-900">Milk Collection &amp; Location</h2>
-                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-slate-700">
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Milk Collection Center</h3>
-                        <p class="mt-2 text-sm font-medium text-slate-900">
+            <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                <h2 class="text-lg font-semibold text-surface-900">Milk Collection &amp; Location</h2>
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-surface-700">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Milk Collection Center</h3>
+                        <p class="mt-2 text-sm font-medium text-surface-900">
                             {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
                         </p>
-                        <p v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-slate-500">
+                        <p v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-surface-500">
                             {{ farmer.milkCollectionCenter?.physical_address }}
                         </p>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Location Trail</h3>
-                        <p class="mt-2 text-sm text-slate-900">{{ formatFarmerLocation(farmer) }}</p>
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Location Trail</h3>
+                        <p class="mt-2 text-sm text-surface-900">{{ formatFarmerLocation(farmer) }}</p>
                     </div>
-                    <div v-if="farmer.coordinates" class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Coordinates</h3>
-                        <p class="mt-2 text-sm text-slate-900">
+                    <div v-if="farmer.coordinates" class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Coordinates</h3>
+                        <p class="mt-2 text-sm text-surface-900">
                             Lat: {{ farmer.coordinates?.latitude ?? '—' }}<br />
                             Lng: {{ farmer.coordinates?.longitude ?? '—' }}
                         </p>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Herd Size Range</h3>
-                        <p class="mt-2 text-sm font-medium text-slate-900">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Herd Size Range</h3>
+                        <p class="mt-2 text-sm font-medium text-surface-900">
                             {{ farmer.herd_size ?? 'Not specified' }}
                         </p>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Grazing Type</h3>
-                        <p class="mt-2 text-sm font-medium text-slate-900">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Grazing Type</h3>
+                        <p class="mt-2 text-sm font-medium text-surface-900">
                             {{ farmer.grazing_type ?? 'Not specified' }}
                         </p>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Water Source</h3>
-                        <p class="mt-2 text-sm font-medium text-slate-900">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Water Source</h3>
+                        <p class="mt-2 text-sm font-medium text-surface-900">
                             {{ farmer.water_source ?? 'Not specified' }}
                         </p>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Primary Feeding</h3>
-                                <p class="mt-2 text-sm font-semibold text-slate-900">
+                                <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary Feeding</h3>
+                                <p class="mt-2 text-sm font-semibold text-surface-900">
                                     {{ primaryFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
-                                <p class="text-xs text-slate-500">
+                                <p class="text-xs text-surface-500">
                                     {{ feedingLastChangedAt ? `Updated ${formatDateTime(feedingLastChangedAt)}` : 'No recent updates recorded' }}
                                 </p>
                             </div>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                                class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
                                 @click="activeTab = 'feeding'"
                             >
                                 Manage
@@ -292,20 +292,20 @@
                             </button>
                         </div>
                     </div>
-                    <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm">
+                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Supplemental Feeding</h3>
-                                <p class="mt-2 text-sm font-semibold text-slate-900">
+                                <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Supplemental Feeding</h3>
+                                <p class="mt-2 text-sm font-semibold text-surface-900">
                                     {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
-                                <p class="text-xs text-slate-500">
+                                <p class="text-xs text-surface-500">
                                     {{ supplementalFeedingMethod ? 'Supplemental feeding in place' : 'No supplemental feeding recorded' }}
                                 </p>
                             </div>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-3 py-1 text-[11px] font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                                class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
                                 @click="activeTab = 'feeding'"
                             >
                                 View
@@ -313,18 +313,18 @@
                             </button>
                         </div>
                     </div>
-                    <div v-if="feedingNotes" class="rounded-2xl border border-slate-100 bg-slate-50/80 p-5 shadow-sm sm:col-span-2">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-500">Feeding Notes</h3>
-                        <p class="mt-2 text-sm text-slate-700 whitespace-pre-line">
+                    <div v-if="feedingNotes" class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm sm:col-span-2">
+                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes</h3>
+                        <p class="mt-2 text-sm text-surface-700 whitespace-pre-line">
                             {{ feedingNotes }}
                         </p>
                     </div>
                 </div>
             </section>
 
-            <section v-if="farmer.support_needed" class="rounded-2xl border border-slate-100 bg-white p-6 shadow-lg shadow-slate-100 space-y-4">
-                <h2 class="text-lg font-semibold text-slate-900">Support Needed</h2>
-                <p class="text-sm text-slate-700">
+            <section v-if="farmer.support_needed" class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                <h2 class="text-lg font-semibold text-surface-900">Support Needed</h2>
+                <p class="text-sm text-surface-700">
                     {{ farmer.support_needed }}
                 </p>
             </section>
@@ -332,14 +332,14 @@
 
             <div v-else-if="activeTab === 'feeding'" class="space-y-6">
                 <div class="grid gap-4 lg:grid-cols-3">
-                    <div class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur space-y-3">
+                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Primary Feeding</p>
-                                <p class="mt-2 text-base font-semibold text-slate-900">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary Feeding</p>
+                                <p class="mt-2 text-base font-semibold text-surface-900">
                                     {{ primaryFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
-                                <p class="text-xs text-slate-500">
+                                <p class="text-xs text-surface-500">
                                     {{ feedingLastChangedAt ? `Updated ${formatDateTime(feedingLastChangedAt)}` : 'No updates recorded' }}
                                 </p>
                             </div>
@@ -353,25 +353,25 @@
                                 Record
                             </button>
                         </div>
-                        <p v-if="primaryFeedingMethod?.description" class="text-sm text-slate-600">
+                        <p v-if="primaryFeedingMethod?.description" class="text-sm text-surface-600">
                             {{ primaryFeedingMethod.description }}
                         </p>
                     </div>
 
-                    <div class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur space-y-3">
+                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Supplemental Feeding</p>
-                                <p class="mt-2 text-base font-semibold text-slate-900">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Supplemental Feeding</p>
+                                <p class="mt-2 text-base font-semibold text-surface-900">
                                     {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
-                                <p class="text-xs text-slate-500">
+                                <p class="text-xs text-surface-500">
                                     {{ supplementalFeedingMethod ? 'Supplemental feeding in use' : 'No supplemental schedule' }}
                                 </p>
                             </div>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full bg-sky-600 px-3 py-1 text-xs font-semibold text-white transition hover:bg-sky-700 disabled:opacity-60"
+                                class="inline-flex items-center gap-2 rounded-full bg-primary-700 px-3 py-1 text-xs font-semibold text-white transition hover:bg-sky-700 disabled:opacity-60"
                                 @click="openFeedingModal('supplemental')"
                                 :disabled="detailLoading"
                             >
@@ -379,22 +379,22 @@
                                 Record
                             </button>
                         </div>
-                        <p v-if="supplementalFeedingMethod?.description" class="text-sm text-slate-600">
+                        <p v-if="supplementalFeedingMethod?.description" class="text-sm text-surface-600">
                             {{ supplementalFeedingMethod.description }}
                         </p>
                     </div>
 
-                    <div class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur space-y-3">
+                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Feeding Notes</p>
-                                <p class="mt-2 text-sm text-slate-700 whitespace-pre-line">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes</p>
+                                <p class="mt-2 text-sm text-surface-700 whitespace-pre-line">
                                     {{ feedingNotes || 'No notes recorded yet.' }}
                                 </p>
                             </div>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 disabled:opacity-60"
+                                class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:opacity-60"
                                 @click="openFeedingModal()"
                                 :disabled="detailLoading"
                             >
@@ -405,11 +405,11 @@
                     </div>
                 </div>
 
-                <div class="rounded-2xl border border-slate-100 bg-white/95 p-6 shadow-lg shadow-slate-100 backdrop-blur space-y-6">
+                <div class="rounded-lg border border-surface-100 bg-white/95 p-6 shadow-sm border border-surface-200 backdrop-blur space-y-6">
                     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-slate-900">Feeding Timeline</h2>
-                            <p class="text-sm text-slate-500">
+                            <h2 class="text-lg font-semibold text-surface-900">Feeding Timeline</h2>
+                            <p class="text-sm text-surface-500">
                                 Track updates to the farmer’s feeding practices over time.
                             </p>
                         </div>
@@ -420,8 +420,8 @@
                                 type="button"
                                 class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition"
                                 :class="isFeedingFilterActive(option.value)
-                                    ? 'border-slate-900 bg-slate-900 text-white shadow-sm shadow-slate-400/40'
-                                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900'"
+                                    ? 'border-slate-900 bg-primary-600 text-white shadow-sm shadow-slate-400/40'
+                                    : 'border-surface-200 bg-white text-surface-600 hover:bg-surface-100 hover:text-surface-900'"
                                 @click="changeFeedingFilter(option.value)"
                             >
                                 {{ option.label }}
@@ -442,7 +442,7 @@
                         {{ feedingMethodsError }}
                     </div>
 
-                    <div v-if="feedingHistoryLoading" class="rounded-md border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                    <div v-if="feedingHistoryLoading" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                         Loading feeding history…
                     </div>
                     <div v-else-if="feedingHistoryError" class="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-600 flex items-center justify-between gap-4">
@@ -457,21 +457,21 @@
                         </button>
                     </div>
                     <div v-else>
-                        <div v-if="!feedingHistory.length" class="rounded-md border border-slate-200 border-dashed bg-slate-50 p-6 text-sm text-slate-500 text-center">
+                        <div v-if="!feedingHistory.length" class="rounded-md border border-surface-200 border-dashed bg-surface-50 p-6 text-sm text-surface-500 text-center">
                             No feeding history recorded yet. Start by recording a feeding update.
                         </div>
                         <div v-else class="space-y-4">
                             <div
                                 v-for="entry in feedingHistory"
                                 :key="entry.id"
-                                class="relative overflow-hidden rounded-2xl border border-slate-100 bg-white/90 p-5 shadow-md shadow-slate-100"
+                                class="relative overflow-hidden rounded-lg border border-surface-100 bg-white/90 p-5 shadow-md shadow-slate-100"
                             >
                                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
-                                        <p class="text-sm font-semibold text-slate-900">
+                                        <p class="text-sm font-semibold text-surface-900">
                                             {{ feedingMethodName(entry) }}
                                         </p>
-                                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                                        <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">
                                             {{ feedingTypeLabel(entry.feeding_type) }}
                                         </p>
                                     </div>
@@ -479,28 +479,28 @@
                                         class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
                                         :class="isActiveFeedingEntry(entry)
                                             ? 'border border-emerald-200 bg-emerald-50 text-emerald-600'
-                                            : 'border border-slate-200 bg-slate-50 text-slate-500'"
+                                            : 'border border-surface-200 bg-surface-50 text-surface-500'"
                                     >
                                         <Icon :icon="isActiveFeedingEntry(entry) ? 'mdi:leaf' : 'mdi:calendar-check'" :size="14" />
                                         {{ isActiveFeedingEntry(entry) ? 'Active' : `Ended ${formatDate(entry.ended_at)}` }}
                                     </span>
                                 </div>
-                                <div class="mt-3 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+                                <div class="mt-3 grid gap-3 text-sm text-surface-600 sm:grid-cols-2">
                                     <div class="flex items-center gap-2">
-                                        <Icon icon="mdi:calendar-start" :size="16" class="text-slate-400" />
+                                        <Icon icon="mdi:calendar-start" :size="16" class="text-surface-400" />
                                         <span>Started {{ formatDate(entry.started_at) }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        <Icon icon="mdi:calendar-end" :size="16" class="text-slate-400" />
+                                        <Icon icon="mdi:calendar-end" :size="16" class="text-surface-400" />
                                         <span>{{ entry.ended_at ? `Ended ${formatDate(entry.ended_at)}` : 'Ongoing' }}</span>
                                     </div>
                                     <div v-if="entry.recordedBy" class="flex items-center gap-2 sm:col-span-2">
-                                        <Icon icon="mdi:account-outline" :size="16" class="text-slate-400" />
+                                        <Icon icon="mdi:account-outline" :size="16" class="text-surface-400" />
                                         <span>Recorded by {{ entry.recordedBy.name }}</span>
                                     </div>
                                     <div v-if="entry.notes" class="sm:col-span-2">
-                                        <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Notes</p>
-                                        <p class="mt-1 text-sm text-slate-700 whitespace-pre-line">
+                                        <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">Notes</p>
+                                        <p class="mt-1 text-sm text-surface-700 whitespace-pre-line">
                                             {{ entry.notes }}
                                         </p>
                                     </div>
@@ -511,18 +511,18 @@
 
                     <div
                         v-if="feedingHistoryPagination.last_page > 1"
-                        class="flex flex-col gap-3 border-t border-slate-200 pt-4 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between"
+                        class="flex flex-col gap-3 border-t border-surface-200 pt-4 text-sm text-surface-600 sm:flex-row sm:items-center sm:justify-between"
                     >
                         <p>
                             Page
-                            <span class="font-semibold text-slate-800">{{ feedingHistoryPagination.current_page }}</span>
+                            <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.current_page }}</span>
                             of
-                            <span class="font-semibold text-slate-800">{{ feedingHistoryPagination.last_page }}</span>
+                            <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.last_page }}</span>
                         </p>
                         <div class="flex items-center gap-2">
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-sm font-medium text-surface-600 hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                                 :disabled="feedingHistoryPagination.current_page <= 1 || feedingHistoryLoading"
                                 @click="changeFeedingPage(feedingHistoryPagination.current_page - 1)"
                             >
@@ -531,7 +531,7 @@
                             </button>
                             <button
                                 type="button"
-                                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-sm font-medium text-surface-600 hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                                 :disabled="feedingHistoryPagination.current_page >= feedingHistoryPagination.last_page || feedingHistoryLoading"
                                 @click="changeFeedingPage(feedingHistoryPagination.current_page + 1)"
                             >
@@ -546,14 +546,14 @@
             <div v-else-if="activeTab === 'cows'" class="space-y-4">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-900">Registered Cows</h2>
-                        <p class="text-sm text-slate-500">
+                        <h2 class="text-lg font-semibold text-surface-900">Registered Cows</h2>
+                        <p class="text-sm text-surface-500">
                             Manage the herd associated with this farmer.
                         </p>
                     </div>
                     <button
                         type="button"
-                        class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:cursor-not-allowed disabled:opacity-50"
                         @click="openAddCowModal"
                         :disabled="detailLoading"
                     >
@@ -571,8 +571,8 @@
             <div v-else-if="activeTab === 'milk'" class="space-y-4">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-900">Milk Production Records</h2>
-                        <p class="text-sm text-slate-500">
+                        <h2 class="text-lg font-semibold text-surface-900">Milk Production Records</h2>
+                        <p class="text-sm text-surface-500">
                             Daily production entries for cows owned by this farmer.
                         </p>
                     </div>
@@ -598,8 +598,8 @@
                 <div class="grid gap-4 sm:grid-cols-3">
                     <StatisticalCard
                         icon="mdi:bucket-outline"
-                        icon-class="text-sky-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        icon-class="text-primary-600"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                         <template #title>Total Volume</template>
                         <template #default>{{ formatLiters(milkDeliverySummary.totalVolume) }}</template>
@@ -608,7 +608,7 @@
                     <StatisticalCard
                         icon="mdi:currency-usd"
                         icon-class="text-emerald-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                         <template #title>Total Value</template>
                         <template #default>{{ formatCurrency(milkDeliverySummary.totalAmount) }}</template>
@@ -617,7 +617,7 @@
                     <StatisticalCard
                         icon="mdi:counter"
                         icon-class="text-amber-500"
-                        class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
                     >
                         <template #title>Average Volume</template>
                         <template #default>{{ formatLiters(milkDeliverySummary.averageVolume) }}</template>
@@ -978,8 +978,8 @@ const changeFeedingPage = async (page: number) => {
 const statusChipClass = (status?: string | null) => {
     if (status === 'active') return 'bg-green-100 text-green-700';
     if (status === 'pending') return 'bg-yellow-100 text-yellow-700';
-    if (status === 'inactive') return 'bg-gray-100 text-gray-600';
-    return 'bg-gray-100 text-gray-600';
+    if (status === 'inactive') return 'bg-surface-100 text-surface-600';
+    return 'bg-surface-100 text-surface-600';
 };
 
 const statusChipIcon = (status?: string | null) => {

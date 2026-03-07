@@ -1,6 +1,6 @@
 <template>
     <div
-        class="relative overflow-hidden rounded-3xl border border-slate-100 bg-gradient-to-br from-white/95 via-white/90 to-slate-50/80 p-6 shadow-lg shadow-slate-100 backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-200"
+        class="relative overflow-hidden rounded-md border border-surface-100 bg-gradient-to-br from-white/95 via-white/90 to-slate-50/80 p-6 shadow-sm border border-surface-200 backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-200"
     >
         <div class="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-sky-300/30 blur-3xl"></div>
         <div class="pointer-events-none absolute bottom-[-20px] left-[-30px] h-32 w-32 rounded-full bg-emerald-200/25 blur-3xl"></div>
@@ -8,20 +8,20 @@
 
         <div class="relative flex items-start justify-between gap-4">
             <div class="flex items-start gap-3">
-                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-sky-600 shadow-inner shadow-sky-200">
+                <span class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-primary-700 shadow-inner shadow-sky-200">
                     <Icon icon="mdi:storefront-outline" :size="22" />
                 </span>
                 <div class="space-y-1">
-                    <h3 class="text-base font-semibold text-slate-900">
+                    <h3 class="text-base font-semibold text-surface-900">
                         <router-link
                             :to="`/admin/milk-collection-centers/${center.id}`"
-                            class="inline-flex text-sm items-center gap-1 text-slate-900 transition-colors duration-200 hover:text-sky-600"
+                            class="inline-flex text-sm items-center gap-1 text-surface-900 transition-colors duration-200 hover:text-primary-700"
                         >
                             {{ center.name }}
-                            <Icon icon="mdi:open-in-new" :size="14" class="text-sky-500" />
+                            <Icon icon="mdi:open-in-new" :size="14" class="text-primary-600" />
                         </router-link>
                     </h3>
-                    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-slate-400">
+                    <p class="text-[11px] font-medium uppercase tracking-[0.2em] text-surface-400">
                         {{ registrationLabel }}
                     </p>
                 </div>
@@ -33,28 +33,28 @@
         </div>
 
         <div v-if="!props.minified" class="relative mt-6 space-y-4 text-sm">
-            <div class="flex items-start gap-3 rounded-2xl bg-slate-50/70 p-3 text-slate-600">
-                <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+            <div class="flex items-start gap-3 rounded-lg bg-surface-50/70 p-3 text-surface-600">
+                <span class="flex h-8 w-8 items-center justify-center rounded-md bg-surface-100 text-surface-500">
                     <Icon icon="mdi:map-marker-outline" :size="18" />
                 </span>
                 <div class="space-y-1">
-                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">
                         Physical Address
                     </p>
-                    <p class="text-sm font-medium text-slate-700">
+                    <p class="text-sm font-medium text-surface-700">
                         {{ center.physical_address }}
                     </p>
                 </div>
             </div>
-            <div class="flex items-start gap-3 rounded-2xl border border-dashed border-slate-200/70 bg-white/70 p-3 text-slate-500 shadow-sm">
-                <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+            <div class="flex items-start gap-3 rounded-lg border border-dashed border-surface-200/70 bg-white/70 p-3 text-surface-500 shadow-sm">
+                <span class="flex h-8 w-8 items-center justify-center rounded-md bg-surface-100 text-surface-500">
                     <Icon icon="mdi:map-search-outline" :size="18" />
                 </span>
                 <div class="space-y-1">
-                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">
                         Location Trail
                     </p>
-                    <p class="text-sm font-medium text-slate-600">
+                    <p class="text-sm font-medium text-surface-600">
                         {{ displayLocation }}
                     </p>
                 </div>
@@ -62,13 +62,13 @@
 
             <div
                 v-if="managerDetails.length"
-                class="grid gap-3 rounded-2xl border border-slate-100 bg-white/80 p-4 shadow-inner shadow-slate-100 sm:grid-cols-2"
+                class="grid gap-3 rounded-lg border border-surface-100 bg-white/80 p-4 shadow-inner shadow-slate-100 sm:grid-cols-2"
             >
                 <div v-for="detail in managerDetails" :key="detail.label" class="space-y-1">
-                    <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">
                         {{ detail.label }}
                     </p>
-                    <p class="text-sm font-medium text-slate-700">
+                    <p class="text-sm font-medium text-surface-700">
                         {{ detail.value }}
                     </p>
                 </div>
@@ -91,11 +91,11 @@
             <div
                 v-for="highlight in facilityHighlights"
                 :key="highlight.label"
-                class="inline-flex items-center gap-2 rounded-2xl border border-slate-100 bg-white/80 px-3 py-1 text-xs font-medium text-slate-600 shadow-inner shadow-slate-100"
+                class="inline-flex items-center gap-2 rounded-lg border border-surface-100 bg-white/80 px-3 py-1 text-xs font-medium text-surface-600 shadow-inner shadow-slate-100"
             >
-                <Icon :icon="highlight.icon" :size="14" class="text-slate-400" />
-                <span class="uppercase tracking-wide text-[10px] text-slate-400">{{ highlight.label }}</span>
-                <span class="font-semibold text-slate-700">{{ highlight.value }}</span>
+                <Icon :icon="highlight.icon" :size="14" class="text-surface-400" />
+                <span class="uppercase tracking-wide text-[10px] text-surface-400">{{ highlight.label }}</span>
+                <span class="font-semibold text-surface-700">{{ highlight.value }}</span>
             </div>
         </div>
     </div>
@@ -201,14 +201,14 @@ const featureBadges = computed(() => {
             icon: 'mdi:flask-outline',
             class: props.center.has_testing_equipment
                 ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
-                : 'bg-slate-50 text-slate-500 border border-slate-100',
+                : 'bg-surface-50 text-surface-500 border border-surface-100',
         },
         {
             label: props.center.has_washing_bay ? 'Washing Bay' : 'No Washing Bay',
             icon: 'mdi:water-outline',
             class: props.center.has_washing_bay
-                ? 'bg-sky-50 text-sky-600 border border-sky-100'
-                : 'bg-slate-50 text-slate-500 border border-slate-100',
+                ? 'bg-sky-50 text-primary-700 border border-sky-100'
+                : 'bg-surface-50 text-surface-500 border border-surface-100',
         },
     ];
 

@@ -2,12 +2,12 @@
     <div class="space-y-6">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-300">Agents</h1>
-                <p class="text-sm text-gray-500">Manage registered agents and their assignments.</p>
+                <h1 class="text-2xl font-bold text-surface-300">Agents</h1>
+                <p class="text-sm text-surface-500">Manage registered agents and their assignments.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     :disabled="loading"
                     @click="fetchAgents"
                 >
@@ -15,7 +15,7 @@
                     Refresh
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                     @click="openCreateModal"
                 >
                     <Icon icon="mdi:account-plus" :size="18" />

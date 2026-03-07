@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-10">
         <section
-            class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white"
+            class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white"
         >
             <div class="absolute inset-0 opacity-60">
                 <div class="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top,rgba(76,201,240,0.35),transparent_65%)]"></div>
@@ -34,7 +34,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="grid w-full max-w-sm gap-3 rounded-3xl border border-white/10 bg-white/5 p-6 text-sm">
+                <div class="grid w-full max-w-sm gap-3 rounded-md border border-white/10 bg-white/5 p-6 text-sm">
                     <div class="flex items-center justify-between text-white/80">
                         <span>Pending claims</span>
                         <span class="text-base font-semibold text-white">{{ pendingClaimsCount }}</span>
@@ -45,7 +45,7 @@
                     </div>
                     <router-link
                         to="/partner/milk-centers"
-                        class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                        class="mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
                     >
                         Manage centers
                         <Icon icon="mdi:arrow-right" :size="16" />
@@ -55,7 +55,7 @@
         </section>
 
         <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <StatisticalCard icon="mdi:storefront-outline" icon-class="text-sky-500">
+            <StatisticalCard icon="mdi:storefront-outline" icon-class="text-primary-600">
                 <template #title>Milk Centers</template>
                 <template #default>{{ milkCentersCount }}</template>
                 <template #caption>Active facilities under your partner</template>
@@ -65,7 +65,7 @@
                 <template #default>{{ formattedTodayLiters }}</template>
                 <template #caption>Liters delivered across all centers</template>
             </StatisticalCard>
-            <StatisticalCard icon="mdi:account-group-outline" icon-class="text-indigo-500">
+            <StatisticalCard icon="mdi:account-group-outline" icon-class="text-primary-500">
                 <template #title>Farmers</template>
                 <template #default>{{ totalFarmers }}</template>
                 <template #caption>Farmers linked to your centers</template>
@@ -77,70 +77,70 @@
             </StatisticalCard>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">
+                    <h3 class="text-lg font-semibold text-surface-900">
                         Daily Milk Deliveries
                     </h3>
-                    <p class="text-sm text-slate-500">
+                    <p class="text-sm text-surface-500">
                         Performance across the past {{ SUMMARY_DAYS }} days. Use this to spot production dips early.
                     </p>
                 </div>
                 <router-link
                     to="/partner/milk-centers"
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                 >
                     <Icon icon="mdi:storefront-outline" :size="18" />
                     Go to centers
                 </router-link>
             </div>
 
-            <div class="mt-6 rounded-2xl border border-slate-200/70 bg-white p-6">
+            <div class="mt-6 rounded-lg border border-surface-200/70 bg-white p-6">
                 <DailyDeliveriesBarChart
                     v-if="!summaryLoading && !summaryError && dailySummary.length"
                     :summary="dailySummary"
                 />
                 <div
                     v-else-if="summaryLoading || initializing"
-                    class="flex h-72 items-center justify-center rounded-xl bg-slate-100 text-sm text-slate-500"
+                    class="flex h-72 items-center justify-center rounded-md bg-surface-100 text-sm text-surface-500"
                 >
                     Loading delivery trend…
                 </div>
                 <div
                     v-else-if="summaryError"
-                    class="rounded-xl border border-rose-200 bg-rose-50/80 p-6 text-sm text-rose-700"
+                    class="rounded-md border border-rose-200 bg-rose-50/80 p-6 text-sm text-rose-700"
                 >
                     {{ summaryError }}
                 </div>
                 <div
                     v-else
-                    class="flex h-72 items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/80 text-sm text-slate-500"
+                    class="flex h-72 items-center justify-center rounded-md border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
                 >
                     No milk delivery data yet. Encourage MCC teams to start recording!
                 </div>
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">
+                    <h3 class="text-lg font-semibold text-surface-900">
                         Collection Center Output (Today)
                     </h3>
-                    <p class="text-sm text-slate-500">
+                    <p class="text-sm text-surface-500">
                         Real-time overview of each center’s contributions and on-ground contacts.
                     </p>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-slate-500">
+                <div class="flex items-center gap-2 text-sm text-surface-500">
                     <Icon icon="mdi:calendar-today" :size="18" />
                     {{ todayHuman }}
                 </div>
             </div>
 
-            <div v-if="centers.length" class="mt-6 overflow-hidden rounded-2xl border border-slate-200/70">
+            <div v-if="centers.length" class="mt-6 overflow-hidden rounded-lg border border-surface-200/70">
                 <table class="min-w-full divide-y divide-slate-200 text-sm">
-                    <thead class="bg-slate-50 text-xs text-slate-500">
+                    <thead class="bg-surface-50 text-xs text-surface-500">
                         <tr class="text-left uppercase tracking-wide">
                             <th class="px-6 py-3 font-semibold">Center</th>
                             <th class="px-6 py-3 font-semibold">Location</th>
@@ -151,41 +151,41 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">
-                        <tr v-for="center in centers" :key="center.id" class="hover:bg-slate-50/60">
+                        <tr v-for="center in centers" :key="center.id" class="hover:bg-surface-50/60">
                             <td class="px-6 py-4 align-top">
-                                <div class="font-semibold text-slate-900">{{ center.name }}</div>
-                                <div class="mt-1 text-xs text-slate-500">
+                                <div class="font-semibold text-surface-900">{{ center.name }}</div>
+                                <div class="mt-1 text-xs text-surface-500">
                                     {{ center.physical_address }}
                                 </div>
-                                <div class="mt-2 flex flex-wrap gap-1 text-[11px] uppercase tracking-wide text-slate-400">
-                                    <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-slate-100 px-2 py-0.5">
+                                <div class="mt-2 flex flex-wrap gap-1 text-[11px] uppercase tracking-wide text-surface-400">
+                                    <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-surface-100 px-2 py-0.5">
                                         {{ chip }}
                                     </span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-slate-600">
+                            <td class="px-6 py-4 align-top text-surface-600">
                                 <div class="flex items-center gap-2">
-                                    <Icon icon="mdi:map-marker-radius" :size="18" class="text-sky-500" />
+                                    <Icon icon="mdi:map-marker-radius" :size="18" class="text-primary-600" />
                                     <span>{{ center.area?.district ?? center.area?.region ?? '—' }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-right font-semibold text-slate-900">
-                                <span v-if="isCenterLoading(center.id)" class="text-xs font-normal text-slate-500">
+                            <td class="px-6 py-4 align-top text-right font-semibold text-surface-900">
+                                <span v-if="isCenterLoading(center.id)" class="text-xs font-normal text-surface-500">
                                     Updating…
                                 </span>
                                 <span v-else>
                                     {{ formatLiters(centerTotalFor(center.id)) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 align-top text-right text-slate-600">
+                            <td class="px-6 py-4 align-top text-right text-surface-600">
                                 {{ center.farmers_count ?? '—' }}
                             </td>
-                            <td class="px-6 py-4 align-top text-right text-slate-600">
+                            <td class="px-6 py-4 align-top text-right text-surface-600">
                                 {{ center.pending_claims_count ?? 0 }}
                             </td>
                             <td class="px-6 py-4 align-top text-right">
                                 <router-link
-                                    class="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                                    class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                                     :to="{ name: 'partner-milk-centers', query: { focus: center.id } }"
                                 >
                                     Review
@@ -198,13 +198,13 @@
             </div>
             <div
                 v-else
-                class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-10 text-center text-sm text-slate-500"
+                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-center text-sm text-surface-500"
             >
                 No milk collection centers yet. Get started by registering one below.
                 <div class="mt-4">
                     <router-link
                         to="/partner/milk-centers"
-                        class="inline-flex items-center gap-2 rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-600"
+                        class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
                     >
                         <Icon icon="mdi:plus" :size="16" />
                         Add milk collection center
@@ -213,71 +213,71 @@
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">
+                    <h3 class="text-lg font-semibold text-surface-900">
                         Pending Claims & Invitations
                     </h3>
-                    <p class="text-sm text-slate-500">
+                    <p class="text-sm text-surface-500">
                         Track requests awaiting admin approval and team members who still need to join.
                     </p>
                 </div>
             </div>
 
             <div class="mt-6 grid gap-4 lg:grid-cols-2">
-                <div class="rounded-2xl border border-slate-200/80 bg-white p-6">
+                <div class="rounded-lg border border-surface-200/80 bg-white p-6">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-sm font-semibold text-slate-800">Milk center claims</h4>
-                        <span class="text-xs font-medium text-slate-500">{{ pendingClaimsCount }} open</span>
+                        <h4 class="text-sm font-semibold text-surface-800">Milk center claims</h4>
+                        <span class="text-xs font-medium text-surface-500">{{ pendingClaimsCount }} open</span>
                     </div>
                     <ul v-if="pendingClaimsCount" class="mt-4 space-y-3 text-sm">
                         <li
                             v-for="claim in pendingClaims"
                             :key="claim.id"
-                            class="rounded-xl border border-slate-200/80 bg-slate-50/70 px-4 py-3 leading-relaxed text-slate-600"
+                            class="rounded-md border border-surface-200/80 bg-surface-50/70 px-4 py-3 leading-relaxed text-surface-600"
                         >
-                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
                                 <span>Center #{{ claim.milk_collection_center_id }}</span>
                                 <span>{{ formatDate(claim.created_at) }}</span>
                             </div>
-                            <p class="mt-2 font-semibold text-slate-900">
+                            <p class="mt-2 font-semibold text-surface-900">
                                 {{ claim.milk_collection_center?.name ?? 'Awaiting assignment' }}
                             </p>
-                            <p v-if="claim.message" class="mt-1 text-xs text-slate-500">
+                            <p v-if="claim.message" class="mt-1 text-xs text-surface-500">
                                 “{{ claim.message }}”
                             </p>
                         </li>
                     </ul>
-                    <p v-else class="mt-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-3 text-sm text-slate-500">
+                    <p v-else class="mt-4 rounded-md border border-dashed border-surface-200 bg-surface-50/60 px-4 py-3 text-sm text-surface-500">
                         No pending claims. You’re all caught up!
                     </p>
                 </div>
 
-                <div class="rounded-2xl border border-slate-200/80 bg-white p-6">
+                <div class="rounded-lg border border-surface-200/80 bg-white p-6">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-sm font-semibold text-slate-800">Open invitations</h4>
-                        <span class="text-xs font-medium text-slate-500">{{ pendingInvitationsCount }} pending</span>
+                        <h4 class="text-sm font-semibold text-surface-800">Open invitations</h4>
+                        <span class="text-xs font-medium text-surface-500">{{ pendingInvitationsCount }} pending</span>
                     </div>
                     <ul v-if="pendingInvitationsCount" class="mt-4 space-y-3 text-sm">
                         <li
                             v-for="invite in pendingInvitations"
                             :key="invite.id"
-                            class="rounded-xl border border-slate-200/80 bg-slate-50/70 px-4 py-3 leading-relaxed text-slate-600"
+                            class="rounded-md border border-surface-200/80 bg-surface-50/70 px-4 py-3 leading-relaxed text-surface-600"
                         >
-                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
                                 <span>{{ invite.email }}</span>
                                 <span>{{ formatDate(invite.created_at) }}</span>
                             </div>
-                            <p class="mt-1 text-sm font-semibold text-slate-900">
+                            <p class="mt-1 text-sm font-semibold text-surface-900">
                                 {{ invite.name || 'Invitation sent' }}
                             </p>
-                            <p class="text-xs text-slate-500 capitalize">
+                            <p class="text-xs text-surface-500 capitalize">
                                 {{ invite.role.replace('_', ' ') }}
                             </p>
                         </li>
                     </ul>
-                    <p v-else class="mt-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-4 py-3 text-sm text-slate-500">
+                    <p v-else class="mt-4 rounded-md border border-dashed border-surface-200 bg-surface-50/60 px-4 py-3 text-sm text-surface-500">
                         No open invitations. Invite teammates from the Milk Centers page.
                     </p>
                 </div>

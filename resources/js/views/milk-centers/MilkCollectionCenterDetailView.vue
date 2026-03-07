@@ -4,21 +4,21 @@
             <div class="flex items-center gap-3">
                 <router-link
                     to="/admin/milk-collection-centers"
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                 >
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to centers
                 </router-link>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-200">{{ center?.name ?? 'Milk Collection Center' }}</h1>
-                    <p class="text-sm text-gray-500">
+                    <h1 class="text-2xl font-bold text-surface-200">{{ center?.name ?? 'Milk Collection Center' }}</h1>
+                    <p class="text-sm text-surface-500">
                         {{ center?.registration_number ?? 'Unregistered center' }}
                     </p>
                 </div>
             </div>
             <div class="flex items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                     @click="openEditModal"
                     :disabled="loading || !center"
                 >
@@ -26,7 +26,7 @@
                     Edit
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                     @click="refresh"
                     :disabled="loading"
                 >
@@ -36,18 +36,18 @@
             </div>
         </div>
 
-        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-gray-600 shadow">
+        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">
             Loading center details...
         </div>
         <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
             {{ error }}
         </div>
-        <div v-else-if="!center" class="rounded-lg bg-white p-8 text-center text-gray-600 shadow">
+        <div v-else-if="!center" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">
             Milk collection center not found.
         </div>
 
         <template v-else>
-            <div class="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 bg-white/70 p-1">
+            <div class="flex flex-wrap items-center gap-2 rounded-lg border border-surface-200 bg-white/70 p-1">
                 <button
                     v-for="tab in tabs"
                     :key="tab.id"
@@ -55,8 +55,8 @@
                     class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition"
                     :class="[
                         activeTab === tab.id
-                            ? 'bg-blue-600 text-white shadow'
-                            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900',
+                            ? 'bg-primary-600 text-white shadow'
+                            : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900',
                     ]"
                     @click="selectTab(tab.id)"
                 >
@@ -71,7 +71,7 @@
                         <template #default>{{ formatNumber(center.cooler_capacity_liters) }} L</template>
                         <template #caption>Maximum storage per day</template>
                     </StatisticalCard>
-                    <StatisticalCard icon="mdi:account-group" icon-class="text-blue-600">
+                    <StatisticalCard icon="mdi:account-group" icon-class="text-primary-600">
                         <template #title>Registered Farmers</template>
                         <template #default>{{ farmersCount ?? '—' }}</template>
                         <template #caption>Farmers attached to this center</template>
@@ -90,39 +90,39 @@
 
                 <div class="grid gap-6 lg:grid-cols-2">
                     <section class="space-y-4 rounded-lg bg-white p-6 shadow">
-                        <h2 class="text-lg font-semibold text-gray-900">Facility Details</h2>
+                        <h2 class="text-lg font-semibold text-surface-900">Facility Details</h2>
                         <dl class="grid gap-4 sm:grid-cols-2">
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Name</dt>
-                                <dd class="text-sm font-medium text-gray-900">{{ center.name }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Name</dt>
+                                <dd class="text-sm font-medium text-surface-900">{{ center.name }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Registration #</dt>
-                                <dd class="text-sm text-gray-700">{{ center.registration_number ?? 'N/A' }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Registration #</dt>
+                                <dd class="text-sm text-surface-700">{{ center.registration_number ?? 'N/A' }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Manager</dt>
-                                <dd class="text-sm text-gray-700">{{ center.manager_name ?? 'Not assigned' }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Manager</dt>
+                                <dd class="text-sm text-surface-700">{{ center.manager_name ?? 'Not assigned' }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Manager Phone</dt>
-                                <dd class="text-sm text-gray-700">{{ center.manager_phone ?? 'Not provided' }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Manager Phone</dt>
+                                <dd class="text-sm text-surface-700">{{ center.manager_phone ?? 'Not provided' }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Established</dt>
-                                <dd class="text-sm text-gray-700">{{ formatDate(center.established_date) }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Established</dt>
+                                <dd class="text-sm text-surface-700">{{ formatDate(center.established_date) }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Staff Count</dt>
-                                <dd class="text-sm text-gray-700">{{ center.staff_count ?? '0' }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Staff Count</dt>
+                                <dd class="text-sm text-surface-700">{{ center.staff_count ?? '0' }}</dd>
                             </div>
                             <div class="sm:col-span-2">
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Address</dt>
-                                <dd class="text-sm text-gray-700">{{ center.physical_address }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Address</dt>
+                                <dd class="text-sm text-surface-700">{{ center.physical_address }}</dd>
                             </div>
                             <div class="sm:col-span-2">
-                                <dt class="text-xs uppercase tracking-wide text-gray-500">Location</dt>
-                                <dd class="text-sm text-gray-700">{{ formatLocation(center) }}</dd>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Location</dt>
+                                <dd class="text-sm text-surface-700">{{ formatLocation(center) }}</dd>
                             </div>
                         </dl>
                         <div class="flex flex-wrap gap-2">
@@ -134,7 +134,7 @@
                             </span>
                             <span
                                 v-if="center.has_washing_bay"
-                                class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-blue-700"
+                                class="inline-flex items-center gap-2 rounded-full bg-primary-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-700"
                             >
                                 <Icon icon="mdi:water" :size="14" /> Washing Bay
                             </span>
@@ -143,10 +143,10 @@
 
                     <section class="space-y-4 rounded-lg bg-white p-6 shadow">
                         <div class="flex items-center justify-between">
-                            <h2 class="text-lg font-semibold text-gray-900">Recent Deliveries</h2>
+                            <h2 class="text-lg font-semibold text-surface-900">Recent Deliveries</h2>
                             <div class="flex items-center gap-2">
                                 <button
-                                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                                     @click="fetchDeliveries"
                                     :disabled="deliveriesLoading"
                                 >
@@ -154,7 +154,7 @@
                                     Refresh
                                 </button>
                                 <button
-                                    class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                                     @click="openCreateDeliveryModal"
                                     :disabled="deliveriesLoading"
                                 >
@@ -163,24 +163,24 @@
                                 </button>
                             </div>
                         </div>
-                        <div v-if="deliveriesLoading" class="rounded-md border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
+                        <div v-if="deliveriesLoading" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                             Loading recent deliveries...
                         </div>
-                        <div v-else-if="recentDeliveries.length === 0" class="rounded-md border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600">
+                        <div v-else-if="recentDeliveries.length === 0" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                             No recent deliveries recorded.
                         </div>
-                        <ul v-else class="divide-y divide-gray-200">
+                        <ul v-else class="divide-y divide-surface-200">
                             <li v-for="delivery in recentDeliveries" :key="delivery.id" class="py-3">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <p class="text-sm font-semibold text-gray-900">
+                                        <p class="text-sm font-semibold text-surface-900">
                                             {{ formatDate(delivery.delivery_date) }} • {{ formatLiters(delivery.volume_liters) }} L
                                         </p>
-                                        <p class="text-xs text-gray-500">
+                                        <p class="text-xs text-surface-500">
                                             Farmer #{{ delivery.farmer_id }} • Grade {{ delivery.quality_grade ?? 'N/A' }}
                                         </p>
                                     </div>
-                                    <p class="text-sm font-medium text-gray-900">
+                                    <p class="text-sm font-medium text-surface-900">
                                         {{ formatCurrency(delivery.total_amount) }}
                                     </p>
                                 </div>
@@ -192,30 +192,30 @@
                 <section class="space-y-4 rounded-lg bg-white p-6 shadow">
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Staff &amp; Infrastructure</h2>
-                            <p class="text-sm text-gray-500">Overview of operational readiness.</p>
+                            <h2 class="text-lg font-semibold text-surface-900">Staff &amp; Infrastructure</h2>
+                            <p class="text-sm text-surface-500">Overview of operational readiness.</p>
                         </div>
                     </div>
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <div class="rounded-lg border border-gray-100 bg-gray-50 p-4">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Staff Count</p>
-                            <p class="text-sm font-semibold text-gray-900">{{ center.staff_count ?? '0' }}</p>
-                            <p class="text-xs text-gray-500">Team members on site</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Staff Count</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.staff_count ?? '0' }}</p>
+                            <p class="text-xs text-surface-500">Team members on site</p>
                         </div>
-                        <div class="rounded-lg border border-gray-100 bg-gray-50 p-4">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Testing Equipment</p>
-                            <p class="text-sm font-semibold text-gray-900">{{ center.has_testing_equipment ? 'Available' : 'Not available' }}</p>
-                            <p class="text-xs text-gray-500">On-site milk quality testing</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Testing Equipment</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.has_testing_equipment ? 'Available' : 'Not available' }}</p>
+                            <p class="text-xs text-surface-500">On-site milk quality testing</p>
                         </div>
-                        <div class="rounded-lg border border-gray-100 bg-gray-50 p-4">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Washing Bay</p>
-                            <p class="text-sm font-semibold text-gray-900">{{ center.has_washing_bay ? 'Available' : 'Not available' }}</p>
-                            <p class="text-xs text-gray-500">Cleaning infrastructure</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Washing Bay</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.has_washing_bay ? 'Available' : 'Not available' }}</p>
+                            <p class="text-xs text-surface-500">Cleaning infrastructure</p>
                         </div>
-                        <div class="rounded-lg border border-gray-100 bg-gray-50 p-4">
-                            <p class="text-xs uppercase tracking-wide text-gray-500">Power Source</p>
-                            <p class="text-sm font-semibold text-gray-900">{{ center.power_source ?? 'Not specified' }}</p>
-                            <p class="text-xs text-gray-500">Primary energy supply</p>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                            <p class="text-xs uppercase tracking-wide text-surface-500">Power Source</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.power_source ?? 'Not specified' }}</p>
+                            <p class="text-xs text-surface-500">Primary energy supply</p>
                         </div>
                     </div>
                 </section>
@@ -224,11 +224,11 @@
             <section v-else-if="activeTab === 'agents'" class="space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-lg font-semibold text-gray-100">Assigned Agents</h2>
-                        <p class="text-sm text-gray-500">Agents managing this collection center.</p>
+                        <h2 class="text-lg font-semibold text-surface-100">Assigned Agents</h2>
+                        <p class="text-sm text-surface-500">Agents managing this collection center.</p>
                     </div>
                     <button
-                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                         @click="openCreateAgentModal"
                         :disabled="loading"
                     >

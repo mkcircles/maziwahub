@@ -1,6 +1,6 @@
 <template>
     <div class="h-80 w-full mb-6 rounded-lg bg-white p-4 shadow">
-        <h3 class="mb-4 text-base font-semibold text-gray-900">Collection Volume Trend</h3>
+        <h3 class="mb-4 text-base font-semibold text-surface-900">Collection Volume Trend</h3>
         <div class="relative h-64 w-full">
             <canvas ref="canvasRef"></canvas>
         </div>

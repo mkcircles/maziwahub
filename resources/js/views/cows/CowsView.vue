@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-10 pb-16">
         <div
-            class="relative overflow-hidden rounded-xl bg-[#0F172A] px-3 py-5 text-white shadow-xl shadow-blue-900/30 sm:px-10"
+            class="relative overflow-hidden rounded-md bg-[#0F172A] px-3 py-5 text-white shadow-xl shadow-blue-900/30 sm:px-10"
         >
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -30,7 +30,7 @@
             <StatisticalCard
                 icon="mdi:cow"
                 icon-class="text-emerald-500"
-                class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
             >
                 <template #title>Total Cows</template>
                 <template #default>{{ loading ? '•••' : filteredCows.length }}</template>
@@ -38,8 +38,8 @@
             </StatisticalCard>
             <StatisticalCard
                 icon="mdi:bucket-outline"
-                icon-class="text-sky-500"
-                class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                icon-class="text-primary-600"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
             >
                 <template #title>Average Capacity</template>
                 <template #default>{{ loading ? '•••' : formatLiters(averageCapacity) }}</template>
@@ -48,7 +48,7 @@
             <StatisticalCard
                 icon="mdi:account-outline"
                 icon-class="text-purple-500"
-                class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
             >
                 <template #title>Unique Farmers</template>
                 <template #default>{{ loading ? '•••' : uniqueFarmers }}</template>
@@ -57,7 +57,7 @@
             <StatisticalCard
                 icon="mdi:leaf"
                 icon-class="text-emerald-500"
-                class="rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg shadow-slate-100 backdrop-blur"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
             >
                 <template #title>Lactating Cows</template>
                 <template #default>{{ loading ? '•••' : lactatingCows }}</template>
@@ -65,14 +65,14 @@
             </StatisticalCard>
         </div>
 
-        <div class="space-y-6 rounded-3xl border border-slate-100 bg-white/90 p-6 shadow-lg shadow-slate-100">
+        <div class="space-y-6 rounded-md border border-surface-100 bg-white/90 p-6 shadow-sm border border-surface-200">
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-lg font-semibold text-slate-900">Filters</h2>
-                    <p class="text-sm text-slate-500">Refine the herd list by breed, farmer, or tag number.</p>
+                    <h2 class="text-lg font-semibold text-surface-900">Filters</h2>
+                    <p class="text-sm text-surface-500">Refine the herd list by breed, farmer, or tag number.</p>
                 </div>
                 <button
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-60"
                     @click="clearFilters"
                     :disabled="loading"
                 >
@@ -83,28 +83,28 @@
 
             <div class="grid gap-4 md:grid-cols-4">
                 <div class="md:col-span-2">
-                    <label class="text-sm font-medium text-slate-700" for="cow-search">Search</label>
+                    <label class="text-sm font-medium text-surface-700" for="cow-search">Search</label>
                     <div class="relative mt-1">
                         <input
                             id="cow-search"
                             v-model="searchTerm"
                             type="search"
                             placeholder="Search by tag number or breed"
-                            class="w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-2 text-sm text-slate-700 shadow-inner focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
+                            class="w-full rounded-md border border-surface-200 bg-surface-50/60 px-4 py-2 text-sm text-surface-700 shadow-inner focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
                         />
                         <Icon
                             icon="mdi:magnify"
                             :size="18"
-                            class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
+                            class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-surface-400"
                         />
                     </div>
                 </div>
                 <div>
-                    <label class="text-sm font-medium text-slate-700" for="cow-breed">Breed</label>
+                    <label class="text-sm font-medium text-surface-700" for="cow-breed">Breed</label>
                     <select
                         id="cow-breed"
                         v-model="breedFilter"
-                        class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-sm text-slate-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
+                        class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
                     >
                         <option value="">All breeds</option>
                         <option v-for="breed in breedOptions" :key="breed" :value="breed">
@@ -113,13 +113,13 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-sm font-medium text-slate-700" for="cow-farmer-id">Farmer ID</label>
+                    <label class="text-sm font-medium text-surface-700" for="cow-farmer-id">Farmer ID</label>
                     <input
                         id="cow-farmer-id"
                         v-model="farmerIdInput"
                         type="text"
                         placeholder="Filter by farmer ID"
-                        class="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2 text-sm text-slate-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
+                        class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
                     />
                 </div>
             </div>
@@ -128,11 +128,11 @@
             </p>
         </div>
 
-        <div class="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-lg shadow-slate-100">
+        <div class="overflow-hidden rounded-md border border-surface-100 bg-white shadow-sm border border-surface-200">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-100">
-                    <thead class="bg-slate-50/70">
-                        <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <thead class="bg-surface-50/70">
+                        <tr class="text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
                             <th class="px-6 py-3">Tag Number</th>
                             <th class="px-6 py-3">Breed</th>
                             <th class="px-6 py-3">Farmer</th>
@@ -143,20 +143,20 @@
                             <th class="px-6 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+                    <tbody class="divide-y divide-slate-100 text-sm text-surface-700">
                         <tr v-if="loading" class="bg-white">
-                            <td colspan="8" class="px-6 py-6 text-center text-sm text-slate-500">
+                            <td colspan="8" class="px-6 py-6 text-center text-sm text-surface-500">
                                 Loading cows...
                             </td>
                         </tr>
                         <tr v-else-if="filteredCows.length === 0" class="bg-white">
-                            <td colspan="8" class="px-6 py-6 text-center text-sm text-slate-500">
+                            <td colspan="8" class="px-6 py-6 text-center text-sm text-surface-500">
                                 No cows match the selected filters.
                             </td>
                         </tr>
-                        <tr v-for="cow in filteredCows" :key="cow.id" class="transition hover:bg-slate-50/60">
-                            <td class="px-6 py-4 font-semibold text-slate-900">
-                                <router-link :to="`/admin/cows/${cow.id}`" class="hover:text-blue-600 hover:underline">
+                        <tr v-for="cow in filteredCows" :key="cow.id" class="transition hover:bg-surface-50/60">
+                            <td class="px-6 py-4 font-semibold text-surface-900">
+                                <router-link :to="`/admin/cows/${cow.id}`" class="hover:text-primary-600 hover:underline">
                                     {{ cow.tag_number }}
                                 </router-link>
                             </td>
@@ -164,17 +164,17 @@
                                 {{ cow.breed ?? '—' }}
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm font-medium text-slate-900">
+                                <div class="text-sm font-medium text-surface-900">
                                     <router-link
                                         v-if="cow.farmer?.id"
                                         :to="`/admin/farmers/${cow.farmer.id}`"
-                                        class="hover:text-blue-600 hover:underline"
+                                        class="hover:text-primary-600 hover:underline"
                                     >
                                         {{ formatFarmerName(cow) }}
                                     </router-link>
                                     <span v-else>Unassigned</span>
                                 </div>
-                                <div v-if="cow.farmer?.farmer_id" class="text-xs uppercase tracking-wide text-slate-400">
+                                <div v-if="cow.farmer?.farmer_id" class="text-xs uppercase tracking-wide text-surface-400">
                                     ID: {{ cow.farmer.farmer_id }}
                                 </div>
                             </td>
@@ -199,7 +199,7 @@
                             <td class="px-6 py-4 text-right">
                                 <router-link
                                     :to="`/admin/cows/${cow.id}`"
-                                    class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-600 transition hover:bg-blue-100 hover:text-blue-700"
+                                    class="inline-flex items-center gap-1 rounded-full bg-primary-50 px-3 py-1 text-sm font-medium text-primary-600 transition hover:bg-primary-100 hover:text-primary-700"
                                 >
                                     View
                                     <Icon icon="mdi:chevron-right" :size="16" />
@@ -321,12 +321,12 @@ const lastProductionDate = (cow: Cow) => {
 };
 
 const healthChipClass = (status?: string | null) => {
-    if (!status) return 'bg-gray-100 text-gray-600';
+    if (!status) return 'bg-surface-100 text-surface-600';
     const normalized = status.toLowerCase();
     if (normalized.includes('healthy')) return 'bg-emerald-100 text-emerald-700';
     if (normalized.includes('treatment')) return 'bg-amber-100 text-amber-700';
     if (normalized.includes('sick')) return 'bg-red-100 text-red-700';
-    return 'bg-gray-100 text-gray-600';
+    return 'bg-surface-100 text-surface-600';
 };
 
 const healthChipIcon = (status?: string | null) => {

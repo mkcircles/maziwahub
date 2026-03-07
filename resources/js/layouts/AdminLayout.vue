@@ -1,177 +1,136 @@
 <template>
-    <div class="relative flex min-h-screen overflow-hidden bg-slate-950 text-slate-100">
-        <div class="pointer-events-none absolute inset-0">
-            <div class="absolute -left-32 top-20 h-80 w-80 rounded-full bg-sky-500/30 blur-3xl"></div>
-            <div class="absolute -right-16 top-64 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl"></div>
-        </div>
-
+    <div class="relative flex min-h-screen bg-surface-50 text-surface-800 font-sans">
         <!-- Desktop Sidebar -->
-        <aside class="relative z-30 hidden w-72 flex-col overflow-hidden border-r border-white/10 bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950/95 md:flex">
-            <div class="flex h-20 items-center px-6">
-                <router-link
-                    to="/admin/dashboard"
-                    class="flex items-center gap-3 text-xl font-semibold tracking-tight text-white"
-                >
-                    <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 via-indigo-500 to-purple-500 text-white">
-                        <Icon icon="mdi:chart-box-outline" :size="22" />
+        <aside
+            class="relative z-30 hidden w-72 flex-col border-r border-surface-200 bg-white shadow-sm transition-all duration-300 xl:flex">
+            <div class="flex h-16 items-center px-6 border-b border-surface-100">
+                <router-link to="/admin/dashboard"
+                    class="flex items-center gap-3 text-xl font-bold tracking-tight text-primary-600">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+                        <Icon icon="mdi:chart-box-outline" :size="20" />
                     </span>
                     Maziwa Hub
                 </router-link>
             </div>
-            <nav class="flex-1 overflow-y-auto px-4 pb-6">
-                <p class="px-2 pb-2 pt-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">
-                    Main Navigation
+
+            <nav class="flex-1 overflow-y-auto px-4 py-4 scrollbar-thin scrollbar-thumb-surface-200">
+                <p class="px-2 pb-2 pt-2 text-xs font-semibold uppercase tracking-wider text-surface-400">
+                    Main Menu
                 </p>
-                <router-link
-                    v-for="link in navLinks"
-                    :key="link.path"
-                    :to="link.path"
-                    :class="[
-                        getLinkClasses(link.path),
-                        toneClasses[link.tone] ?? toneClasses.default,
-                    ]"
-                    @click="handleNavClick"
-                >
-                    <span :class="['flex h-9 w-9 items-center justify-center rounded-xl text-white/90', toneIconClasses[link.tone] ?? toneIconClasses.default]">
-                        <Icon :icon="link.icon" :size="18" />
-                    </span>
-                    <div class="flex flex-col">
-                        <span class="text-sm font-semibold tracking-tight">
-                            {{ link.label }}
-                        </span>
-                        <span v-if="link.helper" class="text-[11px] text-slate-300/70">
-                            {{ link.helper }}
-                        </span>
-                    </div>
+
+                <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
+                    :class="[getLinkClasses(link.path)]" @click="handleNavClick">
                     <span
-                        v-if="link.badge"
-                        :class="['ml-auto rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide', toneBadgeClasses[link.tone] ?? toneBadgeClasses.default]"
-                    >
-                        {{ link.badge }}
+                        class="flex h-7 w-7 items-center justify-center rounded-md shadow-sm transition-colors duration-200"
+                        :class="getIconWrapperClass(link.path)">
+                        <Icon :icon="link.icon" :size="16" />
+                    </span>
+                    <span class="ml-2.5 text-sm font-medium transition-colors duration-200"
+                        :class="getTextClass(link.path)">
+                        {{ link.label }}
                     </span>
                 </router-link>
             </nav>
-            <div class="border-t border-white/10 px-6 py-6 text-sm text-slate-300/80">
-                <div class="flex items-center gap-3">
-                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500/20 via-indigo-500/20 to-purple-500/30 text-white">
-                        <Icon icon="mdi:account-circle-outline" :size="22" />
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-white">
-                            {{ authStore.user?.name ?? 'Administrator' }}
-                        </p>
-                        <p class="text-xs uppercase tracking-wide text-slate-400">
-                            {{ authStore.user?.user_type ?? 'user' }}
-                        </p>
-                    </div>
-                </div>
-                <button
-                    type="button"
-                    class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-slate-100 transition hover:border-white/20 hover:bg-white/10 hover:text-white"
-                    @click="handleLogout"
-                >
-                    <Icon icon="mdi:logout-variant" :size="18" />
-                    Logout
-                </button>
-            </div>
         </aside>
 
-        <!-- Mobile Sidebar -->
-        <Transition
-            enter-active-class="transition duration-200 ease-out"
-            enter-from-class="opacity-0"
-            enter-to-class="opacity-100"
-            leave-active-class="transition duration-150 ease-in"
-            leave-from-class="opacity-100"
-            leave-to-class="opacity-0"
-        >
-            <div v-if="showMobileNav" class="fixed inset-0 z-40 flex md:hidden">
-                <div class="fixed inset-0 bg-slate-950/70 backdrop-blur" @click="showMobileNav = false"></div>
-                <aside class="relative z-50 flex w-72 flex-col bg-gradient-to-b from-slate-950 to-slate-900/95">
-                    <div class="flex h-16 items-center justify-between border-b border-white/10 px-5">
-                        <router-link
-                            to="/admin/dashboard"
-                            class="flex items-center gap-3 text-base font-semibold text-white"
-                            @click="handleNavClick"
-                        >
-                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 via-indigo-500 to-purple-500 text-white">
-                                <Icon icon="mdi:chart-box-outline" :size="20" />
-                            </span>
-                            Maziwa Hub
-                        </router-link>
-                        <button
-                            type="button"
-                            class="rounded-md p-2 text-slate-300 transition hover:bg-white/10 hover:text-white"
-                            @click="showMobileNav = false"
-                        >
-                            <Icon icon="mdi:close" :size="20" />
-                        </button>
-                    </div>
-                    <nav class="flex-1 overflow-y-auto px-5 py-4">
-                        <router-link
-                            v-for="link in navLinks"
-                            :key="link.path"
-                            :to="link.path"
-                            :class="[
-                                getLinkClasses(link.path, true),
-                                toneClasses[link.tone] ?? toneClasses.default,
-                            ]"
-                            @click="handleNavClick"
-                        >
-                            <span :class="['flex h-9 w-9 items-center justify-center rounded-xl text-white/90', toneIconClasses[link.tone] ?? toneIconClasses.default]">
-                                <Icon :icon="link.icon" :size="18" />
-                            </span>
-                            <div class="flex flex-col">
-                                <span class="text-sm font-semibold tracking-tight">
-                                    {{ link.label }}
-                                </span>
-                                <span v-if="link.helper" class="text-[11px] text-slate-300/70">
-                                    {{ link.helper }}
-                                </span>
-                            </div>
-                        </router-link>
-                    </nav>
-                    <div class="border-t border-white/10 px-5 py-5 text-sm text-slate-300/80">
-                        <p class="font-semibold text-white">{{ authStore.user?.name ?? 'Administrator' }}</p>
-                        <p class="text-xs uppercase tracking-wide text-slate-400">
-                            {{ authStore.user?.user_type ?? 'user' }}
-                        </p>
-                        <button
-                            type="button"
-                            class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-sm font-medium text-white transition hover:border-white/25 hover:bg-white/15"
-                            @click="handleLogout"
-                        >
-                            <Icon icon="mdi:logout-variant" :size="18" />
-                            Logout
-                        </button>
-                    </div>
-                </aside>
-            </div>
+        <!-- Mobile Sidebar Overlay & Navigation -->
+        <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
+            enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
+            leave-from-class="opacity-100" leave-to-class="opacity-0">
+            <div v-show="showMobileNav" class="fixed inset-0 z-40 bg-surface-900/50 backdrop-blur-sm xl:hidden"
+                @click="showMobileNav = false"></div>
+        </Transition>
+        <Transition enter-active-class="transition-transform duration-300 ease-out" enter-from-class="-translate-x-full"
+            enter-to-class="translate-x-0" leave-active-class="transition-transform duration-200 ease-in"
+            leave-from-class="translate-x-0" leave-to-class="-translate-x-full">
+            <aside v-show="showMobileNav"
+                class="fixed inset-y-0 left-0 z-50 w-72 flex-col bg-white shadow-xl xl:hidden flex">
+                <div class="flex h-16 items-center justify-between px-6 border-b border-surface-100">
+                    <router-link to="/admin/dashboard"
+                        class="flex items-center gap-3 text-xl font-bold tracking-tight text-primary-600">
+                        <span
+                            class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+                            <Icon icon="mdi:chart-box-outline" :size="20" />
+                        </span>
+                        Maziwa Hub
+                    </router-link>
+                    <button class="p-2 text-surface-500 hover:text-surface-700 hover:bg-surface-100 rounded-lg"
+                        @click="showMobileNav = false">
+                        <Icon icon="mdi:close" :size="20" />
+                    </button>
+                </div>
+                <nav class="flex-1 overflow-y-auto px-4 py-4">
+                    <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
+                        :class="[getLinkClasses(link.path)]" @click="handleNavClick">
+                        <span class="flex h-7 w-7 items-center justify-center rounded-md shadow-sm"
+                            :class="getIconWrapperClass(link.path)">
+                            <Icon :icon="link.icon" :size="16" />
+                        </span>
+                        <span class="ml-2.5 text-sm font-medium" :class="getTextClass(link.path)">
+                            {{ link.label }}
+                        </span>
+                    </router-link>
+                </nav>
+            </aside>
         </Transition>
 
-        <!-- Main Content -->
-        <div class="relative z-20 flex min-h-screen flex-1 flex-col">
-            <header class="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-slate-950 via-slate-900/80 to-slate-950/60 px-4 py-3 md:hidden">
-                <button
-                    type="button"
-                    class="inline-flex items-center rounded-xl border border-white/10 bg-white/10 px-2 py-2 text-white transition hover:border-white/20 hover:bg-white/15"
-                    @click="showMobileNav = true"
-                >
-                    <Icon icon="mdi:menu" :size="22" />
-                </button>
-                <router-link to="/admin/dashboard" class="text-base font-semibold text-white">
-                    Maziwa Hub
-                </router-link>
-                <div class="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-sm text-white/90">
-                    <Icon icon="mdi:account-circle-outline" :size="20" />
-                    <span>{{ authStore.user?.name ?? 'You' }}</span>
+        <!-- Main Content Wrapper -->
+        <div class="flex flex-1 flex-col min-w-0 overflow-hidden">
+            <!-- Top Header -->
+            <header
+                class="sticky top-0 z-20 flex h-16 items-center justify-between bg-white/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 border-b border-surface-200 shadow-sm">
+                <div class="flex items-center gap-4">
+                    <button
+                        class="p-2 text-surface-500 hover:text-primary-600 hover:bg-surface-100 rounded-lg xl:hidden transition-colors"
+                        @click="showMobileNav = true">
+                        <Icon icon="mdi:menu" :size="24" />
+                    </button>
+                    <!-- Search Bar (Placeholder for Modern Feel) -->
+                    <div class="hidden sm:flex items-center relative">
+                        <Icon icon="mdi:magnify" class="absolute left-3 text-surface-400" :size="20" />
+                        <input type="text" placeholder="Search..."
+                            class="pl-10 pr-4 py-2 bg-surface-100 border-transparent rounded-full text-sm focus:bg-white focus:border-primary-300 focus:ring-2 focus:ring-primary-100 transition-all w-64" />
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 sm:gap-5">
+                    <button
+                        class="relative p-2 text-surface-500 hover:text-primary-600 hover:bg-surface-100 rounded-full transition-colors">
+                        <Icon icon="mdi:bell-outline" :size="22" />
+                        <span
+                            class="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                    </button>
+
+                    <div class="h-8 w-px bg-surface-200 mx-1"></div>
+
+                    <!-- Profile Dropdown (Simplified) -->
+                    <div class="flex items-center gap-3 cursor-pointer group">
+                        <div class="hidden sm:flex flex-col items-end">
+                            <span
+                                class="text-sm font-semibold text-surface-800 group-hover:text-primary-600 transition-colors">{{
+                                    authStore.user?.name ?? 'Administrator' }}</span>
+                            <span class="text-xs text-surface-500 capitalize">{{ authStore.user?.user_type ?? 'user'
+                                }}</span>
+                        </div>
+                        <div
+                            class="h-9 w-9 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
+                            {{ (authStore.user?.name ?? 'A').charAt(0).toUpperCase() }}
+                        </div>
+                        <button @click="handleLogout" title="Logout"
+                            class="p-2 text-surface-400 hover:text-red-500 transition-colors">
+                            <Icon icon="mdi:logout" :size="20" />
+                        </button>
+                    </div>
                 </div>
             </header>
 
-            <main class="relative flex-1 overflow-x-hidden px-4 py-8 sm:px-8 lg:px-14">
-                <div class="pointer-events-none absolute -right-40 top-24 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl md:right-[-120px]"></div>
-                <div class="pointer-events-none absolute bottom-20 left-1/3 hidden h-64 w-64 rounded-full bg-sky-500/10 blur-3xl lg:block"></div>
-                <router-view />
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto bg-surface-50 p-4 sm:p-6 lg:p-8">
+                <router-view v-slot="{ Component }">
+                    <transition name="fade" mode="out-in">
+                        <component :is="Component" />
+                    </transition>
+                </router-view>
             </main>
         </div>
     </div>
@@ -313,19 +272,23 @@ const navLinks = computed<NavLink[]>(() => {
     return links;
 });
 
-const getLinkClasses = (path: string, isMobile = false) => {
-    const base =
-        'group mb-2 flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white/10';
-    const active =
-        'border border-white/15 bg-white/10 text-white shadow-lg shadow-slate-900/50 backdrop-blur';
-    const inactive =
-        'border border-transparent text-slate-300 hover:border-white/10 hover:bg-white/5 hover:text-white/90';
+const getLinkClasses = (path: string) => {
+    const base = 'group mb-0.5 flex items-center rounded-md px-2.5 py-1.5 transition-all duration-200';
+    const active = 'bg-primary-50 text-primary-700 font-semibold';
+    const inactive = 'text-surface-600 hover:bg-surface-50 hover:text-surface-900';
 
     const matches = route.path === path || route.path.startsWith(`${path}/`);
+    return `${base} ${matches ? active : inactive}`;
+};
 
-    const spacing = isMobile ? '' : ' last:mb-0';
+const getIconWrapperClass = (path: string) => {
+    const matches = route.path === path || route.path.startsWith(`${path}/`);
+    return matches ? 'bg-primary-100 text-primary-600' : 'bg-transparent text-surface-400 group-hover:bg-surface-100 group-hover:text-surface-600';
+};
 
-    return `${base} ${matches ? active : inactive}${spacing}`;
+const getTextClass = (path: string) => {
+    const matches = route.path === path || route.path.startsWith(`${path}/`);
+    return matches ? 'text-primary-700' : 'text-surface-600 group-hover:text-surface-900';
 };
 
 const handleNavClick = () => {
@@ -337,43 +300,15 @@ const handleLogout = async () => {
     router.push('/login');
 };
 
-const toneClasses: Record<
-    string,
-    string
-> = {
-    sky: 'bg-gradient-to-r from-sky-500/10 via-slate-900/40 to-slate-900/20',
-    emerald: 'bg-gradient-to-r from-emerald-500/10 via-slate-900/40 to-slate-900/25',
-    amber: 'bg-gradient-to-r from-amber-500/10 via-slate-900/40 to-slate-900/25',
-    rose: 'bg-gradient-to-r from-rose-500/10 via-slate-900/40 to-slate-900/25',
-    violet: 'bg-gradient-to-r from-violet-500/10 via-slate-900/40 to-slate-900/25',
-    indigo: 'bg-gradient-to-r from-indigo-500/10 via-slate-900/40 to-slate-900/25',
-    cyan: 'bg-gradient-to-r from-cyan-500/10 via-slate-900/40 to-slate-900/25',
-    slate: 'bg-gradient-to-r from-slate-500/10 via-slate-900/40 to-slate-900/25',
-    default: 'bg-gradient-to-r from-white/5 via-slate-900/40 to-slate-900/25',
-};
-
-const toneIconClasses: Record<string, string> = {
-    sky: 'bg-sky-500/20 shadow-sky-500/30',
-    emerald: 'bg-emerald-500/20 shadow-emerald-500/30',
-    amber: 'bg-amber-500/20 shadow-amber-500/30',
-    rose: 'bg-rose-500/20 shadow-rose-500/30',
-    violet: 'bg-violet-500/20 shadow-violet-500/30',
-    indigo: 'bg-indigo-500/20 shadow-indigo-500/30',
-    cyan: 'bg-cyan-500/20 shadow-cyan-500/30',
-    slate: 'bg-slate-500/20 shadow-slate-500/30',
-    default: 'bg-white/10 shadow-slate-500/20',
-};
-
-const toneBadgeClasses: Record<string, string> = {
-    sky: 'bg-sky-500/20 text-sky-50 border border-sky-500/30',
-    emerald: 'bg-emerald-500/20 text-emerald-50 border border-emerald-500/30',
-    amber: 'bg-amber-500/20 text-amber-50 border border-amber-500/30',
-    rose: 'bg-rose-500/20 text-rose-50 border border-rose-500/30',
-    violet: 'bg-violet-500/20 text-violet-50 border border-violet-500/30',
-    indigo: 'bg-indigo-500/20 text-indigo-50 border border-indigo-500/30',
-    cyan: 'bg-cyan-500/20 text-cyan-50 border border-cyan-500/30',
-    slate: 'bg-slate-500/20 text-slate-50 border border-slate-500/30',
-    default: 'bg-white/10 text-slate-100 border border-white/15',
+const toneClasses: Record<string, string> = {
+    sky: 'text-sky-500',
+    emerald: 'text-emerald-500',
+    amber: 'text-amber-500',
+    rose: 'text-rose-500',
+    violet: 'text-violet-500',
+    indigo: 'text-indigo-500',
+    cyan: 'text-cyan-500',
+    slate: 'text-slate-500',
+    default: 'text-surface-500',
 };
 </script>
-

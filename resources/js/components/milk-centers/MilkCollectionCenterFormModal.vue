@@ -15,7 +15,7 @@
                 aria-modal="true"
                 @click.self="handleClose"
             >
-                <div class="fixed inset-0 bg-gray-800/60" @click="handleClose"></div>
+                <div class="fixed inset-0 bg-surface-800/60" @click="handleClose"></div>
 
                 <div class="relative z-10 flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
@@ -33,16 +33,16 @@
                             class="inline-block w-full max-w-3xl transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle"
                         >
                             <form @submit.prevent="handleSubmit" class="space-y-6">
-                                <div class="flex items-start justify-between border-b border-gray-100 px-6 py-4">
+                                <div class="flex items-start justify-between border-b border-surface-100 px-6 py-4">
                                     <div>
-                                        <h2 class="text-lg font-semibold text-gray-900">{{ title }}</h2>
-                                        <p class="text-sm text-gray-500">
+                                        <h2 class="text-lg font-semibold text-surface-900">{{ title }}</h2>
+                                        <p class="text-sm text-surface-500">
                                             {{ description }}
                                         </p>
                                     </div>
                                     <button
                                         type="button"
-                                        class="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 focus:outline-none"
+                                        class="rounded-full p-1 text-surface-400 transition hover:bg-surface-100 hover:text-surface-600 focus:outline-none"
                                         @click="handleClose"
                                     >
                                         <Icon icon="mdi:close" :size="20" />
@@ -52,7 +52,7 @@
                                 <div class="space-y-6 px-6">
                                     <div class="grid gap-4 sm:grid-cols-2">
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Center Name <span class="text-red-500">*</span>
                                             </label>
                                             <input
@@ -60,54 +60,54 @@
                                                 type="text"
                                                 required
                                                 placeholder="Enter center name"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Registration #
                                             </label>
                                             <input
                                                 v-model.trim="form.registration_number"
                                                 type="text"
                                                 placeholder="Registration identifier"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Established Date
                                             </label>
                                             <input
                                                 v-model="form.established_date"
                                                 type="date"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Manager Name
                                             </label>
                                             <input
                                                 v-model.trim="form.manager_name"
                                                 type="text"
                                                 placeholder="Manager full name"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Manager Phone
                                             </label>
                                             <input
                                                 v-model.trim="form.manager_phone"
                                                 type="tel"
                                                 placeholder="Contact number"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Staff Count
                                             </label>
                                             <input
@@ -115,11 +115,11 @@
                                                 type="number"
                                                 min="0"
                                                 placeholder="Number of staff"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Cooler Capacity (Liters)
                                             </label>
                                             <input
@@ -128,16 +128,16 @@
                                                 min="0"
                                                 step="1"
                                                 placeholder="Daily cooling capacity"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Power Source
                                             </label>
                                             <select
                                                 v-model="form.power_source"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             >
                                                 <option value="">Select power source</option>
                                                 <option value="grid">Grid</option>
@@ -147,7 +147,7 @@
                                             </select>
                                         </div>
                                         <div class="space-y-1 sm:col-span-2">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Physical Address <span class="text-red-500">*</span>
                                             </label>
                                             <textarea
@@ -155,11 +155,11 @@
                                                 rows="2"
                                                 required
                                                 placeholder="Street, district, additional directions"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             ></textarea>
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Latitude
                                             </label>
                                             <input
@@ -167,11 +167,11 @@
                                                 type="number"
                                                 step="0.000001"
                                                 placeholder="Latitude"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                         <div class="space-y-1">
-                                            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Longitude
                                             </label>
                                             <input
@@ -179,13 +179,13 @@
                                                 type="number"
                                                 step="0.000001"
                                                 placeholder="Longitude"
-                                                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                             />
                                         </div>
                                     </div>
 
                                     <div class="space-y-2">
-                                        <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                        <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                             Location Hierarchy
                                         </label>
                                         <LocationCascadeSelector
@@ -195,19 +195,19 @@
                                     </div>
 
                                     <div class="grid gap-4 sm:grid-cols-2">
-                                        <label class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700">
+                                        <label class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-700">
                                             <input
                                                 v-model="form.has_testing_equipment"
                                                 type="checkbox"
-                                                class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                class="h-4 w-4 rounded border-surface-300 text-primary-600 focus:ring-primary-500"
                                             />
                                             Testing Equipment Available
                                         </label>
-                                        <label class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm font-medium text-gray-700">
+                                        <label class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-700">
                                             <input
                                                 v-model="form.has_washing_bay"
                                                 type="checkbox"
-                                                class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                class="h-4 w-4 rounded border-surface-300 text-primary-600 focus:ring-primary-500"
                                             />
                                             Washing Bay Available
                                         </label>
@@ -220,10 +220,10 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-col gap-2 border-t border-gray-100 bg-gray-50 px-6 py-4 sm:flex-row sm:justify-end">
+                                <div class="flex flex-col gap-2 border-t border-surface-100 bg-surface-50 px-6 py-4 sm:flex-row sm:justify-end">
                                     <button
                                         type="button"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                                         @click="handleClose"
                                         :disabled="submitting"
                                     >
@@ -231,7 +231,7 @@
                                     </button>
                                     <button
                                         type="submit"
-                                        class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
                                         :disabled="submitting"
                                     >
                                         <Icon icon="mdi:warehouse" :size="18" />

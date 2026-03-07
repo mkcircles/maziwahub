@@ -4,39 +4,39 @@
             <div class="flex flex-col gap-2">
                 <router-link
                     to="/admin/districts"
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
                 >
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to Districts
                 </router-link>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">
+                    <h1 class="text-2xl font-bold text-surface-900">
                         {{ districtTitle }}
                     </h1>
-                    <div class="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+                    <div class="flex flex-wrap items-center gap-3 text-sm text-surface-500">
                         <span v-if="regionName">
                             Region:
                             <router-link
                                 v-if="regionLink"
                                 :to="regionLink"
-                                class="font-semibold text-blue-600 hover:text-blue-800"
+                                class="font-semibold text-primary-600 hover:text-primary-800"
                             >
                                 {{ regionName }}
                             </router-link>
-                            <span v-else class="font-semibold text-gray-700">{{ regionName }}</span>
+                            <span v-else class="font-semibold text-surface-700">{{ regionName }}</span>
                         </span>
                         <span v-if="countryName">
                             Country:
                             <router-link
                                 v-if="countryLink"
                                 :to="countryLink"
-                                class="font-semibold text-blue-600 hover:text-blue-800"
+                                class="font-semibold text-primary-600 hover:text-primary-800"
                             >
                                 {{ countryName }}
                             </router-link>
-                            <span v-else class="font-semibold text-gray-700">{{ countryName }}</span>
+                            <span v-else class="font-semibold text-surface-700">{{ countryName }}</span>
                         </span>
-                        <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+                        <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-3 py-1 text-xs font-medium text-surface-600">
                             <Icon icon="mdi:tag-outline" :size="14" />
                             {{ districtSlug }}
                         </span>
@@ -46,7 +46,7 @@
         </div>
 
         <div v-if="isDistrictLoading" class="rounded-lg bg-white p-6 shadow">
-            <p class="text-gray-600">Loading district details...</p>
+            <p class="text-surface-600">Loading district details...</p>
         </div>
 
         <template v-else>
@@ -58,64 +58,64 @@
                 <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                     <div class="rounded-lg bg-white p-5 shadow">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-gray-500">Counties</h3>
-                            <Icon icon="mdi:home-group" :size="20" className="text-indigo-500" />
+                            <h3 class="text-sm font-medium uppercase tracking-wide text-surface-500">Counties</h3>
+                            <Icon icon="mdi:home-group" :size="20" className="text-primary-500" />
                         </div>
-                        <p class="mt-3 text-3xl font-semibold text-gray-900">
+                        <p class="mt-3 text-3xl font-semibold text-surface-900">
                             {{ countyCount }}
                         </p>
-                        <p class="mt-1 text-xs text-gray-500">Within this district</p>
+                        <p class="mt-1 text-xs text-surface-500">Within this district</p>
                     </div>
 
                     <div class="rounded-lg bg-white p-5 shadow">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-gray-500">Subcounties</h3>
+                            <h3 class="text-sm font-medium uppercase tracking-wide text-surface-500">Subcounties</h3>
                             <Icon icon="mdi:map-marker-radius-outline" :size="20" className="text-emerald-500" />
                         </div>
-                        <p class="mt-3 text-3xl font-semibold text-gray-900">
+                        <p class="mt-3 text-3xl font-semibold text-surface-900">
                             {{ subcountyCount }}
                         </p>
-                        <p class="mt-1 text-xs text-gray-500">Across all counties</p>
+                        <p class="mt-1 text-xs text-surface-500">Across all counties</p>
                     </div>
 
                     <div class="rounded-lg bg-white p-5 shadow">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-gray-500">Parishes</h3>
-                            <Icon icon="mdi:church-outline" :size="20" className="text-blue-500" />
+                            <h3 class="text-sm font-medium uppercase tracking-wide text-surface-500">Parishes</h3>
+                            <Icon icon="mdi:church-outline" :size="20" className="text-primary-500" />
                         </div>
-                        <p class="mt-3 text-3xl font-semibold text-gray-900">
+                        <p class="mt-3 text-3xl font-semibold text-surface-900">
                             {{ parishCount }}
                         </p>
-                        <p class="mt-1 text-xs text-gray-500">Nested within subcounties</p>
+                        <p class="mt-1 text-xs text-surface-500">Nested within subcounties</p>
                     </div>
 
                     <div class="rounded-lg bg-white p-5 shadow">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-gray-500">Villages</h3>
+                            <h3 class="text-sm font-medium uppercase tracking-wide text-surface-500">Villages</h3>
                             <Icon icon="mdi:home-city-outline" :size="20" className="text-purple-600" />
                         </div>
-                        <p class="mt-3 text-3xl font-semibold text-gray-900">
+                        <p class="mt-3 text-3xl font-semibold text-surface-900">
                             {{ villageCount }}
                         </p>
-                        <p class="mt-1 text-xs text-gray-500">Grassroots administrative units</p>
+                        <p class="mt-1 text-xs text-surface-500">Grassroots administrative units</p>
                     </div>
                 </div>
 
                 <div class="rounded-lg bg-white p-6 shadow">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Milk Collection Centers</h2>
-                            <p class="text-sm text-gray-500">
+                            <h2 class="text-lg font-semibold text-surface-900">Milk Collection Centers</h2>
+                            <p class="text-sm text-surface-500">
                                 Centers serving communities within this district
                             </p>
                         </div>
-                        <div class="inline-flex items-center gap-2 text-sm text-gray-500">
+                        <div class="inline-flex items-center gap-2 text-sm text-surface-500">
                             <Icon icon="mdi:milk-outline" :size="18" />
                             Showing {{ milkCentersCount }} center{{ milkCentersCount === 1 ? '' : 's' }}
                         </div>
                     </div>
 
-                    <div v-if="isMilkCentersLoading" class="mt-6 rounded-md border border-gray-200 p-6 text-gray-600">
+                    <div v-if="isMilkCentersLoading" class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
                         Loading milk collection centers...
                     </div>
                     <div v-else>
@@ -123,46 +123,46 @@
                             {{ milkCentersError }}
                         </div>
                         <template v-else>
-                            <div v-if="milkCenters.length === 0" class="mt-6 rounded-md border border-dashed border-gray-200 p-6 text-center text-gray-500">
+                            <div v-if="milkCenters.length === 0" class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
                                 No milk collection centers registered for this district.
                             </div>
                             <div v-else class="mt-6 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
                                 <div
                                     v-for="center in milkCenters"
                                     :key="center.id"
-                                    class="flex flex-col gap-3 rounded-lg border border-gray-100 bg-gray-50 p-4"
+                                    class="flex flex-col gap-3 rounded-lg border border-surface-100 bg-surface-50 p-4"
                                 >
                                     <div class="flex items-start justify-between">
                                         <div>
-                                            <h3 class="text-base font-semibold text-gray-900">
+                                            <h3 class="text-base font-semibold text-surface-900">
                                                 {{ center.name }}
                                             </h3>
-                                            <p class="text-xs text-gray-500">
+                                            <p class="text-xs text-surface-500">
                                                 {{ center.registration_number ?? 'Unregistered ID' }}
                                             </p>
                                         </div>
-                                        <span class="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2.5 py-0.5 text-[11px] font-medium text-blue-700">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2.5 py-0.5 text-[11px] font-medium text-primary-700">
                                             <Icon icon="mdi:snowflake-variant" :size="13" />
                                             {{ center.cooler_capacity_liters ?? 0 }} L
                                         </span>
                                     </div>
-                                    <div class="text-sm text-gray-600">
+                                    <div class="text-sm text-surface-600">
                                         {{ center.physical_address }}
                                     </div>
-                                    <div class="text-xs text-gray-500">
+                                    <div class="text-xs text-surface-500">
                                         {{ formatCenterLocation(center) }}
                                     </div>
                                     <div class="flex flex-wrap items-center gap-2 text-xs">
                                         <span
                                             class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-medium"
-                                            :class="center.has_testing_equipment ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
+                                            :class="center.has_testing_equipment ? 'bg-green-100 text-green-700' : 'bg-surface-100 text-surface-600'"
                                         >
                                             <Icon icon="mdi:flask-outline" :size="13" />
                                             Testing
                                         </span>
                                         <span
                                             class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-medium"
-                                            :class="center.has_washing_bay ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'"
+                                            :class="center.has_washing_bay ? 'bg-green-100 text-green-700' : 'bg-surface-100 text-surface-600'"
                                         >
                                             <Icon icon="mdi:water-outline" :size="13" />
                                             Washing
@@ -176,13 +176,13 @@
 
                 <div class="rounded-lg bg-white p-6 shadow">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-900">Counties &amp; Subcounties</h2>
-                        <span class="text-sm text-gray-500">
+                        <h2 class="text-lg font-semibold text-surface-900">Counties &amp; Subcounties</h2>
+                        <span class="text-sm text-surface-500">
                             Detailed administrative breakdown within the district
                         </span>
                     </div>
 
-                    <div v-if="countyCount === 0" class="mt-6 rounded-md border border-dashed border-gray-200 p-6 text-center text-gray-500">
+                    <div v-if="countyCount === 0" class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
                         No counties have been registered for this district yet.
                     </div>
 
@@ -190,19 +190,19 @@
                         <div
                             v-for="county in districtCounties"
                             :key="county.id"
-                            class="rounded-lg border border-gray-100 bg-gray-50 p-4"
+                            class="rounded-lg border border-surface-100 bg-surface-50 p-4"
                         >
                             <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                                 <div>
-                                    <h3 class="text-base font-semibold text-gray-900">
+                                    <h3 class="text-base font-semibold text-surface-900">
                                         <router-link
                                             :to="`/admin/counties/${county.id}`"
-                                            class="text-blue-600 hover:text-blue-900"
+                                            class="text-primary-600 hover:text-primary-900"
                                         >
                                             {{ getCountyDisplayName(county) }}
                                         </router-link>
                                     </h3>
-                                    <p class="text-xs uppercase tracking-wide text-gray-500">
+                                    <p class="text-xs uppercase tracking-wide text-surface-500">
                                         Slug: {{ getCountySlug(county) }}
                                     </p>
                                 </div>
@@ -222,19 +222,19 @@
                                 >
                                     <div class="flex items-start justify-between">
                                         <div>
-                                            <h4 class="text-sm font-semibold text-gray-900">
+                                            <h4 class="text-sm font-semibold text-surface-900">
                                                 <router-link
                                                     :to="`/admin/subcounties/${subcounty.id}`"
-                                                    class="text-blue-600 hover:text-blue-900"
+                                                    class="text-primary-600 hover:text-primary-900"
                                                 >
                                                     {{ getSubcountyDisplayName(subcounty) }}
                                                 </router-link>
                                             </h4>
-                                            <p class="text-xs uppercase tracking-wide text-gray-400">
+                                            <p class="text-xs uppercase tracking-wide text-surface-400">
                                                 Slug: {{ getSubcountySlug(subcounty) }}
                                             </p>
                                         </div>
-                                        <span class="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2.5 py-0.5 text-[11px] font-medium text-indigo-700">
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-primary-100 px-2.5 py-0.5 text-[11px] font-medium text-primary-700">
                                             <Icon icon="mdi:church-outline" :size="13" />
                                             {{ subcounty.parishes?.length ?? 0 }} Parishes
                                         </span>
@@ -244,19 +244,19 @@
                                         <div
                                             v-for="parish in subcounty.parishes"
                                             :key="parish.id"
-                                            class="rounded-md border border-dashed border-gray-200 p-3"
+                                            class="rounded-md border border-dashed border-surface-200 p-3"
                                         >
                                             <div class="flex items-start justify-between">
                                                 <div>
-                                                    <h5 class="text-xs font-semibold uppercase tracking-wide text-gray-700">
+                                                    <h5 class="text-xs font-semibold uppercase tracking-wide text-surface-700">
                                                         <router-link
                                                             :to="`/admin/parishes/${parish.id}`"
-                                                            class="text-blue-600 hover:text-blue-900"
+                                                            class="text-primary-600 hover:text-primary-900"
                                                         >
                                                             {{ getParishDisplayName(parish) }}
                                                         </router-link>
                                                     </h5>
-                                                    <p class="text-[11px] uppercase tracking-wide text-gray-400">
+                                                    <p class="text-[11px] uppercase tracking-wide text-surface-400">
                                                         Slug: {{ getParishSlug(parish) }}
                                                     </p>
                                                 </div>
@@ -274,31 +274,31 @@
 
                     <div class="rounded-lg bg-white p-5 shadow">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-gray-500">Farmers</h3>
+                            <h3 class="text-sm font-medium uppercase tracking-wide text-surface-500">Farmers</h3>
                             <Icon icon="mdi:account-group-outline" :size="20" className="text-purple-500" />
                         </div>
-                        <p class="mt-3 text-3xl font-semibold text-gray-900">
+                        <p class="mt-3 text-3xl font-semibold text-surface-900">
                             {{ farmersCount }}
                         </p>
-                        <p class="mt-1 text-xs text-gray-500">Registered within this district</p>
+                        <p class="mt-1 text-xs text-surface-500">Registered within this district</p>
                     </div>
                 </div>
 
                 <div class="rounded-lg bg-white p-6 shadow">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h2 class="text-lg font-semibold text-gray-900">Farmers</h2>
-                            <p class="text-sm text-gray-500">
+                            <h2 class="text-lg font-semibold text-surface-900">Farmers</h2>
+                            <p class="text-sm text-surface-500">
                                 Farmers registered whose district matches this district
                             </p>
                         </div>
-                        <div class="inline-flex items-center gap-2 text-sm text-gray-500">
+                        <div class="inline-flex items-center gap-2 text-sm text-surface-500">
                             <Icon icon="mdi:database-outline" :size="18" />
                             Showing {{ districtFarmers.length }} farmer{{ districtFarmers.length === 1 ? '' : 's' }}
                         </div>
                     </div>
 
-                    <div v-if="isFarmersLoading" class="mt-6 rounded-md border border-gray-200 p-6 text-gray-600">
+                    <div v-if="isFarmersLoading" class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
                         Loading farmers...
                     </div>
                     <div v-else>
@@ -306,38 +306,38 @@
                             {{ farmersError }}
                         </div>
                         <template v-else>
-                            <div v-if="districtFarmers.length === 0" class="mt-6 rounded-md border border-dashed border-gray-200 p-6 text-center text-gray-500">
+                            <div v-if="districtFarmers.length === 0" class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
                                 No farmers found for this district.
                             </div>
                             <div v-else class="mt-6 overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
+                                <table class="min-w-full divide-y divide-surface-200">
+                                    <thead class="bg-surface-50">
                                         <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Farmer</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Contact</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Location</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Status</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">Farmer</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">Contact</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">Location</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                        <tr v-for="farmer in districtFarmers" :key="farmer.id" class="hover:bg-gray-50">
+                                    <tbody class="bg-white divide-y divide-surface-200">
+                                        <tr v-for="farmer in districtFarmers" :key="farmer.id" class="hover:bg-surface-50">
                                             <td class="px-6 py-4">
-                                                <div class="text-sm font-medium text-gray-900">
+                                                <div class="text-sm font-medium text-surface-900">
                                                     {{ farmer.first_name }} {{ farmer.last_name }}
                                                 </div>
-                                                <div class="text-xs text-gray-500 uppercase tracking-wide">
+                                                <div class="text-xs text-surface-500 uppercase tracking-wide">
                                                     ID: {{ farmer.farmer_id }}
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-gray-500">
+                                            <td class="px-6 py-4 text-sm text-surface-500">
                                                 <div>{{ farmer.phone_number ?? '—' }}</div>
-                                                <div class="text-xs text-gray-400">
+                                                <div class="text-xs text-surface-400">
                                                     MCC: {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
                                                 </div>
                                             </td>
-                                            <td class="px-6 py-4 text-sm text-gray-500">
+                                            <td class="px-6 py-4 text-sm text-surface-500">
                                                 <div>{{ districtTitle }}</div>
-                                                <div class="text-xs text-gray-400">
+                                                <div class="text-xs text-surface-400">
                                                     {{ getFarmerLocationTrail(farmer) }}
                                                 </div>
                                             </td>
@@ -348,7 +348,7 @@
                                                         ? 'bg-green-100 text-green-700'
                                                         : farmer.status === 'pending'
                                                             ? 'bg-yellow-100 text-yellow-700'
-                                                            : 'bg-gray-100 text-gray-600'"
+                                                            : 'bg-surface-100 text-surface-600'"
                                                 >
                                                     <Icon
                                                         :icon="farmer.status === 'active'

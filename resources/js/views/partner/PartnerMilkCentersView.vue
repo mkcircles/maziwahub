@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-10">
-        <section class="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
+        <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.25),transparent_65%)] opacity-80"></div>
             <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div class="max-w-xl space-y-4">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
                     <button
-                        class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                        class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
                         @click="openCreateModal"
                     >
                         <Icon icon="mdi:plus" :size="18" />
@@ -34,15 +34,15 @@
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">Your collection centers</h3>
-                    <p class="text-sm text-slate-500">
+                    <h3 class="text-lg font-semibold text-surface-900">Your collection centers</h3>
+                    <p class="text-sm text-surface-500">
                         {{ milkCentersCount }} centers registered under {{ partnerName }}.
                     </p>
                 </div>
-                <div class="flex items-center gap-3 text-xs text-slate-500">
+                <div class="flex items-center gap-3 text-xs text-surface-500">
                     <Icon icon="mdi:information-outline" :size="16" />
                     Newly added or claimed centers appear instantly in this list.
                 </div>
@@ -53,60 +53,60 @@
                     v-for="center in centers"
                     :key="center.id"
                     :id="`center-card-${center.id}`"
-                    class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 transition"
-                    :class="focusId === center.id ? 'ring-2 ring-sky-500' : 'hover:border-slate-300 hover:bg-white'"
+                    class="group relative overflow-hidden rounded-lg border border-surface-200 bg-white/95 p-5 transition"
+                    :class="focusId === center.id ? 'ring-2 ring-primary-500' : 'hover:border-slate-300 hover:bg-white'"
                 >
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <h4 class="text-base font-semibold text-slate-900">{{ center.name }}</h4>
-                            <p class="mt-1 text-xs uppercase tracking-wide text-slate-400">
+                            <h4 class="text-base font-semibold text-surface-900">{{ center.name }}</h4>
+                            <p class="mt-1 text-xs uppercase tracking-wide text-surface-400">
                                 {{ center.registration_number || 'Unregistered' }}
                             </p>
                         </div>
                         <span
-                            class="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-600"
+                            class="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-primary-700"
                         >
                             <Icon icon="mdi:thermometer-lines" :size="14" />
                             {{ center.cooler_capacity_liters ? `${center.cooler_capacity_liters} L` : 'Capacity —' }}
                         </span>
                     </div>
 
-                    <p class="mt-3 text-sm leading-relaxed text-slate-600">
+                    <p class="mt-3 text-sm leading-relaxed text-surface-600">
                         {{ center.physical_address }}
                     </p>
 
-                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-slate-400">
+                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-surface-400">
                         <span
                             v-for="chip in formatArea(center.area)"
                             :key="chip"
-                            class="rounded-full bg-slate-100 px-2 py-0.5"
+                            class="rounded-full bg-surface-100 px-2 py-0.5"
                         >
                             {{ chip }}
                         </span>
                     </div>
 
-                    <dl class="mt-5 grid grid-cols-2 gap-3 text-xs text-slate-500">
+                    <dl class="mt-5 grid grid-cols-2 gap-3 text-xs text-surface-500">
                         <div>
                             <dt class="uppercase tracking-[0.2em]">Manager</dt>
-                            <dd class="mt-1 text-sm font-medium text-slate-800">
+                            <dd class="mt-1 text-sm font-medium text-surface-800">
                                 {{ center.manager_name || 'Not set' }}
                             </dd>
                         </div>
                         <div>
                             <dt class="uppercase tracking-[0.2em]">Phone</dt>
-                            <dd class="mt-1 text-sm font-medium text-slate-800">
+                            <dd class="mt-1 text-sm font-medium text-surface-800">
                                 {{ center.manager_phone || '—' }}
                             </dd>
                         </div>
                         <div>
                             <dt class="uppercase tracking-[0.2em]">Farmers</dt>
-                            <dd class="mt-1 text-sm font-semibold text-slate-900">
+                            <dd class="mt-1 text-sm font-semibold text-surface-900">
                                 {{ center.farmers_count ?? 0 }}
                             </dd>
                         </div>
                         <div>
                             <dt class="uppercase tracking-[0.2em]">Claims</dt>
-                            <dd class="mt-1 text-sm font-semibold text-slate-900">
+                            <dd class="mt-1 text-sm font-semibold text-surface-900">
                                 {{ center.pending_claims_count ?? 0 }}
                             </dd>
                         </div>
@@ -115,14 +115,14 @@
                     <div class="mt-6 flex flex-wrap gap-2 text-xs">
                         <router-link
                             :to="{ name: 'partner-farmers', query: { center: center.id } }"
-                            class="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                            class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                         >
                             Farmers
                             <Icon icon="mdi:arrow-right" :size="14" />
                         </router-link>
                         <router-link
                             :to="{ name: 'partner-dashboard', query: { highlight: center.id } }"
-                            class="inline-flex items-center gap-1 rounded-full border border-slate-200 px-3 py-1 font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                            class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                         >
                             Insights
                             <Icon icon="mdi:chart-bar" :size="14" />
@@ -133,12 +133,12 @@
 
             <div
                 v-else
-                class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-12 text-center text-sm text-slate-500"
+                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-12 text-center text-sm text-surface-500"
             >
                 No milk collection centers yet. Register your first center to get started with operations tracking.
                 <div class="mt-4">
                     <button
-                        class="inline-flex items-center gap-2 rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-600"
+                        class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
                         @click="openCreateModal"
                     >
                         <Icon icon="mdi:plus" :size="16" />
@@ -148,35 +148,35 @@
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">Claim an existing center</h3>
-                    <p class="text-sm text-slate-500">
+                    <h3 class="text-lg font-semibold text-surface-900">Claim an existing center</h3>
+                    <p class="text-sm text-surface-500">
                         Search the directory and request ownership. Admins will review and approve claims.
                     </p>
                 </div>
-                <div class="text-xs text-slate-500">
+                <div class="text-xs text-surface-500">
                     {{ filteredResults.length ? `${filteredResults.length} results` : 'No results yet' }}
                 </div>
             </div>
 
             <form class="mt-6 flex flex-col gap-4 md:flex-row" @submit.prevent="performSearch">
                 <div class="flex-1">
-                    <label class="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                         Search by name or registration number
                     </label>
                     <input
                         v-model.trim="claimSearch"
                         type="text"
                         placeholder="e.g. Nyendo MCC or MCC-UG-001"
-                        class="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2 text-sm text-slate-800 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                        class="mt-1 w-full rounded-md border border-surface-200 px-4 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     />
                 </div>
                 <div class="flex w-full gap-3 md:w-auto md:flex-col">
                     <button
                         type="submit"
-                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:flex-none"
+                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:flex-none"
                         :disabled="searching"
                     >
                         <Icon icon="mdi:magnify" :size="18" />
@@ -184,7 +184,7 @@
                     </button>
                     <button
                         type="button"
-                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800 md:flex-none"
+                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 md:flex-none"
                         @click="resetSearch"
                     >
                         Clear
@@ -192,12 +192,12 @@
                 </div>
             </form>
 
-            <div v-if="claimError" class="mt-4 rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700">
+            <div v-if="claimError" class="mt-4 rounded-md border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700">
                 {{ claimError }}
             </div>
             <div
                 v-if="claimSuccess"
-                class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-700"
+                class="mt-4 rounded-md border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-700"
             >
                 {{ claimSuccess }}
             </div>
@@ -206,33 +206,33 @@
                 <div
                     v-for="center in filteredResults"
                     :key="center.id"
-                    class="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600"
+                    class="rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
                 >
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <p class="text-base font-semibold text-slate-900">{{ center.name }}</p>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">
+                            <p class="text-base font-semibold text-surface-900">{{ center.name }}</p>
+                            <p class="text-xs uppercase tracking-wide text-surface-400">
                                 {{ center.registration_number || 'Unregistered' }}
                             </p>
                         </div>
-                        <span class="text-xs font-medium text-slate-400">
+                        <span class="text-xs font-medium text-surface-400">
                             {{ center.partner_id ? 'Assigned' : 'Unassigned' }}
                         </span>
                     </div>
                     <p class="mt-3 leading-relaxed">{{ center.physical_address }}</p>
-                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-slate-400">
-                        <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-slate-100 px-2 py-0.5">
+                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-surface-400">
+                        <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-surface-100 px-2 py-0.5">
                             {{ chip }}
                         </span>
                     </div>
                     <textarea
                         v-model="claimMessages[center.id]"
                         rows="2"
-                        class="mt-4 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs text-slate-700 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                        class="mt-4 w-full rounded-md border border-surface-200 px-3 py-2 text-xs text-surface-700 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                         placeholder="Add an optional note for the admin team"
                     ></textarea>
                     <button
-                        class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
+                        class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
                         :disabled="claimingCenterId === center.id"
                         @click="submitClaim(center.id)"
                     >
@@ -243,22 +243,22 @@
             </div>
             <div
                 v-else-if="searched"
-                class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-10 text-center text-sm text-slate-500"
+                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-center text-sm text-surface-500"
             >
                 No centers matched your search or they are already assigned. Try a different keyword or contact the
                 admin team for assistance.
             </div>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">Claim history</h3>
-                    <p class="text-sm text-slate-500">
+                    <h3 class="text-lg font-semibold text-surface-900">Claim history</h3>
+                    <p class="text-sm text-surface-500">
                         Track approvals and rejections for milk collection centers tied to your partner.
                     </p>
                 </div>
-                <div class="flex items-center gap-2 text-xs text-slate-500">
+                <div class="flex items-center gap-2 text-xs text-surface-500">
                     <Icon icon="mdi:history" :size="16" />
                     {{ resolvedClaims.length }} resolved · {{ pendingClaims.length }} pending
                 </div>
@@ -268,14 +268,14 @@
                 <article
                     v-for="claim in sortedResolvedClaims"
                     :key="claim.id"
-                    class="flex h-full flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600"
+                    class="flex h-full flex-col gap-4 rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
                 >
                     <div class="flex items-start justify-between gap-3">
                         <div>
-                            <p class="text-base font-semibold text-slate-900">
+                            <p class="text-base font-semibold text-surface-900">
                                 {{ claim.milk_collection_center?.name ?? 'Milk Center' }}
                             </p>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">
+                            <p class="text-xs uppercase tracking-wide text-surface-400">
                                 {{ claim.partner?.name ?? partnerName }}
                             </p>
                         </div>
@@ -286,22 +286,22 @@
                         </span>
                     </div>
 
-                    <div class="flex items-start gap-2 text-xs text-slate-500">
+                    <div class="flex items-start gap-2 text-xs text-surface-500">
                         <Icon icon="mdi:map-marker-outline" :size="16" />
                         <span>
                             {{ claim.milk_collection_center?.physical_address || 'Address unavailable' }}
                         </span>
                     </div>
 
-                    <div v-if="claim.message" class="rounded-xl bg-slate-50 px-3 py-2 text-xs text-slate-500">
+                    <div v-if="claim.message" class="rounded-md bg-surface-50 px-3 py-2 text-xs text-surface-500">
                         “{{ claim.message }}”
                     </div>
 
-                    <div v-if="claim.response_notes" class="rounded-xl bg-emerald-50/60 px-3 py-2 text-xs text-emerald-700">
+                    <div v-if="claim.response_notes" class="rounded-md bg-emerald-50/60 px-3 py-2 text-xs text-emerald-700">
                         {{ claim.response_notes }}
                     </div>
 
-                    <div class="mt-auto space-y-1 text-xs text-slate-400">
+                    <div class="mt-auto space-y-1 text-xs text-surface-400">
                         <p>
                             Requested {{ formatDateTime(claim.created_at) }}
                             <span v-if="claim.requestedBy?.name"> by {{ claim.requestedBy.name }}</span>
@@ -315,22 +315,22 @@
             </div>
             <p
                 v-else
-                class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-10 text-sm text-slate-500"
+                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-sm text-surface-500"
             >
                 No resolved claims yet. Once admin teams approve or reject your requests, they’ll appear here.
             </p>
         </section>
 
-        <section class="rounded-3xl border border-slate-200 bg-white/90 p-8">
+        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
             <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                    <h3 class="text-lg font-semibold text-slate-900">Team invitations</h3>
-                    <p class="text-sm text-slate-500">
+                    <h3 class="text-lg font-semibold text-surface-900">Team invitations</h3>
+                    <p class="text-sm text-surface-500">
                         Invite partner admins or agents to collaborate. Invitations expire automatically if not accepted.
                     </p>
                 </div>
                 <button
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800"
+                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                     @click="openInvitationModal"
                 >
                     <Icon icon="mdi:email-plus-outline" :size="18" />
@@ -340,13 +340,13 @@
 
     <div
         v-if="inviteSuccess"
-        class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-700"
+        class="mt-4 rounded-md border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-700"
     >
         {{ inviteSuccess }}
     </div>
     <div
         v-if="inviteError"
-        class="mt-4 rounded-xl border border-rose-200 bg-rose-50/80 px-4 py-3 text-sm text-rose-700"
+        class="mt-4 rounded-md border border-rose-200 bg-rose-50/80 px-4 py-3 text-sm text-rose-700"
     >
         {{ inviteError }}
     </div>
@@ -355,24 +355,24 @@
                 <div
                     v-for="invite in pendingInvitations"
                     :key="invite.id"
-                    class="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600"
+                    class="rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
                 >
-                    <div class="flex items-center justify-between text-xs uppercase tracking-wide text-slate-400">
+                    <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
                         <span>{{ invite.email }}</span>
                         <span>Pending</span>
                     </div>
-                    <p class="mt-2 text-base font-semibold text-slate-900">
+                    <p class="mt-2 text-base font-semibold text-surface-900">
                         {{ invite.name || 'Awaiting acceptance' }}
                     </p>
-                    <p class="text-xs uppercase tracking-[0.3em] text-slate-400">
+                    <p class="text-xs uppercase tracking-[0.3em] text-surface-400">
                         {{ invite.role.replace('_', ' ') }}
                     </p>
-                    <p class="mt-3 text-xs text-slate-500">
+                    <p class="mt-3 text-xs text-surface-500">
                         Sent {{ formatDate(invite.created_at) }}
                     </p>
                     <div class="mt-4 flex justify-end">
                         <button
-                            class="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+                            class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
                             :disabled="revokingInvitationId === invite.id"
                             @click="revokeInvitation(invite.id)"
                         >
@@ -382,7 +382,7 @@
                     </div>
                 </div>
             </div>
-            <p v-else class="mt-6 rounded-2xl border border-dashed border-slate-200 bg-slate-50/80 p-10 text-sm text-slate-500">
+            <p v-else class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-sm text-surface-500">
                 No pending invitations. Invite team members to manage MCCs or capture deliveries on your behalf.
             </p>
         </section>

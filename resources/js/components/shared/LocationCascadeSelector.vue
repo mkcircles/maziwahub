@@ -1,13 +1,13 @@
 <template>
     <div class="grid gap-4 sm:grid-cols-2">
         <div class="space-y-1 sm:col-span-2">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 Country
             </label>
             <select
                 v-model.number="local.country_id"
                 :disabled="isDisabled"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select country</option>
                 <option
@@ -21,13 +21,13 @@
         </div>
 
         <div class="space-y-1 sm:col-span-2">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 District
             </label>
             <select
                 v-model.number="local.district_id"
                 :disabled="isDisabled || districts.length === 0"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select district</option>
                 <option
@@ -41,13 +41,13 @@
         </div>
 
         <div class="space-y-1">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 County
             </label>
             <select
                 v-model.number="local.county_id"
                 :disabled="isDisabled || counties.length === 0"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select county</option>
                 <option
@@ -61,13 +61,13 @@
         </div>
 
         <div class="space-y-1">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 Subcounty
             </label>
             <select
                 v-model.number="local.subcounty_id"
                 :disabled="isDisabled || subcounties.length === 0"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select subcounty</option>
                 <option
@@ -81,13 +81,13 @@
         </div>
 
         <div class="space-y-1">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 Parish
             </label>
             <select
                 v-model.number="local.parish_id"
                 :disabled="isDisabled || parishes.length === 0"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select parish</option>
                 <option
@@ -101,13 +101,13 @@
         </div>
 
         <div class="space-y-1">
-            <label class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+            <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                 Village
             </label>
             <select
                 v-model.number="local.village_id"
                 :disabled="isDisabled || villages.length === 0"
-                class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-60"
+                class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <option value="">Select village</option>
                 <option
