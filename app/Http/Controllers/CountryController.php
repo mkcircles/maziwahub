@@ -18,9 +18,7 @@ class CountryController extends Controller
     public function index()
     {
         return response()->json(
-            Country::query()
-                ->with($this->geographyRelations())
-                ->get()
+            Country::all()
         );
     }
 
