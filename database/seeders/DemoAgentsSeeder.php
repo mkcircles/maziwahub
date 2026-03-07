@@ -111,7 +111,7 @@ class DemoAgentsSeeder extends Seeder
             ],
             [
                 'name' => 'Enegrate',
-                'email' => 'enegrate@gmail.com',
+                'email' => 't.enegrate@gmail.com',
                 'password' => Hash::make('password'),
                 'phone' => '',
                 'address' => 'Kampala, Uganda',
