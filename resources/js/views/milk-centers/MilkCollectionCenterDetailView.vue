@@ -172,7 +172,7 @@
                             class="rounded-md border border-surface-200 bg-surface-50 p-6 text-center text-sm text-surface-600">
                             Loading trend data...
                         </div>
-                        <DailyDeliveriesBarChart v-else-if="deliveryTrend.length > 0" :summary="deliveryTrend" />
+                        <DailyDeliveriesLineChart v-else-if="deliveryTrend.length > 0" :summary="deliveryTrend" />
                         <div v-else
                             class="rounded-md border border-surface-200 bg-surface-50 p-6 text-center text-sm text-surface-600">
                             No recent deliveries to display.
@@ -324,7 +324,7 @@ import StatisticalCard from '../../components/shared/StatisticalCard.vue';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
 import MilkDeliveriesTable from '../../components/milk-centers/MilkDeliveriesTable.vue';
 import MilkCenterDeliveryTrend from '../../components/milk-centers/MilkCenterDeliveryTrend.vue';
-import DailyDeliveriesBarChart from '../../components/dashboard/DailyDeliveriesBarChart.vue';
+import DailyDeliveriesLineChart from '../../components/dashboard/DailyDeliveriesLineChart.vue';
 import CreateMilkDeliveryModal from '../../components/milk-centers/CreateMilkDeliveryModal.vue';
 import MilkCollectionCenterFormModal from '../../components/milk-centers/MilkCollectionCenterFormModal.vue';
 import CreateAgentModal from '../../components/agents/CreateAgentModal.vue';
