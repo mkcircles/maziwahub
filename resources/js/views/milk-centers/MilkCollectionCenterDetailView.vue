@@ -1,95 +1,186 @@
 <template>
-    <div class="space-y-6">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center gap-3">
-                <router-link
-                    to="/admin/milk-collection-centers"
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
-                >
+    <div class="space-y-8 pb-16">
+        <div v-if="loading" class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100">
+            <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <router-link to="/admin/milk-collection-centers"
+                    class="inline-flex items-center gap-2 self-start rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to centers
                 </router-link>
-                <div>
-                    <h1 class="text-2xl font-bold text-surface-200">{{ center?.name ?? 'Milk Collection Center' }}</h1>
-                    <p class="text-sm text-surface-500">
-                        {{ center?.registration_number ?? 'Unregistered center' }}
-                    </p>
+                <div class="flex items-center gap-3 text-surface-500">
+                    <Icon icon="mdi:loading" :size="22" class="animate-spin" />
+                    <span class="text-sm font-medium">Loading details…</span>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
-                <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
-                    @click="openEditModal"
-                    :disabled="loading || !center"
-                >
-                    <Icon icon="mdi:pencil" :size="18" />
-                    Edit
-                </button>
-                <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
-                    @click="refresh"
-                    :disabled="loading"
-                >
-                    <Icon icon="mdi:refresh" :size="18" />
-                    Refresh
-                </button>
+        </div>
+        <div v-else-if="error"
+            class="rounded-md border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100">
+            <div class="flex flex-col gap-4">
+                <router-link to="/admin/milk-collection-centers"
+                    class="inline-flex items-center gap-2 self-start rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-200/80">
+                    <Icon icon="mdi:arrow-left" :size="18" />
+                    Back to centers
+                </router-link>
+                <p class="text-sm font-medium">{{ error }}</p>
             </div>
         </div>
-
-        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">
-            Loading center details...
-        </div>
-        <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
-            {{ error }}
-        </div>
-        <div v-else-if="!center" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">
-            Milk collection center not found.
+        <div v-else-if="!center"
+            class="rounded-md border border-surface-200 bg-white p-10 text-center text-surface-600 shadow-sm shadow-slate-100">
+            <div class="mx-auto flex max-w-xl flex-col items-center gap-4">
+                <router-link to="/admin/milk-collection-centers"
+                    class="inline-flex items-center gap-2 rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
+                    <Icon icon="mdi:arrow-left" :size="18" />
+                    Back to centers
+                </router-link>
+                <p class="text-base font-medium">Milk collection center not found.</p>
+            </div>
         </div>
 
         <template v-else>
-            <div class="flex flex-wrap items-center gap-2 rounded-lg border border-surface-200 bg-white/70 p-1">
-                <button
-                    v-for="tab in tabs"
-                    :key="tab.id"
-                    type="button"
-                    class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition"
-                    :class="[
-                        activeTab === tab.id
-                            ? 'bg-primary-600 text-white shadow'
-                            : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900',
-                    ]"
-                    @click="selectTab(tab.id)"
-                >
-                    <span>{{ tab.label }}</span>
-                </button>
+            <!-- Rich Header Banner -->
+            <div class="relative overflow-hidden rounded-md bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+                </div>
+                <div class="relative flex flex-col gap-8">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <router-link to="/admin/milk-collection-centers"
+                            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
+                            <Icon icon="mdi:arrow-left" :size="18" />
+                            Back to centers
+                        </router-link>
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+                                @click="openEditModal" :disabled="loading || !center">
+                                <Icon icon="mdi:pencil" :size="18" />
+                                Edit Center
+                            </button>
+                            <button
+                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+                                @click="refresh" :disabled="loading">
+                                <Icon icon="mdi:refresh" :size="18" />
+                                Refresh data
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.45em] text-white/60">
+                                Milk Collection Center
+                            </p>
+                            <h1 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                                {{ center?.name ?? 'Collection Center' }}
+                            </h1>
+                            <p class="mt-2 text-xs text-white/80 md:text-sm">
+                                Reg # {{ center?.registration_number ?? 'N/A' }} • Registered {{
+                                    formatDate(center?.established_date) }}
+                            </p>
+
+                            <div class="mt-4 flex flex-wrap gap-2 text-[11px] md:text-xs">
+                                <span v-if="center.has_testing_equipment"
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
+                                    <Icon icon="mdi:test-tube" :size="16" class="text-emerald-400" />
+                                    Testing Equipment
+                                </span>
+                                <span v-if="center.has_washing_bay"
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
+                                    <Icon icon="mdi:water" :size="16" class="text-sky-400" />
+                                    Washing Bay
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
+                                    <Icon icon="mdi:flash" :size="16" class="text-amber-400" />
+                                    {{ center.power_source ?? 'Unknown Power' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-3 text-sm text-white/85">
+                            <div class="inline-flex items-center gap-2">
+                                <Icon icon="mdi:map-marker-radius" :size="18" class="text-white/80" />
+                                <span>{{ center.physical_address }}</span>
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <Icon icon="mdi:account-tie" :size="18" class="text-white/80" />
+                                <span>Manager: {{ center.manager_name ?? 'Not assigned' }}</span>
+                            </div>
+                            <div class="inline-flex items-center gap-2">
+                                <Icon icon="mdi:phone-outline" :size="18" class="text-white/80" />
+                                <span>{{ center.manager_phone ?? 'No phone' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                <StatisticalCard icon="mdi:warehouse" icon-class="text-emerald-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                    <template #title>Cooling Capacity</template>
+                    <template #default>{{ formatNumber(center.cooler_capacity_liters) }} L</template>
+                    <template #caption>Maximum storage per day</template>
+                </StatisticalCard>
+                <StatisticalCard icon="mdi:account-group" icon-class="text-primary-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                    <template #title>Farmers</template>
+                    <template #default>{{ farmersCount ?? '—' }}</template>
+                    <template #caption>Registered to this center</template>
+                </StatisticalCard>
+                <StatisticalCard icon="mdi:bucket-outline" icon-class="text-amber-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                    <template #title>Daily Volume</template>
+                    <template #default>{{ averageDailyVolume }}</template>
+                    <template #caption>30-day trailing average</template>
+                </StatisticalCard>
+                <StatisticalCard icon="mdi:account-hard-hat" icon-class="text-purple-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                    <template #title>Staff Count</template>
+                    <template #default>{{ center.staff_count ?? '0' }}</template>
+                    <template #caption>Team members on site</template>
+                </StatisticalCard>
+            </div>
+
+            <div class="rounded-lg border border-surface-200 bg-white p-2 shadow-sm shadow-slate-100">
+                <nav class="flex flex-wrap gap-2" aria-label="Center detail tabs">
+                    <button v-for="tab in tabs" :key="tab.id" type="button"
+                        class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+                        :class="[
+                            activeTab === tab.id
+                                ? 'bg-primary-600 text-white shadow-lg shadow-slate-400/40'
+                                : 'text-surface-600 hover:text-surface-900 hover:bg-surface-100',
+                        ]" @click="selectTab(tab.id)">
+                        <Icon :icon="tab.icon || 'mdi:information-outline'" :size="16" />
+                        <span>{{ tab.label }}</span>
+                    </button>
+                </nav>
             </div>
 
             <section v-if="activeTab === 'overview'" class="space-y-6">
-                <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <StatisticalCard icon="mdi:warehouse" icon-class="text-emerald-600">
-                        <template #title>Cooling Capacity</template>
-                        <template #default>{{ formatNumber(center.cooler_capacity_liters) }} L</template>
-                        <template #caption>Maximum storage per day</template>
-                    </StatisticalCard>
-                    <StatisticalCard icon="mdi:account-group" icon-class="text-primary-600">
-                        <template #title>Registered Farmers</template>
-                        <template #default>{{ farmersCount ?? '—' }}</template>
-                        <template #caption>Farmers attached to this center</template>
-                    </StatisticalCard>
-                    <StatisticalCard icon="mdi:bucket-outline" icon-class="text-amber-500">
-                        <template #title>Average Daily Volume</template>
-                        <template #default>{{ averageDailyVolume }}</template>
-                        <template #caption>Based on recent deliveries</template>
-                    </StatisticalCard>
-                    <StatisticalCard icon="mdi:flash" icon-class="text-purple-500">
-                        <template #title>Power Source</template>
-                        <template #default>{{ center.power_source ?? 'Not specified' }}</template>
-                        <template #caption>Primary facility power</template>
-                    </StatisticalCard>
-                </div>
-
                 <div class="grid gap-6 lg:grid-cols-2">
-                    <section class="space-y-4 rounded-lg bg-white p-6 shadow">
+                    <section
+                        class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 lg:col-span-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                            <div>
+                                <h2 class="text-lg font-semibold text-surface-900">30-Day Delivery Trend</h2>
+                                <p class="text-sm text-surface-500">Total volume collected daily over the last 30 days.
+                                </p>
+                            </div>
+                        </div>
+                        <div v-if="trendLoading"
+                            class="rounded-md border border-surface-200 bg-surface-50 p-6 text-center text-sm text-surface-600">
+                            Loading trend data...
+                        </div>
+                        <DailyDeliveriesBarChart v-else-if="deliveryTrend.length > 0" :summary="deliveryTrend" />
+                        <div v-else
+                            class="rounded-md border border-surface-200 bg-surface-50 p-6 text-center text-sm text-surface-600">
+                            No recent deliveries to display.
+                        </div>
+                    </section>
+
+                    <section
+                        class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                         <h2 class="text-lg font-semibold text-surface-900">Facility Details</h2>
                         <dl class="grid gap-4 sm:grid-cols-2">
                             <div>
@@ -101,72 +192,41 @@
                                 <dd class="text-sm text-surface-700">{{ center.registration_number ?? 'N/A' }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-surface-500">Manager</dt>
-                                <dd class="text-sm text-surface-700">{{ center.manager_name ?? 'Not assigned' }}</dd>
-                            </div>
-                            <div>
-                                <dt class="text-xs uppercase tracking-wide text-surface-500">Manager Phone</dt>
-                                <dd class="text-sm text-surface-700">{{ center.manager_phone ?? 'Not provided' }}</dd>
-                            </div>
-                            <div>
                                 <dt class="text-xs uppercase tracking-wide text-surface-500">Established</dt>
                                 <dd class="text-sm text-surface-700">{{ formatDate(center.established_date) }}</dd>
                             </div>
                             <div>
-                                <dt class="text-xs uppercase tracking-wide text-surface-500">Staff Count</dt>
-                                <dd class="text-sm text-surface-700">{{ center.staff_count ?? '0' }}</dd>
-                            </div>
-                            <div class="sm:col-span-2">
-                                <dt class="text-xs uppercase tracking-wide text-surface-500">Address</dt>
-                                <dd class="text-sm text-surface-700">{{ center.physical_address }}</dd>
-                            </div>
-                            <div class="sm:col-span-2">
-                                <dt class="text-xs uppercase tracking-wide text-surface-500">Location</dt>
+                                <dt class="text-xs uppercase tracking-wide text-surface-500">Location Area</dt>
                                 <dd class="text-sm text-surface-700">{{ formatLocation(center) }}</dd>
                             </div>
                         </dl>
-                        <div class="flex flex-wrap gap-2">
-                            <span
-                                v-if="center.has_testing_equipment"
-                                class="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-emerald-700"
-                            >
-                                <Icon icon="mdi:test-tube" :size="14" /> Testing Equipment
-                            </span>
-                            <span
-                                v-if="center.has_washing_bay"
-                                class="inline-flex items-center gap-2 rounded-full bg-primary-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary-700"
-                            >
-                                <Icon icon="mdi:water" :size="14" /> Washing Bay
-                            </span>
-                        </div>
                     </section>
 
-                    <section class="space-y-4 rounded-lg bg-white p-6 shadow">
+                    <section
+                        class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                         <div class="flex items-center justify-between">
                             <h2 class="text-lg font-semibold text-surface-900">Recent Deliveries</h2>
                             <div class="flex items-center gap-2">
                                 <button
-                                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
-                                    @click="fetchDeliveries"
-                                    :disabled="deliveriesLoading"
-                                >
+                                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-surface-50 px-3 py-1.5 text-xs font-medium text-surface-700 hover:bg-surface-100 hover:text-surface-900 transition"
+                                    @click="fetchDeliveries" :disabled="deliveriesLoading">
                                     <Icon icon="mdi:refresh" :size="16" />
                                     Refresh
                                 </button>
                                 <button
-                                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
-                                    @click="openCreateDeliveryModal"
-                                    :disabled="deliveriesLoading"
-                                >
+                                    class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold tracking-wide text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                    @click="openCreateDeliveryModal" :disabled="deliveriesLoading">
                                     <Icon icon="mdi:plus" :size="16" />
                                     Record Delivery
                                 </button>
                             </div>
                         </div>
-                        <div v-if="deliveriesLoading" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
+                        <div v-if="deliveriesLoading"
+                            class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                             Loading recent deliveries...
                         </div>
-                        <div v-else-if="recentDeliveries.length === 0" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
+                        <div v-else-if="recentDeliveries.length === 0"
+                            class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                             No recent deliveries recorded.
                         </div>
                         <ul v-else class="divide-y divide-surface-200">
@@ -174,10 +234,12 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <p class="text-sm font-semibold text-surface-900">
-                                            {{ formatDate(delivery.delivery_date) }} • {{ formatLiters(delivery.volume_liters) }} L
+                                            {{ formatDate(delivery.delivery_date) }} • {{
+                                                formatLiters(delivery.volume_liters) }} L
                                         </p>
                                         <p class="text-xs text-surface-500">
-                                            Farmer #{{ delivery.farmer_id }} • Grade {{ delivery.quality_grade ?? 'N/A' }}
+                                            Farmer #{{ delivery.farmer_id }} • Grade {{ delivery.quality_grade ?? 'N/A'
+                                            }}
                                         </p>
                                     </div>
                                     <p class="text-sm font-medium text-surface-900">
@@ -229,60 +291,32 @@
                     </div>
                     <button
                         class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
-                        @click="openCreateAgentModal"
-                        :disabled="loading"
-                    >
+                        @click="openCreateAgentModal" :disabled="loading">
                         <Icon icon="mdi:account-plus" :size="16" />
                         Create Agent
                     </button>
                 </div>
-                <AgentsTable 
-                    :agents="mccAgents" 
-                    :loading="mccAgentsLoading" 
-                    @edit="openAgentEditModal"
-                />
+                <AgentsTable :agents="mccAgents" :loading="mccAgentsLoading" @edit="openAgentEditModal" />
             </section>
 
             <section v-else class="space-y-6">
-                <MilkCenterDeliveryTrend
-                    v-if="allDeliveries.length > 0"
-                    :deliveries="allDeliveries"
-                />
-                <MilkDeliveriesTable
-                    :deliveries="allDeliveries"
-                    :loading="allDeliveriesLoading"
-                    :format-date="formatDate"
-                    :format-liters="formatLiters"
-                    :format-currency="formatCurrency"
-                    @refresh="fetchAllDeliveries"
-                    @create="openCreateDeliveryModal"
-                />
+                <MilkCenterDeliveryTrend v-if="allDeliveries.length > 0" :deliveries="allDeliveries" />
+                <MilkDeliveriesTable :deliveries="allDeliveries" :loading="allDeliveriesLoading"
+                    :format-date="formatDate" :format-liters="formatLiters" :format-currency="formatCurrency"
+                    @refresh="fetchAllDeliveries" @create="openCreateDeliveryModal" />
             </section>
         </template>
     </div>
-    <CreateMilkDeliveryModal
-        :is-open="showCreateDeliveryModal"
-        :center-id="center?.id ?? null"
-        @close="closeCreateDeliveryModal"
-        @created="handleDeliveryCreated"
-    />
-    <MilkCollectionCenterFormModal
-        :is-open="showEditModal"
-        :center-id="center?.id"
-        :initial-data="center ?? undefined"
-        @close="closeEditModal"
-        @updated="handleCenterUpdated"
-    />
-    <CreateAgentModal
-        :is-open="showCreateAgentModal"
-        :preselected-mcc-id="center?.id"
-        @close="closeCreateAgentModal"
-        @created="handleAgentCreated"
-    />
+    <CreateMilkDeliveryModal :is-open="showCreateDeliveryModal" :center-id="center?.id ?? null"
+        @close="closeCreateDeliveryModal" @created="handleDeliveryCreated" />
+    <MilkCollectionCenterFormModal :is-open="showEditModal" :center-id="center?.id" :initial-data="center ?? undefined"
+        @close="closeEditModal" @updated="handleCenterUpdated" />
+    <CreateAgentModal :is-open="showCreateAgentModal" :preselected-mcc-id="center?.id" @close="closeCreateAgentModal"
+        @created="handleAgentCreated" />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Icon from '../../components/shared/Icon.vue';
@@ -290,6 +324,7 @@ import StatisticalCard from '../../components/shared/StatisticalCard.vue';
 import type { MilkCollectionCenter } from '../../stores/geographyStore';
 import MilkDeliveriesTable from '../../components/milk-centers/MilkDeliveriesTable.vue';
 import MilkCenterDeliveryTrend from '../../components/milk-centers/MilkCenterDeliveryTrend.vue';
+import DailyDeliveriesBarChart from '../../components/dashboard/DailyDeliveriesBarChart.vue';
 import CreateMilkDeliveryModal from '../../components/milk-centers/CreateMilkDeliveryModal.vue';
 import MilkCollectionCenterFormModal from '../../components/milk-centers/MilkCollectionCenterFormModal.vue';
 import CreateAgentModal from '../../components/agents/CreateAgentModal.vue';
@@ -310,8 +345,7 @@ interface MilkDeliverySummary {
 type TabKey = 'overview' | 'deliveries' | 'agents';
 
 const route = useRoute();
-const centerIdParam = route.params.id;
-const centerId = Number(centerIdParam);
+const centerId = computed(() => Number(route.params.id));
 
 const agentStore = useAgentStore();
 const { agents: mccAgents, loading: mccAgentsLoading } = storeToRefs(agentStore);
@@ -333,13 +367,13 @@ const showCreateAgentModal = ref(false);
 
 const activeTab = ref<TabKey>('overview');
 const tabs = [
-    { id: 'overview' as TabKey, label: 'Overview' },
-    { id: 'deliveries' as TabKey, label: 'Milk Deliveries' },
-    { id: 'agents' as TabKey, label: 'Agents' },
+    { id: 'overview' as TabKey, label: 'Overview', icon: 'mdi:information-outline' },
+    { id: 'deliveries' as TabKey, label: 'Milk Deliveries', icon: 'mdi:truck-delivery-outline' },
+    { id: 'agents' as TabKey, label: 'Agents', icon: 'mdi:account-tie-outline' },
 ];
 
 const fetchCenter = async () => {
-    if (Number.isNaN(centerId)) {
+    if (Number.isNaN(centerId.value)) {
         error.value = 'Invalid center identifier.';
         return;
     }
@@ -348,7 +382,7 @@ const fetchCenter = async () => {
     error.value = null;
 
     try {
-        const response = await axios.get<MilkCollectionCenter>(`/milk-collection-centers/${centerId}`);
+        const response = await axios.get<MilkCollectionCenter>(`/milk-collection-centers/${centerId.value}`);
         center.value = response.data;
     } catch (err: any) {
         error.value = err.response?.data?.message || 'Failed to load milk collection center.';
@@ -402,13 +436,30 @@ const fetchAllDeliveries = async () => {
     }
 };
 
+const trendLoading = ref(false);
+const deliveryTrend = ref<{ date: string; total_volume: number }[]>([]);
+
+const fetchTrend = async () => {
+    if (!center.value) return;
+
+    trendLoading.value = true;
+    try {
+        const response = await axios.get<{ date: string; total_volume: number }[]>(`/milk-collection-centers/${center.value.id}/delivery-trend`);
+        deliveryTrend.value = response.data ?? [];
+    } catch {
+        deliveryTrend.value = [];
+    } finally {
+        trendLoading.value = false;
+    }
+};
+
 const refresh = async () => {
     await fetchCenter();
-    await Promise.all([fetchMetrics(), fetchDeliveries()]);
+    await Promise.all([fetchMetrics(), fetchDeliveries(), fetchTrend()]);
     if (activeTab.value === 'deliveries') {
         await fetchAllDeliveries();
     } else if (activeTab.value === 'agents') {
-        await agentStore.fetchAgents({ milk_collection_center_id: centerId });
+        await agentStore.fetchAgents({ milk_collection_center_id: centerId.value });
     }
 };
 
@@ -417,7 +468,7 @@ const selectTab = async (tab: TabKey) => {
     if (tab === 'deliveries' && !allDeliveries.value.length) {
         await fetchAllDeliveries();
     } else if (tab === 'agents') {
-        await agentStore.fetchAgents({ milk_collection_center_id: centerId });
+        await agentStore.fetchAgents({ milk_collection_center_id: centerId.value });
     }
 };
 
@@ -431,6 +482,7 @@ const closeCreateDeliveryModal = () => {
 
 const handleDeliveryCreated = async () => {
     await fetchDeliveries();
+    await fetchTrend();
     if (activeTab.value === 'deliveries') {
         await fetchAllDeliveries();
     }
@@ -464,8 +516,17 @@ const closeCreateAgentModal = () => {
 };
 
 const handleAgentCreated = async () => {
-    await agentStore.fetchAgents({ milk_collection_center_id: centerId });
+    await agentStore.fetchAgents({ milk_collection_center_id: centerId.value });
 };
+
+watch(
+    () => centerId.value,
+    (newId, oldId) => {
+        if (newId !== oldId && !Number.isNaN(newId)) {
+            refresh();
+        }
+    }
+);
 
 const formatDate = (value?: string | null) => {
     if (!value) return '—';
@@ -512,7 +573,6 @@ const formatLocation = (center: MilkCollectionCenter) => {
 
 onMounted(async () => {
     await fetchCenter();
-    await Promise.all([fetchMetrics(), fetchDeliveries()]);
+    await Promise.all([fetchMetrics(), fetchDeliveries(), fetchTrend()]);
 });
 </script>
-

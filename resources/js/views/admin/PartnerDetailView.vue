@@ -1,21 +1,25 @@
 <template>
     <div class="space-y-6">
         <div v-if="partner" class="space-y-10">
-            <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white">
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(76,201,240,0.28),transparent_55%)] opacity-90"></div>
+            <section
+                class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(76,201,240,0.28),transparent_55%)] opacity-90">
+                </div>
                 <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                     <div class="max-w-2xl space-y-4">
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-white/70">Partner Overview</p>
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-white/70">Partner Overview
+                        </p>
                         <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ partner.name }}</h1>
                         <p class="text-sm text-white/70">
                             {{ partner.description || 'No description provided for this partner yet.' }}
                         </p>
                         <div class="flex flex-wrap items-center gap-3 text-xs">
-                            <span
-                                class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-                                :class="partner.is_active ? 'bg-emerald-500/20 text-emerald-50 border border-emerald-400/50' : 'bg-surface-500/20 text-slate-100 border border-slate-400/50'"
-                            >
-                                <Icon :icon="partner.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'" :size="16" />
+                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+                                :class="partner.is_active ? 'bg-emerald-500/20 text-emerald-50 border border-emerald-400/50' : 'bg-surface-500/20 text-slate-100 border border-slate-400/50'">
+                                <Icon
+                                    :icon="partner.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'"
+                                    :size="16" />
                                 {{ partner.is_active ? 'Active partner' : 'Inactive partner' }}
                             </span>
                             <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
@@ -31,23 +35,20 @@
                     <div class="flex flex-wrap items-center gap-3">
                         <button
                             class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
-                            :disabled="togglingStatus"
-                            @click="toggleStatus"
-                        >
-                            <Icon :icon="partner.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'" :size="18" />
+                            :disabled="togglingStatus" @click="toggleStatus">
+                            <Icon :icon="partner.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'"
+                                :size="18" />
                             {{ partner.is_active ? 'Deactivate partner' : 'Activate partner' }}
                         </button>
                         <button
                             class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
-                            @click="openEditModal"
-                        >
+                            @click="openEditModal">
                             <Icon icon="mdi:pencil" :size="18" />
                             Edit details
                         </button>
                         <button
                             class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
-                            @click="openInvitationModal"
-                        >
+                            @click="openInvitationModal">
                             <Icon icon="mdi:email-plus-outline" :size="18" />
                             Invite member
                         </button>
@@ -55,10 +56,12 @@
                 </div>
             </section>
 
-            <section v-if="actionSuccess" class="rounded-md border border-emerald-200 bg-emerald-50/80 px-6 py-4 text-sm text-emerald-700 shadow-sm shadow-emerald-100">
+            <section v-if="actionSuccess"
+                class="rounded-md border border-emerald-200 bg-emerald-50/80 px-6 py-4 text-sm text-emerald-700 shadow-sm shadow-emerald-100">
                 {{ actionSuccess }}
             </section>
-            <section v-if="actionError" class="rounded-md border border-rose-200 bg-rose-50/80 px-6 py-4 text-sm text-rose-700 shadow-sm shadow-rose-100">
+            <section v-if="actionError"
+                class="rounded-md border border-rose-200 bg-rose-50/80 px-6 py-4 text-sm text-rose-700 shadow-sm shadow-rose-100">
                 {{ actionError }}
             </section>
 
@@ -89,12 +92,10 @@
                 <div class="space-y-4 rounded-md border border-surface-200 bg-white/95 p-6 shadow-sm shadow-slate-100">
                     <h2 class="text-lg font-semibold text-surface-900">Contact & Registration</h2>
                     <div class="grid gap-4 sm:grid-cols-2">
-                        <div
-                            v-for="item in contactDetails"
-                            :key="item.label"
-                            class="rounded-lg border border-surface-100 bg-surface-50/80 p-4"
-                        >
-                            <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">{{ item.label }}</p>
+                        <div v-for="item in contactDetails" :key="item.label"
+                            class="rounded-lg border border-surface-100 bg-surface-50/80 p-4">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">{{ item.label }}
+                            </p>
                             <p class="mt-1 text-sm font-medium text-surface-700">{{ item.value }}</p>
                         </div>
                     </div>
@@ -109,27 +110,22 @@
                         <h2 class="text-lg font-semibold text-surface-900">Invitations</h2>
                         <button
                             class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                            @click="openInvitationModal"
-                        >
+                            @click="openInvitationModal">
                             <Icon icon="mdi:email-plus-outline" :size="16" />
                             Invite member
                         </button>
                     </div>
-                    <div v-if="invitationsLoading" class="flex h-40 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
+                    <div v-if="invitationsLoading"
+                        class="flex h-40 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                         Loading invitations…
                     </div>
-                    <div
-                        v-else-if="!partnerInvitations.length"
-                        class="flex h-40 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
-                    >
+                    <div v-else-if="!partnerInvitations.length"
+                        class="flex h-40 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                         No invitations found. Send one to onboard a team member.
                     </div>
                     <div v-else class="space-y-3">
-                        <div
-                            v-for="invite in partnerInvitations"
-                            :key="invite.id"
-                            class="flex flex-col gap-2 rounded-lg border border-surface-100 bg-white p-4 shadow-inner shadow-slate-100"
-                        >
+                        <div v-for="invite in partnerInvitations" :key="invite.id"
+                            class="flex flex-col gap-2 rounded-lg border border-surface-100 bg-white p-4 shadow-inner shadow-slate-100">
                             <div class="flex flex-wrap items-center justify-between gap-3">
                                 <div>
                                     <p class="font-semibold text-surface-900">{{ invite.name || invite.email }}</p>
@@ -137,14 +133,15 @@
                                 </div>
                                 <span
                                     class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold"
-                                    :class="invitationStatusClass(invite.status)"
-                                >
-                                    <span class="h-2 w-2 rounded-full" :class="invitationDotClass(invite.status)"></span>
+                                    :class="invitationStatusClass(invite.status)">
+                                    <span class="h-2 w-2 rounded-full"
+                                        :class="invitationDotClass(invite.status)"></span>
                                     {{ formatInvitationStatus(invite.status) }}
                                 </span>
                             </div>
                             <div class="flex flex-wrap items-center gap-3 text-xs text-surface-500">
-                                <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-0.5 font-medium text-surface-600">
+                                <span
+                                    class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-0.5 font-medium text-surface-600">
                                     <Icon icon="mdi:account-badge-outline" :size="14" />
                                     {{ invite.role === 'partner_admin' ? 'Partner Admin' : 'Partner Agent' }}
                                 </span>
@@ -158,9 +155,7 @@
                             <div class="flex justify-end gap-2" v-if="invite.status === 'pending'">
                                 <button
                                     class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-60"
-                                    :disabled="revokingInvitationId === invite.id"
-                                    @click="revokeInvitation(invite)"
-                                >
+                                    :disabled="revokingInvitationId === invite.id" @click="revokeInvitation(invite)">
                                     <Icon icon="mdi:cancel" :size="16" />
                                     {{ revokingInvitationId === invite.id ? 'Revoking…' : 'Revoke' }}
                                 </button>
@@ -178,26 +173,19 @@
                             Facilities currently associated with {{ partner.name }}.
                         </p>
                     </div>
-                    <router-link
-                        to="/admin/milk-collection-centers"
-                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                    >
+                    <router-link to="/admin/milk-collection-centers"
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800">
                         <Icon icon="mdi:open-in-new" :size="16" />
                         Manage centers
                     </router-link>
                 </div>
-                <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3" v-if="partner.milk_collection_centers?.length">
-                    <CountryMilkCenterCard
-                        v-for="center in partner.milk_collection_centers"
-                        :key="center.id"
-                        :center="center"
-                        :minified="true"
-                    />
+                <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+                    v-if="partner.milk_collection_centers?.length">
+                    <CountryMilkCenterCard v-for="center in partner.milk_collection_centers" :key="center.id"
+                        :center="center" :minified="true" />
                 </div>
-                <div
-                    v-else
-                    class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
-                >
+                <div v-else
+                    class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                     No collection centers assigned yet.
                 </div>
             </section>
@@ -210,27 +198,24 @@
                             Review and action claims submitted by {{ partner.name }}.
                         </p>
                     </div>
-                    <p class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-500">
+                    <p
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-500">
                         <Icon icon="mdi:file-document-outline" :size="16" />
                         {{ partnerClaims.length }} total claims
                     </p>
                 </div>
 
-                <div v-if="claimsLoading" class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
+                <div v-if="claimsLoading"
+                    class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                     Loading claims…
                 </div>
-                <div
-                    v-else-if="!partnerClaims.length"
-                    class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
-                >
+                <div v-else-if="!partnerClaims.length"
+                    class="mt-6 flex h-48 items-center justify-center rounded-lg border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
                     No claims found for this partner.
                 </div>
                 <div v-else class="mt-6 space-y-4">
-                    <div
-                        v-for="claim in partnerClaims"
-                        :key="claim.id"
-                        class="space-y-3 rounded-lg border border-surface-100 bg-white p-5 shadow-inner shadow-slate-100"
-                    >
+                    <div v-for="claim in partnerClaims" :key="claim.id"
+                        class="space-y-3 rounded-lg border border-surface-100 bg-white p-5 shadow-inner shadow-slate-100">
                         <div class="flex flex-wrap items-start justify-between gap-3">
                             <div>
                                 <p class="text-sm font-semibold text-surface-900">
@@ -242,8 +227,7 @@
                             </div>
                             <span
                                 class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold"
-                                :class="claimStatusBadgeClasses(claim.status)"
-                            >
+                                :class="claimStatusBadgeClasses(claim.status)">
                                 <span class="h-2 w-2 rounded-full" :class="claimDotClass(claim.status)"></span>
                                 {{ formatClaimStatus(claim.status) }}
                             </span>
@@ -252,7 +236,8 @@
                             “{{ claim.message }}”
                         </div>
                         <div class="flex flex-wrap gap-3 text-xs text-surface-500">
-                            <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-0.5 font-medium text-surface-600">
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-0.5 font-medium text-surface-600">
                                 <Icon icon="mdi:account-outline" :size="14" />
                                 Requested by {{ claim.requested_by_user_id ? requesterName(claim.requested_by_user_id) : 'Partner Admin' }}
                             </span>
@@ -265,35 +250,27 @@
                         </div>
 
                         <template v-if="claim.status === 'pending' && canModerate">
-                            <textarea
-                                v-model="responseNotes[claim.id]"
-                                rows="2"
+                            <textarea v-model="responseNotes[claim.id]" rows="2"
                                 placeholder="Add response notes (optional)"
-                                class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                            ></textarea>
+                                class="w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-700 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"></textarea>
                             <div class="flex flex-wrap justify-end gap-2">
                                 <button
                                     class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
-                                    :disabled="isProcessing(claim.id)"
-                                    @click="rejectClaim(claim)"
-                                >
+                                    :disabled="isProcessing(claim.id)" @click="rejectClaim(claim)">
                                     <Icon icon="mdi:thumb-down-outline" :size="16" />
                                     {{ isProcessing(claim.id) && pendingAction[claim.id] === 'reject' ? 'Rejecting…' : 'Reject' }}
                                 </button>
                                 <button
                                     class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
-                                    :disabled="isProcessing(claim.id)"
-                                    @click="approveClaim(claim)"
-                                >
+                                    :disabled="isProcessing(claim.id)" @click="approveClaim(claim)">
                                     <Icon icon="mdi:check-circle-outline" :size="16" />
-                                    {{ isProcessing(claim.id) && pendingAction[claim.id] === 'approve' ? 'Approving…' : 'Approve' }}
+                                    {{ isProcessing(claim.id) && pendingAction[claim.id] === 'approve' ? 'Approving…' :
+                                        'Approve' }}
                                 </button>
                             </div>
                         </template>
-                        <div
-                            v-else-if="claim.response_notes"
-                            class="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-700"
-                        >
+                        <div v-else-if="claim.response_notes"
+                            class="rounded-lg border border-emerald-200 bg-emerald-50/70 p-3 text-xs text-emerald-700">
                             {{ claim.response_notes }}
                         </div>
                     </div>
@@ -301,29 +278,21 @@
             </section>
         </div>
 
-        <div
-            v-else
-            class="flex h-64 items-center justify-center rounded-md border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
-        >
+        <div v-else
+            class="flex h-64 items-center justify-center rounded-md border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500">
             Loading partner details…
         </div>
 
-        <PartnerFormModal
-            :is-open="showEditModal"
-            :partner="partner"
-            @close="closeEditModal"
-            @saved="handleEditSaved"
-        />
-        <InvitePartnerMemberModal
-            :is-open="showInvitationModal"
-            :partner-id="partner?.id ?? null"
-            @close="closeInvitationModal"
-            @created="handleInvitationCreated"
-        />
-        <section v-if="!partner && actionSuccess" class="rounded-md border border-emerald-200 bg-emerald-50/80 px-6 py-4 text-sm text-emerald-700 shadow-sm shadow-emerald-100">
+        <PartnerFormModal :is-open="showEditModal" :partner="partner" @close="closeEditModal"
+            @saved="handleEditSaved" />
+        <InvitePartnerMemberModal :is-open="showInvitationModal" :partner-id="partner?.id ?? null"
+            @close="closeInvitationModal" @created="handleInvitationCreated" />
+        <section v-if="!partner && actionSuccess"
+            class="rounded-md border border-emerald-200 bg-emerald-50/80 px-6 py-4 text-sm text-emerald-700 shadow-sm shadow-emerald-100">
             {{ actionSuccess }}
         </section>
-        <section v-if="!partner && actionError" class="rounded-md border border-rose-200 bg-rose-50/80 px-6 py-4 text-sm text-rose-700 shadow-sm shadow-rose-100">
+        <section v-if="!partner && actionError"
+            class="rounded-md border border-rose-200 bg-rose-50/80 px-6 py-4 text-sm text-rose-700 shadow-sm shadow-rose-100">
             {{ actionError }}
         </section>
     </div>
@@ -390,15 +359,15 @@ const contactDetails = computed(() => {
         partner.value.website ? { label: 'Website', value: partner.value.website } : null,
         partner.value.contact_name
             ? {
-                  label: 'Primary Contact',
-                  value: `${partner.value.contact_name}${partner.value.contact_title ? ` — ${partner.value.contact_title}` : ''}`,
-              }
+                label: 'Primary Contact',
+                value: `${partner.value.contact_name}${partner.value.contact_title ? ` — ${partner.value.contact_title}` : ''}`,
+            }
             : null,
         partner.value.city || partner.value.country
             ? {
-                  label: 'Location',
-                  value: [partner.value.city, partner.value.country].filter(Boolean).join(', '),
-              }
+                label: 'Location',
+                value: [partner.value.city, partner.value.country].filter(Boolean).join(', '),
+            }
             : null,
     ].filter(Boolean) as Array<{ label: string; value: string }>;
 });
@@ -593,9 +562,14 @@ const approveClaim = (claim: MilkCollectionCenterClaim) =>
 const rejectClaim = (claim: MilkCollectionCenterClaim) =>
     handleClaimAction(claim, 'reject', partnerStore.rejectClaim);
 
-watch(partnerId, id => {
-    loadPartner(id);
-}, { immediate: true });
+watch(
+    () => partnerId.value,
+    (newId, oldId) => {
+        if (newId !== oldId && !Number.isNaN(newId)) {
+            loadPartner(newId);
+        }
+    }
+);
 
 onMounted(() => {
     loadPartner(partnerId.value);
@@ -614,4 +588,3 @@ watch(
 );
 
 </script>
-

@@ -1,14 +1,9 @@
 <template>
     <div class="space-y-8 pb-16">
-        <div
-            v-if="loading"
-            class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100"
-        >
+        <div v-if="loading" class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100">
             <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                <router-link
-                    to="/admin/cows"
-                    class="inline-flex items-center gap-2 self-start rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200"
-                >
+                <router-link to="/admin/cows"
+                    class="inline-flex items-center gap-2 self-start rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to cows
                 </router-link>
@@ -18,30 +13,22 @@
                 </div>
             </div>
         </div>
-        <div
-            v-else-if="error"
-            class="rounded-md border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100"
-        >
+        <div v-else-if="error"
+            class="rounded-md border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100">
             <div class="flex flex-col gap-4">
-                <router-link
-                    to="/admin/cows"
-                    class="inline-flex items-center gap-2 self-start rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-200/80"
-                >
+                <router-link to="/admin/cows"
+                    class="inline-flex items-center gap-2 self-start rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-200/80">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to cows
                 </router-link>
                 <p class="text-sm font-medium">{{ error }}</p>
             </div>
         </div>
-        <div
-            v-else-if="!cow"
-            class="rounded-md border border-surface-200 bg-white p-10 text-center text-surface-600 shadow-sm shadow-slate-100"
-        >
+        <div v-else-if="!cow"
+            class="rounded-md border border-surface-200 bg-white p-10 text-center text-surface-600 shadow-sm shadow-slate-100">
             <div class="mx-auto flex max-w-xl flex-col items-center gap-4">
-                <router-link
-                    to="/admin/cows"
-                    class="inline-flex items-center gap-2 rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200"
-                >
+                <router-link to="/admin/cows"
+                    class="inline-flex items-center gap-2 rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to cows
                 </router-link>
@@ -50,24 +37,20 @@
         </div>
 
         <template v-else>
-            <div
-                class="relative overflow-hidden rounded-md bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40"
-            >
-                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
+            <div class="relative overflow-hidden rounded-md bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+                </div>
                 <div class="relative flex flex-col gap-8">
                     <div class="flex flex-wrap items-center justify-between gap-4">
-                        <router-link
-                            to="/admin/cows"
-                            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25"
-                        >
+                        <router-link to="/admin/cows"
+                            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
                             <Icon icon="mdi:arrow-left" :size="18" />
                             Back to cows
                         </router-link>
                         <button
                             class="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
-                            @click="refresh"
-                            :disabled="loading"
-                        >
+                            @click="refresh" :disabled="loading">
                             <Icon icon="mdi:refresh" :size="18" />
                             Refresh data
                         </button>
@@ -87,20 +70,17 @@
 
                             <div class="mt-4 flex flex-wrap gap-2 text-[11px] md:text-xs">
                                 <span
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90"
-                                >
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
                                     <Icon icon="mdi:cow" :size="16" class="text-white/80" />
                                     {{ cow.breed ?? 'Unknown breed' }}
                                 </span>
                                 <span
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90"
-                                >
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
                                     <Icon icon="mdi:leaf" :size="16" class="text-white/80" />
                                     {{ cow.health_status ?? 'Health check pending' }}
                                 </span>
                                 <span
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90"
-                                >
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
                                     <Icon icon="mdi:calendar-clock" :size="16" class="text-white/80" />
                                     {{ formatAge(cow.date_of_birth) }}
                                 </span>
@@ -112,11 +92,8 @@
                                 <Icon icon="mdi:account-badge" :size="18" class="text-white/80" />
                                 <span>
                                     Farmer:
-                                    <router-link
-                                        v-if="cow.farmer?.id"
-                                        :to="`/admin/farmers/${cow.farmer.id}`"
-                                        class="font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-white"
-                                    >
+                                    <router-link v-if="cow.farmer?.id" :to="`/admin/farmers/${cow.farmer.id}`"
+                                        class="font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-white">
                                         {{ formatFarmerName(cow) }}
                                     </router-link>
                                     <span v-else class="font-semibold text-white/80">Unassigned</span>
@@ -136,38 +113,26 @@
             </div>
 
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <StatisticalCard
-                    icon="mdi:cow"
-                    icon-class="text-emerald-500"
-                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                >
+                <StatisticalCard icon="mdi:cow" icon-class="text-emerald-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                     <template #title>Breed</template>
                     <template #default>{{ cow.breed ?? 'Unknown' }}</template>
                     <template #caption>Recorded breed information</template>
                 </StatisticalCard>
-                <StatisticalCard
-                    icon="mdi:bucket-outline"
-                    icon-class="text-primary-500"
-                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                >
+                <StatisticalCard icon="mdi:bucket-outline" icon-class="text-primary-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                     <template #title>Milk Capacity</template>
                     <template #default>{{ formatLiters(cow.milk_capacity_liters) }}</template>
                     <template #caption>Average daily milk potential</template>
                 </StatisticalCard>
-                <StatisticalCard
-                    icon="mdi:calendar"
-                    icon-class="text-amber-500"
-                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                >
+                <StatisticalCard icon="mdi:calendar" icon-class="text-amber-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                     <template #title>Age</template>
                     <template #default>{{ formatAge(cow.date_of_birth) }}</template>
                     <template #caption>Based on date of birth</template>
                 </StatisticalCard>
-                <StatisticalCard
-                    icon="mdi:leaf"
-                    icon-class="text-lime-500"
-                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                >
+                <StatisticalCard icon="mdi:leaf" icon-class="text-lime-500"
+                    class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                     <template #title>Health Status</template>
                     <template #default>{{ cow.health_status ?? 'Not recorded' }}</template>
                     <template #caption>Latest health assessment</template>
@@ -176,14 +141,9 @@
 
             <div class="rounded-lg border border-surface-200 bg-white p-2 shadow-sm shadow-slate-100">
                 <nav class="flex flex-wrap gap-2" aria-label="Cow detail tabs">
-                    <button
-                        v-for="tab in tabs"
-                        :key="tab.id"
-                        type="button"
+                    <button v-for="tab in tabs" :key="tab.id" type="button"
                         class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
-                        :class="tabButtonClass(tab.id)"
-                        @click="setActiveTab(tab.id)"
-                    >
+                        :class="tabButtonClass(tab.id)" @click="setActiveTab(tab.id)">
                         <Icon :icon="tab.icon" :size="16" />
                         {{ tab.label }}
                     </button>
@@ -191,14 +151,12 @@
             </div>
 
             <div v-if="activeTab === 'overview'" class="grid gap-6 lg:grid-cols-2">
-                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                <section
+                    class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-surface-900">Ownership &amp; Identification</h2>
-                        <router-link
-                            v-if="cow.farmer?.id"
-                            :to="`/admin/farmers/${cow.farmer.id}`"
-                            class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
-                        >
+                        <router-link v-if="cow.farmer?.id" :to="`/admin/farmers/${cow.farmer.id}`"
+                            class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700">
                             View farmer
                             <Icon icon="mdi:chevron-right" :size="16" />
                         </router-link>
@@ -229,7 +187,8 @@
                     </dl>
                 </section>
 
-                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                <section
+                    class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <h2 class="text-lg font-semibold text-surface-900">Quick Facts</h2>
                     <ul class="divide-y divide-slate-100 text-sm text-surface-700">
                         <li class="flex items-center justify-between py-2 first:pt-0">
@@ -253,14 +212,13 @@
             </div>
 
             <div v-else-if="activeTab === 'milk'" class="space-y-6">
-                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                <section
+                    class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-semibold text-surface-900">Milk Production Metrics</h2>
                         <button
                             class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                            @click="refreshMilkRecords"
-                            :disabled="milkLoading"
-                        >
+                            @click="refreshMilkRecords" :disabled="milkLoading">
                             <Icon icon="mdi:refresh" :size="16" />
                             Refresh
                         </button>
@@ -289,7 +247,8 @@
                     </div>
                 </section>
 
-                <section class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                <section
+                    class="space-y-4 rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 class="text-lg font-semibold text-surface-900">Milk Production Trends</h2>
@@ -307,19 +266,19 @@
                     <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 class="text-lg font-semibold text-surface-900">Veterinary Treatments</h2>
-                            <p class="text-sm text-surface-500">Track interventions, follow-ups, and health outcomes.</p>
+                            <p class="text-sm text-surface-500">Track interventions, follow-ups, and health outcomes.
+                            </p>
                         </div>
                         <button
                             class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
-                            @click="openCreateTreatmentModal"
-                            :disabled="treatmentsLoading || !cow"
-                        >
+                            @click="openCreateTreatmentModal" :disabled="treatmentsLoading || !cow">
                             <Icon icon="mdi:medical-bag" :size="18" />
                             Record treatment
                         </button>
                     </div>
 
-                    <div v-if="treatmentsLoading" class="mt-6 rounded-lg border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
+                    <div v-if="treatmentsLoading"
+                        class="mt-6 rounded-lg border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                         Loading treatments...
                     </div>
 
@@ -327,54 +286,44 @@
                         <div class="mt-6 grid gap-4 sm:grid-cols-3">
                             <div class="rounded-lg border border-emerald-100 bg-emerald-50/70 p-5 shadow-sm">
                                 <p class="text-xs uppercase tracking-wide text-surface-500">Total Treatments</p>
-                                <p class="text-2xl font-semibold text-surface-900">{{ treatmentsSummary.totalTreatments }}</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{ treatmentsSummary.totalTreatments
+                                    }}</p>
                                 <p class="text-xs text-surface-500">All recorded interventions</p>
                             </div>
                             <div class="rounded-lg border border-purple-100 bg-purple-50/70 p-5 shadow-sm">
                                 <p class="text-xs uppercase tracking-wide text-surface-500">Treatment Cost</p>
-                                <p class="text-2xl font-semibold text-surface-900">{{ formatCurrency(treatmentsSummary.totalCost) }}</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{
+                                    formatCurrency(treatmentsSummary.totalCost) }}</p>
                                 <p class="text-xs text-surface-500">Cumulative spend</p>
                             </div>
                             <div class="rounded-lg border border-amber-100 bg-amber-50/70 p-5 shadow-sm">
                                 <p class="text-xs uppercase tracking-wide text-surface-500">Upcoming Follow-ups</p>
-                                <p class="text-2xl font-semibold text-surface-900">{{ treatmentsSummary.upcomingFollowUps }}</p>
+                                <p class="text-2xl font-semibold text-surface-900">{{
+                                    treatmentsSummary.upcomingFollowUps }}</p>
                                 <p class="text-xs text-surface-500">From today onward</p>
                             </div>
                         </div>
                     </template>
                 </div>
 
-                <CowTreatmentsTimeline
-                    v-if="!treatmentsLoading"
-                    :treatments="treatments"
-                    :format-date="formatDate"
-                    :format-currency="formatCurrency"
-                />
+                <CowTreatmentsTimeline v-if="!treatmentsLoading" :treatments="treatments" :format-date="formatDate"
+                    :format-currency="formatCurrency" />
 
-                <div
-                    v-if="!treatmentsLoading"
-                    class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200"
-                >
-                    <CowTreatmentsTable
-                        :treatments="treatments"
-                        :format-date="formatDate"
-                        :format-currency="formatCurrency"
-                    />
+                <div v-if="!treatmentsLoading"
+                    class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200">
+                    <CowTreatmentsTable :treatments="treatments" :format-date="formatDate"
+                        :format-currency="formatCurrency" />
                 </div>
             </div>
         </template>
     </div>
 
-    <CreateCowTreatmentModal
-        :is-open="showCreateTreatmentModal"
-        :cow-id="cow?.id ?? null"
-        @close="closeCreateTreatmentModal"
-        @created="handleTreatmentCreated"
-    />
+    <CreateCowTreatmentModal :is-open="showCreateTreatmentModal" :cow-id="cow?.id ?? null"
+        @close="closeCreateTreatmentModal" @created="handleTreatmentCreated" />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from '../../components/shared/Icon.vue';
 import StatisticalCard from '../../components/shared/StatisticalCard.vue';
@@ -386,8 +335,7 @@ import CowTreatmentsTable from '../../components/cows/CowTreatmentsTable.vue';
 import CreateCowTreatmentModal from '../../components/cows/CreateCowTreatmentModal.vue';
 
 const route = useRoute();
-const cowIdParam = route.params.id;
-const cowId = Number(cowIdParam);
+const cowId = computed(() => Number(route.params.id));
 
 const cowStore = useCowStore();
 const cow = ref<Cow | null>(null);
@@ -401,7 +349,7 @@ const showCreateTreatmentModal = ref(false);
 const activeTab = ref<'overview' | 'milk' | 'treatments'>('overview');
 
 const fetchCow = async () => {
-    if (Number.isNaN(cowId)) {
+    if (Number.isNaN(cowId.value)) {
         error.value = 'Invalid cow identifier.';
         return;
     }
@@ -410,7 +358,7 @@ const fetchCow = async () => {
     error.value = null;
 
     try {
-        const result = await cowStore.fetchCow(cowId);
+        const result = await cowStore.fetchCow(cowId.value);
         cow.value = result;
         treatments.value = ((result as any)?.treatments ?? []) as CowTreatment[];
     } catch (err: any) {
@@ -579,6 +527,15 @@ onMounted(async () => {
     await Promise.all([fetchMilkRecords(), fetchTreatments()]);
 });
 
+watch(
+    () => cowId.value,
+    (newId, oldId) => {
+        if (newId !== oldId && !Number.isNaN(newId)) {
+            refresh();
+        }
+    }
+);
+
 const openCreateTreatmentModal = () => {
     showCreateTreatmentModal.value = true;
 };
@@ -625,4 +582,3 @@ const tabButtonClass = (tabId: typeof tabs[number]['id']) => {
     ];
 };
 </script>
-

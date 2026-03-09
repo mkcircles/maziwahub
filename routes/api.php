@@ -22,7 +22,6 @@ use App\Http\Controllers\MilkCollectionCenterClaimController;
 
 Route::prefix('v1')->group(function () {
 
-
     Route::post('auth/register', [AuthController::class, 'register']);
     Route::post('auth/login', [AuthController::class, 'login']);
 
@@ -51,6 +50,8 @@ Route::prefix('v1')->group(function () {
         Route::get('parishes/{parish}/villages', [ParishController::class, 'villages']);
 
         // Milk Collection Centers - with policy checks
+        Route::get('milk-collection-centers/{milkCollectionCenter}/metrics', [MilkCollectionCenterController::class, 'metrics']);
+        Route::get('milk-collection-centers/{milkCollectionCenter}/delivery-trend', [MilkCollectionCenterController::class, 'deliveryTrend']);
         Route::get('milk-collection-centers/{milkCollectionCenter}/deliveries', [MilkCollectionCenterController::class, 'deliveries']);
         Route::apiResource('milk-collection-centers', MilkCollectionCenterController::class);
         Route::get('milk-collection-center-claims', [MilkCollectionCenterClaimController::class, 'index']);
@@ -91,7 +92,7 @@ Route::prefix('v1')->group(function () {
         });
 
         // Agents - super_admin, admin, partners, and mcc can manage
-        Route::middleware('role:super_admin|admin|partner|mcc')->group(function () {
+        Route::middleware('role:super_admin|admin|partner|mcc|agent')->group(function () {
             Route::apiResource('agents', \App\Http\Controllers\AgentController::class);
             Route::get('agents/{agent}/dashboard-summary', [\App\Http\Controllers\AgentController::class, 'dashboardSummary']);
         });

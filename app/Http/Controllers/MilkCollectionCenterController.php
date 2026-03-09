@@ -99,6 +99,51 @@ class MilkCollectionCenterController extends Controller
     }
 
     /**
+     * Get 30-Day Delivery Trend
+     * @description Get aggregated daily milk deliveries for the last 30 days.
+     */
+    public function deliveryTrend(Request $request, MilkCollectionCenter $milkCollectionCenter)
+    {
+        $thirtyDaysAgo = now()->subDays(30)->toDateString();
+
+        $trend = $milkCollectionCenter->milkDeliveries()
+            ->whereDate('delivery_date', '>=', $thirtyDaysAgo)
+            ->selectRaw('DATE(delivery_date) as date, SUM(volume_liters) as total_volume')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return response()->json($trend);
+    }
+
+    /**
+     * Get Center Metrics
+     * @description Get metrics for a specific milk collection center.
+     */
+    public function metrics(Request $request, MilkCollectionCenter $milkCollectionCenter)
+    {
+        $farmersCount = $milkCollectionCenter->farmers()->count();
+
+        $thirtyDaysAgo = now()->subDays(30);
+
+        $totalVolume = (float) $milkCollectionCenter->milkDeliveries()
+            ->where('delivery_date', '>=', $thirtyDaysAgo)
+            ->sum('volume_liters');
+
+        $uniqueDaysCount = $milkCollectionCenter->milkDeliveries()
+            ->where('delivery_date', '>=', $thirtyDaysAgo)
+            ->distinct()
+            ->count('delivery_date');
+
+        $averageDailyVolume = $uniqueDaysCount > 0 ? $totalVolume / $uniqueDaysCount : 0;
+
+        return response()->json([
+            'farmers_count' => $farmersCount,
+            'average_daily_volume' => $averageDailyVolume,
+        ]);
+    }
+
+    /**
      * Delete Milk Collection Center
      * @description Delete a milk collection center.
      */
