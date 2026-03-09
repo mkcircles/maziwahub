@@ -1,15 +1,14 @@
 <template>
     <div class="space-y-10 pb-16">
         <div
-            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
-        >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
+            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10">
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+            </div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div class="flex flex-col gap-4">
-                    <router-link
-                        to="/admin/farmers"
-                        class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25"
-                    >
+                    <router-link to="/admin/farmers"
+                        class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
                         <Icon icon="mdi:arrow-left" :size="18" />
                         Back to Farmers
                     </router-link>
@@ -31,30 +30,42 @@
                     <div class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs">
                         <span
                             class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white backdrop-blur"
-                            :class="statusChipClass(farmer?.status)"
-                        >
+                            :class="statusChipClass(farmer?.status)">
                             <Icon :icon="statusChipIcon(farmer?.status)" :size="14" />
                             {{ farmer?.status ?? 'Unknown' }}
                         </span>
-                        <span
-                            v-if="farmer?.reg_type"
-                            class="inline-flex items-center rounded-full bg-white/15 px-3 py-1 font-medium uppercase text-white/85 backdrop-blur"
-                        >
+                        <span v-if="farmer?.reg_type"
+                            class="inline-flex items-center rounded-full bg-white/15 px-3 py-1 font-medium uppercase text-white/85 backdrop-blur">
                             {{ farmer?.reg_type }}
                         </span>
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-3 sm:items-end">
-                    <button
-                        type="button"
-                        class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-60"
-                        @click="openEditModal"
-                        :disabled="detailLoading || !farmer"
-                    >
-                        <Icon icon="mdi:pencil-outline" :size="16" />
-                        Edit Profile
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button v-if="farmer && farmer.status === 'pending'" type="button"
+                            class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            @click="toggleFarmerStatus('active')" :disabled="detailLoading || isUpdatingStatus">
+                            <Icon v-if="isUpdatingStatus" icon="line-md:loading-twotone-loop" :size="16" />
+                            <Icon v-else icon="mdi:check-circle-outline" :size="16" />
+                            Activate
+                        </button>
+
+                        <button v-if="farmer && farmer.status === 'active'" type="button"
+                            class="inline-flex items-center gap-2 rounded-full bg-red-600/90 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            @click="toggleFarmerStatus('inactive')" :disabled="detailLoading || isUpdatingStatus">
+                            <Icon v-if="isUpdatingStatus" icon="line-md:loading-twotone-loop" :size="16" />
+                            <Icon v-else icon="mdi:close-circle-outline" :size="16" />
+                            Deactivate
+                        </button>
+
+                        <button type="button"
+                            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-60"
+                            @click="openEditModal" :disabled="detailLoading || !farmer">
+                            <Icon icon="mdi:pencil-outline" :size="16" />
+                            Edit Profile
+                        </button>
+                    </div>
                     <div class="text-xs text-white/60">
                         Last updated {{ formatDate(farmer?.updated_at) }}
                     </div>
@@ -64,35 +75,32 @@
 
         <div class="rounded-lg border border-surface-100 bg-white/90 p-2 shadow-sm border border-surface-200">
             <div class="flex flex-wrap gap-2">
-                <button
-                    v-for="tab in tabs"
-                    :key="tab.id"
-                    type="button"
+                <button v-for="tab in tabs" :key="tab.id" type="button"
                     class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
                     :class="[
                         activeTab === tab.id
                             ? 'bg-primary-600 text-white shadow-lg shadow-slate-400/40'
                             : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900',
-                    ]"
-                    @click="selectTab(tab.id)"
-                >
+                    ]" @click="selectTab(tab.id)">
                     <span>{{ tab.label }}</span>
                 </button>
             </div>
         </div>
 
-        <div v-if="detailLoading" class="rounded-md border border-surface-200 bg-white p-8 text-surface-600 shadow-sm border border-surface-200">
+        <div v-if="detailLoading"
+            class="rounded-md border border-surface-200 bg-white p-8 text-surface-600 shadow-sm border border-surface-200">
             Loading farmer details…
         </div>
-        <div v-else-if="detailError" class="rounded-md border border-red-200 bg-red-50/80 p-6 text-red-700 shadow-lg shadow-red-100">
+        <div v-else-if="detailError"
+            class="rounded-md border border-red-200 bg-red-50/80 p-6 text-red-700 shadow-lg shadow-red-100">
             {{ detailError }}
         </div>
 
         <template v-else-if="farmer">
-            
+
             <div v-if="activeTab === 'overview'" class="space-y-6">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
-                <!-- <button
+                    <!-- <button
                         type="button"
                         class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:cursor-not-allowed disabled:opacity-50"
                         @click="openEditModal"
@@ -101,241 +109,241 @@
                         <Icon icon="mdi:pencil-outline" :size="16" />
                         Edit Profile
                     </button> -->
-            </div>
+                </div>
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-5">
-                <StatisticalCard
-                        icon="mdi:cow"
-                        icon-class="text-rose-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
-                    <template #title>Herd Size</template>
-                    <template #default>{{ farmer.herd_size ?? '-' }}</template>
-                    <template #caption><b>{{ cows.length }}</b> Cows registered on system</template>
-                </StatisticalCard>
+                    <StatisticalCard icon="mdi:cow" icon-class="text-rose-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                        <template #title>Herd Size</template>
+                        <template #default>{{ farmer.herd_size ?? '-' }}</template>
+                        <template #caption><b>{{ cows.length }}</b> Cows registered on system</template>
+                    </StatisticalCard>
 
-                <StatisticalCard
-                        icon="mdi:nature"
-                        icon-class="text-lime-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
-                    <template #title>Farm Size</template>
-                    <template #default>{{ farmer.farm_size ?? 0 }} acres</template>
-                    <template #caption>Land registered by farmer</template>
-                </StatisticalCard>
-                <StatisticalCard
-                        icon="mdi:account-outline"
-                        icon-class="text-primary-600"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
-                    <template #title>Household Members</template>
-                    <template #default>{{ farmer.family_size ?? '—' }}</template>
-                    <template #caption>Total family size</template>
-                </StatisticalCard>
+                    <StatisticalCard icon="mdi:nature" icon-class="text-lime-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                        <template #title>Farm Size</template>
+                        <template #default>{{ farmer.farm_size ?? 0 }} acres</template>
+                        <template #caption>Land registered by farmer</template>
+                    </StatisticalCard>
+                    <StatisticalCard icon="mdi:account-outline" icon-class="text-primary-600"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                        <template #title>Household Members</template>
+                        <template #default>{{ farmer.family_size ?? '—' }}</template>
+                        <template #caption>Total family size</template>
+                    </StatisticalCard>
 
-                <StatisticalCard
-                        icon="mdi:human-male-female-child"
-                        icon-class="text-emerald-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
-                    <template #title>Adults</template>
-                    <template #default>{{ farmer.above_18 ?? 0 }}</template>
-                    <template #caption>Household members above 18</template>
-                </StatisticalCard>
+                    <StatisticalCard icon="mdi:human-male-female-child" icon-class="text-emerald-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                        <template #title>Adults</template>
+                        <template #default>{{ farmer.above_18 ?? 0 }}</template>
+                        <template #caption>Household members above 18</template>
+                    </StatisticalCard>
 
-                <StatisticalCard
-                        icon="mdi:baby-face-outline"
-                        icon-class="text-amber-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
-                    <template #title>Children</template>
-                    <template #default>{{ farmer.below_5 ?? 0 }}</template>
-                    <template #caption>Children under 5 years</template>
-                </StatisticalCard>
+                    <StatisticalCard icon="mdi:baby-face-outline" icon-class="text-amber-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
+                        <template #title>Children</template>
+                        <template #default>{{ farmer.below_5 ?? 0 }}</template>
+                        <template #caption>Children under 5 years</template>
+                    </StatisticalCard>
 
 
-            </div>
+                </div>
 
                 <div class="grid gap-6 lg:grid-cols-2">
-                <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
-                    <h2 class="text-lg font-semibold text-surface-900">Personal Information</h2>
-                    <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">First Name</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.first_name }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Last Name</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.last_name }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Gender</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.gender ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Date of Birth</p>
-                            <p class="text-sm font-medium text-surface-900">
-                                {{ formatDate(farmer.dob) }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Phone Number</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.phone_number ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">National ID</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.id_number ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Marital Status</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.marital_status ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Education Level</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.educational_level ?? '—' }}</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
-                    <h2 class="text-lg font-semibold text-surface-900">Household &amp; Next of Kin</h2>
-                    <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Household Head</p>
-                            <p class="text-sm font-medium text-surface-900">
-                                {{ farmer.household_head ? 'Yes' : 'No' }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Registered By</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.registered_by ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin Contact</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_contact ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Relationship</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_relationship ?? '—' }}</p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-surface-500">Financial Instrument</p>
-                            <p class="text-sm font-medium text-surface-900">{{ farmer.financial_instrument ?? '—' }}</p>
-                        </div>
-                        
-                    </div>
-                </section>
-            </div>
-
-            <section class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
-                <h2 class="text-lg font-semibold text-surface-900">Milk Collection &amp; Location</h2>
-                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-surface-700">
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Milk Collection Center</h3>
-                        <p class="mt-2 text-sm font-medium text-surface-900">
-                            {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
-                        </p>
-                        <p v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-surface-500">
-                            {{ farmer.milkCollectionCenter?.physical_address }}
-                        </p>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Location Trail</h3>
-                        <p class="mt-2 text-sm text-surface-900">{{ formatFarmerLocation(farmer) }}</p>
-                    </div>
-                    <div v-if="farmer.coordinates" class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Coordinates</h3>
-                        <p class="mt-2 text-sm text-surface-900">
-                            Lat: {{ farmer.coordinates?.latitude ?? '—' }}<br />
-                            Lng: {{ farmer.coordinates?.longitude ?? '—' }}
-                        </p>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Herd Size Range</h3>
-                        <p class="mt-2 text-sm font-medium text-surface-900">
-                            {{ farmer.herd_size ?? 'Not specified' }}
-                        </p>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Grazing Type</h3>
-                        <p class="mt-2 text-sm font-medium text-surface-900">
-                            {{ farmer.grazing_type ?? 'Not specified' }}
-                        </p>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Water Source</h3>
-                        <p class="mt-2 text-sm font-medium text-surface-900">
-                            {{ farmer.water_source ?? 'Not specified' }}
-                        </p>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <div class="flex items-start justify-between gap-3">
+                    <section
+                        class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                        <h2 class="text-lg font-semibold text-surface-900">Personal Information</h2>
+                        <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
                             <div>
-                                <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary Feeding</h3>
-                                <p class="mt-2 text-sm font-semibold text-surface-900">
-                                    {{ primaryFeedingMethod?.name ?? 'Not assigned' }}
-                                </p>
-                                <p class="text-xs text-surface-500">
-                                    {{ feedingLastChangedAt ? `Updated ${formatDateTime(feedingLastChangedAt)}` : 'No recent updates recorded' }}
+                                <p class="text-xs uppercase tracking-wide text-surface-500">First Name</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.first_name }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Last Name</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.last_name }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Gender</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.gender ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Date of Birth</p>
+                                <p class="text-sm font-medium text-surface-900">
+                                    {{ formatDate(farmer.dob) }}
                                 </p>
                             </div>
-                            <button
-                                type="button"
-                                class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
-                                @click="activeTab = 'feeding'"
-                            >
-                                Manage
-                                <Icon icon="mdi:arrow-right" :size="14" />
-                            </button>
-                        </div>
-                    </div>
-                    <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
-                        <div class="flex items-start justify-between gap-3">
                             <div>
-                                <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Supplemental Feeding</h3>
-                                <p class="mt-2 text-sm font-semibold text-surface-900">
-                                    {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
-                                </p>
-                                <p class="text-xs text-surface-500">
-                                    {{ supplementalFeedingMethod ? 'Supplemental feeding in place' : 'No supplemental feeding recorded' }}
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Phone Number</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.phone_number ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">National ID</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.id_number ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Marital Status</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.marital_status ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Education Level</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.educational_level ?? '—' }}
                                 </p>
                             </div>
-                            <button
-                                type="button"
-                                class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
-                                @click="activeTab = 'feeding'"
-                            >
-                                View
-                                <Icon icon="mdi:arrow-right" :size="14" />
-                            </button>
                         </div>
-                    </div>
-                    <div v-if="feedingNotes" class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm sm:col-span-2">
-                        <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes</h3>
-                        <p class="mt-2 text-sm text-surface-700 whitespace-pre-line">
-                            {{ feedingNotes }}
-                        </p>
-                    </div>
+                    </section>
+
+                    <section
+                        class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                        <h2 class="text-lg font-semibold text-surface-900">Household &amp; Next of Kin</h2>
+                        <div class="grid gap-4 sm:grid-cols-2 text-surface-700">
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Household Head</p>
+                                <p class="text-sm font-medium text-surface-900">
+                                    {{ farmer.household_head ? 'Yes' : 'No' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Registered By</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.registered_by ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin ?? '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Next of Kin Contact</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_contact ?? '—' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Relationship</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.next_of_kin_relationship ??
+                                    '—' }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-surface-500">Financial Instrument</p>
+                                <p class="text-sm font-medium text-surface-900">{{ farmer.financial_instrument ?? '—' }}
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
                 </div>
-            </section>
 
-            <section v-if="farmer.support_needed" class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
-                <h2 class="text-lg font-semibold text-surface-900">Support Needed</h2>
-                <p class="text-sm text-surface-700">
-                    {{ farmer.support_needed }}
-                </p>
-            </section>
+                <section
+                    class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                    <h2 class="text-lg font-semibold text-surface-900">Milk Collection &amp; Location</h2>
+                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-surface-700">
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Milk Collection
+                                Center</h3>
+                            <p class="mt-2 text-sm font-medium text-surface-900">
+                                {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
+                            </p>
+                            <p v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-surface-500">
+                                {{ farmer.milkCollectionCenter?.physical_address }}
+                            </p>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Location Trail
+                            </h3>
+                            <p class="mt-2 text-sm text-surface-900">{{ formatFarmerLocation(farmer) }}</p>
+                        </div>
+                        <div v-if="farmer.coordinates"
+                            class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Coordinates</h3>
+                            <p class="mt-2 text-sm text-surface-900">
+                                Lat: {{ farmer.coordinates?.latitude ?? '—' }}<br />
+                                Lng: {{ farmer.coordinates?.longitude ?? '—' }}
+                            </p>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Herd Size Range
+                            </h3>
+                            <p class="mt-2 text-sm font-medium text-surface-900">
+                                {{ farmer.herd_size ?? 'Not specified' }}
+                            </p>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Grazing Type</h3>
+                            <p class="mt-2 text-sm font-medium text-surface-900">
+                                {{ farmer.grazing_type ?? 'Not specified' }}
+                            </p>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Water Source</h3>
+                            <p class="mt-2 text-sm font-medium text-surface-900">
+                                {{ farmer.water_source ?? 'Not specified' }}
+                            </p>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary
+                                        Feeding</h3>
+                                    <p class="mt-2 text-sm font-semibold text-surface-900">
+                                        {{ primaryFeedingMethod?.name ?? 'Not assigned' }}
+                                    </p>
+                                    <p class="text-xs text-surface-500">
+                                        {{ feedingLastChangedAt ? `Updated ${formatDateTime(feedingLastChangedAt)}` :
+                                            'No recent updates recorded' }}
+                                    </p>
+                                </div>
+                                <button type="button"
+                                    class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
+                                    @click="activeTab = 'feeding'">
+                                    Manage
+                                    <Icon icon="mdi:arrow-right" :size="14" />
+                                </button>
+                            </div>
+                        </div>
+                        <div class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm">
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                        Supplemental Feeding</h3>
+                                    <p class="mt-2 text-sm font-semibold text-surface-900">
+                                        {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
+                                    </p>
+                                    <p class="text-xs text-surface-500">
+                                        {{ supplementalFeedingMethod ? 'Supplemental feeding in place' : 'No supplemental feeding recorded' }}
+                                    </p>
+                                </div>
+                                <button type="button"
+                                    class="inline-flex items-center gap-1 rounded-full border border-surface-200 bg-white px-3 py-1 text-[11px] font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900"
+                                    @click="activeTab = 'feeding'">
+                                    View
+                                    <Icon icon="mdi:arrow-right" :size="14" />
+                                </button>
+                            </div>
+                        </div>
+                        <div v-if="feedingNotes"
+                            class="rounded-lg border border-surface-100 bg-surface-50/80 p-5 shadow-sm sm:col-span-2">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes
+                            </h3>
+                            <p class="mt-2 text-sm text-surface-700 whitespace-pre-line">
+                                {{ feedingNotes }}
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="farmer.support_needed"
+                    class="rounded-lg border border-surface-100 bg-white p-6 shadow-sm border border-surface-200 space-y-4">
+                    <h2 class="text-lg font-semibold text-surface-900">Support Needed</h2>
+                    <p class="text-sm text-surface-700">
+                        {{ farmer.support_needed }}
+                    </p>
+                </section>
             </div>
 
             <div v-else-if="activeTab === 'feeding'" class="space-y-6">
                 <div class="grid gap-4 lg:grid-cols-3">
-                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
+                    <div
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary Feeding</p>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Primary
+                                    Feeding</p>
                                 <p class="mt-2 text-base font-semibold text-surface-900">
                                     {{ primaryFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
@@ -343,12 +351,9 @@
                                     {{ feedingLastChangedAt ? `Updated ${formatDateTime(feedingLastChangedAt)}` : 'No updates recorded' }}
                                 </p>
                             </div>
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
-                                @click="openFeedingModal('primary')"
-                                :disabled="detailLoading"
-                            >
+                                @click="openFeedingModal('primary')" :disabled="detailLoading">
                                 <Icon icon="mdi:plus" :size="16" />
                                 Record
                             </button>
@@ -358,10 +363,12 @@
                         </p>
                     </div>
 
-                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
+                    <div
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Supplemental Feeding</p>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Supplemental
+                                    Feeding</p>
                                 <p class="mt-2 text-base font-semibold text-surface-900">
                                     {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
                                 </p>
@@ -369,12 +376,9 @@
                                     {{ supplementalFeedingMethod ? 'Supplemental feeding in use' : 'No supplemental schedule' }}
                                 </p>
                             </div>
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full bg-primary-700 px-3 py-1 text-xs font-semibold text-white transition hover:bg-sky-700 disabled:opacity-60"
-                                @click="openFeedingModal('supplemental')"
-                                :disabled="detailLoading"
-                            >
+                                @click="openFeedingModal('supplemental')" :disabled="detailLoading">
                                 <Icon icon="mdi:plus" :size="16" />
                                 Record
                             </button>
@@ -384,20 +388,19 @@
                         </p>
                     </div>
 
-                    <div class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
+                    <div
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur space-y-3">
                         <div class="flex items-start justify-between gap-3">
                             <div>
-                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes</p>
+                                <p class="text-xs font-semibold uppercase tracking-wide text-surface-500">Feeding Notes
+                                </p>
                                 <p class="mt-2 text-sm text-surface-700 whitespace-pre-line">
                                     {{ feedingNotes || 'No notes recorded yet.' }}
                                 </p>
                             </div>
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-xs font-semibold text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:opacity-60"
-                                @click="openFeedingModal()"
-                                :disabled="detailLoading"
-                            >
+                                @click="openFeedingModal()" :disabled="detailLoading">
                                 <Icon icon="mdi:pencil-outline" :size="16" />
                                 Update
                             </button>
@@ -405,7 +408,8 @@
                     </div>
                 </div>
 
-                <div class="rounded-lg border border-surface-100 bg-white/95 p-6 shadow-sm border border-surface-200 backdrop-blur space-y-6">
+                <div
+                    class="rounded-lg border border-surface-100 bg-white/95 p-6 shadow-sm border border-surface-200 backdrop-blur space-y-6">
                     <div class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                         <div>
                             <h2 class="text-lg font-semibold text-surface-900">Feeding Timeline</h2>
@@ -414,58 +418,50 @@
                             </p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button
-                                v-for="option in feedingFilterOptions"
-                                :key="option.value"
-                                type="button"
+                            <button v-for="option in feedingFilterOptions" :key="option.value" type="button"
                                 class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium transition"
                                 :class="isFeedingFilterActive(option.value)
                                     ? 'border-slate-900 bg-primary-600 text-white shadow-sm shadow-slate-400/40'
                                     : 'border-surface-200 bg-white text-surface-600 hover:bg-surface-100 hover:text-surface-900'"
-                                @click="changeFeedingFilter(option.value)"
-                            >
+                                @click="changeFeedingFilter(option.value)">
                                 {{ option.label }}
                             </button>
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
-                                @click="openFeedingModal()"
-                                :disabled="detailLoading || feedingMethodsLoading"
-                            >
+                                @click="openFeedingModal()" :disabled="detailLoading || feedingMethodsLoading">
                                 <Icon icon="mdi:plus" :size="18" />
                                 Record Feeding Update
                             </button>
                         </div>
                     </div>
 
-                    <div v-if="feedingMethodsError" class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
+                    <div v-if="feedingMethodsError"
+                        class="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
                         {{ feedingMethodsError }}
                     </div>
 
-                    <div v-if="feedingHistoryLoading" class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
+                    <div v-if="feedingHistoryLoading"
+                        class="rounded-md border border-surface-200 bg-surface-50 p-4 text-sm text-surface-600">
                         Loading feeding history…
                     </div>
-                    <div v-else-if="feedingHistoryError" class="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-600 flex items-center justify-between gap-4">
+                    <div v-else-if="feedingHistoryError"
+                        class="rounded-md border border-red-200 bg-red-50 p-4 text-sm text-red-600 flex items-center justify-between gap-4">
                         <span>{{ feedingHistoryError }}</span>
-                        <button
-                            type="button"
+                        <button type="button"
                             class="inline-flex items-center gap-1 rounded-full border border-red-200 bg-white px-3 py-1 text-xs font-semibold text-red-600 hover:bg-red-100"
-                            @click="ensureFeedingHistory()"
-                        >
+                            @click="ensureFeedingHistory()">
                             <Icon icon="mdi:refresh" :size="14" />
                             Retry
                         </button>
                     </div>
                     <div v-else>
-                        <div v-if="!feedingHistory.length" class="rounded-md border border-surface-200 border-dashed bg-surface-50 p-6 text-sm text-surface-500 text-center">
+                        <div v-if="!feedingHistory.length"
+                            class="rounded-md border border-surface-200 border-dashed bg-surface-50 p-6 text-sm text-surface-500 text-center">
                             No feeding history recorded yet. Start by recording a feeding update.
                         </div>
                         <div v-else class="space-y-4">
-                            <div
-                                v-for="entry in feedingHistory"
-                                :key="entry.id"
-                                class="relative overflow-hidden rounded-lg border border-surface-100 bg-white/90 p-5 shadow-md shadow-slate-100"
-                            >
+                            <div v-for="entry in feedingHistory" :key="entry.id"
+                                class="relative overflow-hidden rounded-lg border border-surface-100 bg-white/90 p-5 shadow-md shadow-slate-100">
                                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                     <div>
                                         <p class="text-sm font-semibold text-surface-900">
@@ -479,10 +475,11 @@
                                         class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
                                         :class="isActiveFeedingEntry(entry)
                                             ? 'border border-emerald-200 bg-emerald-50 text-emerald-600'
-                                            : 'border border-surface-200 bg-surface-50 text-surface-500'"
-                                    >
-                                        <Icon :icon="isActiveFeedingEntry(entry) ? 'mdi:leaf' : 'mdi:calendar-check'" :size="14" />
-                                        {{ isActiveFeedingEntry(entry) ? 'Active' : `Ended ${formatDate(entry.ended_at)}` }}
+                                            : 'border border-surface-200 bg-surface-50 text-surface-500'">
+                                        <Icon :icon="isActiveFeedingEntry(entry) ? 'mdi:leaf' : 'mdi:calendar-check'"
+                                            :size="14" />
+                                        {{ isActiveFeedingEntry(entry) ? 'Active' : `Ended
+                                        ${formatDate(entry.ended_at)}` }}
                                     </span>
                                 </div>
                                 <div class="mt-3 grid gap-3 text-sm text-surface-600 sm:grid-cols-2">
@@ -492,14 +489,16 @@
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <Icon icon="mdi:calendar-end" :size="16" class="text-surface-400" />
-                                        <span>{{ entry.ended_at ? `Ended ${formatDate(entry.ended_at)}` : 'Ongoing' }}</span>
+                                        <span>{{ entry.ended_at ? `Ended ${formatDate(entry.ended_at)}` : 'Ongoing'
+                                        }}</span>
                                     </div>
                                     <div v-if="entry.recordedBy" class="flex items-center gap-2 sm:col-span-2">
                                         <Icon icon="mdi:account-outline" :size="16" class="text-surface-400" />
                                         <span>Recorded by {{ entry.recordedBy.name }}</span>
                                     </div>
                                     <div v-if="entry.notes" class="sm:col-span-2">
-                                        <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">Notes</p>
+                                        <p class="text-xs font-semibold uppercase tracking-wide text-surface-400">Notes
+                                        </p>
                                         <p class="mt-1 text-sm text-surface-700 whitespace-pre-line">
                                             {{ entry.notes }}
                                         </p>
@@ -509,32 +508,27 @@
                         </div>
                     </div>
 
-                    <div
-                        v-if="feedingHistoryPagination.last_page > 1"
-                        class="flex flex-col gap-3 border-t border-surface-200 pt-4 text-sm text-surface-600 sm:flex-row sm:items-center sm:justify-between"
-                    >
+                    <div v-if="feedingHistoryPagination.last_page > 1"
+                        class="flex flex-col gap-3 border-t border-surface-200 pt-4 text-sm text-surface-600 sm:flex-row sm:items-center sm:justify-between">
                         <p>
                             Page
-                            <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.current_page }}</span>
+                            <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.current_page
+                            }}</span>
                             of
                             <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.last_page }}</span>
                         </p>
                         <div class="flex items-center gap-2">
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-sm font-medium text-surface-600 hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                                 :disabled="feedingHistoryPagination.current_page <= 1 || feedingHistoryLoading"
-                                @click="changeFeedingPage(feedingHistoryPagination.current_page - 1)"
-                            >
+                                @click="changeFeedingPage(feedingHistoryPagination.current_page - 1)">
                                 <Icon icon="mdi:chevron-left" :size="18" />
                                 Previous
                             </button>
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-1 text-sm font-medium text-surface-600 hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                                 :disabled="feedingHistoryPagination.current_page >= feedingHistoryPagination.last_page || feedingHistoryLoading"
-                                @click="changeFeedingPage(feedingHistoryPagination.current_page + 1)"
-                            >
+                                @click="changeFeedingPage(feedingHistoryPagination.current_page + 1)">
                                 Next
                                 <Icon icon="mdi:chevron-right" :size="18" />
                             </button>
@@ -551,21 +545,14 @@
                             Manage the herd associated with this farmer.
                         </p>
                     </div>
-                    <button
-                        type="button"
+                    <button type="button"
                         class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-900 disabled:cursor-not-allowed disabled:opacity-50"
-                        @click="openAddCowModal"
-                        :disabled="detailLoading"
-                    >
+                        @click="openAddCowModal" :disabled="detailLoading">
                         <Icon icon="mdi:plus" :size="18" />
                         Add Cow
                     </button>
                 </div>
-                <FarmerCowsTable
-                    :cows="cows"
-                    :format-date="formatDate"
-                    :format-liters="formatLiters"
-                />
+                <FarmerCowsTable :cows="cows" :format-date="formatDate" :format-liters="formatLiters" />
             </div>
 
             <div v-else-if="activeTab === 'milk'" class="space-y-4">
@@ -576,94 +563,53 @@
                             Daily production entries for cows owned by this farmer.
                         </p>
                     </div>
-                    <button
-                        type="button"
+                    <button type="button"
                         class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
-                        @click="openAddMilkModal"
-                        :disabled="detailLoading || !cows.length"
-                    >
+                        @click="openAddMilkModal" :disabled="detailLoading || !cows.length">
                         <Icon icon="mdi:plus" :size="18" />
                         Record Milk
                     </button>
                 </div>
-                <FarmerMilkProductionTable
-                    :records="milkProductionsSorted"
-                    :format-date="formatDate"
-                    :format-liters="formatLiters"
-                    :get-cow-tag="getCowTag"
-                />
+                <FarmerMilkProductionTable :records="milkProductionsSorted" :format-date="formatDate"
+                    :format-liters="formatLiters" :get-cow-tag="getCowTag" />
             </div>
 
             <div v-else-if="activeTab === 'deliveries'" class="space-y-6">
                 <div class="grid gap-4 sm:grid-cols-3">
-                    <StatisticalCard
-                        icon="mdi:bucket-outline"
-                        icon-class="text-primary-600"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
+                    <StatisticalCard icon="mdi:bucket-outline" icon-class="text-primary-600"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                         <template #title>Total Volume</template>
                         <template #default>{{ formatLiters(milkDeliverySummary.totalVolume) }}</template>
                         <template #caption>Sum across deliveries</template>
                     </StatisticalCard>
-                    <StatisticalCard
-                        icon="mdi:currency-usd"
-                        icon-class="text-emerald-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
+                    <StatisticalCard icon="mdi:currency-usd" icon-class="text-emerald-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                         <template #title>Total Value</template>
                         <template #default>{{ formatCurrency(milkDeliverySummary.totalAmount) }}</template>
                         <template #caption>Aggregate amount earned</template>
                     </StatisticalCard>
-                    <StatisticalCard
-                        icon="mdi:counter"
-                        icon-class="text-amber-500"
-                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-                    >
+                    <StatisticalCard icon="mdi:counter" icon-class="text-amber-500"
+                        class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                         <template #title>Average Volume</template>
                         <template #default>{{ formatLiters(milkDeliverySummary.averageVolume) }}</template>
                         <template #caption>Per delivery average</template>
                     </StatisticalCard>
                 </div>
                 <FarmerMilkDeliveryTrend :deliveries="milkDeliveries" />
-                <FarmerMilkDeliveriesTable
-                    :deliveries="milkDeliveries"
-                    :format-date="formatDate"
-                    :format-liters="formatLiters"
-                    :format-currency="formatCurrency"
-                />
+                <FarmerMilkDeliveriesTable :deliveries="milkDeliveries" :format-date="formatDate"
+                    :format-liters="formatLiters" :format-currency="formatCurrency" />
             </div>
         </template>
 
-        <EditFarmerModal
-            :is-open="showEditModal"
-            :farmer="farmer"
-            :milk-centers="milkCenters"
-            @close="handleModalClose"
-            @updated="handleFarmerUpdated"
-        />
-        <AddCowModal
-            :is-open="showAddCowModal"
-            :farmer-id="farmer?.id ?? null"
-            @close="handleCowModalClose"
-            @created="handleCowCreated"
-        />
-        <AddMilkProductionModal
-            :is-open="showAddMilkModal"
-            :farmer-id="farmer?.id ?? null"
-            :cows="cows"
-            @close="handleMilkModalClose"
-            @created="handleMilkRecordCreated"
-        />
-        <RecordFeedingModal
-            :is-open="showFeedingModal"
-            :farmer-id="farmer?.id ?? null"
-            :feeding-methods="feedingMethods"
-            :default-type="feedingModalType"
-            :current-method-id="feedingModalMethodId"
-            :loading="feedingMethodsLoading"
-            @close="handleFeedingModalClose"
-            @created="handleFeedingRecorded"
-        />
+        <EditFarmerModal :is-open="showEditModal" :farmer="farmer" :milk-centers="milkCenters" @close="handleModalClose"
+            @updated="handleFarmerUpdated" />
+        <AddCowModal :is-open="showAddCowModal" :farmer-id="farmer?.id ?? null" @close="handleCowModalClose"
+            @created="handleCowCreated" />
+        <AddMilkProductionModal :is-open="showAddMilkModal" :farmer-id="farmer?.id ?? null" :cows="cows"
+            @close="handleMilkModalClose" @created="handleMilkRecordCreated" />
+        <RecordFeedingModal :is-open="showFeedingModal" :farmer-id="farmer?.id ?? null"
+            :feeding-methods="feedingMethods" :default-type="feedingModalType" :current-method-id="feedingModalMethodId"
+            :loading="feedingMethodsLoading" @close="handleFeedingModalClose" @created="handleFeedingRecorded" />
     </div>
 </template>
 
@@ -723,6 +669,30 @@ const feedingModalType = ref<'primary' | 'supplemental' | 'other'>('primary');
 const feedingModalMethodId = ref<number | null>(null);
 const feedingDataLoaded = ref(false);
 const activeTab = ref<TabKey>('overview');
+
+const isUpdatingStatus = ref(false);
+
+const toggleFarmerStatus = async (newStatus: 'active' | 'inactive') => {
+    if (!farmer.value?.id) return;
+
+    if (newStatus === 'inactive') {
+        const confirmed = window.confirm(`Are you sure you want to deactivate ${fullName.value}?`);
+        if (!confirmed) return;
+    }
+
+    isUpdatingStatus.value = true;
+    try {
+        await farmerStore.updateFarmer(farmer.value.id, {
+            ...farmer.value,
+            status: newStatus
+        });
+
+    } catch (err: any) {
+        window.alert(`Failed to update farmer status: ${err.message || err}`);
+    } finally {
+        isUpdatingStatus.value = false;
+    }
+};
 
 const fullName = computed(() => {
     if (!farmer.value) return 'Farmer';
@@ -936,8 +906,8 @@ const openFeedingModal = async (type: 'primary' | 'supplemental' | 'other' = 'pr
         type === 'primary'
             ? farmer.value?.primary_feeding_method_id ?? null
             : type === 'supplemental'
-              ? farmer.value?.supplemental_feeding_method_id ?? null
-              : null;
+                ? farmer.value?.supplemental_feeding_method_id ?? null
+                : null;
     showFeedingModal.value = true;
 };
 
@@ -1078,4 +1048,3 @@ watch(
     }
 );
 </script>
-

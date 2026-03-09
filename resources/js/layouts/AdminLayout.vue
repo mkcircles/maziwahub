@@ -110,7 +110,7 @@
                                 class="text-sm font-semibold text-surface-800 group-hover:text-primary-600 transition-colors">{{
                                     authStore.user?.name ?? 'Administrator' }}</span>
                             <span class="text-xs text-surface-500 capitalize">{{ authStore.user?.user_type ?? 'user'
-                                }}</span>
+                            }}</span>
                         </div>
                         <div
                             class="h-9 w-9 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
@@ -126,9 +126,9 @@
 
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto bg-surface-50 p-4 sm:p-6 lg:p-8">
-                <router-view v-slot="{ Component }">
+                <router-view v-slot="{ Component, route }">
                     <transition name="fade" mode="out-in">
-                        <component :is="Component" />
+                        <component :is="Component" :key="route.path" />
                     </transition>
                 </router-view>
             </main>

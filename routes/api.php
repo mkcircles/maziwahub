@@ -93,6 +93,7 @@ Route::prefix('v1')->group(function () {
         // Agents - super_admin, admin, partners, and mcc can manage
         Route::middleware('role:super_admin|admin|partner|mcc')->group(function () {
             Route::apiResource('agents', \App\Http\Controllers\AgentController::class);
+            Route::get('agents/{agent}/dashboard-summary', [\App\Http\Controllers\AgentController::class, 'dashboardSummary']);
         });
 
     });

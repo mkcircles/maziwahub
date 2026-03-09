@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, shallowRef } from 'vue';
 import axios from 'axios';
 
 export interface Country {
@@ -254,18 +254,22 @@ export interface CowTreatment {
 }
 
 export const useGeographyStore = defineStore('geography', () => {
-    const countries = ref<Country[]>([]);
-    const regions = ref<Region[]>([]);
-    const districts = ref<District[]>([]);
-    const counties = ref<County[]>([]);
-    const subcounties = ref<Subcounty[]>([]);
-    const parishes = ref<Parish[]>([]);
-    const villages = ref<Village[]>([]);
-    const countryFarmers = ref<{ data: Farmer[]; current_page: number; last_page: number; per_page: number; total: number } | null>(null);
-    const milkCenters = ref<MilkCollectionCenter[]>([]);
+    const countries = shallowRef<Country[]>([]);
+    const regions = shallowRef<Region[]>([]);
+    const districts = shallowRef<District[]>([]);
+    const counties = shallowRef<County[]>([]);
+    const subcounties = shallowRef<Subcounty[]>([]);
+    const parishes = shallowRef<Parish[]>([]);
+    const villages = shallowRef<Village[]>([]);
+    const countryFarmers = shallowRef<{ data: Farmer[]; current_page: number; last_page: number; per_page: number; total: number } | null>(null);
+    const milkCenters = shallowRef<MilkCollectionCenter[]>([]);
 
     const loading = ref(false);
     const error = ref<string | null>(null);
+
+    // Cache management
+    const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+    const countryCache = new Map<number, { data: Country; timestamp: number }>();
 
     // Countries
     async function getCountries() {
@@ -283,11 +287,19 @@ export const useGeographyStore = defineStore('geography', () => {
         }
     }
 
-    async function getCountry(id: number) {
+    async function getCountry(id: number, forceRefresh = false) {
+        if (!forceRefresh) {
+            const cached = countryCache.get(id);
+            if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+                return cached.data;
+            }
+        }
+
         loading.value = true;
         error.value = null;
         try {
             const response = await axios.get<Country>(`/countries/${id}`);
+            countryCache.set(id, { data: response.data, timestamp: Date.now() });
             return response.data;
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Failed to fetch country';

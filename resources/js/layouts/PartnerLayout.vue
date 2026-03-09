@@ -95,9 +95,9 @@
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto bg-surface-50 p-4 sm:p-6 lg:p-8">
                 <div class="mx-auto w-full max-w-6xl">
-                    <router-view v-slot="{ Component }">
+                    <router-view v-slot="{ Component, route }">
                         <transition name="fade" mode="out-in">
-                            <component :is="Component" />
+                            <component :is="Component" :key="route.path" />
                         </transition>
                     </router-view>
                 </div>

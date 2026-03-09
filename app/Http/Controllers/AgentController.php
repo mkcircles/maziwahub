@@ -268,4 +268,37 @@ class AgentController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Get dashboard summary statistics for the specified agent.
+     */
+    public function dashboardSummary($agent): JsonResponse
+    {
+        // Check if the current user is authorized to view this summary
+        // Allow the agent to view their own summary
+        $user = request()->user();
+        if ($user->id !== $agent->user_id && $user->cannot('view', $agent)) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $totalFarmers = \App\Models\Farmer::where('registered_by_agent_id', $agent->id)->count();
+
+        // Count cows registered by farmers managed by this agent
+        $totalCows = \App\Models\Cow::whereHas('farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })->count();
+
+        // Milk productions recorded by this agent (via their user_id)
+        $totalMilkProductions = \App\Models\CowMilkProduction::where('recorded_by', $agent->user_id)->count();
+
+        // Milk deliveries recorded by this agent (via their user_id)
+        $totalMilkDeliveries = \App\Models\MilkDelivery::where('recorded_by', $agent->user_id)->count();
+
+        return response()->json([
+            'total_farmers_registered' => $totalFarmers,
+            'total_cows_registered' => $totalCows,
+            'total_milk_productions_recorded' => $totalMilkProductions,
+            'total_milk_deliveries_recorded' => $totalMilkDeliveries,
+        ]);
+    }
 }
