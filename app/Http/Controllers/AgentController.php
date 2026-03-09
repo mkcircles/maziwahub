@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Cow;
+use App\Models\CowMilkProduction;
+use App\Models\Farmer;
+use App\Models\MilkDelivery;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -272,7 +276,7 @@ class AgentController extends Controller
     /**
      * Get dashboard summary statistics for the specified agent.
      */
-    public function dashboardSummary($agent): JsonResponse
+    public function dashboardSummary(Agent $agent): JsonResponse
     {
         // Check if the current user is authorized to view this summary
         // Allow the agent to view their own summary
@@ -281,24 +285,63 @@ class AgentController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $totalFarmers = \App\Models\Farmer::where('registered_by_agent_id', $agent->id)->count();
+        $totalFarmers = Farmer::where('registered_by_agent_id', $agent->id)->count();
 
         // Count cows registered by farmers managed by this agent
-        $totalCows = \App\Models\Cow::whereHas('farmer', function ($query) use ($agent) {
+        $totalCows = Cow::whereHas('farmer', function ($query) use ($agent) {
             $query->where('registered_by_agent_id', $agent->id);
         })->count();
 
         // Milk productions recorded by this agent (via their user_id)
-        $totalMilkProductions = \App\Models\CowMilkProduction::where('recorded_by', $agent->user_id)->count();
+        $totalMilkProductions = CowMilkProduction::where('recorded_by', $agent->user_id)->count();
 
         // Milk deliveries recorded by this agent (via their user_id)
-        $totalMilkDeliveries = \App\Models\MilkDelivery::where('recorded_by', $agent->user_id)->count();
+        $totalMilkDeliveries = MilkDelivery::where('recorded_by', $agent->user_id)->count();
+
+        // Fetch daily histories for chart
+        $startDate = now()->subDays(30)->startOfDay();
+
+        $farmersHistory = Farmer::where('registered_by_agent_id', $agent->id)
+            ->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $cowsHistory = Cow::whereHas('farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })
+            ->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $milkProductionsHistory = CowMilkProduction::where('recorded_by', $agent->user_id)
+            ->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $milkDeliveriesHistory = MilkDelivery::where('recorded_by', $agent->user_id)
+            ->where('created_at', '>=', $startDate)
+            ->selectRaw('DATE(created_at) as date, count(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
 
         return response()->json([
             'total_farmers_registered' => $totalFarmers,
             'total_cows_registered' => $totalCows,
             'total_milk_productions_recorded' => $totalMilkProductions,
             'total_milk_deliveries_recorded' => $totalMilkDeliveries,
+            'historical_stats' => [
+                'farmers' => $farmersHistory,
+                'cows' => $cowsHistory,
+                'milk_productions' => $milkProductionsHistory,
+                'milk_deliveries' => $milkDeliveriesHistory,
+            ]
         ]);
     }
 }

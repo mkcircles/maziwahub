@@ -54,6 +54,19 @@ export const useAgentStore = defineStore('agent', () => {
         }
     }
 
+    async function fetchAgentStats(id: number) {
+        loading.value = true;
+        try {
+            const response = await axios.get(`/agents/${id}/dashboard-summary`);
+            return response.data;
+        } catch (err: any) {
+            error.value = err.response?.data?.message || 'Failed to fetch agent stats';
+            throw err;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     async function createAgent(data: Partial<Agent>) {
         loading.value = true;
         try {
@@ -106,6 +119,7 @@ export const useAgentStore = defineStore('agent', () => {
         error,
         fetchAgents,
         fetchAgent,
+        fetchAgentStats,
         createAgent,
         updateAgent,
         deleteAgent,

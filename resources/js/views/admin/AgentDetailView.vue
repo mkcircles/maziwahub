@@ -1,96 +1,115 @@
 <template>
     <div class="space-y-6">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div class="flex items-center gap-3">
-                <router-link
-                    :to="backRoute"
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
-                >
-                    <Icon icon="mdi:arrow-left" :size="18" />
-                    Back to agents
-                </router-link>
-                <div>
-                    <h1 class="text-2xl font-bold text-surface-200">{{ agentName }}</h1>
-                    <p class="text-sm text-surface-500">{{ agent?.email ?? '—' }}</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
-                    @click="refresh"
-                    :disabled="loading"
-                >
-                    <Icon icon="mdi:refresh" :size="18" />
-                    Refresh
-                </button>
-                <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium transition"
-                    :class="agent?.is_active ? 'border border-surface-200 bg-surface-300 text-surface-700 hover:bg-surface-400' : 'bg-emerald-600 text-white hover:bg-emerald-700'"
-                    @click="toggleActive"
-                    :disabled="loading"
-                >
-                    <Icon :icon="agent?.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'" :size="18" />
-                    {{ agent?.is_active ? 'Deactivate' : 'Activate' }}
-                </button>
-            </div>
+        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Loading agent details...
+        </div>
+        <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">{{ error }}</div>
+        <div v-else-if="!agent" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Agent not found.
         </div>
 
-        <div v-if="loading" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Loading agent details...</div>
-        <div v-else-if="error" class="rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">{{ error }}</div>
-        <div v-else-if="!agent" class="rounded-lg bg-white p-8 text-center text-surface-600 shadow">Agent not found.</div>
         <template v-else>
-            <div class="grid gap-4 md:grid-cols-2">
-                <div class="space-y-4 rounded-lg bg-white p-6 shadow">
-                    <h2 class="text-lg font-semibold text-surface-900">Profile</h2>
-                    <dl class="grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Full Name</dt>
-                            <dd class="text-sm font-medium text-surface-900">{{ agentName }}</dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Phone</dt>
-                            <dd class="text-sm text-surface-700">{{ agent.phone ?? '—' }}</dd>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Email</dt>
-                            <dd class="text-sm text-surface-700">{{ agent.user?.email ?? '—' }}</dd>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Address</dt>
-                            <dd class="text-sm text-surface-700">{{ agent.address ?? '—' }}</dd>
-                        </div>
-                        <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Assigned MCC</dt>
-                            <dd class="text-sm text-surface-700">{{ agent.milkCollectionCenter?.name ?? 'Unassigned' }}</dd>
-                        </div>
-                         <div class="sm:col-span-2">
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Partner Organization</dt>
-                            <dd class="text-sm text-surface-700">{{ agent.partner?.name ?? 'Unassigned' }}</dd>
-                        </div>
-                    </dl>
+            <!-- Banner Section -->
+            <div
+                class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10 mb-6">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
                 </div>
-
-                 <div class="space-y-4 rounded-lg bg-white p-6 shadow">
-                    <h2 class="text-lg font-semibold text-surface-900">System Info</h2>
-                     <dl class="grid gap-4">
+                <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                    <div class="flex flex-col gap-4">
+                        <router-link :to="backRoute"
+                            class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
+                            <Icon icon="mdi:arrow-left" :size="18" />
+                            Back to agents
+                        </router-link>
                         <div>
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Registered</dt>
-                            <dd class="text-sm text-surface-700">{{ formatDate(agent.created_at) }}</dd>
-                        </div>
-                        <div>
-                            <dt class="text-xs uppercase tracking-wide text-surface-500">Status</dt>
-                            <dd class="text-sm">
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium"
-                                    :class="agent.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-200 text-surface-600'"
-                                >
-                                    {{ agent.is_active ? 'Active' : 'Inactive' }}
+                            <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
+                                Agent Profile
+                            </p>
+                            <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
+                                {{ agentName }}
+                            </h1>
+                            <p class="mt-2 text-xs text-white/70 sm:text-sm flex flex-wrap gap-2 items-center">
+                                <span>
+                                    <Icon icon="mdi:email-outline" :size="14" class="inline mr-1" />{{ agent.user?.email
+                                        ?? '—' }}
                                 </span>
-                            </dd>
+                                <span class="hidden sm:inline">|</span>
+                                <span>
+                                    <Icon icon="mdi:phone-outline" :size="14" class="inline mr-1" />{{ agent.phone ??
+                                        '—' }}
+                                </span>
+                            </p>
                         </div>
-                     </dl>
+                        <div class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs">
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full px-3 py-1 font-medium text-white backdrop-blur"
+                                :class="agent.is_active ? 'bg-emerald-500/30 text-emerald-100' : 'bg-white/15 text-white'">
+                                <Icon :icon="agent.is_active ? 'mdi:check-circle-outline' : 'mdi:close-circle-outline'"
+                                    :size="14" />
+                                {{ agent.is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                            <span v-if="agent.milkCollectionCenter"
+                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                <Icon icon="mdi:store-outline" :size="14" />
+                                MCC: {{ agent.milkCollectionCenter.name }}
+                            </span>
+                            <span v-if="agent.partner"
+                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                <Icon icon="mdi:domain" :size="14" />
+                                Partner: {{ agent.partner.name }}
+                            </span>
+                            <span v-if="agent.address"
+                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                <Icon icon="mdi:map-marker-outline" :size="14" />
+                                {{ agent.address }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3 sm:items-end">
+                        <div class="flex items-center gap-2">
+                            <button
+                                class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25 disabled:opacity-60"
+                                @click="refresh" :disabled="loading">
+                                <Icon icon="mdi:refresh" :size="16" />
+                                Refresh
+                            </button>
+                            <button
+                                class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-white shadow-sm transition disabled:opacity-60"
+                                :class="agent?.is_active ? 'bg-red-600/90 hover:bg-red-500' : 'bg-emerald-600 hover:bg-emerald-500'"
+                                @click="toggleActive" :disabled="loading">
+                                <Icon :icon="agent?.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'"
+                                    :size="16" />
+                                {{ agent?.is_active ? 'Deactivate' : 'Activate' }}
+                            </button>
+                        </div>
+                        <div class="text-xs text-white/60">
+                            Registered {{ formatDate(agent.created_at) }}
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Stats grid -->
+            <div v-if="stats" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-4">
+                <div class="rounded-lg bg-emerald-50/50 p-5 shadow border border-emerald-100">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600">Farmers Registered</p>
+                    <p class="mt-2 text-2xl font-bold text-emerald-900">{{ stats.total_farmers_registered }}</p>
+                </div>
+                <div class="rounded-lg bg-amber-50/50 p-5 shadow border border-amber-100">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-amber-600">Cows Registered</p>
+                    <p class="mt-2 text-2xl font-bold text-amber-900">{{ stats.total_cows_registered }}</p>
+                </div>
+                <div class="rounded-lg bg-blue-50/50 p-5 shadow border border-blue-100">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-600">Milk Productions</p>
+                    <p class="mt-2 text-2xl font-bold text-blue-900">{{ stats.total_milk_productions_recorded }}</p>
+                </div>
+                <div class="rounded-lg bg-violet-50/50 p-5 shadow border border-violet-100">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-violet-600">Milk Deliveries</p>
+                    <p class="mt-2 text-2xl font-bold text-violet-900">{{ stats.total_milk_deliveries_recorded }}</p>
+                </div>
+            </div>
+
+            <AgentHistoricalChart v-if="stats?.historical_stats" :historical-data="stats.historical_stats"
+                class="mb-4" />
         </template>
     </div>
 </template>
@@ -99,12 +118,14 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from '../../components/shared/Icon.vue';
+import AgentHistoricalChart from '../../components/admin/AgentHistoricalChart.vue';
 import { useAgentStore } from '../../stores/agentStore';
 
 const route = useRoute();
 const agentStore = useAgentStore();
 
 const agent = ref<any>(null);
+const stats = ref<any>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
@@ -128,9 +149,12 @@ const fetchAgent = async () => {
     try {
         const result = await agentStore.fetchAgent(agentId.value);
         agent.value = result;
+        const statsResult = await agentStore.fetchAgentStats(agentId.value);
+        stats.value = statsResult;
     } catch (err: any) {
         error.value = err.response?.data?.message || 'Failed to load agent.';
         agent.value = null;
+        stats.value = null;
     } finally {
         loading.value = false;
     }
