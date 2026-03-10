@@ -9,7 +9,7 @@
                     <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
                         <Icon icon="mdi:chart-box-outline" :size="20" />
                     </span>
-                    Maziwa Hub
+                    Yield Tech
                 </router-link>
             </div>
 
@@ -110,7 +110,7 @@
                                 class="text-sm font-semibold text-surface-800 group-hover:text-primary-600 transition-colors">{{
                                     authStore.user?.name ?? 'Administrator' }}</span>
                             <span class="text-xs text-surface-500 capitalize">{{ authStore.user?.user_type ?? 'user'
-                            }}</span>
+                                }}</span>
                         </div>
                         <div
                             class="h-9 w-9 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">

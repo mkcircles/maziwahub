@@ -31,30 +31,30 @@ class FarmerSeeder extends Seeder
         $this->command->info('Creating farmers...');
 
         // Create 50 farmers
-        $count = 50;
+        $count = 200;
         $bar = $this->command->getOutput()->createProgressBar($count);
         $bar->start();
 
         for ($i = 0; $i < $count; $i++) {
             // Get random district
             $district = $districts->random();
-            
+
             // Get related geographical data
             $counties = County::where('district_id', $district->id)->get();
             $county = $counties->isNotEmpty() ? $counties->random() : null;
-            
-            $subcounties = $county 
-                ? Subcounty::where('county_id', $county->id)->get() 
+
+            $subcounties = $county
+                ? Subcounty::where('county_id', $county->id)->get()
                 : collect();
             $subcounty = $subcounties->isNotEmpty() ? $subcounties->random() : null;
-            
-            $parishes = $subcounty 
-                ? Parish::where('subcounty_id', $subcounty->id)->get() 
+
+            $parishes = $subcounty
+                ? Parish::where('subcounty_id', $subcounty->id)->get()
                 : collect();
             $parish = $parishes->isNotEmpty() ? $parishes->random() : null;
-            
-            $villages = $parish 
-                ? Village::where('parish_id', $parish->id)->get() 
+
+            $villages = $parish
+                ? Village::where('parish_id', $parish->id)->get()
                 : collect();
             $village = $villages->isNotEmpty() ? $villages->random() : null;
 
@@ -92,7 +92,7 @@ class FarmerSeeder extends Seeder
         do {
             $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             $farmerId = collect(range(1, 6))
-                ->map(fn () => $characters[random_int(0, strlen($characters) - 1)])
+                ->map(fn() => $characters[random_int(0, strlen($characters) - 1)])
                 ->implode('');
         } while (Farmer::where('farmer_id', $farmerId)->exists());
 

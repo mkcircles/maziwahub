@@ -91,6 +91,11 @@ Route::prefix('v1')->group(function () {
             Route::post('users/{user}/toggle-active', [\App\Http\Controllers\UserController::class, 'toggleActive']);
         });
 
+        // Admin Dashboard API
+        Route::middleware('role:super_admin|admin')->group(function () {
+            Route::get('dashboard/admin-summary', [\App\Http\Controllers\DashboardController::class, 'adminSummary']);
+        });
+
         // Agents - super_admin, admin, partners, and mcc can manage
         Route::middleware('role:super_admin|admin|partner|mcc|agent')->group(function () {
             Route::apiResource('agents', \App\Http\Controllers\AgentController::class);
