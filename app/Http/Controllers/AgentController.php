@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
@@ -352,7 +353,7 @@ class AgentController extends Controller
             ->orderBy('date')
             ->get());
 
-        return response()->json([
+        $data = [
             'total_farmers_registered' => $totalFarmers,
             'total_cows_registered' => $totalCows,
             'total_milk_productions_recorded' => $totalMilkProductions,
@@ -363,6 +364,7 @@ class AgentController extends Controller
                 'milk_productions' => $milkProductionsHistory,
                 'milk_deliveries' => $milkDeliveriesHistory,
             ]
-        ]);
+        ];
+        return response()->json($data);
     }
 }

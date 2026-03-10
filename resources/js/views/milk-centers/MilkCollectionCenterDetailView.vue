@@ -266,17 +266,20 @@
                         </div>
                         <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
                             <p class="text-xs uppercase tracking-wide text-surface-500">Testing Equipment</p>
-                            <p class="text-sm font-semibold text-surface-900">{{ center.has_testing_equipment ? 'Available' : 'Not available' }}</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.has_testing_equipment ?
+                                'Available' : 'Not available' }}</p>
                             <p class="text-xs text-surface-500">On-site milk quality testing</p>
                         </div>
                         <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
                             <p class="text-xs uppercase tracking-wide text-surface-500">Washing Bay</p>
-                            <p class="text-sm font-semibold text-surface-900">{{ center.has_washing_bay ? 'Available' : 'Not available' }}</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.has_washing_bay ? 'Available' :
+                                'Not available' }}</p>
                             <p class="text-xs text-surface-500">Cleaning infrastructure</p>
                         </div>
                         <div class="rounded-lg border border-surface-100 bg-surface-50 p-4">
                             <p class="text-xs uppercase tracking-wide text-surface-500">Power Source</p>
-                            <p class="text-sm font-semibold text-surface-900">{{ center.power_source ?? 'Not specified' }}</p>
+                            <p class="text-sm font-semibold text-surface-900">{{ center.power_source ?? 'Not specified'
+                            }}</p>
                             <p class="text-xs text-surface-500">Primary energy supply</p>
                         </div>
                     </div>
@@ -316,7 +319,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Icon from '../../components/shared/Icon.vue';
@@ -351,7 +354,7 @@ const agentStore = useAgentStore();
 const { agents: mccAgents, loading: mccAgentsLoading } = storeToRefs(agentStore);
 
 const center = ref<MilkCollectionCenter | null>(null);
-const loading = ref(false);
+const loading = ref(true);
 const error = ref<string | null>(null);
 
 const farmersCount = ref<number | null>(null);
@@ -521,11 +524,12 @@ const handleAgentCreated = async () => {
 
 watch(
     () => centerId.value,
-    (newId, oldId) => {
-        if (newId !== oldId && !Number.isNaN(newId)) {
+    (newId) => {
+        if (!Number.isNaN(newId)) {
             refresh();
         }
-    }
+    },
+    { immediate: true }
 );
 
 const formatDate = (value?: string | null) => {
@@ -571,8 +575,5 @@ const formatLocation = (center: MilkCollectionCenter) => {
     return parts.length ? parts.join(' • ') : center.physical_address;
 };
 
-onMounted(async () => {
-    await fetchCenter();
-    await Promise.all([fetchMetrics(), fetchDeliveries(), fetchTrend()]);
-});
+
 </script>
