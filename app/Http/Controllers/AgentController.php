@@ -300,36 +300,49 @@ class AgentController extends Controller
 
         // Fetch daily histories for chart
         $startDate = now()->subDays(30)->startOfDay();
+        $endDate = now()->endOfDay();
 
-        $farmersHistory = Farmer::where('registered_by_agent_id', $agent->id)
-            ->where('created_at', '>=', $startDate)
+        $dateRange = collect();
+        for ($i = 30; $i >= 0; $i--) {
+            $dateRange->put(now()->subDays($i)->format('Y-m-d'), 0);
+        }
+
+        $formatHistory = function ($data) use ($dateRange) {
+            $plucked = $data->pluck('count', 'date');
+            return $dateRange->merge($plucked)->map(function ($count, $date) {
+                return ['date' => $date, 'count' => $count];
+            })->values();
+        };
+
+        $farmersHistory = $formatHistory(Farmer::where('registered_by_agent_id', $agent->id)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get());
 
-        $cowsHistory = Cow::whereHas('farmer', function ($query) use ($agent) {
+        $cowsHistory = $formatHistory(Cow::whereHas('farmer', function ($query) use ($agent) {
             $query->where('registered_by_agent_id', $agent->id);
         })
-            ->where('created_at', '>=', $startDate)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get());
 
-        $milkProductionsHistory = CowMilkProduction::where('recorded_by', $agent->user_id)
-            ->where('created_at', '>=', $startDate)
+        $milkProductionsHistory = $formatHistory(CowMilkProduction::where('recorded_by', $agent->user_id)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get());
 
-        $milkDeliveriesHistory = MilkDelivery::where('recorded_by', $agent->user_id)
-            ->where('created_at', '>=', $startDate)
+        $milkDeliveriesHistory = $formatHistory(MilkDelivery::where('recorded_by', $agent->user_id)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date')
-            ->get();
+            ->get());
 
         return response()->json([
             'total_farmers_registered' => $totalFarmers,
