@@ -292,11 +292,15 @@ class AgentController extends Controller
             $query->where('registered_by_agent_id', $agent->id);
         })->count();
 
-        // Milk productions recorded by this agent (via their user_id)
-        $totalMilkProductions = CowMilkProduction::where('recorded_by', $agent->user_id)->count();
+        // Milk productions from cows belonging to farmers registered by this agent
+        $totalMilkProductions = CowMilkProduction::whereHas('cow.farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })->count();
 
-        // Milk deliveries recorded by this agent (via their user_id)
-        $totalMilkDeliveries = MilkDelivery::where('recorded_by', $agent->user_id)->count();
+        // Milk deliveries from farmers registered by this agent
+        $totalMilkDeliveries = MilkDelivery::whereHas('farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })->count();
 
         // Fetch daily histories for chart
         $startDate = now()->subDays(30)->startOfDay();
@@ -330,14 +334,18 @@ class AgentController extends Controller
             ->orderBy('date')
             ->get());
 
-        $milkProductionsHistory = $formatHistory(CowMilkProduction::where('recorded_by', $agent->user_id)
+        $milkProductionsHistory = $formatHistory(CowMilkProduction::whereHas('cow.farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })
             ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
             ->orderBy('date')
             ->get());
 
-        $milkDeliveriesHistory = $formatHistory(MilkDelivery::where('recorded_by', $agent->user_id)
+        $milkDeliveriesHistory = $formatHistory(MilkDelivery::whereHas('farmer', function ($query) use ($agent) {
+            $query->where('registered_by_agent_id', $agent->id);
+        })
             ->whereBetween('created_at', [$startDate, $endDate])
             ->selectRaw('DATE(created_at) as date, count(*) as count')
             ->groupBy('date')
