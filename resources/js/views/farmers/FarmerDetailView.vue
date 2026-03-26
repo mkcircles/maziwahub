@@ -44,7 +44,7 @@
                 <div class="flex flex-col gap-3 sm:items-end">
                     <div class="flex items-center gap-2">
                         <button v-if="farmer && farmer.status === 'pending'" type="button"
-                            class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            class="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-2.5 py-1 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
                             @click="toggleFarmerStatus('active')" :disabled="detailLoading || isUpdatingStatus">
                             <Icon v-if="isUpdatingStatus" icon="line-md:loading-twotone-loop" :size="16" />
                             <Icon v-else icon="mdi:check-circle-outline" :size="16" />
@@ -52,7 +52,7 @@
                         </button>
 
                         <button v-if="farmer && farmer.status === 'active'" type="button"
-                            class="inline-flex items-center gap-2 rounded-full bg-red-600/90 px-5 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+                            class="inline-flex items-center gap-2 rounded-full bg-red-600/90 px-2.5 py-1 text-sm font-medium text-white shadow-sm transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
                             @click="toggleFarmerStatus('inactive')" :disabled="detailLoading || isUpdatingStatus">
                             <Icon v-if="isUpdatingStatus" icon="line-md:loading-twotone-loop" :size="16" />
                             <Icon v-else icon="mdi:close-circle-outline" :size="16" />
@@ -305,7 +305,7 @@
                                         {{ supplementalFeedingMethod?.name ?? 'Not assigned' }}
                                     </p>
                                     <p class="text-xs text-surface-500">
-                                        {{ supplementalFeedingMethod ? 'Supplemental feeding in place' : 'No supplemental feeding recorded' }}
+                                        {{ supplementalFeedingMethod ? 'Supplemental feeding in place' : '-' }}
                                     </p>
                                 </div>
                                 <button type="button"
@@ -490,7 +490,7 @@
                                     <div class="flex items-center gap-2">
                                         <Icon icon="mdi:calendar-end" :size="16" class="text-surface-400" />
                                         <span>{{ entry.ended_at ? `Ended ${formatDate(entry.ended_at)}` : 'Ongoing'
-                                        }}</span>
+                                            }}</span>
                                     </div>
                                     <div v-if="entry.recordedBy" class="flex items-center gap-2 sm:col-span-2">
                                         <Icon icon="mdi:account-outline" :size="16" class="text-surface-400" />
@@ -513,7 +513,7 @@
                         <p>
                             Page
                             <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.current_page
-                            }}</span>
+                                }}</span>
                             of
                             <span class="font-semibold text-surface-800">{{ feedingHistoryPagination.last_page }}</span>
                         </p>

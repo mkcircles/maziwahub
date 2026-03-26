@@ -20,6 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(authService.getAuthToken());
     const loading = ref(false);
     const error = ref<string | null>(null);
+    const initialized = ref(false);
 
     const isAuthenticated = computed(() => !!token.value && !!user.value);
 
@@ -30,6 +31,7 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await authService.login(credentials);
             user.value = response.user;
             token.value = response.token;
+            initialized.value = true;
             return response;
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Login failed';
@@ -46,6 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
             const response = await authService.register(data);
             user.value = response.user;
             token.value = response.token;
+            initialized.value = true;
             return response;
         } catch (err: any) {
             error.value = err.response?.data?.message || 'Registration failed';
@@ -63,15 +66,17 @@ export const useAuthStore = defineStore('auth', () => {
             user.value = null;
             token.value = null;
             loading.value = false;
+            initialized.value = false;
         }
     }
 
     async function fetchUser() {
         loading.value = true;
         try {
-            const fetchedUser = await authService.getUser();
+            //const fetchedUser = await authService.getUser();
+            const fetchedUser = localStorage.getItem('auth_user');
             if (fetchedUser) {
-                user.value = fetchedUser;
+                user.value = JSON.parse(fetchedUser);
             } else {
                 user.value = null;
                 token.value = null;
@@ -81,6 +86,7 @@ export const useAuthStore = defineStore('auth', () => {
             token.value = null;
         } finally {
             loading.value = false;
+            initialized.value = true;
         }
     }
 
@@ -93,6 +99,7 @@ export const useAuthStore = defineStore('auth', () => {
         token,
         loading,
         error,
+        initialized,
         isAuthenticated,
         login,
         register,

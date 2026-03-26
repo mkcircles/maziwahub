@@ -10,12 +10,12 @@
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-surface-200 text-sm text-surface-700">
+            <tbody class="divide-y divide-surface-200 text-xs text-surface-700">
                 <tr v-if="loading">
-                    <td colspan="5" class="px-6 py-4 text-center text-sm text-surface-500">Loading agents...</td>
+                    <td colspan="5" class="px-6 py-4 text-center text-xs text-surface-500">Loading agents...</td>
                 </tr>
                 <tr v-else-if="agents.length === 0">
-                    <td colspan="5" class="px-6 py-4 text-center text-sm text-surface-500">No agents found.</td>
+                    <td colspan="5" class="px-6 py-4 text-center text-xs text-surface-500">No agents found.</td>
                 </tr>
                 <tr v-else v-for="agent in agents" :key="agent.id" class="hover:bg-surface-50">
                     <td class="px-6 py-4">
@@ -29,24 +29,21 @@
                         {{ agent.milk_collection_center?.name ?? 'Unassigned' }}
                     </td>
                     <td class="px-6 py-4">
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                            :class="agent.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-200 text-surface-600'"
-                        >
-                            <Icon :icon="agent.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'" :size="14" />
+                        <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                            :class="agent.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-surface-200 text-surface-600'">
+                            <Icon :icon="agent.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'"
+                                :size="14" />
                             {{ agent.is_active ? 'Active' : 'Inactive' }}
                         </span>
                     </td>
                     <td class="px-6 py-4 inline-flex gap-2">
 
-                        <button class="text-surface-400 hover:text-primary-600 mr-2" title="Edit" @click="$emit('edit', agent)">
+                        <button class="text-surface-400 hover:text-primary-600 mr-2" title="Edit"
+                            @click="$emit('edit', agent)">
                             <Icon icon="mdi:pencil-outline" :size="18" /> Edit
                         </button>
-                        <router-link
-                            :to="{ name: detailRouteName, params: { id: agent.id } }"
-                            class="text-surface-400 hover:text-primary-600"
-                            title="View Details"
-                        >
+                        <router-link :to="{ name: detailRouteName, params: { id: agent.id } }"
+                            class="text-surface-400 hover:text-primary-600" title="View Details">
                             <Icon icon="mdi:eye-outline" :size="18" /> View
                         </router-link>
                     </td>

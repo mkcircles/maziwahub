@@ -27,9 +27,11 @@ const router = createRouter({
 router.beforeEach(async (to, _from, next) => {
     const authStore = useAuthStore();
 
-    // If user is not loaded, try to fetch from storage/API
-    if (!authStore.user && authStore.token) {
+    // Wait for auth to be initialized if we have a token but no user yet
+    if (!authStore.initialized && authStore.token) {
         await authStore.fetchUser();
+    } else if (!authStore.initialized && !authStore.token) {
+        authStore.initialized = true;
     }
 
     // Check if route requires authentication

@@ -1,32 +1,32 @@
 <template>
     <div class="space-y-10 pb-16">
         <div
-            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
-        >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
+            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10">
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+            </div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div class="max-w-xl space-y-4">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
                         Farmer Network
                     </p>
                     <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Farmers</h1>
-                    <p class="text-sm text-white/70">
-                        Monitor registrations, validation status, and milk center assignments for every farmer captured on
+                    <p class="text-xs text-white/70">
+                        Monitor registrations, validation status, and milk center assignments for every farmer captured
+                        on
                         the platform.
                     </p>
                 </div>
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <button
-                        class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25"
-                        @click="openAddModal"
-                    >
+                        class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-xs font-medium text-white backdrop-blur transition hover:bg-white/25"
+                        @click="openAddModal">
                         <Icon icon="mdi:account-plus-outline" :size="18" />
                         Register Farmer
                     </button>
                     <button
-                        class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25"
-                        @click="refresh"
-                    >
+                        class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-xs font-medium text-white backdrop-blur transition hover:bg-white/25"
+                        @click="refresh">
                         <Icon icon="mdi:refresh" :size="18" />
                         Refresh data
                     </button>
@@ -35,47 +35,32 @@
         </div>
 
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-            <StatisticalCard
-                icon="mdi:account-multiple-outline"
-                icon-class="text-primary-600"
-                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:account-multiple-outline" icon-class="text-primary-600"
+                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Total Farmers</template>
                 <template #default>{{ metricsLoading ? '•••' : metrics.total }}</template>
                 <template #caption>All registered farmers across the platform</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:check-circle-outline"
-                icon-class="text-emerald-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:check-circle-outline" icon-class="text-emerald-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Active Farmers</template>
                 <template #default>{{ metricsLoading ? '•••' : metrics.active }}</template>
                 <template #caption>Farmers currently validated and active</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:clock-outline"
-                icon-class="text-amber-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:clock-outline" icon-class="text-amber-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Pending Farmers</template>
                 <template #default>{{ metricsLoading ? '•••' : metrics.pending }}</template>
                 <template #caption>Awaiting validation or review</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:shield-check-outline"
-                icon-class="text-primary-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:shield-check-outline" icon-class="text-primary-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Insured Farmers</template>
                 <template #default>{{ metricsLoading ? '•••' : metrics.insured }}</template>
                 <template #caption>Farmers covered by insurance</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:milk-outline"
-                icon-class="text-orange-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:milk-outline" icon-class="text-orange-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-3 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Milk Centers</template>
                 <template #default>{{ milkCentersLoading ? '•••' : milkCentersCount }}</template>
                 <template #caption>
@@ -84,36 +69,30 @@
                 </template>
             </StatisticalCard>
         </div>
-            
 
-            
 
-            
+
+
+
 
         <div class="space-y-6 rounded-md border border-surface-100 bg-white/90 p-6 shadow-sm border border-surface-200">
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div class="grid gap-4 md:grid-cols-5">
                     <div class="md:col-span-2">
-                        <label class="text-sm font-medium text-surface-700" for="farmer-search">Search</label>
+                        <label class="text-xs font-medium text-surface-700" for="farmer-search">Search</label>
                         <div class="mt-1 relative">
-                            <input
-                                id="farmer-search"
-                                v-model="searchTerm"
-                                type="search"
+                            <input id="farmer-search" v-model="searchTerm" type="search"
                                 placeholder="Search by name, farmer ID or phone"
-                                class="w-full rounded-md border border-surface-200 bg-surface-50/60 px-4 py-2 text-sm text-surface-700 shadow-inner focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
-                            />
-                            <Icon icon="mdi:magnify" :size="18" class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-surface-400" />
+                                class="w-full rounded-md border border-surface-200 bg-surface-50/60 px-4 py-2 text-xs text-surface-700 shadow-inner focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200" />
+                            <Icon icon="mdi:magnify" :size="18"
+                                class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-surface-400" />
                         </div>
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-surface-700" for="farmer-status">Status</label>
-                        <select
-                            id="farmer-status"
-                            v-model="statusFilter"
-                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
-                        >
+                        <label class="text-xs font-medium text-surface-700" for="farmer-status">Status</label>
+                        <select id="farmer-status" v-model="statusFilter"
+                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-xs text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200">
                             <option value="">All statuses</option>
                             <option value="active">Active</option>
                             <option value="pending">Pending</option>
@@ -122,12 +101,9 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-surface-700" for="farmer-insured">Insured</label>
-                        <select
-                            id="farmer-insured"
-                            v-model="insuredFilter"
-                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
-                        >
+                        <label class="text-xs font-medium text-surface-700" for="farmer-insured">Insured</label>
+                        <select id="farmer-insured" v-model="insuredFilter"
+                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-xs text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200">
                             <option value="">Any</option>
                             <option value="true">Yes</option>
                             <option value="false">No</option>
@@ -135,12 +111,10 @@
                     </div>
 
                     <div>
-                        <label class="text-sm font-medium text-surface-700" for="farmer-reg-type">Registration Type</label>
-                        <select
-                            id="farmer-reg-type"
-                            v-model="regTypeFilter"
-                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
-                        >
+                        <label class="text-xs font-medium text-surface-700" for="farmer-reg-type">Registration
+                            Type</label>
+                        <select id="farmer-reg-type" v-model="regTypeFilter"
+                            class="mt-1 w-full rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-xs text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200">
                             <option value="">Any type</option>
                             <option value="individual">Individual</option>
                             <option value="cooperative">Cooperative</option>
@@ -151,12 +125,9 @@
 
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="md:col-span-2">
-                        <label class="text-sm font-medium text-surface-700" for="farmer-per-page">Rows per page</label>
-                        <select
-                            id="farmer-per-page"
-                            v-model.number="perPage"
-                            class="mt-1 rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-sm text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200"
-                        >
+                        <label class="text-xs font-medium text-surface-700" for="farmer-per-page">Rows per page</label>
+                        <select id="farmer-per-page" v-model.number="perPage"
+                            class="mt-1 rounded-md border border-surface-200 bg-surface-50/60 px-3 py-2 text-xs text-surface-700 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-200">
                             <option v-for="option in perPageOptions" :key="option" :value="option">
                                 {{ option }}
                             </option>
@@ -164,9 +135,8 @@
                     </div>
 
                     <button
-                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                        @click="resetFilters"
-                    >
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
+                        @click="resetFilters">
                         <Icon icon="mdi:filter-remove-outline" :size="18" />
                         Clear filters
                     </button>
@@ -183,62 +153,78 @@
                 <table class="min-w-full divide-y divide-slate-100">
                     <thead class="bg-surface-50/70">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Farmer</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Contact</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Milk Collection Center</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Location</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Herd Size</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Status</th>
-                            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-surface-500">Action</th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Farmer</th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Contact</th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Milk
+                                Collection Center</th>
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Location</th>
+                            <!-- <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">Herd Size</th> -->
+                            <th
+                                class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Status</th>
+                            <th
+                                class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                Action</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 bg-white text-sm text-surface-700">
+                    <tbody class="divide-y divide-slate-100 bg-white text-xs text-surface-700">
                         <tr v-if="loading" class="bg-white">
-                            <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-xs text-surface-500">
                                 Loading farmers...
                             </td>
                         </tr>
                         <tr v-else-if="!loading && farmers.length === 0" class="bg-white">
-                            <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-xs text-surface-500">
                                 No farmers match the selected filters.
                             </td>
                         </tr>
                         <tr v-for="farmer in farmers" :key="farmer.id" class="transition hover:bg-surface-50/60">
                             <td class="px-6 py-4">
-                                <div class="text-sm font-semibold text-surface-900">
-                                    <router-link :to="`/admin/farmers/${farmer.id}`" class="hover:text-primary-600 hover:underline">
+                                <div class="text-xs font-semibold text-surface-900">
+                                    <router-link :to="`/admin/farmers/${farmer.id}`"
+                                        class="hover:text-primary-600 hover:underline">
                                         {{ farmer.first_name }} {{ farmer.last_name }}
                                     </router-link>
                                 </div>
                                 <div class="text-xs text-surface-400 uppercase tracking-wide">
                                     ID: {{ farmer.farmer_id }}
                                 </div>
-                                
+
                             </td>
-                            <td class="px-6 py-4 text-sm text-surface-600">
-                                <div><Icon icon="mdi:phone" :size="10" class="inline-block text-emerald-500" /> <span class="text-[12px] text-surface-400">  {{ farmer.phone_number ?? '—' }}</span></div>
-                                
+                            <td class="px-6 py-4 text-xs text-surface-600">
+                                <div>
+                                    <Icon icon="mdi:phone" :size="10" class="inline-block text-emerald-500" /> <span
+                                        class="text-[12px] text-surface-400"> {{ farmer.phone_number ?? '—' }}</span>
+                                </div>
+
                             </td>
-                            <td class="px-6 py-4 text-sm text-surface-600">
+                            <td class="px-6 py-4 text-xs text-surface-600">
                                 <div>{{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}</div>
-                                <div v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-surface-400">
+                                <div v-if="farmer.milkCollectionCenter?.physical_address"
+                                    class="text-xs text-surface-400">
                                     {{ farmer.milkCollectionCenter.physical_address }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-[12px] text-surface-500">
                                 <div>{{ formatFarmerLocation(farmer) }}</div>
                             </td>
-                            <td class="px-6 py-4 text-sm text-surface-600">
+                            <!-- <td class="px-6 py-4 text-xs text-surface-600">
                                 <div class="grid gap-1 text-[12px] text-surface-400">
                                     {{ farmer.herd_size ?? '—' }}
                                    
                                 </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm">
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                                    :class="statusChipClass(farmer.status)"
-                                >
+                            </td> -->
+                            <td class="px-6 py-4 text-xs">
+                                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                                    :class="statusChipClass(farmer.status)">
                                     <Icon :icon="statusChipIcon(farmer.status)" :size="14" />
                                     {{ farmer.status ?? 'Unknown' }}
                                 </span>
@@ -246,9 +232,7 @@
                             <td class="px-6 py-4 text-right">
                                 <button
                                     class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-primary-600"
-                                    title="Edit"
-                                    @click="openEditModal(farmer)"
-                                >
+                                    title="Edit" @click="openEditModal(farmer)">
                                     <Icon icon="mdi:pencil-outline" :size="18" />
                                 </button>
                             </td>
@@ -257,10 +241,8 @@
                 </table>
             </div>
 
-            <div
-                v-if="farmers.length > 0"
-                class="flex flex-col gap-3 border-t border-surface-200 px-6 py-4 text-sm text-surface-500 md:flex-row md:items-center md:justify-between"
-            >
+            <div v-if="farmers.length > 0"
+                class="flex flex-col gap-3 border-t border-surface-200 px-6 py-4 text-xs text-surface-500 md:flex-row md:items-center md:justify-between">
                 <p>
                     Showing
                     <span class="font-semibold text-surface-700">
@@ -277,21 +259,19 @@
 
                 <div class="flex items-center gap-2">
                     <button
-                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-2 text-xs font-medium text-surface-600 transition hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                         :disabled="pagination.current_page === 1 || loading"
-                        @click="changePage(pagination.current_page - 1)"
-                    >
+                        @click="changePage(pagination.current_page - 1)">
                         <Icon icon="mdi:chevron-left" :size="18" />
                         Previous
                     </button>
-                    <span class="text-sm text-surface-500">
+                    <span class="text-xs text-surface-500">
                         Page {{ pagination.current_page }} of {{ pagination.last_page }}
                     </span>
                     <button
-                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-3 py-2 text-xs font-medium text-surface-600 transition hover:bg-surface-100 disabled:cursor-not-allowed disabled:opacity-50"
                         :disabled="pagination.current_page >= pagination.last_page || loading"
-                        @click="changePage(pagination.current_page + 1)"
-                    >
+                        @click="changePage(pagination.current_page + 1)">
                         Next
                         <Icon icon="mdi:chevron-right" :size="18" />
                     </button>
@@ -299,19 +279,10 @@
             </div>
         </div>
     </div>
-    <AddFarmerModal
-        :is-open="showAddModal"
-        :milk-centers="milkCenters"
-        @close="closeAddModal"
-        @created="handleFarmerCreated"
-    />
-    <EditFarmerModal
-        :is-open="showEditModal"
-        :farmer="selectedFarmerForEdit"
-        :milk-centers="milkCenters"
-        @close="closeEditModal"
-        @updated="handleFarmerUpdated"
-    />
+    <AddFarmerModal :is-open="showAddModal" :milk-centers="milkCenters" @close="closeAddModal"
+        @created="handleFarmerCreated" />
+    <EditFarmerModal :is-open="showEditModal" :farmer="selectedFarmerForEdit" :milk-centers="milkCenters"
+        @close="closeEditModal" @updated="handleFarmerUpdated" />
 </template>
 
 <script setup lang="ts">

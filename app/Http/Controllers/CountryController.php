@@ -13,6 +13,7 @@ class CountryController extends Controller
 {
     /**
      * List Countries
+     *
      * @description Get all countries with their regions, districts, counties, subcounties, parishes and villages.
      */
     public function index()
@@ -24,6 +25,7 @@ class CountryController extends Controller
 
     /**
      * Create Country
+     *
      * @description Create a new country.
      */
     public function store(Request $request)
@@ -46,6 +48,7 @@ class CountryController extends Controller
 
     /**
      * Show Country
+     *
      * @description Get a country with its regions, districts, counties, subcounties, parishes and villages.
      */
     public function show(Country $country)
@@ -55,6 +58,7 @@ class CountryController extends Controller
 
     /**
      * Update Country
+     *
      * @description Update a country.
      */
     public function update(Request $request, Country $country)
@@ -64,8 +68,8 @@ class CountryController extends Controller
         }
 
         $validated = $request->validate([
-            'name' => ['sometimes', 'required', 'string', 'max:255', 'unique:countries,name,' . $country->id],
-            'iso_code' => ['sometimes', 'required', 'string', 'size:3', 'unique:countries,iso_code,' . $country->id],
+            'name' => ['sometimes', 'required', 'string', 'max:255', 'unique:countries,name,'.$country->id],
+            'iso_code' => ['sometimes', 'required', 'string', 'size:3', 'unique:countries,iso_code,'.$country->id],
         ]);
 
         if (array_key_exists('name', $validated)) {
@@ -79,7 +83,9 @@ class CountryController extends Controller
 
     /**
      * Delete Country
+     *
      * @subgroup Country
+     *
      * @description Delete a country.
      */
     public function destroy(Country $country)
@@ -91,19 +97,25 @@ class CountryController extends Controller
 
     /**
      * Get Regions by Country
+     *
      * @description Get all regions by a country.
      */
     public function regions(Country $country)
     {
+        $cacheKey = "country:{$country->id}:regions";
+
         return response()->json(
-            $country->regions()
-                ->with($this->regionRelations())
-                ->get()
+            cache()->remember($cacheKey, now()->addHour(), function () use ($country) {
+                return $country->regions()
+                    ->with($this->regionRelations())
+                    ->get();
+            })
         );
     }
 
     /**
      * Get Farmers by Country
+     *
      * @description Get all farmers in a country based on their location.
      */
     public function farmers(Country $country, Request $request)

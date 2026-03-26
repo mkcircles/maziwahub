@@ -1,25 +1,25 @@
 <template>
     <div class="space-y-10 pb-16">
         <div
-            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
-        >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
+            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10">
+            <div
+                class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+            </div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <div class="max-w-xl space-y-4">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
                         Milk Operations
                     </p>
                     <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Milk Deliveries</h1>
-                    <p class="text-sm text-white/70">
-                        Monitor every milk delivery across the network, understand quality and value trends, and keep collection centers aligned.
+                    <p class="text-xs text-white/70">
+                        Monitor every milk delivery across the network, understand quality and value trends, and keep
+                        collection centers aligned.
                     </p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <button
-                        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20 disabled:opacity-60"
-                        @click="refresh"
-                        :disabled="loading"
-                    >
+                        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-medium text-white transition hover:bg-white/20 disabled:opacity-60"
+                        @click="refresh" :disabled="loading">
                         <Icon icon="mdi:refresh" :size="18" />
                         Refresh Data
                     </button>
@@ -28,77 +28,59 @@
         </div>
 
         <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <StatisticalCard
-                icon="mdi:bucket-outline"
-                icon-class="text-primary-600"
-                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:bucket-outline" icon-class="text-primary-600"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Total Deliveries</template>
                 <template #default>{{ loading ? '•••' : deliveries.length }}</template>
                 <template #caption>Completed deliveries in the current view</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:counter"
-                icon-class="text-emerald-600"
-                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:counter" icon-class="text-emerald-600"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Total Volume</template>
                 <template #default>{{ loading ? '•••' : formatLiters(totalVolume) }}</template>
                 <template #caption>Aggregate milk delivered</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:currency-usd"
-                icon-class="text-amber-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:currency-usd" icon-class="text-amber-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Total Value</template>
                 <template #default>{{ loading ? '•••' : formatCurrency(totalAmount) }}</template>
                 <template #caption>Sum of payments recorded</template>
             </StatisticalCard>
-            <StatisticalCard
-                icon="mdi:filter"
-                icon-class="text-purple-500"
-                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur"
-            >
+            <StatisticalCard icon="mdi:filter" icon-class="text-purple-500"
+                class="rounded-lg border border-white/70 bg-white/90 p-5 shadow-sm border border-surface-200 backdrop-blur">
                 <template #title>Active Filters</template>
                 <template #default>{{ activeFiltersLabel }}</template>
                 <template #caption>Filters currently applied</template>
             </StatisticalCard>
         </div>
 
-        <div class="rounded-md border border-surface-100 bg-white/95 p-8 shadow-sm border border-surface-200 backdrop-blur space-y-6">
+        <div
+            class="rounded-md border border-surface-100 bg-white/95 p-8 shadow-sm border border-surface-200 backdrop-blur space-y-6">
             <div class="grid gap-4 md:grid-cols-4">
                 <div class="md:col-span-2">
-                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500" for="delivery-search">Search</label>
+                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500"
+                        for="delivery-search">Search</label>
                     <div class="relative mt-1">
-                        <input
-                            id="delivery-search"
-                            v-model="searchTerm"
-                            type="search"
+                        <input id="delivery-search" v-model="searchTerm" type="search"
                             placeholder="Search by farmer ID, center name, or recorder"
-                            class="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                        />
-                        <Icon icon="mdi:magnify" :size="18" class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-surface-400" />
+                            class="w-full rounded-lg border border-surface-200 px-3 py-2 text-xs focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
+                        <Icon icon="mdi:magnify" :size="18"
+                            class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-surface-400" />
                     </div>
                 </div>
                 <div>
-                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500" for="delivery-center">Center</label>
-                    <input
-                        id="delivery-center"
-                        v-model="centerIdInput"
-                        type="number"
-                        min="1"
+                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500"
+                        for="delivery-center">Center</label>
+                    <input id="delivery-center" v-model="centerIdInput" type="number" min="1"
                         placeholder="Filter by center ID"
-                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                    />
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-xs focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
                 </div>
                 <div>
-                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500" for="delivery-grade">Quality Grade</label>
-                    <select
-                        id="delivery-grade"
-                        v-model="qualityFilter"
-                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                    >
+                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500"
+                        for="delivery-grade">Quality
+                        Grade</label>
+                    <select id="delivery-grade" v-model="qualityFilter"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-xs focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200">
                         <option value="">Any</option>
                         <option value="A">Grade A</option>
                         <option value="B">Grade B</option>
@@ -108,14 +90,12 @@
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <button
-                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
-                    @click="clearFilters"
-                    :disabled="loading"
-                >
+                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 bg-surface-50 px-4 py-2 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
+                    @click="clearFilters" :disabled="loading">
                     <Icon icon="mdi:filter-remove-outline" :size="18" />
                     Clear filters
                 </button>
-                <p v-if="error" class="text-sm text-red-600">
+                <p v-if="error" class="text-xs text-red-600">
                     {{ error }}
                 </p>
             </div>
@@ -130,39 +110,41 @@
                             <th class="px-6 py-3">Center</th>
                             <th class="px-6 py-3">Farmer</th>
                             <th class="px-6 py-3">Volume (L)</th>
-                            <th class="px-6 py-3">Grade</th>
                             <th class="px-6 py-3">Recorder</th>
                             <th class="px-6 py-3 text-right">Total</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 text-sm text-surface-700">
+                    <tbody class="divide-y divide-slate-100 text-xs text-surface-700">
                         <tr v-if="loading" class="hover:bg-surface-50">
-                            <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-xs text-surface-500">
                                 Loading milk deliveries...
                             </td>
                         </tr>
                         <tr v-else-if="deliveries.length === 0" class="hover:bg-surface-50">
-                            <td colspan="7" class="px-6 py-6 text-center text-sm text-surface-500">
+                            <td colspan="7" class="px-6 py-6 text-center text-xs text-surface-500">
                                 No deliveries match the selected filters.
                             </td>
                         </tr>
                         <tr v-for="delivery in deliveries" :key="delivery.id" class="transition hover:bg-surface-50/60">
                             <td class="px-6 py-4">{{ formatDate(delivery.delivery_date) }}</td>
                             <td class="px-6 py-4">
-                                <div class="text-sm font-semibold text-surface-900">
-                                    {{ delivery.milk_collection_center?.name ?? `Center #${delivery.milk_collection_center_id}` }}
+                                <div class="text-xs text-surface-900">
+                                    {{ delivery.milk_collection_center?.name ?? `Center
+                                    #${delivery.milk_collection_center_id}`
+                                    }}
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="text-sm font-semibold text-surface-900">
-                                    <router-link :to="`/admin/farmers/${delivery.farmer.id}`" class="hover:underline">{{ delivery.farmer.first_name + ' ' + delivery.farmer.last_name }}</router-link>
+                                <div class="text-xs font-semibold text-surface-900">
+                                    <router-link :to="`/admin/farmers/${delivery.farmer.id}`" class="hover:underline">{{
+                                        delivery.farmer.first_name + ' ' + delivery.farmer.last_name }}</router-link>
                                 </div>
                                 <div class="text-xs uppercase tracking-wide text-surface-400">
                                     ID: {{ delivery.farmer.farmer_id }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4">{{ formatLiters(delivery.volume_liters) }}</td>
-                            <td class="px-6 py-4">{{ delivery.quality_grade ?? '—' }}</td>
+                            <td class="px-6 py-4">{{ formatLiters(delivery.volume_liters) + ' ( ' +
+                                delivery.quality_grade + ' )' }}</td>
                             <td class="px-6 py-4">{{ delivery.recorded_by ?? '—' }}</td>
                             <td class="px-6 py-4 text-right font-semibold text-surface-900">
                                 {{ formatCurrency(delivery.total_amount) }}
@@ -261,4 +243,3 @@ onMounted(async () => {
     await store.fetchDeliveries();
 });
 </script>
-
