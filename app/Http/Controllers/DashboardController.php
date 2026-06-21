@@ -3,15 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Country;
-use App\Models\Region;
-use App\Models\District;
-use App\Models\County;
-use App\Models\Subcounty;
-use App\Models\Parish;
-use App\Models\Village;
 use App\Models\MilkCollectionCenter;
 use App\Models\Cow;
+use App\Models\Farmer;
 use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
@@ -22,21 +16,13 @@ class DashboardController extends Controller
     public function adminSummary(): JsonResponse
     {
         $activeUsers = User::where('is_active', true)->count();
-
-        $geographyLayers = Country::count()
-            + Region::count()
-            + District::count()
-            + County::count()
-            + Subcounty::count()
-            + Parish::count()
-            + Village::count();
-
+        $registeredFarmers = Farmer::count();
         $milkCenters = MilkCollectionCenter::count();
         $cowsMonitored = Cow::count();
 
         return response()->json([
             'active_users' => $activeUsers,
-            'geography_layers' => $geographyLayers,
+            'registered_farmers' => $registeredFarmers,
             'milk_centers' => $milkCenters,
             'cows_monitored' => $cowsMonitored,
         ]);

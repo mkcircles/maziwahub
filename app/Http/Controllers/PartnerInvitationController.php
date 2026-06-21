@@ -6,6 +6,8 @@ use App\Models\Agent;
 use App\Models\Partner;
 use App\Models\PartnerInvitation;
 use App\Models\User;
+use App\Mail\PartnerInvitationMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -56,7 +58,11 @@ class PartnerInvitationController extends Controller
             'status' => PartnerInvitation::STATUS_PENDING,
         ]);
 
-        // TODO: dispatch notification / email
+        try {
+            Mail::to($invitation->email)->send(new PartnerInvitationMail($invitation));
+        } catch (\Exception $e) {
+            report($e);
+        }
 
         return response()->json($invitation->fresh(), 201);
     }
@@ -127,5 +133,32 @@ class PartnerInvitationController extends Controller
             'message' => 'Invitation accepted successfully.',
             'user' => $user,
         ]);
+    }
+
+    public function showByToken(string $token): JsonResponse
+    {
+        $invitation = PartnerInvitation::query()
+            ->where('token', $token)
+            ->with('partner')
+            ->firstOrFail();
+
+        if ($invitation->status !== PartnerInvitation::STATUS_PENDING) {
+            return response()->json([
+                'message' => 'Invitation has already been processed.',
+                'status' => $invitation->status,
+            ], 410);
+        }
+
+        if ($invitation->hasExpired()) {
+            $invitation->status = PartnerInvitation::STATUS_EXPIRED;
+            $invitation->save();
+
+            return response()->json([
+                'message' => 'Invitation has expired.',
+                'status' => 'expired',
+            ], 410);
+        }
+
+        return response()->json($invitation);
     }
 }

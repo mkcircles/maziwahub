@@ -1,216 +1,176 @@
 <template>
-    <div class="space-y-8 pb-16 min-h-full">
-        <!-- Hero Section -->
-        <div
-            class="relative overflow-hidden rounded-2xl bg-gradient-to-tr from-primary-950 via-primary-900 to-primary-800 px-8 py-12 text-white shadow-2xl shadow-primary-900/20 sm:px-12 mb-8">
-            <div
-                class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] opacity-60 mix-blend-overlay">
+    <div class="space-y-6 pb-16 min-h-full">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-surface-900">Dashboard</h1>
+                <p class="text-xs text-surface-500 font-medium">Overview of platform status, activities, and operational performance.</p>
             </div>
-            <div
-                class="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-primary-500/20 blur-[100px] pointer-events-none">
-            </div>
-            <div
-                class="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-blue-500/20 blur-[80px] pointer-events-none">
-            </div>
-
-            <div class="relative z-10 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-                <div class="max-w-2xl space-y-4">
-                    <p
-                        class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-primary-100 backdrop-blur-md border border-white/10 shadow-inner">
-                        <Icon icon="mdi:shield-crown-outline" :size="14" />
-                        Administration
-                    </p>
-                    <h1
-                        class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white via-primary-50 to-primary-200">
-                        Command Center
-                    </h1>
-                    <p class="text-base text-primary-100/90 leading-relaxed max-w-lg font-light">
-                        Monitor platform activity, jump into key workflows, and keep the dairy network aligned from a
-                        single integrated dashboard.
-                    </p>
-                </div>
-                <div class="flex flex-wrap items-center gap-4">
-                    <button
-                        class="group relative inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-primary-900 shadow-lg shadow-white/10 transition-all hover:bg-primary-50 hover:shadow-xl hover:-translate-y-0.5 active:scale-95 overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-r from-primary-100/0 via-primary-100/30 to-primary-100/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700">
-                        </div>
-                        <Icon icon="mdi:lightning-bolt" :size="20" class="text-primary-600" />
-                        Quick Actions
-                    </button>
-                    <button
-                        class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md px-5 py-3 text-sm font-bold text-white shadow-lg transition-all hover:bg-white/20 hover:shadow-xl hover:-translate-y-0.5 active:scale-95">
-                        <Icon icon="mdi:file-download-outline" :size="20" />
-                        Export Summary
-                    </button>
-                </div>
+            <div class="flex items-center gap-3">
+                <button
+                    class="ynex-btn-secondary py-1.5 px-3 text-xs flex items-center gap-1.5">
+                    <Icon icon="mdi:calendar" :size="16" />
+                    Today: {{ new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) }}
+                </button>
+                <button
+                    class="ynex-btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5">
+                    <Icon icon="mdi:file-download-outline" :size="16" />
+                    Export Report
+                </button>
             </div>
         </div>
 
-        <!-- Stat Cards -->
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-            <StatisticalCard icon="mdi:account-multiple" icon-class="text-primary-600 bg-primary-100/50"
-                class="group relative overflow-hidden rounded-md border border-surface-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-primary-200 z-10 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:bg-gradient-to-r after:from-primary-400 after:to-primary-600 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500">
-                <template #title><span class="text-surface-600 font-semibold tracking-wide">Active
-                        Users</span></template>
-                <template #default>
-                    <span v-if="dashboardStore.loading"
-                        class="text-3xl font-extrabold text-surface-400 tracking-tight animate-pulse">...</span>
-                    <span v-else class="text-3xl font-extrabold text-surface-900 tracking-tight">{{
-                        dashboardStore.adminSummary?.active_users ?? '—' }}</span>
-                </template>
-                <template #caption><span class="text-surface-400 text-sm font-medium">Administrators
-                        online</span></template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:map-marker" icon-class="text-emerald-600 bg-emerald-100/50"
-                class="group relative overflow-hidden rounded-md border border-surface-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-emerald-200 z-10 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:bg-gradient-to-r after:from-emerald-400 after:to-emerald-600 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500">
-                <template #title><span class="text-surface-600 font-semibold tracking-wide">Geography
-                        Layers</span></template>
-                <template #default>
-                    <span v-if="dashboardStore.loading"
-                        class="text-3xl font-extrabold text-surface-400 tracking-tight animate-pulse">...</span>
-                    <span v-else class="text-3xl font-extrabold text-surface-900 tracking-tight">{{
-                        dashboardStore.adminSummary?.geography_layers ?? '—' }}</span>
-                </template>
-                <template #caption><span class="text-surface-400 text-sm font-medium">Countries &
-                        Regions</span></template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:storefront" icon-class="text-amber-600 bg-amber-100/50"
-                class="group relative overflow-hidden rounded-md border border-surface-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-amber-200 z-10 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:bg-gradient-to-r after:from-amber-400 after:to-amber-600 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500">
-                <template #title><span class="text-surface-600 font-semibold tracking-wide">Milk
-                        Centers</span></template>
-                <template #default>
-                    <span v-if="dashboardStore.loading"
-                        class="text-3xl font-extrabold text-surface-400 tracking-tight animate-pulse">...</span>
-                    <span v-else class="text-3xl font-extrabold text-surface-900 tracking-tight">{{
-                        dashboardStore.adminSummary?.milk_centers ?? '—' }}</span>
-                </template>
-                <template #caption><span class="text-surface-400 text-sm font-medium">Collection hubs</span></template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:cow" icon-class="text-rose-600 bg-rose-100/50"
-                class="group relative overflow-hidden rounded-md border border-surface-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-rose-200 z-10 after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:bg-gradient-to-r after:from-rose-400 after:to-rose-600 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500">
-                <template #title><span class="text-surface-600 font-semibold tracking-wide">Livestock
-                        Records</span></template>
-                <template #default>
-                    <span v-if="dashboardStore.loading"
-                        class="text-3xl font-extrabold text-surface-400 tracking-tight animate-pulse">...</span>
-                    <span v-else class="text-3xl font-extrabold text-surface-900 tracking-tight">{{
-                        dashboardStore.adminSummary?.cows_monitored ?? '—' }}</span>
-                </template>
-                <template #caption><span class="text-surface-400 text-sm font-medium">Cows monitored</span></template>
-            </StatisticalCard>
-        </div>
-
-        <div class="space-y-8">
-            <!-- Navigation Hub -->
-            <div
-                class="space-y-6 rounded-md border border-surface-200/80 bg-white/80 backdrop-blur-xl p-5 sm:p-6 shadow-sm transition-all hover:shadow-md">
-                <div
-                    class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-surface-100/80 pb-5">
+        <!-- Stat Cards Grid -->
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
                     <div>
-                        <h2 class="text-xl font-bold text-surface-900 tracking-tight">Navigation Hub</h2>
-                        <p class="text-sm font-medium text-surface-500 mt-1">
-                            Jump straight into key areas
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Active Users</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            <span v-if="dashboardStore.loading" class="animate-pulse">...</span>
+                            <span v-else>{{ dashboardStore.adminSummary?.active_users ?? '—' }}</span>
+                        </h3>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:arrow-up-bold-circle-outline" :size="14" />
+                            <span>System Admin active</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-primary-100 text-primary-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:account-multiple" :size="24" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Farmers</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            <span v-if="dashboardStore.loading" class="animate-pulse">...</span>
+                            <span v-else>{{ dashboardStore.adminSummary?.registered_farmers ?? '—' }}</span>
+                        </h3>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:account-group" :size="14" />
+                            <span>Total registered</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:account-group" :size="24" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Milk Centers</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            <span v-if="dashboardStore.loading" class="animate-pulse">...</span>
+                            <span v-else>{{ dashboardStore.adminSummary?.milk_centers ?? '—' }}</span>
+                        </h3>
+                        <p class="text-xs text-amber-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:storefront" :size="14" />
+                            <span>Collection hubs</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-amber-100 text-amber-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:storefront" :size="24" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Livestock Records</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            <span v-if="dashboardStore.loading" class="animate-pulse">...</span>
+                            <span v-else>{{ dashboardStore.adminSummary?.cows_monitored ?? '—' }}</span>
+                        </h3>
+                        <p class="text-xs text-rose-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:cow" :size="14" />
+                            <span>Cows monitored</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-rose-100 text-rose-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:cow" :size="24" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Deliveries Chart -->
+            <div class="ynex-card lg:col-span-2 flex flex-col">
+                <div class="ynex-card-header">
+                    <h2 class="text-sm font-bold text-surface-800">Deliveries Trend (Liters)</h2>
+                    <span class="text-xs font-semibold text-surface-400 bg-surface-100 px-2 py-0.5 rounded">{{ SUMMARY_DAYS }}D Trend</span>
+                </div>
+                <div class="p-5 flex-1 flex flex-col justify-center min-h-[320px] relative">
+                    <DailyDeliveriesLineChart v-if="!summaryLoading && !summaryError && dailySummary.length"
+                        :summary="dailySummary" class="flex-1 w-full" />
+                    <div v-else-if="summaryLoading"
+                        class="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm text-sm text-surface-500 flex-col gap-3">
+                        <Icon icon="line-md:loading-twotone-loop" :size="32" class="text-primary-500" />
+                        <span class="font-medium animate-pulse">Loading trend tracking…</span>
+                    </div>
+                    <div v-else-if="summaryError"
+                        class="p-4 border border-red-100 bg-red-50 text-sm text-red-700 rounded flex items-start gap-2">
+                        <Icon icon="mdi:alert-circle" :size="20" class="shrink-0 text-red-500" />
+                        <span class="font-medium">{{ summaryError }}</span>
+                    </div>
+                    <div v-else
+                        class="flex h-full min-h-[250px] items-center justify-center rounded border-2 border-dashed border-surface-200 bg-surface-50 text-sm text-surface-500 flex-col gap-3">
+                        <Icon icon="mdi:chart-bar-off" :size="32" class="text-surface-300" />
+                        <span class="font-medium">No data available for this period.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations Timeline / Reminders -->
+            <div class="ynex-card flex flex-col">
+                <div class="ynex-card-header">
+                    <h2 class="text-sm font-bold text-surface-800">Operational Timeline</h2>
+                    <button class="text-xs font-semibold text-primary-600 hover:text-primary-700 flex items-center gap-0.5">
+                        <Icon icon="mdi:plus" :size="14" /> Add
+                    </button>
+                </div>
+                <div class="p-5 flex-1 flex flex-col justify-center">
+                    <div class="text-center py-8">
+                        <div class="h-12 w-12 rounded bg-surface-100 flex items-center justify-center mx-auto mb-3">
+                            <Icon icon="mdi:timeline-clock-outline" :size="24" class="text-surface-400" />
+                        </div>
+                        <p class="text-sm font-bold text-surface-700">No events scheduled</p>
+                        <p class="text-xs font-medium text-surface-400 mt-1 max-w-xs mx-auto leading-relaxed">
+                            Sync your scheduled tasks, meetings, or add custom reminders to track operations.
                         </p>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    <router-link v-for="link in quickLinks" :key="link.path" :to="link.path"
-                        class="group flex flex-col justify-between rounded-md border border-surface-200/60 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.08)] hover:shadow-primary-100/40">
-                        <div class="flex items-start justify-between mb-5">
-                            <div
-                                class="flex h-12 w-12 items-center justify-center rounded-xl bg-surface-50 shadow-sm border border-surface-100 text-surface-600 group-hover:bg-primary-50 group-hover:text-primary-600 group-hover:border-primary-200 transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-3">
-                                <Icon :icon="link.icon" :size="24" />
-                            </div>
-                            <span
-                                class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-1 text-[11px] font-bold text-surface-600 uppercase tracking-widest group-hover:bg-primary-100 group-hover:text-primary-700 transition-colors shadow-sm">
-                                {{ link.pill }}
-                            </span>
-                        </div>
-                        <div>
-                            <h3
-                                class="text-lg font-bold text-surface-900 group-hover:text-primary-700 transition-colors">
-                                {{ link.label }}</h3>
-                            <p class="mt-2 text-sm text-surface-500 line-clamp-2 leading-relaxed font-medium">{{
-                                link.description }}
-                            </p>
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-
-            <!-- Graphs & Alerts -->
-            <div class="flex flex-col">
-                <!-- Deliveries Chart -->
-                <div
-                    class="flex flex-col flex-grow rounded-md border border-surface-200/80 bg-white/80 backdrop-blur-xl p-5 sm:p-6 shadow-sm transition-all hover:shadow-md h-full">
-                    <div class="flex items-center justify-between mb-6 border-b border-surface-100/80 pb-5">
-                        <h2 class="text-xl font-bold text-surface-900 tracking-tight">Deliveries (Liters)</h2>
-                        <div
-                            class="inline-flex items-center gap-1.5 rounded-lg bg-surface-100 px-3 py-1.5 text-xs font-bold text-surface-700 shadow-sm border border-surface-200/50 hover:bg-surface-200 transition-colors cursor-default">
-                            <Icon icon="mdi:calendar" :size="16" />
-                            {{ SUMMARY_DAYS }}D Trend
-                        </div>
-                    </div>
-
-                    <div class="flex-1 flex flex-col justify-center min-h-[300px] relative">
-                        <DailyDeliveriesLineChart v-if="!summaryLoading && !summaryError && dailySummary.length"
-                            :summary="dailySummary" class="flex-1 w-full" />
-                        <div v-else-if="summaryLoading"
-                            class="absolute inset-0 flex items-center justify-center rounded-2xl bg-surface-50/50 backdrop-blur-sm text-sm text-surface-500 flex-col gap-3 z-10">
-                            <Icon icon="line-md:loading-twotone-loop" :size="32" class="text-primary-500" />
-                            <span class="font-medium animate-pulse">Loading trend tracking…</span>
-                        </div>
-                        <div v-else-if="summaryError"
-                            class="rounded-xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700 flex items-start gap-3 shadow-sm">
-                            <Icon icon="mdi:alert-circle" :size="20" class="shrink-0 mt-0.5 text-rose-500" />
-                            <span class="font-medium">{{ summaryError }}</span>
-                        </div>
-                        <div v-else
-                            class="flex h-full min-h-[250px] items-center justify-center rounded-2xl border-2 border-dashed border-surface-200 bg-surface-50/50 text-sm text-surface-500 flex-col gap-3 group transition-colors hover:border-primary-200 hover:bg-primary-50/30">
-                            <Icon icon="mdi:chart-bar-off" :size="32"
-                                class="text-surface-300 group-hover:text-primary-300 transition-colors" />
-                            <span class="font-medium group-hover:text-primary-600 transition-colors">No data available
-                                for the
-                                period.</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Bottom Row: Timeline -->
-        <div
-            class="rounded-md border border-surface-200/80 bg-white/80 backdrop-blur-xl p-5 sm:p-6 shadow-sm transition-all hover:shadow-md">
-            <div
-                class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-surface-100/80 pb-5">
-                <div>
-                    <h2 class="text-xl font-bold text-surface-900 tracking-tight">Operational Timeline</h2>
-                    <p class="text-sm font-medium text-surface-500 mt-1">
-                        Track upcoming tasks and recent platform updates.
-                    </p>
-                </div>
-                <button
-                    class="inline-flex items-center gap-2 rounded-xl bg-surface-100 px-5 py-2.5 text-sm font-bold text-surface-700 shadow-sm border border-surface-200/50 transition-all hover:bg-primary-50 hover:text-primary-700 hover:border-primary-200 hover:-translate-y-0.5 active:scale-95">
-                    <Icon icon="mdi:plus" :size="20" />
-                    Add Reminder
-                </button>
+        <!-- Navigation Hub -->
+        <div class="ynex-card">
+            <div class="ynex-card-header">
+                <h2 class="text-sm font-bold text-surface-800">System Quick Navigation</h2>
             </div>
-
-            <div
-                class="mt-8 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-surface-200 bg-surface-50/50 py-16 text-center transition-colors hover:bg-surface-100/50 hover:border-surface-300">
-                <div class="h-16 w-16 rounded-full bg-surface-100 flex items-center justify-center mb-4 shadow-sm">
-                    <Icon icon="mdi:timeline-clock-outline" :size="32" class="text-surface-400" />
+            <div class="p-5">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <router-link v-for="link in quickLinks" :key="link.path" :to="link.path"
+                        class="p-4 rounded border border-surface-100 hover:border-primary-100 hover:bg-primary-50/50 flex flex-col items-center text-center transition-all duration-200 group">
+                        <div class="h-10 w-10 rounded bg-surface-50 text-surface-600 flex items-center justify-center mb-2 group-hover:bg-primary-100 group-hover:text-primary-600 transition-colors shadow-sm">
+                            <Icon :icon="link.icon" :size="20" />
+                        </div>
+                        <span class="text-xs font-bold text-surface-800 group-hover:text-primary-700 transition-colors">{{ link.label }}</span>
+                        <span class="text-[10px] text-surface-400 font-semibold uppercase tracking-wider mt-1">{{ link.pill }}</span>
+                    </router-link>
                 </div>
-                <p class="text-base font-bold text-surface-700">No events scheduled</p>
-                <p class="text-sm font-medium text-surface-500 mt-2 max-w-sm mx-auto leading-relaxed">
-                    Sync your scheduled tasks, meetings, or add custom reminders here to keep track of your operations.
-                </p>
             </div>
         </div>
     </div>
 </template>
+
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';

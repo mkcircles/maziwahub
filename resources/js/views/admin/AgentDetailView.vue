@@ -9,56 +9,56 @@
         <template v-else>
             <!-- Banner Section -->
             <div
-                class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10 mb-6">
+                class="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 px-6 py-8 sm:px-8 sm:py-10 text-white shadow-lg mb-6">
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(76,201,240,0.15),transparent_60%)] opacity-90">
                 </div>
-                <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-                    <div class="flex flex-col gap-4">
+                <div class="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                    <div class="flex flex-col gap-4 flex-1">
                         <router-link :to="backRoute"
-                            class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
-                            <Icon icon="mdi:arrow-left" :size="18" />
-                            Back to agents
+                            class="inline-flex items-center gap-1.5 self-start rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white transition duration-200">
+                            <Icon icon="mdi:arrow-left" :size="14" />
+                            Back to Agents
                         </router-link>
                         <div>
-                            <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60">
                                 Agent Profile
                             </p>
-                            <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">
+                            <h1 class="text-2xl font-extrabold tracking-tight sm:text-3xl mt-1.5">
                                 {{ agentName }}
                             </h1>
-                            <p class="mt-2 text-xs text-white/70 sm:text-sm flex flex-wrap gap-2 items-center">
-                                <span>
-                                    <Icon icon="mdi:email-outline" :size="14" class="inline mr-1" />{{ agent.user?.email
-                                        ?? '—' }}
+                            <p class="mt-2 text-xs text-white/70 flex flex-wrap gap-x-4 gap-y-1 items-center font-medium">
+                                <span class="flex items-center gap-1">
+                                    <Icon icon="mdi:email-outline" :size="14" class="text-white/60" />
+                                    {{ agent.user?.email ?? '—' }}
                                 </span>
-                                <span class="hidden sm:inline">|</span>
-                                <span>
-                                    <Icon icon="mdi:phone-outline" :size="14" class="inline mr-1" />{{ agent.phone ??
-                                        '—' }}
+                                <span class="hidden sm:inline text-white/30">|</span>
+                                <span class="flex items-center gap-1">
+                                    <Icon icon="mdi:phone-outline" :size="14" class="text-white/60" />
+                                    {{ agent.phone ?? '—' }}
                                 </span>
                             </p>
                         </div>
-                        <div class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs">
+                        <div class="flex flex-wrap items-center gap-2 text-[10px] sm:text-xs">
                             <span
-                                class="inline-flex items-center gap-1 rounded-full px-3 py-1 font-medium text-white backdrop-blur"
-                                :class="agent.is_active ? 'bg-emerald-500/30 text-emerald-100' : 'bg-white/15 text-white'">
+                                class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-semibold"
+                                :class="agent.is_active ? 'bg-emerald-500/20 text-emerald-100 border border-emerald-500/30' : 'bg-white/10 text-white/80 border border-white/10'">
                                 <Icon :icon="agent.is_active ? 'mdi:check-circle-outline' : 'mdi:close-circle-outline'"
                                     :size="14" />
                                 {{ agent.is_active ? 'Active' : 'Inactive' }}
                             </span>
                             <span v-if="agent.milkCollectionCenter"
-                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                class="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
                                 <Icon icon="mdi:store-outline" :size="14" />
                                 MCC: {{ agent.milkCollectionCenter.name }}
                             </span>
                             <span v-if="agent.partner"
-                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                class="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
                                 <Icon icon="mdi:domain" :size="14" />
                                 Partner: {{ agent.partner.name }}
                             </span>
                             <span v-if="agent.address"
-                                class="inline-flex items-center gap-1 rounded-full bg-white/15 px-3 py-1 font-medium text-white/85 backdrop-blur">
+                                class="inline-flex items-center gap-1 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
                                 <Icon icon="mdi:map-marker-outline" :size="14" />
                                 {{ agent.address }}
                             </span>
@@ -67,21 +67,21 @@
                     <div class="flex flex-col gap-3 sm:items-end">
                         <div class="flex items-center gap-2">
                             <button
-                                class="inline-flex items-center gap-2 rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25 disabled:opacity-60"
+                                class="inline-flex items-center gap-1.5 rounded bg-white/10 hover:bg-white/20 border border-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition duration-200"
                                 @click="refresh" :disabled="loading">
-                                <Icon icon="mdi:refresh" :size="16" />
+                                <Icon icon="mdi:refresh" :size="14" />
                                 Refresh
                             </button>
                             <button
-                                class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium text-white shadow-sm transition disabled:opacity-60"
-                                :class="agent?.is_active ? 'bg-red-600/90 hover:bg-red-500' : 'bg-emerald-600 hover:bg-emerald-500'"
+                                class="inline-flex items-center gap-1.5 rounded px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition duration-200"
+                                :class="agent?.is_active ? 'bg-rose-600 hover:bg-rose-700' : 'bg-emerald-600 hover:bg-emerald-700'"
                                 @click="toggleActive" :disabled="loading">
                                 <Icon :icon="agent?.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'"
-                                    :size="16" />
+                                    :size="14" />
                                 {{ agent?.is_active ? 'Deactivate' : 'Activate' }}
                             </button>
                         </div>
-                        <div class="text-xs text-white/60">
+                        <div class="text-[10px] font-semibold text-white/50">
                             Registered {{ formatDate(agent.created_at) }}
                         </div>
                     </div>

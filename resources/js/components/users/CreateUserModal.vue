@@ -19,13 +19,13 @@
                                 class="flex flex-shrink-0 items-start justify-between gap-3 border-b border-surface-200 px-6 py-4">
                                 <div>
                                     <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-surface-400">
-                                        {{ agentToEdit ? 'Edit Agent' : 'New Agent' }}
+                                        {{ userToEdit ? 'Edit User' : 'New User' }}
                                     </p>
                                     <h2 class="mt-1 text-xl font-semibold text-surface-900">
-                                        {{ agentToEdit ? 'Update Details' : 'Register Agent' }}
+                                        {{ userToEdit ? 'Update Details' : 'Register User' }}
                                     </h2>
                                     <p class="mt-1 text-sm text-surface-500">
-                                        {{ agentToEdit ? 'Modify agent details and settings.' : 'Create a new agent account and assign them to a center or partner.' }}
+                                        {{ userToEdit ? 'Modify user account details, role and settings.' : 'Create a new user account with specific role and system access.' }}
                                     </p>
                                 </div>
                                 <button type="button"
@@ -37,40 +37,35 @@
 
                             <div class="flex-1 overflow-y-auto px-6 pt-2 pb-10 min-h-0">
                                 <section class="space-y-6">
-                                    <!-- Context Selection -->
-                                    <div v-if="!fixedContext"
-                                        class="rounded-md border border-surface-200 bg-surface-50 p-4">
-                                        <label
-                                            class="text-xs font-semibold uppercase tracking-wide text-surface-500 mb-3 block">
-                                            Assignment Context
-                                        </label>
-                                        <div class="flex gap-4">
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" v-model="context" value="mcc"
-                                                    class="text-primary-600 focus:ring-primary-500">
-                                                <span class="text-sm font-medium text-surface-700">Milk Collection
-                                                    Center</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" v-model="context" value="partner"
-                                                    class="text-primary-600 focus:ring-primary-500">
-                                                <span class="text-sm font-medium text-surface-700">Partner
-                                                    Organization</span>
-                                            </label>
-                                        </div>
-                                    </div>
-
                                     <div class="grid gap-6 md:grid-cols-2">
-                                        <!-- Assignment Dropdowns -->
-                                        <div v-if="context === 'mcc' && !preselectedMccId" class="md:col-span-2">
+                                        <!-- User Type / Role -->
+                                        <div class="md:col-span-2">
                                             <label
                                                 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                                                Select Milk Collection Center <span class="text-rose-500">*</span>
+                                                User Role / Type <span class="text-rose-500">*</span>
                                             </label>
-                                            <select v-model="form.milk_collection_center_id"
+                                            <select v-model="form.user_type"
                                                 class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                                                 required>
-                                                <option value="" disabled>Select a center</option>
+                                                <option value="" disabled>Select a role</option>
+                                                <option value="super_admin">Super Admin</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="partner">Partner Organization</option>
+                                                <option value="mcc">Milk Collection Center Manager (MCC)</option>
+                                                <option value="agent">Agent</option>
+                                                <option value="user">Standard User</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Context Dropdowns based on User Type -->
+                                        <div v-if="showMccSelection" class="md:col-span-2">
+                                            <label
+                                                class="text-xs font-semibold uppercase tracking-wide text-surface-500">
+                                                Assigned Milk Collection Center
+                                            </label>
+                                            <select v-model="form.milk_collection_center_id"
+                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200">
+                                                <option value="">None / Unassigned</option>
                                                 <option v-for="center in milkCenters" :key="center.id"
                                                     :value="center.id">
                                                     {{ center.name }}
@@ -78,16 +73,14 @@
                                             </select>
                                         </div>
 
-                                        <div v-if="context === 'partner' && !preselectedPartnerId"
-                                            class="md:col-span-2">
+                                        <div v-if="showPartnerSelection" class="md:col-span-2">
                                             <label
                                                 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                                                Select Partner <span class="text-rose-500">*</span>
+                                                Assigned Partner Organization
                                             </label>
                                             <select v-model="form.partner_id"
-                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                                                required>
-                                                <option value="" disabled>Select a partner</option>
+                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200">
+                                                <option value="">None / Unassigned</option>
                                                 <option v-for="partner in partners" :key="partner.id"
                                                     :value="partner.id">
                                                     {{ partner.name }}
@@ -95,7 +88,7 @@
                                             </select>
                                         </div>
 
-                                        <!-- Personal Details -->
+                                        <!-- Name & Email -->
                                         <div class="md:col-span-2">
                                             <label
                                                 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
@@ -106,43 +99,25 @@
                                                 class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
                                         </div>
 
-                                        <div>
+                                        <div class="md:col-span-2">
                                             <label
                                                 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                                                 Email Address <span class="text-rose-500">*</span>
                                             </label>
                                             <input v-model.trim="form.email" type="email" required
-                                                placeholder="agent@example.com"
+                                                placeholder="email@example.com"
                                                 class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
                                         </div>
 
-                                        <div>
-                                            <label
-                                                class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                                                Password <span v-if="!agentToEdit" class="text-rose-500">*</span>
-                                            </label>
-                                            <input v-model="form.password" type="password" :required="!agentToEdit" minlength="8"
-                                                :placeholder="agentToEdit ? 'Leave blank to keep current' : 'Minimum 8 characters'"
-                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                                                Phone Number
-                                            </label>
-                                            <input v-model.trim="form.phone" type="tel" placeholder="+256..."
-                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
-                                        </div>
-
+                                        <!-- Password Field -->
                                         <div class="md:col-span-2">
                                             <label
                                                 class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                                                Address
+                                                Password <span v-if="!userToEdit" class="text-rose-500">*</span>
                                             </label>
-                                            <textarea v-model.trim="form.address" rows="2"
-                                                placeholder="Physical address"
-                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"></textarea>
+                                            <input v-model="form.password" type="password" :required="!userToEdit" minlength="8"
+                                                :placeholder="userToEdit ? 'Leave blank to keep current' : 'Minimum 8 characters'"
+                                                class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200" />
                                         </div>
 
                                         <div class="md:col-span-2">
@@ -150,7 +125,7 @@
                                                 class="inline-flex items-center gap-2 rounded-md border border-surface-200 bg-surface-50 px-3 py-2 text-sm font-medium text-surface-700">
                                                 <input v-model="form.is_active" type="checkbox"
                                                     class="h-4 w-4 rounded border-slate-300 text-primary-700 focus:ring-primary-500" />
-                                                Agent is active
+                                                User is active
                                             </label>
                                         </div>
                                     </div>
@@ -175,7 +150,7 @@
                                     class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-70"
                                     :disabled="submitting">
                                     <Icon icon="mdi:content-save-outline" :size="18" />
-                                    <span>{{ submitting ? 'Saving...' : (agentToEdit ? 'Save Changes' : 'Create Agent') }}</span>
+                                    <span>{{ submitting ? 'Saving...' : (userToEdit ? 'Save Changes' : 'Create User') }}</span>
                                 </button>
                             </footer>
                         </form>
@@ -189,16 +164,14 @@
 <script setup lang="ts">
 import { reactive, watch, ref, computed, onUnmounted } from 'vue';
 import Icon from '../shared/Icon.vue';
-import { useAgentStore } from '../../stores/agentStore';
+import { useUserStore, type User } from '../../stores/userStore';
 import { useGeographyStore } from '../../stores/geographyStore';
 import { usePartnerStore } from '../../stores/partnerStore';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
     isOpen: boolean;
-    preselectedMccId?: number | null;
-    preselectedPartnerId?: number | null;
-    agentToEdit?: any;
+    userToEdit?: User | null;
 }>();
 
 const emit = defineEmits<{
@@ -206,7 +179,7 @@ const emit = defineEmits<{
     (e: 'created'): void;
 }>();
 
-const agentStore = useAgentStore();
+const userStore = useUserStore();
 const geographyStore = useGeographyStore();
 const partnerStore = usePartnerStore();
 
@@ -215,59 +188,43 @@ const { partners } = storeToRefs(partnerStore);
 
 const submitting = ref(false);
 const errorMessage = ref<string | null>(null);
-const context = ref<'mcc' | 'partner'>('mcc');
-
-const fixedContext = computed(() => {
-    if (props.preselectedMccId) return true;
-    if (props.preselectedPartnerId) return true;
-    return false;
-});
 
 const form = reactive({
     name: '',
     email: '',
     password: '',
-    phone: '',
-    address: '',
+    user_type: 'user' as any,
     milk_collection_center_id: '' as number | '',
     partner_id: '' as number | '',
     is_active: true,
 });
 
+const showMccSelection = computed(() => {
+    return form.user_type === 'mcc' || form.user_type === 'agent';
+});
+
+const showPartnerSelection = computed(() => {
+    return form.user_type === 'partner' || form.user_type === 'agent';
+});
+
 const resetForm = () => {
-    if (props.agentToEdit) {
-        form.name = props.agentToEdit.user?.name ?? props.agentToEdit.name ?? '';
-        form.email = props.agentToEdit.user?.email ?? props.agentToEdit.email ?? '';
+    if (props.userToEdit) {
+        form.name = props.userToEdit.name ?? '';
+        form.email = props.userToEdit.email ?? '';
         form.password = '';
-        form.phone = props.agentToEdit.phone ?? props.agentToEdit.user?.phone_number ?? '';
-        form.address = props.agentToEdit.address ?? '';
-        form.is_active = props.agentToEdit.is_active ?? true;
-        form.milk_collection_center_id = props.agentToEdit.milk_collection_center_id ?? '';
-        form.partner_id = props.agentToEdit.partner_id ?? '';
-        context.value = props.agentToEdit.partner_id ? 'partner' : 'mcc';
+        form.user_type = props.userToEdit.user_type ?? 'user';
+        form.milk_collection_center_id = props.userToEdit.milk_collection_center_id ?? '';
+        form.partner_id = props.userToEdit.partner_id ?? '';
+        form.is_active = props.userToEdit.is_active ?? true;
     } else {
         form.name = '';
         form.email = '';
         form.password = '';
-        form.phone = '';
-        form.address = '';
+        form.user_type = 'user';
+        form.milk_collection_center_id = '';
+        form.partner_id = '';
         form.is_active = true;
-
-        if (props.preselectedMccId) {
-            context.value = 'mcc';
-            form.milk_collection_center_id = props.preselectedMccId;
-            form.partner_id = '';
-        } else if (props.preselectedPartnerId) {
-            context.value = 'partner';
-            form.partner_id = props.preselectedPartnerId;
-            form.milk_collection_center_id = '';
-        } else {
-            context.value = 'mcc';
-            form.milk_collection_center_id = '';
-            form.partner_id = '';
-        }
     }
-
     errorMessage.value = null;
 };
 
@@ -276,8 +233,6 @@ const handleClose = () => {
     emit('close');
 };
 
-const toNullable = (value: string) => (value?.trim() ? value.trim() : null);
-
 const handleSubmit = async () => {
     submitting.value = true;
     errorMessage.value = null;
@@ -285,8 +240,7 @@ const handleSubmit = async () => {
     const payload: any = {
         name: form.name.trim(),
         email: form.email.trim(),
-        phone: toNullable(form.phone),
-        address: toNullable(form.address),
+        user_type: form.user_type,
         is_active: form.is_active,
     };
 
@@ -294,31 +248,34 @@ const handleSubmit = async () => {
         payload.password = form.password;
     }
 
-    if (context.value === 'mcc') {
+    if (showMccSelection.value && form.milk_collection_center_id) {
         payload.milk_collection_center_id = form.milk_collection_center_id;
-        payload.partner_id = null;
     } else {
-        payload.partner_id = form.partner_id;
         payload.milk_collection_center_id = null;
     }
 
+    if (showPartnerSelection.value && form.partner_id) {
+        payload.partner_id = form.partner_id;
+    } else {
+        payload.partner_id = null;
+    }
+
     try {
-        if (props.agentToEdit) {
-            await agentStore.updateAgent(props.agentToEdit.id, payload);
+        if (props.userToEdit) {
+            await userStore.updateUser(props.userToEdit.id, payload);
             emit('created');
         } else {
-            await agentStore.createAgent(payload);
+            await userStore.createUser(payload);
             emit('created');
         }
         emit('close');
     } catch (error: any) {
-        errorMessage.value = error?.response?.data?.message || `Failed to ${props.agentToEdit ? 'update' : 'create'} agent.`;
+        errorMessage.value = error?.response?.data?.message || `Failed to ${props.userToEdit ? 'update' : 'create'} user.`;
     } finally {
         submitting.value = false;
     }
 };
 
-// Fetch data when modal opens if not already available
 const loadData = async () => {
     if (!milkCenters.value.length) {
         await geographyStore.getMilkCollectionCenters();
@@ -340,6 +297,7 @@ watch(
         }
     }
 );
+
 onUnmounted(() => {
     document.body.style.overflow = '';
 });

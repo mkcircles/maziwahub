@@ -1,24 +1,18 @@
 <template>
     <div class="space-y-10 pb-16">
-        <div
-            class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10"
-        >
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80"></div>
-            <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-                <div class="max-w-xl space-y-4">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
-                        Geography Management
-                    </p>
-                    <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Countries</h1>
-                    <p class="text-sm text-white/70">
-                        Manage registered countries, monitor their regional hierarchy, and track milk infrastructure and farmer coverage.
-                    </p>
-                </div>
+        <div class="ynex-page-header">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-surface-900 dark:text-white">Countries</h1>
+                <p class="text-xs text-surface-500 font-medium mt-1">
+                    Manage registered countries, monitor regional hierarchy, and track infrastructure coverage.
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
                 <button
                     @click="showAddModal = true"
-                    class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-5 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25"
+                    class="ynex-btn-primary py-1.5 px-3.5 text-xs flex items-center gap-1.5"
                 >
-                    <Icon icon="mdi:plus" :size="20" />
+                    <Icon icon="mdi:plus" :size="16" />
                     Add Country
                 </button>
             </div>

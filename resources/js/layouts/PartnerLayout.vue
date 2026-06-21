@@ -1,51 +1,44 @@
 <template>
-    <div class="relative flex min-h-screen bg-surface-50 text-surface-800 font-sans">
-        <!-- Desktop Sidebar -->
+    <div class="relative flex min-h-screen bg-surface-100 text-surface-800 font-sans">
+        <!-- Desktop Sidebar (Ynex Dark Theme Sidebar) -->
         <aside
-            class="relative z-30 hidden w-72 flex-col border-r border-surface-200 bg-white shadow-sm transition-all duration-300 lg:flex">
-            <div class="flex h-16 items-center px-6 border-b border-surface-100">
+            class="relative z-30 hidden w-72 flex-col bg-[#111c43] text-surface-200 shadow-xl transition-all duration-300 lg:flex">
+            <div class="flex h-16 items-center px-6 border-b border-white/10">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+                    <span class="flex h-8 w-8 items-center justify-center rounded bg-primary-600 text-white shadow-md shadow-primary-600/30">
                         <Icon icon="mdi:handshake-outline" :size="20" />
                     </span>
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wider text-surface-400">Partner Hub</p>
-                        <p class="text-sm font-bold text-primary-700 truncate w-40" :title="partnerTitle">
+                        <p class="text-[9px] font-bold uppercase tracking-widest text-surface-400">Partner Hub</p>
+                        <p class="text-xs font-bold text-white truncate w-40" :title="partnerTitle">
                             {{ partnerTitle }}
                         </p>
                     </div>
                 </div>
             </div>
 
-            <nav class="flex-1 overflow-y-auto px-4 py-4 scrollbar-thin scrollbar-thumb-surface-200">
-                <p class="px-2 pb-2 pt-2 text-xs font-semibold uppercase tracking-wider text-surface-400">
+            <nav class="flex-1 overflow-y-auto px-4 py-4 scrollbar-thin scrollbar-thumb-white/10">
+                <p class="px-3 pb-2 pt-2 text-[10px] font-bold uppercase tracking-wider text-surface-400">
                     Workspace Menu
                 </p>
 
                 <router-link v-for="item in navigation" :key="item.path" :to="item.path"
-                    class="group mb-0.5 flex items-center rounded-md px-2.5 py-1.5 transition-all duration-200"
-                    :class="isActive(item.path) ? 'bg-primary-50 text-primary-700 font-semibold' : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'">
+                    class="group mb-1.5 flex items-center rounded px-3 py-2 transition-all duration-200"
+                    :class="isActive(item.path) ? 'bg-primary-600 text-white font-semibold shadow-md shadow-primary-600/20' : 'text-surface-300 hover:bg-white/5 hover:text-white'">
                     <span
-                        class="flex h-7 w-7 items-center justify-center rounded-md shadow-sm transition-colors duration-200"
-                        :class="isActive(item.path) ? 'bg-primary-100 text-primary-600' : 'bg-transparent text-surface-400 group-hover:bg-surface-100 group-hover:text-surface-600'">
-                        <Icon :icon="item.icon" :size="16" />
+                        class="flex h-7 w-7 items-center justify-center rounded transition-colors duration-200"
+                        :class="isActive(item.path) ? 'text-white' : 'text-surface-400 group-hover:text-white'">
+                        <Icon :icon="item.icon" :size="18" />
                     </span>
-                    <span class="ml-2.5 text-sm font-medium transition-colors duration-200">
+                    <span class="ml-3 text-sm font-medium transition-colors duration-200">
                         {{ item.label }}
                     </span>
                     <span v-if="item.badge"
-                        class="ml-auto rounded-full bg-primary-100 px-2 py-0.5 text-[10px] font-bold text-primary-700">
+                        class="ml-auto rounded-full bg-primary-500 px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                         {{ item.badge }}
                     </span>
                 </router-link>
             </nav>
-
-            <div class="m-4 rounded-2xl border border-surface-200 bg-surface-50 p-4 text-xs shadow-sm">
-                <p class="font-bold text-surface-800">Need a hand?</p>
-                <p class="mt-1 text-surface-500 leading-relaxed">
-                    Invite team members, manage centers, and coordinate from this workspace.
-                </p>
-            </div>
         </aside>
 
         <!-- Main Content Wrapper -->
@@ -54,38 +47,36 @@
             <header class="sticky top-0 z-20 border-b border-surface-200 bg-white/80 backdrop-blur-md shadow-sm">
                 <div class="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
                     <div class="flex items-center gap-4">
-                        <div class="space-y-0.5 hidden sm:block">
-                            <h1 class="text-xl font-bold tracking-tight text-surface-900">
-                                {{ pageTitle }}
-                            </h1>
-                            <p class="text-xs text-surface-500">
-                                {{ pageSubtitle }}
-                            </p>
+                        <!-- Breadcrumbs component -->
+                        <div class="hidden md:flex items-center gap-2 text-xs font-semibold text-surface-400 uppercase tracking-wider">
+                            <router-link to="/partner/dashboard" class="hover:text-primary-600 transition-colors">Partner</router-link>
+                            <Icon icon="mdi:chevron-right" :size="14" />
+                            <span class="text-surface-700 font-bold">{{ pageTitle }}</span>
                         </div>
-                        <div class="sm:hidden flex items-center gap-2">
+                        <div class="md:hidden flex items-center gap-2">
                             <div
-                                class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
-                                <Icon icon="mdi:handshake-outline" :size="20" />
+                                class="flex h-8 w-8 items-center justify-center rounded bg-primary-600 text-white">
+                                <Icon icon="mdi:handshake-outline" :size="18" />
                             </div>
-                            <span class="font-bold text-surface-800 truncate w-32">{{ pageTitle }}</span>
+                            <span class="font-bold text-surface-800 truncate w-32 text-sm">{{ pageTitle }}</span>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-3 sm:gap-5">
-                        <!-- Profile Dropdown (Simplified) -->
+                        <!-- Profile Dropdown -->
                         <div class="flex items-center gap-3">
                             <div class="hidden sm:flex flex-col items-end">
-                                <span class="text-sm font-semibold text-surface-800">{{ authStore.user?.name }}</span>
-                                <span class="text-xs text-surface-500 truncate max-w-[120px]">{{ partnerTitle }}</span>
+                                <span class="text-xs font-bold text-surface-800">{{ authStore.user?.name }}</span>
+                                <span class="text-[10px] text-surface-400 font-semibold uppercase tracking-wider truncate max-w-[120px]">{{ partnerTitle }}</span>
                             </div>
                             <div
-                                class="h-9 w-9 rounded-full bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
+                                class="h-9 w-9 rounded bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
                                 {{ (authStore.user?.name ?? 'P').charAt(0).toUpperCase() }}
                             </div>
                             <div class="h-6 w-px bg-surface-200 mx-1"></div>
                             <button @click="handleLogout" title="Logout"
-                                class="p-2 text-surface-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50">
-                                <Icon icon="mdi:logout" :size="20" />
+                                class="p-2 text-surface-400 hover:text-red-500 transition-colors rounded hover:bg-red-50">
+                                <Icon icon="mdi:logout" :size="18" />
                             </button>
                         </div>
                     </div>
@@ -93,8 +84,8 @@
             </header>
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-surface-50 p-4 sm:p-6 lg:p-8">
-                <div class="mx-auto w-full max-w-6xl">
+            <main class="flex-1 overflow-y-auto bg-surface-100 p-4 sm:p-6 lg:p-8">
+                <div class="mx-auto w-full max-w-7xl">
                     <router-view v-slot="{ Component, route }">
                         <transition name="fade" mode="out-in">
                             <component :is="Component" :key="route.path" />
@@ -158,19 +149,6 @@ const pageTitle = computed(() => {
     return 'Partner Workspace';
 });
 
-const pageSubtitle = computed(() => {
-    if (route.name === 'partner-dashboard') {
-        return 'Monitor performance, deliveries, and the health of your collection network.';
-    }
-    if (route.name === 'partner-milk-centers') {
-        return 'Manage owned centers or claim existing ones to consolidate operations.';
-    }
-    if (route.name === 'partner-farmers') {
-        return 'Review farmer records registered to your collection centers.';
-    }
-    return 'Navigate your partner workspace.';
-});
-
 const isActive = (path: string) => route.path.startsWith(path);
 
 const handleLogout = async () => {
@@ -186,3 +164,4 @@ onMounted(() => {
     }
 });
 </script>
+

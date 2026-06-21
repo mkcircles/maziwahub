@@ -1,288 +1,271 @@
 <template>
-    <div class="space-y-10">
-        <section
-            class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white"
-        >
-            <div class="absolute inset-0 opacity-60">
-                <div class="absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top,rgba(76,201,240,0.35),transparent_65%)]"></div>
+    <div class="space-y-6 pb-16 min-h-full">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-surface-900">Partner Dashboard</h1>
+                <p class="text-xs text-surface-500 font-medium">Keep tabs on milk movement, collection center performance, and farmer engagement.</p>
             </div>
+            <div class="flex items-center gap-3">
+                <button
+                    class="ynex-btn-secondary py-1.5 px-3 text-xs flex items-center gap-1.5">
+                    <Icon icon="mdi:calendar" :size="16" />
+                    Today: {{ todayLabel }}
+                </button>
+                <router-link
+                    to="/partner/milk-centers"
+                    class="ynex-btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5">
+                    Manage Centers
+                    <Icon icon="mdi:arrow-right" :size="16" />
+                </router-link>
+            </div>
+        </div>
 
-            <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div class="max-w-xl space-y-4">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
-                        {{ todayLabel }}
-                    </p>
-                    <h2 class="text-3xl font-semibold tracking-tight lg:text-4xl">
-                        Daily Insight Board
-                    </h2>
-                    <p class="text-sm text-white/70">
-                        Keep tabs on milk movement, collection center performance, and farmer engagement without leaving
-                        your partner workspace.
-                    </p>
-                    <div class="flex flex-wrap gap-3 text-xs">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:storefront-outline" :size="16" />
-                            {{ milkCentersCount }} centers active
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:account-group-outline" :size="16" />
-                            {{ totalFarmers }} farmers engaged
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:beaker-outline" :size="16" />
-                            {{ formattedTodayLiters }} L delivered today
-                        </span>
+        <!-- Stat Cards Grid -->
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Milk Centers</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            {{ milkCentersCount }}
+                        </h3>
+                        <p class="text-xs text-primary-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:storefront-outline" :size="14" />
+                            <span>Active facilities</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-primary-100 text-primary-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:storefront-outline" :size="24" />
                     </div>
                 </div>
-                <div class="grid w-full max-w-sm gap-3 rounded-md border border-white/10 bg-white/5 p-6 text-sm">
-                    <div class="flex items-center justify-between text-white/80">
-                        <span>Pending claims</span>
-                        <span class="text-base font-semibold text-white">{{ pendingClaimsCount }}</span>
+            </div>
+
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Today's Volume</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            {{ formattedTodayLiters }}
+                        </h3>
+                        <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:bucket-outline" :size="14" />
+                            <span>Delivered today</span>
+                        </p>
                     </div>
-                    <div class="flex items-center justify-between text-white/80">
-                        <span>Open invitations</span>
-                        <span class="text-base font-semibold text-white">{{ pendingInvitationsCount }}</span>
+                    <div class="h-12 w-12 rounded bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:bucket-outline" :size="24" />
                     </div>
-                    <router-link
-                        to="/partner/milk-centers"
-                        class="mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
-                    >
-                        Manage centers
-                        <Icon icon="mdi:arrow-right" :size="16" />
-                    </router-link>
                 </div>
             </div>
-        </section>
 
-        <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <StatisticalCard icon="mdi:storefront-outline" icon-class="text-primary-600">
-                <template #title>Milk Centers</template>
-                <template #default>{{ milkCentersCount }}</template>
-                <template #caption>Active facilities under your partner</template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:bucket-outline" icon-class="text-emerald-500">
-                <template #title>Today's Volume</template>
-                <template #default>{{ formattedTodayLiters }}</template>
-                <template #caption>Liters delivered across all centers</template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:account-group-outline" icon-class="text-primary-500">
-                <template #title>Farmers</template>
-                <template #default>{{ totalFarmers }}</template>
-                <template #caption>Farmers linked to your centers</template>
-            </StatisticalCard>
-            <StatisticalCard icon="mdi:clipboard-text-outline" icon-class="text-amber-500">
-                <template #title>Pending Claims</template>
-                <template #default>{{ pendingClaimsCount }}</template>
-                <template #caption>Awaiting admin action</template>
-            </StatisticalCard>
-        </section>
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Farmers Engaged</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            {{ totalFarmers }}
+                        </h3>
+                        <p class="text-xs text-amber-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:account-group-outline" :size="14" />
+                            <span>Linked to centers</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-amber-100 text-amber-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:account-group-outline" :size="24" />
+                    </div>
+                </div>
+            </div>
 
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div class="ynex-card group">
+                <div class="p-5 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold text-surface-400 uppercase tracking-wider">Pending Claims</p>
+                        <h3 class="text-2xl font-extrabold text-surface-900 mt-1">
+                            {{ pendingClaimsCount }}
+                        </h3>
+                        <p class="text-xs text-rose-600 font-semibold mt-1 flex items-center gap-1">
+                            <Icon icon="mdi:clipboard-text-outline" :size="14" />
+                            <span>Awaiting action</span>
+                        </p>
+                    </div>
+                    <div class="h-12 w-12 rounded bg-rose-100 text-rose-600 flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300">
+                        <Icon icon="mdi:clipboard-text-outline" :size="24" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chart Section -->
+        <div class="ynex-card flex flex-col">
+            <div class="ynex-card-header">
                 <div>
-                    <h3 class="text-lg font-semibold text-surface-900">
-                        Daily Milk Deliveries
-                    </h3>
-                    <p class="text-sm text-surface-500">
-                        Performance across the past {{ SUMMARY_DAYS }} days. Use this to spot production dips early.
-                    </p>
+                    <h2 class="text-sm font-bold text-surface-800">Daily Milk Deliveries</h2>
+                    <p class="text-[11px] text-surface-400 font-medium mt-0.5">Performance across the past {{ SUMMARY_DAYS }} days.</p>
                 </div>
                 <router-link
                     to="/partner/milk-centers"
-                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
+                    class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-0.5"
                 >
-                    <Icon icon="mdi:storefront-outline" :size="18" />
-                    Go to centers
+                    <Icon icon="mdi:storefront-outline" :size="14" /> Go to Centers
                 </router-link>
             </div>
-
-            <div class="mt-6 rounded-lg border border-surface-200/70 bg-white p-6">
+            <div class="p-5">
                 <DailyDeliveriesBarChart
                     v-if="!summaryLoading && !summaryError && dailySummary.length"
                     :summary="dailySummary"
                 />
                 <div
                     v-else-if="summaryLoading || initializing"
-                    class="flex h-72 items-center justify-center rounded-md bg-surface-100 text-sm text-surface-500"
+                    class="flex h-72 items-center justify-center bg-surface-50 rounded text-sm text-surface-400 animate-pulse font-medium"
                 >
                     Loading delivery trend…
                 </div>
                 <div
                     v-else-if="summaryError"
-                    class="rounded-md border border-rose-200 bg-rose-50/80 p-6 text-sm text-rose-700"
+                    class="p-4 border border-red-100 bg-red-50 text-sm text-red-700 rounded"
                 >
                     {{ summaryError }}
                 </div>
                 <div
                     v-else
-                    class="flex h-72 items-center justify-center rounded-md border border-dashed border-surface-200 bg-surface-50/80 text-sm text-surface-500"
+                    class="flex h-72 items-center justify-center border-2 border-dashed border-surface-200 bg-surface-50 rounded text-sm text-surface-400 font-medium"
                 >
                     No milk delivery data yet. Encourage MCC teams to start recording!
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">
-                        Collection Center Output (Today)
-                    </h3>
-                    <p class="text-sm text-surface-500">
-                        Real-time overview of each center’s contributions and on-ground contacts.
-                    </p>
+        <!-- Output and Claims Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Center Output -->
+            <div class="ynex-card lg:col-span-2 flex flex-col">
+                <div class="ynex-card-header">
+                    <div>
+                        <h2 class="text-sm font-bold text-surface-800">Collection Center Output</h2>
+                        <p class="text-[11px] text-surface-400 font-medium mt-0.5">Real-time overview for {{ todayHuman }}</p>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-surface-500">
-                    <Icon icon="mdi:calendar-today" :size="18" />
-                    {{ todayHuman }}
-                </div>
-            </div>
-
-            <div v-if="centers.length" class="mt-6 overflow-hidden rounded-lg border border-surface-200/70">
-                <table class="min-w-full divide-y divide-slate-200 text-sm">
-                    <thead class="bg-surface-50 text-xs text-surface-500">
-                        <tr class="text-left uppercase tracking-wide">
-                            <th class="px-6 py-3 font-semibold">Center</th>
-                            <th class="px-6 py-3 font-semibold">Location</th>
-                            <th class="px-6 py-3 font-semibold text-right">Today (L)</th>
-                            <th class="px-6 py-3 font-semibold text-right">Farmers</th>
-                            <th class="px-6 py-3 font-semibold text-right">Pending Claims</th>
-                            <th class="px-6 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 bg-white">
-                        <tr v-for="center in centers" :key="center.id" class="hover:bg-surface-50/60">
-                            <td class="px-6 py-4 align-top">
-                                <div class="font-semibold text-surface-900">{{ center.name }}</div>
-                                <div class="mt-1 text-xs text-surface-500">
-                                    {{ center.physical_address }}
-                                </div>
-                                <div class="mt-2 flex flex-wrap gap-1 text-[11px] uppercase tracking-wide text-surface-400">
-                                    <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-surface-100 px-2 py-0.5">
-                                        {{ chip }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 align-top text-surface-600">
-                                <div class="flex items-center gap-2">
-                                    <Icon icon="mdi:map-marker-radius" :size="18" class="text-primary-600" />
-                                    <span>{{ center.area?.district ?? center.area?.region ?? '—' }}</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 align-top text-right font-semibold text-surface-900">
-                                <span v-if="isCenterLoading(center.id)" class="text-xs font-normal text-surface-500">
-                                    Updating…
-                                </span>
-                                <span v-else>
-                                    {{ formatLiters(centerTotalFor(center.id)) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 align-top text-right text-surface-600">
-                                {{ center.farmers_count ?? '—' }}
-                            </td>
-                            <td class="px-6 py-4 align-top text-right text-surface-600">
-                                {{ center.pending_claims_count ?? 0 }}
-                            </td>
-                            <td class="px-6 py-4 align-top text-right">
-                                <router-link
-                                    class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                                    :to="{ name: 'partner-milk-centers', query: { focus: center.id } }"
-                                >
-                                    Review
-                                    <Icon icon="mdi:arrow-right" :size="16" />
-                                </router-link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div
-                v-else
-                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-center text-sm text-surface-500"
-            >
-                No milk collection centers yet. Get started by registering one below.
-                <div class="mt-4">
-                    <router-link
-                        to="/partner/milk-centers"
-                        class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
+                <div class="p-5 flex-1">
+                    <div v-if="centers.length" class="overflow-x-auto border border-surface-200 rounded">
+                        <table class="ynex-table">
+                            <thead>
+                                <tr>
+                                    <th class="ynex-table-th">Center</th>
+                                    <th class="ynex-table-th">Location</th>
+                                    <th class="ynex-table-th text-right">Today</th>
+                                    <th class="ynex-table-th text-right">Farmers</th>
+                                    <th class="ynex-table-th"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="center in centers" :key="center.id" class="ynex-table-row">
+                                    <td class="ynex-table-td">
+                                        <div class="font-bold text-surface-800">{{ center.name }}</div>
+                                        <div class="text-xs text-surface-400 mt-0.5">{{ center.physical_address }}</div>
+                                    </td>
+                                    <td class="ynex-table-td text-surface-600 text-xs">
+                                        {{ center.area?.district ?? center.area?.region ?? '—' }}
+                                    </td>
+                                    <td class="ynex-table-td text-right font-bold text-surface-800">
+                                        <span v-if="isCenterLoading(center.id)" class="text-xs font-normal text-surface-400">Updating…</span>
+                                        <span v-else>{{ formatLiters(centerTotalFor(center.id)) }}</span>
+                                    </td>
+                                    <td class="ynex-table-td text-right text-surface-600 font-semibold">
+                                        {{ center.farmers_count ?? '—' }}
+                                    </td>
+                                    <td class="ynex-table-td text-center">
+                                        <router-link
+                                            class="ynex-btn-secondary py-1 px-2.5 text-xs"
+                                            :to="{ name: 'partner-milk-centers', query: { focus: center.id } }"
+                                        >
+                                            Review
+                                        </router-link>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div
+                        v-else
+                        class="flex flex-col items-center justify-center py-12 border-2 border-dashed border-surface-200 bg-surface-50 rounded text-center"
                     >
-                        <Icon icon="mdi:plus" :size="16" />
-                        Add milk collection center
-                    </router-link>
-                </div>
-            </div>
-        </section>
-
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">
-                        Pending Claims & Invitations
-                    </h3>
-                    <p class="text-sm text-surface-500">
-                        Track requests awaiting admin approval and team members who still need to join.
-                    </p>
-                </div>
-            </div>
-
-            <div class="mt-6 grid gap-4 lg:grid-cols-2">
-                <div class="rounded-lg border border-surface-200/80 bg-white p-6">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-sm font-semibold text-surface-800">Milk center claims</h4>
-                        <span class="text-xs font-medium text-surface-500">{{ pendingClaimsCount }} open</span>
-                    </div>
-                    <ul v-if="pendingClaimsCount" class="mt-4 space-y-3 text-sm">
-                        <li
-                            v-for="claim in pendingClaims"
-                            :key="claim.id"
-                            class="rounded-md border border-surface-200/80 bg-surface-50/70 px-4 py-3 leading-relaxed text-surface-600"
+                        <p class="text-sm font-bold text-surface-600">No milk collection centers yet.</p>
+                        <router-link
+                            to="/partner/milk-centers"
+                            class="ynex-btn-primary py-1.5 px-3 text-xs mt-3"
                         >
-                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
-                                <span>Center #{{ claim.milk_collection_center_id }}</span>
-                                <span>{{ formatDate(claim.created_at) }}</span>
-                            </div>
-                            <p class="mt-2 font-semibold text-surface-900">
-                                {{ claim.milk_collection_center?.name ?? 'Awaiting assignment' }}
-                            </p>
-                            <p v-if="claim.message" class="mt-1 text-xs text-surface-500">
-                                “{{ claim.message }}”
-                            </p>
-                        </li>
-                    </ul>
-                    <p v-else class="mt-4 rounded-md border border-dashed border-surface-200 bg-surface-50/60 px-4 py-3 text-sm text-surface-500">
-                        No pending claims. You’re all caught up!
-                    </p>
-                </div>
-
-                <div class="rounded-lg border border-surface-200/80 bg-white p-6">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-sm font-semibold text-surface-800">Open invitations</h4>
-                        <span class="text-xs font-medium text-surface-500">{{ pendingInvitationsCount }} pending</span>
+                            <Icon icon="mdi:plus" :size="16" /> Add Center
+                        </router-link>
                     </div>
-                    <ul v-if="pendingInvitationsCount" class="mt-4 space-y-3 text-sm">
-                        <li
-                            v-for="invite in pendingInvitations"
-                            :key="invite.id"
-                            class="rounded-md border border-surface-200/80 bg-surface-50/70 px-4 py-3 leading-relaxed text-surface-600"
-                        >
-                            <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
-                                <span>{{ invite.email }}</span>
-                                <span>{{ formatDate(invite.created_at) }}</span>
-                            </div>
-                            <p class="mt-1 text-sm font-semibold text-surface-900">
-                                {{ invite.name || 'Invitation sent' }}
-                            </p>
-                            <p class="text-xs text-surface-500 capitalize">
-                                {{ invite.role.replace('_', ' ') }}
-                            </p>
-                        </li>
-                    </ul>
-                    <p v-else class="mt-4 rounded-md border border-dashed border-surface-200 bg-surface-50/60 px-4 py-3 text-sm text-surface-500">
-                        No open invitations. Invite teammates from the Milk Centers page.
-                    </p>
                 </div>
             </div>
-        </section>
+
+            <!-- Side Cards: Claims & Invitations -->
+            <div class="space-y-6">
+                <!-- Milk Center Claims -->
+                <div class="ynex-card">
+                    <div class="ynex-card-header">
+                        <h2 class="text-sm font-bold text-surface-800">Milk Center Claims</h2>
+                        <span class="text-xs font-semibold bg-primary-100 text-primary-700 px-2 py-0.5 rounded">{{ pendingClaimsCount }} Open</span>
+                    </div>
+                    <div class="p-5">
+                        <ul v-if="pendingClaimsCount" class="space-y-3">
+                            <li
+                                v-for="claim in pendingClaims"
+                                :key="claim.id"
+                                class="p-3 bg-surface-50 rounded border border-surface-100"
+                            >
+                                <div class="flex items-center justify-between text-[10px] text-surface-400 font-bold uppercase tracking-wider">
+                                    <span>Center #{{ claim.milk_collection_center_id }}</span>
+                                    <span>{{ formatDate(claim.created_at) }}</span>
+                                </div>
+                                <p class="mt-1.5 font-bold text-xs text-surface-800">
+                                    {{ claim.milk_collection_center?.name ?? 'Awaiting assignment' }}
+                                </p>
+                                <p v-if="claim.message" class="mt-1 text-xs text-surface-500 italic">
+                                    “{{ claim.message }}”
+                                </p>
+                            </li>
+                        </ul>
+                        <p v-else class="text-xs text-surface-400 font-semibold text-center py-4 bg-surface-50 rounded border border-dashed border-surface-200">
+                            No pending claims. All caught up!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Invitations -->
+                <div class="ynex-card">
+                    <div class="ynex-card-header">
+                        <h2 class="text-sm font-bold text-surface-800">Open Invitations</h2>
+                        <span class="text-xs font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded">{{ pendingInvitationsCount }} Pending</span>
+                    </div>
+                    <div class="p-5">
+                        <ul v-if="pendingInvitationsCount" class="space-y-3">
+                            <li
+                                v-for="invite in pendingInvitations"
+                                :key="invite.id"
+                                class="p-3 bg-surface-50 rounded border border-surface-100"
+                            >
+                                <div class="flex items-center justify-between text-[10px] text-surface-400 font-bold">
+                                    <span>{{ invite.email }}</span>
+                                    <span>{{ formatDate(invite.created_at) }}</span>
+                                </div>
+                                <p class="mt-1.5 font-bold text-xs text-surface-800">
+                                    {{ invite.name || 'Invitation sent' }}
+                                </p>
+                                <p class="text-[10px] text-surface-400 font-semibold uppercase tracking-wider mt-0.5 capitalize">
+                                    {{ invite.role.replace('_', ' ') }}
+                                </p>
+                            </li>
+                        </ul>
+                        <p v-else class="text-xs text-surface-400 font-semibold text-center py-4 bg-surface-50 rounded border border-dashed border-surface-200">
+                            No open invitations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

@@ -2,56 +2,64 @@
     <div class="space-y-6">
         <div v-if="partner" class="space-y-10">
             <section
-                class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white">
+                class="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 px-6 py-8 sm:px-8 sm:py-10 text-white shadow-lg">
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(76,201,240,0.28),transparent_55%)] opacity-90">
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(76,201,240,0.15),transparent_60%)] opacity-90">
                 </div>
-                <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                    <div class="max-w-2xl space-y-4">
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-white/70">Partner Overview
-                        </p>
-                        <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{ partner.name }}</h1>
-                        <p class="text-sm text-white/70">
-                            {{ partner.description || 'No description provided for this partner yet.' }}
-                        </p>
-                        <div class="flex flex-wrap items-center gap-3 text-xs">
-                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
-                                :class="partner.is_active ? 'bg-emerald-500/20 text-emerald-50 border border-emerald-400/50' : 'bg-surface-500/20 text-slate-100 border border-slate-400/50'">
-                                <Icon
-                                    :icon="partner.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'"
-                                    :size="16" />
-                                {{ partner.is_active ? 'Active partner' : 'Inactive partner' }}
-                            </span>
-                            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                                <Icon icon="mdi:storefront-outline" :size="16" />
-                                {{ partner.milk_collection_centers?.length ?? 0 }} collection centers
-                            </span>
-                            <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                                <Icon icon="mdi:alert-circle-outline" :size="16" />
-                                {{ partner.pending_claims_count ?? 0 }} pending claims
-                            </span>
+                <div class="relative z-10 flex flex-col gap-6">
+                    <router-link to="/admin/partners"
+                        class="inline-flex items-center gap-1.5 self-start rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white transition duration-200">
+                        <Icon icon="mdi:arrow-left" :size="14" />
+                        Back to Partners
+                    </router-link>
+
+                    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                        <div class="max-w-2xl">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60">Partner Overview
+                            </p>
+                            <h1 class="text-2xl font-extrabold tracking-tight sm:text-3xl mt-1.5">{{ partner.name }}</h1>
+                            <p class="text-xs text-white/70 font-medium mt-2">
+                                {{ partner.description || 'No description provided for this partner yet.' }}
+                            </p>
+                            <div class="mt-4 flex flex-wrap items-center gap-2 text-[10px] sm:text-xs">
+                                <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-semibold"
+                                    :class="partner.is_active ? 'bg-emerald-500/20 text-emerald-100 border border-emerald-500/30' : 'bg-white/10 text-white/80 border border-white/10'">
+                                    <Icon
+                                        :icon="partner.is_active ? 'mdi:check-circle-outline' : 'mdi:pause-circle-outline'"
+                                        :size="14" />
+                                    {{ partner.is_active ? 'Active Partner' : 'Inactive Partner' }}
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
+                                    <Icon icon="mdi:storefront-outline" :size="14" />
+                                    {{ partner.milk_collection_centers?.length ?? 0 }} Centers
+                                </span>
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
+                                    <Icon icon="mdi:alert-circle-outline" :size="14" />
+                                    {{ partner.pending_claims_count ?? 0 }} Pending Claims
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-3">
-                        <button
-                            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
-                            :disabled="togglingStatus" @click="toggleStatus">
-                            <Icon :icon="partner.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'"
-                                :size="18" />
-                            {{ partner.is_active ? 'Deactivate partner' : 'Activate partner' }}
-                        </button>
-                        <button
-                            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
-                            @click="openEditModal">
-                            <Icon icon="mdi:pencil" :size="18" />
-                            Edit details
-                        </button>
-                        <button
-                            class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
-                            @click="openInvitationModal">
-                            <Icon icon="mdi:email-plus-outline" :size="18" />
-                            Invite member
-                        </button>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button
+                                class="inline-flex items-center gap-1.5 rounded bg-white/10 hover:bg-white/20 border border-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition duration-200 disabled:cursor-not-allowed disabled:opacity-60"
+                                :disabled="togglingStatus" @click="toggleStatus">
+                                <Icon :icon="partner.is_active ? 'mdi:pause-circle-outline' : 'mdi:play-circle-outline'"
+                                    :size="14" />
+                                {{ partner.is_active ? 'Deactivate' : 'Activate' }}
+                            </button>
+                            <button
+                                class="inline-flex items-center gap-1.5 rounded bg-white/10 hover:bg-white/20 border border-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition duration-200"
+                                @click="openEditModal">
+                                <Icon icon="mdi:pencil" :size="14" />
+                                Edit Partner
+                            </button>
+                            <button
+                                class="inline-flex items-center gap-1.5 rounded bg-white px-3.5 py-1.5 text-xs font-bold text-surface-900 transition hover:bg-surface-100"
+                                @click="openInvitationModal">
+                                <Icon icon="mdi:email-plus-outline" :size="14" />
+                                Invite Member
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>

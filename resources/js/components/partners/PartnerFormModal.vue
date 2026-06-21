@@ -25,9 +25,9 @@
                 >
                     <div
                         v-if="isOpen"
-                        class="w-full max-w-3xl max-h-[calc(100vh-4rem)] overflow-hidden rounded-md border border-surface-200 bg-white text-surface-900 shadow-xl sm:max-h-[90vh]"
+                        class="w-full max-w-3xl max-h-[calc(100vh-4rem)] sm:max-h-[90vh] flex flex-col overflow-hidden rounded-md border border-surface-200 bg-white text-surface-900 shadow-xl"
                     >
-                        <form @submit.prevent="handleSubmit" class="flex h-full flex-col">
+                        <form @submit.prevent="handleSubmit" class="flex flex-col flex-1 overflow-hidden">
                             <header class="flex items-start justify-between gap-3 border-b border-surface-200 px-6 py-5">
                                 <div>
                                     <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-surface-400">
@@ -49,7 +49,7 @@
                                 </button>
                             </header>
 
-                            <div class="flex-1 overflow-y-auto px-6 py-6 max-h-[calc(100vh-10rem)] pb-10">
+                            <div class="flex-1 overflow-y-auto px-6 py-6 pb-10">
                                 <section class="grid gap-6 md:grid-cols-3">
                                     <div class="md:col-span-3">
                                         <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">

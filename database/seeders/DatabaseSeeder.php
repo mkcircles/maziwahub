@@ -35,11 +35,10 @@ class DatabaseSeeder extends Seeder
             UgandaParishesSeeder::class,
             UgandaVillagesSeeder::class,
             AdminUserSeeder::class,
-
-                // MilkCollectionCenterSeeder::class,
-                // PartnerSeeder::class,
+            MilkCollectionCenterSeeder::class,
+            PartnerSeeder::class,
             FeedingMethodSeeder::class,
-            // FarmerSeeder::class,
+            FarmerSeeder::class,
             // VetSeeder::class,
 
             // UserSeeder::class,

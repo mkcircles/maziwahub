@@ -1,9 +1,9 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "MaziwaHub API Docs",
+        "title": "YieldTech API Docs",
         "version": "1.0.0",
-        "description": "The MaziwaHub API surfaces the full milk value-chain data model, covering the national geographic hierarchy, farmers, livestock, milk collection centres, and production records.\n\nAll endpoints are versioned under `/api/v1`, secured through Laravel's default middleware stack, and respond with JSON."
+        "description": "The YieldTech API surfaces the full milk value-chain data model, covering the national geographic hierarchy, farmers, livestock, milk collection centres, and production records.\n\nAll endpoints are versioned under `/api/v1`, secured through Laravel's default middleware stack, and respond with JSON."
     },
     "servers": [
         {

@@ -30,7 +30,7 @@ return [
          * Description rendered on the home page of the API documentation (`/docs/api`).
          */
         'description' => <<<'MD'
-The MaziwaHub API surfaces the full milk value-chain data model, covering the national geographic hierarchy, farmers, livestock, milk collection centres, and production records.
+The YieldTech API surfaces the full milk value-chain data model, covering the national geographic hierarchy, farmers, livestock, milk collection centres, and production records.
 
 All endpoints are versioned under `/api/v1`, secured through Laravel's default middleware stack, and respond with JSON.
 MD,
@@ -43,7 +43,7 @@ MD,
         /*
          * Define the title of the documentation's website. App name is used when this config is `null`.
          */
-        'title' => env('APP_NAME', 'MaziwaHub').' API Docs',
+        'title' => env('APP_NAME', 'YieldTech').' API Docs',
 
         /*
          * Define the theme of the documentation. Available options are `light`, `dark`, and `system`.

@@ -38,76 +38,76 @@
 
         <template v-else>
             <!-- Rich Header Banner -->
-            <div class="relative overflow-hidden rounded-md bg-[#0F172A] p-5 text-white shadow-xl shadow-blue-900/40">
+            <div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-slate-800 px-6 py-8 sm:px-8 sm:py-10 text-white shadow-lg">
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_60%)] opacity-80">
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(76,201,240,0.15),transparent_60%)] opacity-90">
                 </div>
-                <div class="relative flex flex-col gap-8">
+                <div class="relative flex flex-col gap-6">
                     <div class="flex flex-wrap items-center justify-between gap-4">
                         <router-link to="/admin/milk-collection-centers"
-                            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
-                            <Icon icon="mdi:arrow-left" :size="18" />
-                            Back to centers
+                            class="inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white transition duration-200">
+                            <Icon icon="mdi:arrow-left" :size="14" />
+                            Back to Centers
                         </router-link>
                         <div class="flex items-center gap-2">
                             <button
-                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+                                class="inline-flex items-center gap-1.5 rounded bg-white/10 hover:bg-white/20 border border-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition duration-200 disabled:cursor-not-allowed disabled:opacity-60"
                                 @click="openEditModal" :disabled="loading || !center">
-                                <Icon icon="mdi:pencil" :size="18" />
+                                <Icon icon="mdi:pencil" :size="14" />
                                 Edit Center
                             </button>
                             <button
-                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1 text-sm font-medium text-white backdrop-blur transition hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
+                                class="inline-flex items-center gap-1.5 rounded bg-white/10 hover:bg-white/20 border border-white/10 px-3.5 py-1.5 text-xs font-bold text-white transition duration-200 disabled:cursor-not-allowed disabled:opacity-60"
                                 @click="refresh" :disabled="loading">
-                                <Icon icon="mdi:refresh" :size="18" />
-                                Refresh data
+                                <Icon icon="mdi:refresh" :size="14" />
+                                Refresh
                             </button>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.45em] text-white/60">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-white/60">
                                 Milk Collection Center
                             </p>
-                            <h1 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                            <h1 class="text-2xl font-extrabold tracking-tight sm:text-3xl mt-1.5">
                                 {{ center?.name ?? 'Collection Center' }}
                             </h1>
-                            <p class="mt-2 text-xs text-white/80 md:text-sm">
+                            <p class="mt-2 text-xs text-white/70 font-medium">
                                 Reg # {{ center?.registration_number ?? 'N/A' }} • Registered {{
                                     formatDate(center?.established_date) }}
                             </p>
 
-                            <div class="mt-4 flex flex-wrap gap-2 text-[11px] md:text-xs">
+                            <div class="mt-4 flex flex-wrap gap-2 text-[10px] sm:text-xs">
                                 <span v-if="center.has_testing_equipment"
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
-                                    <Icon icon="mdi:test-tube" :size="16" class="text-emerald-400" />
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
+                                    <Icon icon="mdi:test-tube" :size="14" class="text-emerald-400" />
                                     Testing Equipment
                                 </span>
                                 <span v-if="center.has_washing_bay"
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
-                                    <Icon icon="mdi:water" :size="16" class="text-sky-400" />
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
+                                    <Icon icon="mdi:water" :size="14" class="text-sky-400" />
                                     Washing Bay
                                 </span>
                                 <span
-                                    class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/90">
-                                    <Icon icon="mdi:flash" :size="16" class="text-amber-400" />
+                                    class="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/10 px-2.5 py-0.5 font-semibold text-white/80">
+                                    <Icon icon="mdi:flash" :size="14" class="text-amber-400" />
                                     {{ center.power_source ?? 'Unknown Power' }}
                                 </span>
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-3 text-sm text-white/85">
+                        <div class="flex flex-col gap-2.5 text-xs text-white/85 font-medium sm:items-start">
                             <div class="inline-flex items-center gap-2">
-                                <Icon icon="mdi:map-marker-radius" :size="18" class="text-white/80" />
+                                <Icon icon="mdi:map-marker-radius" :size="16" class="text-white/60" />
                                 <span>{{ center.physical_address }}</span>
                             </div>
                             <div class="inline-flex items-center gap-2">
-                                <Icon icon="mdi:account-tie" :size="18" class="text-white/80" />
+                                <Icon icon="mdi:account-tie" :size="16" class="text-white/60" />
                                 <span>Manager: {{ center.manager_name ?? 'Not assigned' }}</span>
                             </div>
                             <div class="inline-flex items-center gap-2">
-                                <Icon icon="mdi:phone-outline" :size="18" class="text-white/80" />
+                                <Icon icon="mdi:phone-outline" :size="16" class="text-white/60" />
                                 <span>{{ center.manager_phone ?? 'No phone' }}</span>
                             </div>
                         </div>

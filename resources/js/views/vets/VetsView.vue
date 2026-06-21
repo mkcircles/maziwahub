@@ -1,25 +1,25 @@
 <template>
     <div class="space-y-6">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="ynex-page-header">
             <div>
-                <h1 class="text-2xl font-bold text-surface-300">Veterinary Network</h1>
-                <p class="text-sm text-surface-500">Manage registered vets and track their engagement across milk collection centers.</p>
+                <h1 class="text-xl font-extrabold tracking-tight text-surface-900 dark:text-white">Veterinary Network</h1>
+                <p class="text-xs text-surface-500 font-medium mt-1">Manage registered vets and track their engagement across milk collection centers.</p>
             </div>
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="flex items-center gap-2">
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 bg-white px-3 py-2 text-sm font-medium text-surface-700 hover:bg-surface-50 hover:text-surface-900 transition"
+                    class="ynex-btn-secondary py-1.5 px-3.5 text-xs flex items-center gap-1.5"
                     :disabled="loading"
                     @click="refresh"
                 >
-                    <Icon icon="mdi:refresh" :size="18" />
+                    <Icon icon="mdi:refresh" :size="16" />
                     Refresh
                 </button>
                 <button
-                    class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50"
+                    class="ynex-btn-primary py-1.5 px-3.5 text-xs flex items-center gap-1.5 disabled:cursor-not-allowed disabled:opacity-50"
                     @click="openCreateModal"
                 >
-                    <Icon icon="mdi:account-plus" :size="18" />
-                    Onboard vet
+                    <Icon icon="mdi:account-plus" :size="16" />
+                    Onboard Vet
                 </button>
             </div>
         </div>

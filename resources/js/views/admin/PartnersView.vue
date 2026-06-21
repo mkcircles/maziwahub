@@ -1,48 +1,30 @@
 <template>
     <div class="space-y-10">
-        <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-8 py-10 text-white">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.3),transparent_60%)] opacity-80"></div>
-            <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div class="max-w-2xl space-y-4">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.4em] text-white/70">Administration · Partners</p>
-                    <h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Partner Management</h1>
-                    <p class="text-sm text-white/70">
-                        Oversee partner organisations, track their collection footprint, and manage platform access.
-                    </p>
-                    <div class="flex flex-wrap items-center gap-3 text-xs">
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:account-group-outline" :size="16" />
-                            {{ totalPartners }} partners onboarded
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:check-circle-outline" :size="16" />
-                            {{ activePartners }} active
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                            <Icon icon="mdi:clock-outline" :size="16" />
-                            {{ totalPendingClaims }} pending claims
-                        </span>
-                    </div>
-                </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <button
-                        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
-                        :disabled="partnersLoading"
-                        @click="refreshPartners"
-                    >
-                        <Icon :icon="partnersLoading ? 'mdi:loading' : 'mdi:refresh'" :size="18" :class="partnersLoading ? 'animate-spin' : ''" />
-                        Refresh list
-                    </button>
-                    <button
-                        class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
-                        @click="openCreateModal"
-                    >
-                        <Icon icon="mdi:plus" :size="18" />
-                        Add partner
-                    </button>
-                </div>
+        <div class="ynex-page-header">
+            <div>
+                <h1 class="text-xl font-extrabold tracking-tight text-surface-900 dark:text-white">Partner Management</h1>
+                <p class="text-xs text-surface-500 font-medium mt-1">
+                    Oversee partner organisations, track their collection footprint, and manage platform access.
+                </p>
             </div>
-        </section>
+            <div class="flex items-center gap-2">
+                <button
+                    class="ynex-btn-secondary py-1.5 px-3.5 text-xs flex items-center gap-1.5"
+                    :disabled="partnersLoading"
+                    @click="refreshPartners"
+                >
+                    <Icon :icon="partnersLoading ? 'mdi:loading' : 'mdi:refresh'" :size="16" :class="partnersLoading ? 'animate-spin' : ''" />
+                    Refresh List
+                </button>
+                <button
+                    class="ynex-btn-primary py-1.5 px-3.5 text-xs flex items-center gap-1.5"
+                    @click="openCreateModal"
+                >
+                    <Icon icon="mdi:plus" :size="16" />
+                    Add Partner
+                </button>
+            </div>
+        </div>
 
         <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <StatisticalCard icon="mdi:account-group-outline" icon-class="text-primary-600">

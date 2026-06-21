@@ -1,391 +1,295 @@
 <template>
-    <div class="space-y-10">
-        <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.25),transparent_65%)] opacity-80"></div>
-            <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div class="max-w-xl space-y-4">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
-                        Partner · Milk Collection
-                    </p>
-                    <h2 class="text-3xl font-semibold tracking-tight lg:text-4xl">
-                        Manage Your Collection Network
-                    </h2>
-                    <p class="text-sm text-white/70">
-                        Register new centers, keep tabs on operations, and claim existing facilities to ensure every
-                        liter is captured under your partnership umbrella.
-                    </p>
-                </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <button
-                        class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-surface-900 transition hover:bg-surface-100"
-                        @click="openCreateModal"
-                    >
-                        <Icon icon="mdi:plus" :size="18" />
-                        Register new center
-                    </button>
-                    <router-link
-                        to="/partner/dashboard"
-                        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
-                    >
-                        <Icon icon="mdi:view-dashboard-outline" :size="18" />
-                        Back to overview
-                    </router-link>
-                </div>
+    <div class="space-y-6 pb-16 min-h-full">
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-surface-900">Collection Network</h1>
+                <p class="text-xs text-surface-500 font-medium">Register centers, request claims for existing facilities, and invite team members.</p>
             </div>
-        </section>
-
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">Your collection centers</h3>
-                    <p class="text-sm text-surface-500">
-                        {{ milkCentersCount }} centers registered under {{ partnerName }}.
-                    </p>
-                </div>
-                <div class="flex items-center gap-3 text-xs text-surface-500">
-                    <Icon icon="mdi:information-outline" :size="16" />
-                    Newly added or claimed centers appear instantly in this list.
-                </div>
-            </div>
-
-            <div v-if="centers.length" class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <article
-                    v-for="center in centers"
-                    :key="center.id"
-                    :id="`center-card-${center.id}`"
-                    class="group relative overflow-hidden rounded-lg border border-surface-200 bg-white/95 p-5 transition"
-                    :class="focusId === center.id ? 'ring-2 ring-primary-500' : 'hover:border-slate-300 hover:bg-white'"
-                >
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <h4 class="text-base font-semibold text-surface-900">{{ center.name }}</h4>
-                            <p class="mt-1 text-xs uppercase tracking-wide text-surface-400">
-                                {{ center.registration_number || 'Unregistered' }}
-                            </p>
-                        </div>
-                        <span
-                            class="inline-flex items-center gap-1 rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-primary-700"
-                        >
-                            <Icon icon="mdi:thermometer-lines" :size="14" />
-                            {{ center.cooler_capacity_liters ? `${center.cooler_capacity_liters} L` : 'Capacity —' }}
-                        </span>
-                    </div>
-
-                    <p class="mt-3 text-sm leading-relaxed text-surface-600">
-                        {{ center.physical_address }}
-                    </p>
-
-                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-surface-400">
-                        <span
-                            v-for="chip in formatArea(center.area)"
-                            :key="chip"
-                            class="rounded-full bg-surface-100 px-2 py-0.5"
-                        >
-                            {{ chip }}
-                        </span>
-                    </div>
-
-                    <dl class="mt-5 grid grid-cols-2 gap-3 text-xs text-surface-500">
-                        <div>
-                            <dt class="uppercase tracking-[0.2em]">Manager</dt>
-                            <dd class="mt-1 text-sm font-medium text-surface-800">
-                                {{ center.manager_name || 'Not set' }}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="uppercase tracking-[0.2em]">Phone</dt>
-                            <dd class="mt-1 text-sm font-medium text-surface-800">
-                                {{ center.manager_phone || '—' }}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="uppercase tracking-[0.2em]">Farmers</dt>
-                            <dd class="mt-1 text-sm font-semibold text-surface-900">
-                                {{ center.farmers_count ?? 0 }}
-                            </dd>
-                        </div>
-                        <div>
-                            <dt class="uppercase tracking-[0.2em]">Claims</dt>
-                            <dd class="mt-1 text-sm font-semibold text-surface-900">
-                                {{ center.pending_claims_count ?? 0 }}
-                            </dd>
-                        </div>
-                    </dl>
-
-                    <div class="mt-6 flex flex-wrap gap-2 text-xs">
-                        <router-link
-                            :to="{ name: 'partner-farmers', query: { center: center.id } }"
-                            class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                        >
-                            Farmers
-                            <Icon icon="mdi:arrow-right" :size="14" />
-                        </router-link>
-                        <router-link
-                            :to="{ name: 'partner-dashboard', query: { highlight: center.id } }"
-                            class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                        >
-                            Insights
-                            <Icon icon="mdi:chart-bar" :size="14" />
-                        </router-link>
-                    </div>
-                </article>
-            </div>
-
-            <div
-                v-else
-                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-12 text-center text-sm text-surface-500"
-            >
-                No milk collection centers yet. Register your first center to get started with operations tracking.
-                <div class="mt-4">
-                    <button
-                        class="inline-flex items-center gap-2 rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700"
-                        @click="openCreateModal"
-                    >
-                        <Icon icon="mdi:plus" :size="16" />
-                        Add milk collection center
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">Claim an existing center</h3>
-                    <p class="text-sm text-surface-500">
-                        Search the directory and request ownership. Admins will review and approve claims.
-                    </p>
-                </div>
-                <div class="text-xs text-surface-500">
-                    {{ filteredResults.length ? `${filteredResults.length} results` : 'No results yet' }}
-                </div>
-            </div>
-
-            <form class="mt-6 flex flex-col gap-4 md:flex-row" @submit.prevent="performSearch">
-                <div class="flex-1">
-                    <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
-                        Search by name or registration number
-                    </label>
-                    <input
-                        v-model.trim="claimSearch"
-                        type="text"
-                        placeholder="e.g. Nyendo MCC or MCC-UG-001"
-                        class="mt-1 w-full rounded-md border border-surface-200 px-4 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                    />
-                </div>
-                <div class="flex w-full gap-3 md:w-auto md:flex-col">
-                    <button
-                        type="submit"
-                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:flex-none"
-                        :disabled="searching"
-                    >
-                        <Icon icon="mdi:magnify" :size="18" />
-                        {{ searching ? 'Searching…' : 'Search centers' }}
-                    </button>
-                    <button
-                        type="button"
-                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 md:flex-none"
-                        @click="resetSearch"
-                    >
-                        Clear
-                    </button>
-                </div>
-            </form>
-
-            <div v-if="claimError" class="mt-4 rounded-md border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700">
-                {{ claimError }}
-            </div>
-            <div
-                v-if="claimSuccess"
-                class="mt-4 rounded-md border border-emerald-200 bg-emerald-50/70 px-4 py-3 text-sm text-emerald-700"
-            >
-                {{ claimSuccess }}
-            </div>
-
-            <div v-if="filteredResults.length" class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <div
-                    v-for="center in filteredResults"
-                    :key="center.id"
-                    class="rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
-                >
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <p class="text-base font-semibold text-surface-900">{{ center.name }}</p>
-                            <p class="text-xs uppercase tracking-wide text-surface-400">
-                                {{ center.registration_number || 'Unregistered' }}
-                            </p>
-                        </div>
-                        <span class="text-xs font-medium text-surface-400">
-                            {{ center.partner_id ? 'Assigned' : 'Unassigned' }}
-                        </span>
-                    </div>
-                    <p class="mt-3 leading-relaxed">{{ center.physical_address }}</p>
-                    <div class="mt-4 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-surface-400">
-                        <span v-for="chip in formatArea(center.area)" :key="chip" class="rounded-full bg-surface-100 px-2 py-0.5">
-                            {{ chip }}
-                        </span>
-                    </div>
-                    <textarea
-                        v-model="claimMessages[center.id]"
-                        rows="2"
-                        class="mt-4 w-full rounded-md border border-surface-200 px-3 py-2 text-xs text-surface-700 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-                        placeholder="Add an optional note for the admin team"
-                    ></textarea>
-                    <button
-                        class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-60"
-                        :disabled="claimingCenterId === center.id"
-                        @click="submitClaim(center.id)"
-                    >
-                        <Icon icon="mdi:hand-extended" :size="18" />
-                        {{ claimingCenterId === center.id ? 'Submitting…' : 'Request claim' }}
-                    </button>
-                </div>
-            </div>
-            <div
-                v-else-if="searched"
-                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-center text-sm text-surface-500"
-            >
-                No centers matched your search or they are already assigned. Try a different keyword or contact the
-                admin team for assistance.
-            </div>
-        </section>
-
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">Claim history</h3>
-                    <p class="text-sm text-surface-500">
-                        Track approvals and rejections for milk collection centers tied to your partner.
-                    </p>
-                </div>
-                <div class="flex items-center gap-2 text-xs text-surface-500">
-                    <Icon icon="mdi:history" :size="16" />
-                    {{ resolvedClaims.length }} resolved · {{ pendingClaims.length }} pending
-                </div>
-            </div>
-
-            <div v-if="sortedResolvedClaims.length" class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <article
-                    v-for="claim in sortedResolvedClaims"
-                    :key="claim.id"
-                    class="flex h-full flex-col gap-4 rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
-                >
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <p class="text-base font-semibold text-surface-900">
-                                {{ claim.milk_collection_center?.name ?? 'Milk Center' }}
-                            </p>
-                            <p class="text-xs uppercase tracking-wide text-surface-400">
-                                {{ claim.partner?.name ?? partnerName }}
-                            </p>
-                        </div>
-                        <span
-                            :class="['rounded-full px-3 py-1 text-xs font-semibold', claimStatusBadgeClasses(claim.status)]"
-                        >
-                            {{ formatClaimStatus(claim.status) }}
-                        </span>
-                    </div>
-
-                    <div class="flex items-start gap-2 text-xs text-surface-500">
-                        <Icon icon="mdi:map-marker-outline" :size="16" />
-                        <span>
-                            {{ claim.milk_collection_center?.physical_address || 'Address unavailable' }}
-                        </span>
-                    </div>
-
-                    <div v-if="claim.message" class="rounded-md bg-surface-50 px-3 py-2 text-xs text-surface-500">
-                        “{{ claim.message }}”
-                    </div>
-
-                    <div v-if="claim.response_notes" class="rounded-md bg-emerald-50/60 px-3 py-2 text-xs text-emerald-700">
-                        {{ claim.response_notes }}
-                    </div>
-
-                    <div class="mt-auto space-y-1 text-xs text-surface-400">
-                        <p>
-                            Requested {{ formatDateTime(claim.created_at) }}
-                            <span v-if="claim.requestedBy?.name"> by {{ claim.requestedBy.name }}</span>
-                        </p>
-                        <p v-if="claim.responded_at">
-                            Resolved {{ formatDateTime(claim.responded_at) }}
-                            <span v-if="claim.respondedBy?.name"> by {{ claim.respondedBy.name }}</span>
-                        </p>
-                    </div>
-                </article>
-            </div>
-            <p
-                v-else
-                class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-sm text-surface-500"
-            >
-                No resolved claims yet. Once admin teams approve or reject your requests, they’ll appear here.
-            </p>
-        </section>
-
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                    <h3 class="text-lg font-semibold text-surface-900">Team invitations</h3>
-                    <p class="text-sm text-surface-500">
-                        Invite partner admins or agents to collaborate. Invitations expire automatically if not accepted.
-                    </p>
-                </div>
+            <div class="flex items-center gap-3">
                 <button
-                    class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                    @click="openInvitationModal"
+                    class="ynex-btn-primary py-1.5 px-3 text-xs flex items-center gap-1.5"
+                    @click="openCreateModal"
                 >
-                    <Icon icon="mdi:email-plus-outline" :size="18" />
-                    Invite member
+                    <Icon icon="mdi:plus" :size="16" />
+                    Register New Center
                 </button>
-            </div>
-
-    <div
-        v-if="inviteSuccess"
-        class="mt-4 rounded-md border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-700"
-    >
-        {{ inviteSuccess }}
-    </div>
-    <div
-        v-if="inviteError"
-        class="mt-4 rounded-md border border-rose-200 bg-rose-50/80 px-4 py-3 text-sm text-rose-700"
-    >
-        {{ inviteError }}
-    </div>
-
-            <div v-if="pendingInvitations.length" class="mt-6 grid gap-4 md:grid-cols-2">
-                <div
-                    v-for="invite in pendingInvitations"
-                    :key="invite.id"
-                    class="rounded-lg border border-surface-200 bg-white p-5 text-sm text-surface-600"
+                <router-link
+                    to="/partner/dashboard"
+                    class="ynex-btn-secondary py-1.5 px-3 text-xs flex items-center gap-1.5"
                 >
-                    <div class="flex items-center justify-between text-xs uppercase tracking-wide text-surface-400">
-                        <span>{{ invite.email }}</span>
-                        <span>Pending</span>
+                    <Icon icon="mdi:view-dashboard-outline" :size="16" />
+                    Dashboard
+                </router-link>
+            </div>
+        </div>
+
+        <!-- Your Collection Centers -->
+        <div class="ynex-card">
+            <div class="ynex-card-header">
+                <div>
+                    <h2 class="text-sm font-bold text-surface-800">Your Collection Centers</h2>
+                    <p class="text-[11px] text-surface-400 font-medium mt-0.5">{{ milkCentersCount }} active facilities registered under {{ partnerName }}.</p>
+                </div>
+            </div>
+            <div class="p-5">
+                <div v-if="centers.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <article
+                        v-for="center in centers"
+                        :key="center.id"
+                        :id="`center-card-${center.id}`"
+                        class="p-5 rounded border border-surface-200 bg-white relative overflow-hidden transition duration-300 hover:border-primary-300 hover:shadow-md"
+                        :class="focusId === center.id ? 'ring-2 ring-primary-500' : ''"
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <h4 class="text-sm font-bold text-surface-800">{{ center.name }}</h4>
+                                <p class="text-[10px] uppercase tracking-wider text-surface-400 mt-0.5">
+                                    {{ center.registration_number || 'Unregistered' }}
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center gap-1 rounded bg-primary-50 px-2 py-0.5 text-[10px] font-bold text-primary-700">
+                                <Icon icon="mdi:thermometer-lines" :size="12" />
+                                {{ center.cooler_capacity_liters ? `${center.cooler_capacity_liters} L` : 'Capacity —' }}
+                            </span>
+                        </div>
+
+                        <p class="mt-3 text-xs leading-relaxed text-surface-500">
+                            {{ center.physical_address }}
+                        </p>
+
+                        <div class="mt-4 flex flex-wrap gap-1 text-[10px] uppercase font-bold tracking-wider text-surface-400">
+                            <span
+                                v-for="chip in formatArea(center.area)"
+                                :key="chip"
+                                class="rounded bg-surface-100 px-2 py-0.5"
+                            >
+                                {{ chip }}
+                            </span>
+                        </div>
+
+                        <dl class="mt-4 pt-4 border-t border-surface-100 grid grid-cols-2 gap-3 text-[10px] text-surface-400 font-semibold uppercase tracking-wider">
+                            <div>
+                                <dt>Manager</dt>
+                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.manager_name || 'Not set' }}</dd>
+                            </div>
+                            <div>
+                                <dt>Phone</dt>
+                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.manager_phone || '—' }}</dd>
+                            </div>
+                            <div>
+                                <dt>Farmers</dt>
+                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.farmers_count ?? 0 }}</dd>
+                            </div>
+                            <div>
+                                <dt>Claims</dt>
+                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.pending_claims_count ?? 0 }}</dd>
+                            </div>
+                        </dl>
+
+                        <div class="mt-5 flex gap-2">
+                            <router-link
+                                :to="{ name: 'partner-farmers', query: { center: center.id } }"
+                                class="ynex-btn-secondary py-1 px-2.5 text-[11px]"
+                            >
+                                Farmers
+                                <Icon icon="mdi:arrow-right" :size="12" />
+                            </router-link>
+                            <router-link
+                                :to="{ name: 'partner-dashboard', query: { highlight: center.id } }"
+                                class="ynex-btn-secondary py-1 px-2.5 text-[11px]"
+                            >
+                                Insights
+                                <Icon icon="mdi:chart-bar" :size="12" />
+                            </router-link>
+                        </div>
+                    </article>
+                </div>
+
+                <div
+                    v-else
+                    class="flex flex-col items-center justify-center py-16 border-2 border-dashed border-surface-200 bg-surface-50 rounded text-center"
+                >
+                    <p class="text-sm font-bold text-surface-600">No milk collection centers yet.</p>
+                    <button
+                        class="ynex-btn-primary py-1.5 px-4 text-xs mt-3"
+                        @click="openCreateModal"
+                    >
+                        <Icon icon="mdi:plus" :size="16" /> Register First Center
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Claim Existing Center -->
+        <div class="ynex-card">
+            <div class="ynex-card-header flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-bold text-surface-800">Claim an Existing Center</h2>
+                    <p class="text-[11px] text-surface-400 font-medium mt-0.5">Search the directory and request ownership. Admins will review and approve claims.</p>
+                </div>
+                <div class="text-xs font-bold text-surface-500 bg-surface-100 px-2 py-0.5 rounded">
+                    {{ filteredResults.length ? `${filteredResults.length} results` : 'No results' }}
+                </div>
+            </div>
+            <div class="p-5">
+                <form class="flex flex-col gap-4 md:flex-row" @submit.prevent="performSearch">
+                    <div class="flex-1">
+                        <input
+                            v-model.trim="claimSearch"
+                            type="text"
+                            placeholder="Search by name or registration number..."
+                            class="w-full rounded border border-surface-200 px-4 py-2 text-xs text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                        />
                     </div>
-                    <p class="mt-2 text-base font-semibold text-surface-900">
-                        {{ invite.name || 'Awaiting acceptance' }}
-                    </p>
-                    <p class="text-xs uppercase tracking-[0.3em] text-surface-400">
-                        {{ invite.role.replace('_', ' ') }}
-                    </p>
-                    <p class="mt-3 text-xs text-surface-500">
-                        Sent {{ formatDate(invite.created_at) }}
-                    </p>
-                    <div class="mt-4 flex justify-end">
+                    <div class="flex gap-3">
                         <button
-                            class="inline-flex items-center gap-2 rounded-full border border-surface-200 px-3 py-1 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800 disabled:cursor-not-allowed disabled:opacity-50"
-                            :disabled="revokingInvitationId === invite.id"
-                            @click="revokeInvitation(invite.id)"
+                            type="submit"
+                            class="ynex-btn-primary py-2 px-4 text-xs"
+                            :disabled="searching"
                         >
-                            <Icon icon="mdi:close-circle-outline" :size="16" />
-                            {{ revokingInvitationId === invite.id ? 'Revoking…' : 'Revoke' }}
+                            <Icon icon="mdi:magnify" :size="16" />
+                            {{ searching ? 'Searching…' : 'Search' }}
+                        </button>
+                        <button
+                            type="button"
+                            class="ynex-btn-secondary py-2 px-4 text-xs"
+                            @click="resetSearch"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </form>
+
+                <div v-if="claimError" class="mt-4 p-3 bg-red-50 border border-red-200 text-xs text-red-750 rounded">
+                    {{ claimError }}
+                </div>
+                <div v-if="claimSuccess" class="mt-4 p-3 bg-emerald-50 border border-emerald-200 text-xs text-emerald-705 rounded">
+                    {{ claimSuccess }}
+                </div>
+
+                <div v-if="filteredResults.length" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        v-for="center in filteredResults"
+                        :key="center.id"
+                        class="p-4 rounded border border-surface-200 bg-white text-xs flex flex-col justify-between"
+                    >
+                        <div>
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <p class="font-bold text-surface-800">{{ center.name }}</p>
+                                    <p class="text-[10px] text-surface-400 mt-0.5">{{ center.registration_number || 'Unregistered' }}</p>
+                                </div>
+                            </div>
+                            <p class="mt-2 text-surface-500 leading-relaxed">{{ center.physical_address }}</p>
+                            <textarea
+                                v-model="claimMessages[center.id]"
+                                rows="2"
+                                class="mt-3 w-full rounded border border-surface-200 px-3 py-2 text-[11px] text-surface-700 focus:border-primary-500 focus:outline-none"
+                                placeholder="Add note for admin review..."
+                            ></textarea>
+                        </div>
+                        <button
+                            class="mt-3 w-full ynex-btn-primary py-1.5 text-xs"
+                            :disabled="claimingCenterId === center.id"
+                            @click="submitClaim(center.id)"
+                        >
+                            {{ claimingCenterId === center.id ? 'Submitting…' : 'Request Claim' }}
                         </button>
                     </div>
                 </div>
+                <div
+                    v-else-if="searched"
+                    class="mt-6 py-8 border border-dashed border-surface-200 bg-surface-50 rounded text-center text-xs text-surface-400 font-semibold"
+                >
+                    No centers matched your search.
+                </div>
             </div>
-            <p v-else class="mt-6 rounded-lg border border-dashed border-surface-200 bg-surface-50/80 p-10 text-sm text-surface-500">
-                No pending invitations. Invite team members to manage MCCs or capture deliveries on your behalf.
-            </p>
-        </section>
+        </div>
+
+        <!-- History & Invites Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Claim History -->
+            <div class="ynex-card">
+                <div class="ynex-card-header flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-bold text-surface-800">Claim History</h2>
+                        <p class="text-[11px] text-surface-400 font-medium mt-0.5">{{ resolvedClaims.length }} resolved claims.</p>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <div v-if="sortedResolvedClaims.length" class="space-y-4 max-h-[360px] overflow-y-auto pr-1">
+                        <article
+                            v-for="claim in sortedResolvedClaims"
+                            :key="claim.id"
+                            class="p-4 rounded border border-surface-200 bg-white text-xs flex flex-col gap-2"
+                        >
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <p class="font-bold text-surface-800">{{ claim.milk_collection_center?.name ?? 'Milk Center' }}</p>
+                                    <p class="text-[10px] text-surface-400 mt-0.5">{{ claim.partner?.name ?? partnerName }}</p>
+                                </div>
+                                <span :class="['rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider', claimStatusBadgeClasses(claim.status)]">
+                                    {{ formatClaimStatus(claim.status) }}
+                                </span>
+                            </div>
+                            <p v-if="claim.message" class="p-2 bg-surface-50 rounded text-[11px] text-surface-500 italic">“{{ claim.message }}”</p>
+                            <p v-if="claim.response_notes" class="p-2 bg-emerald-50 text-emerald-700 rounded text-[11px] font-semibold">{{ claim.response_notes }}</p>
+                        </article>
+                    </div>
+                    <p v-else class="text-xs text-surface-400 font-semibold py-8 border border-dashed border-surface-200 bg-surface-50 rounded text-center">
+                        No resolved claims yet.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Invitations -->
+            <div class="ynex-card">
+                <div class="ynex-card-header flex items-center justify-between">
+                    <div>
+                        <h2 class="text-sm font-bold text-surface-800">Team Invitations</h2>
+                        <p class="text-[11px] text-surface-400 font-medium mt-0.5">{{ pendingInvitations.length }} pending invitations.</p>
+                    </div>
+                    <button
+                        class="text-xs font-bold text-primary-600 hover:text-primary-700 flex items-center gap-0.5"
+                        @click="openInvitationModal"
+                    >
+                        <Icon icon="mdi:email-plus-outline" :size="14" /> Invite
+                    </button>
+                </div>
+                <div class="p-5">
+                    <div v-if="inviteSuccess" class="mb-4 p-2 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded text-xs">
+                        {{ inviteSuccess }}
+                    </div>
+                    <div v-if="inviteError" class="mb-4 p-2 bg-red-50 text-red-750 border border-red-100 rounded text-xs">
+                        {{ inviteError }}
+                    </div>
+
+                    <div v-if="pendingInvitations.length" class="space-y-4 max-h-[360px] overflow-y-auto pr-1">
+                        <div
+                            v-for="invite in pendingInvitations"
+                            :key="invite.id"
+                            class="p-4 rounded border border-surface-200 bg-white text-xs flex flex-col gap-2"
+                        >
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-surface-800">{{ invite.email }}</span>
+                                <button
+                                    class="text-red-500 hover:text-red-700 text-[10px] font-bold uppercase tracking-wider"
+                                    :disabled="revokingInvitationId === invite.id"
+                                    @click="revokeInvitation(invite.id)"
+                                >
+                                    {{ revokingInvitationId === invite.id ? 'Revoking…' : 'Revoke' }}
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-surface-400 font-bold uppercase tracking-wider mt-0.5">Role: {{ invite.role.replace('_', ' ') }}</p>
+                        </div>
+                    </div>
+                    <p v-else class="text-xs text-surface-400 font-semibold py-8 border border-dashed border-surface-200 bg-surface-50 rounded text-center">
+                        No pending invitations.
+                    </p>
+                </div>
+            </div>
+        </div>
 
         <MilkCollectionCenterFormModal :is-open="createModalOpen" @close="closeCreateModal" @created="handleCenterCreated" />
         <InvitePartnerMemberModal
@@ -473,9 +377,9 @@ const filteredResults = computed(() => {
     const partnerOwnedIds = new Set(centers.value.map(center => center.id));
     const pendingClaimIds = new Set(partnerClaimedCenterIds.value);
 
-    const centers = geographyStore.milkCenters.value ?? [];
+    const allCenters = geographyStore.milkCenters ?? [];
 
-    return centers
+    return allCenters
         .filter(center => !partnerOwnedIds.has(center.id))
         .filter(center => !pendingClaimIds.has(center.id))
         .filter(center => !center.partner_id)

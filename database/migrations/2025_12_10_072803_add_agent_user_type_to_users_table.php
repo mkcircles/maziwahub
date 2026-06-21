@@ -11,7 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         // Modify the enum to include 'agent'
-        \DB::statement("ALTER TABLE users MODIFY COLUMN user_type ENUM('super_admin', 'admin', 'partner', 'mcc', 'user', 'agent') NOT NULL DEFAULT 'user'");
+        if (\DB::getDriverName() !== 'sqlite') {
+            \DB::statement("ALTER TABLE users MODIFY COLUMN user_type ENUM('super_admin', 'admin', 'partner', 'mcc', 'user', 'agent') NOT NULL DEFAULT 'user'");
+        }
     }
 
     /**
@@ -20,6 +22,8 @@ return new class extends Migration {
     public function down(): void
     {
         // Remove 'agent' from the enum
-        \DB::statement("ALTER TABLE users MODIFY COLUMN user_type ENUM('super_admin', 'admin', 'partner', 'mcc', 'user') NOT NULL DEFAULT 'user'");
+        if (\DB::getDriverName() !== 'sqlite') {
+            \DB::statement("ALTER TABLE users MODIFY COLUMN user_type ENUM('super_admin', 'admin', 'partner', 'mcc', 'user') NOT NULL DEFAULT 'user'");
+        }
     }
 };

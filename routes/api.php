@@ -26,6 +26,7 @@ Route::prefix('v1')->group(function () {
     Route::post('auth/login', [AuthController::class, 'login']);
 
     Route::post('partner-invitations/{token}/accept', [PartnerInvitationController::class, 'accept']);
+    Route::get('partner-invitations/{token}', [PartnerInvitationController::class, 'showByToken']);
 
     Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::get('auth/user', [AuthController::class, 'user']);

@@ -5,7 +5,7 @@ import { ref } from 'vue';
 export const useDashboardStore = defineStore('dashboard', () => {
     const adminSummary = ref<{
         active_users: number | string;
-        geography_layers: number | string;
+        registered_farmers: number | string;
         milk_centers: number | string;
         cows_monitored: number | string;
     } | null>(null);
