@@ -1,5 +1,6 @@
 <template>
-    <div class="space-y-10 pb-16">
+    <div>
+        <div class="space-y-10 pb-16">
         <div
             class="relative overflow-hidden rounded-md bg-[#0F172A] px-6 py-10 text-white shadow-xl shadow-blue-900/30 sm:px-10">
             <div
@@ -230,11 +231,23 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <button
-                                    class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-primary-600"
-                                    title="Edit" @click="openEditModal(farmer)">
-                                    <Icon icon="mdi:pencil-outline" :size="18" />
-                                </button>
+                                <div class="inline-flex items-center gap-1">
+                                    <button v-if="farmer.status === 'pending' || farmer.status === 'inactive'"
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-emerald-600"
+                                        title="Activate" @click="toggleFarmerStatus(farmer, 'active')">
+                                        <Icon icon="mdi:check-circle-outline" :size="18" />
+                                    </button>
+                                    <button v-if="farmer.status === 'active'"
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-red-600"
+                                        title="Deactivate" @click="toggleFarmerStatus(farmer, 'inactive')">
+                                        <Icon icon="mdi:pause-circle-outline" :size="18" />
+                                    </button>
+                                    <button
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-primary-600"
+                                        title="Edit" @click="openEditModal(farmer)">
+                                        <Icon icon="mdi:pencil-outline" :size="18" />
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -283,6 +296,7 @@
         @created="handleFarmerCreated" />
     <EditFarmerModal :is-open="showEditModal" :farmer="selectedFarmerForEdit" :milk-centers="milkCenters"
         @close="closeEditModal" @updated="handleFarmerUpdated" />
+</div>
 </template>
 
 <script setup lang="ts">
@@ -385,6 +399,20 @@ const handleFarmerUpdated = async () => {
     showEditModal.value = false;
     selectedFarmerForEdit.value = null;
     await applyFilters(pagination.value.current_page);
+};
+
+const toggleFarmerStatus = async (farmer: Farmer, newStatus: 'active' | 'inactive') => {
+    const label = newStatus === 'active' ? 'activate' : 'deactivate';
+    const confirmed = window.confirm(
+        `Are you sure you want to ${label} ${farmer.first_name} ${farmer.last_name}?`
+    );
+    if (!confirmed) return;
+
+    try {
+        await farmerStore.updateFarmer(farmer.id, { ...farmer, status: newStatus });
+    } catch (err: any) {
+        window.alert(`Failed to update farmer status: ${err.message || err}`);
+    }
 };
 
 const resetFilters = async () => {

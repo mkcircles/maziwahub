@@ -1,5 +1,6 @@
 <template>
-    <div class="space-y-8 pb-16">
+    <div>
+        <div class="space-y-8 pb-16">
         <div v-if="loading" class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100">
             <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                 <router-link to="/admin/milk-collection-centers"
@@ -310,12 +311,13 @@
             </section>
         </template>
     </div>
-    <CreateMilkDeliveryModal :is-open="showCreateDeliveryModal" :center-id="center?.id ?? null"
-        @close="closeCreateDeliveryModal" @created="handleDeliveryCreated" />
-    <MilkCollectionCenterFormModal :is-open="showEditModal" :center-id="center?.id" :initial-data="center ?? undefined"
-        @close="closeEditModal" @updated="handleCenterUpdated" />
-    <CreateAgentModal :is-open="showCreateAgentModal" :preselected-mcc-id="center?.id" @close="closeCreateAgentModal"
-        @created="handleAgentCreated" />
+        <CreateMilkDeliveryModal :is-open="showCreateDeliveryModal" :center-id="center?.id ?? null"
+            @close="closeCreateDeliveryModal" @created="handleDeliveryCreated" />
+        <MilkCollectionCenterFormModal :is-open="showEditModal" :center-id="center?.id" :initial-data="center ?? undefined"
+            @close="closeEditModal" @updated="handleCenterUpdated" />
+        <CreateAgentModal :is-open="showCreateAgentModal" :preselected-mcc-id="center?.id" @close="closeCreateAgentModal"
+            @created="handleAgentCreated" />
+    </div>
 </template>
 
 <script setup lang="ts">

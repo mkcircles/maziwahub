@@ -27,244 +27,269 @@
                 {{ errorMessage }}
             </div>
 
-            <div v-if="country" class="space-y-6">
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <div class="rounded-lg bg-white p-5 shadow">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Regions</h3>
-                            <Icon icon="mdi:map-outline" :size="20" className="text-primary-600" />
-                        </div>
-                        <p class="mt-3 text-3xl font-semibold text-surface-900">
-                            {{ country.regions?.length ?? 0 }}
-                        </p>
-                        <p class="text-xs text-surface-500 mt-1">Total regions in this country</p>
-                    </div>
-
-                    <div class="rounded-lg bg-white p-5 shadow">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Registered Farmers
-                            </h3>
-                            <Icon icon="mdi:account-group-outline" :size="20" className="text-green-600" />
-                        </div>
-                        <p class="mt-3 text-3xl font-semibold text-surface-900">
-                            {{ farmerTotal }}
-                        </p>
-                        <p class="text-xs text-surface-500 mt-1">Farmers linked to this country</p>
-                    </div>
-
-                    <div class="rounded-lg bg-white p-5 shadow">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Milk Collection
-                                Centers</h3>
-                            <Icon icon="mdi:milk-outline" :size="20" className="text-orange-500" />
-                        </div>
-                        <p class="mt-3 text-3xl font-semibold text-surface-900">
-                            {{ milkCentersCount }}
-                        </p>
-                        <p class="text-xs text-surface-500 mt-1">Centers registered within this country</p>
-                    </div>
-
-                    <div class="rounded-lg bg-white p-5 shadow">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Data Status</h3>
-                            <Icon icon="mdi:database-search-outline" :size="20" className="text-purple-600" />
-                        </div>
-                        <p class="mt-3 text-2xl font-semibold text-surface-900">Up to date</p>
-                        <p class="text-xs text-surface-500 mt-1">Last refreshed when page loaded</p>
-                    </div>
+            <div v-if="country">
+                <div class="mb-6 rounded-lg border border-surface-200 bg-white p-2 shadow-sm">
+                    <nav class="flex flex-wrap gap-2" aria-label="Country detail tabs">
+                        <button v-for="tab in tabs" :key="tab.id" type="button"
+                            class="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition"
+                            :class="activeTab === tab.id
+                                ? 'bg-primary-600 text-white shadow-lg shadow-slate-400/40'
+                                : 'text-surface-600 hover:bg-surface-100 hover:text-surface-900'"
+                            @click="selectTab(tab.id)">
+                            <Icon :icon="tab.icon" :size="16" />
+                            <span>{{ tab.label }}</span>
+                        </button>
+                    </nav>
                 </div>
 
-                <div class="rounded-lg bg-white p-6 shadow">
-                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            <h2 class="text-lg font-semibold text-surface-900">Milk Collection Centers</h2>
-                            <p class="text-sm text-surface-500">
-                                Facilities registered within this country's administrative hierarchy
-                            </p>
-                        </div>
-                        <div class="inline-flex items-center gap-2 text-sm text-surface-500">
-                            <Icon icon="mdi:milk-outline" :size="18" />
-                            Showing {{ milkCentersCount }} center{{ milkCentersCount === 1 ? '' : 's' }}
-                        </div>
-                    </div>
-
-                    <div v-if="isMilkCentersLoading"
-                        class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
-                        Loading milk collection centers...
-                    </div>
-                    <div v-else>
-                        <div v-if="milkCentersError"
-                            class="mt-6 rounded-md border border-red-200 bg-red-50 p-4 text-red-700">
-                            {{ milkCentersError }}
-                        </div>
-                        <template v-else>
-                            <div v-if="milkCenters.length === 0"
-                                class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
-                                No milk collection centers registered for this country.
-                            </div>
-                            <div v-else class="mt-6 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
-                                <CountryMilkCenterCard v-for="center in milkCenters" :key="center.id" :center="center"
-                                    :format-location="formatCenterLocation" :minified="true" />
-                            </div>
-                        </template>
-                    </div>
-                </div>
-
-                <div class="rounded-lg bg-white p-6 shadow">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-surface-900">Regions &amp; Districts</h2>
-                        <span class="text-sm text-surface-500">Regions loaded from hierarchy</span>
-                    </div>
-                    <div v-if="(country.regions?.length ?? 0) === 0"
-                        class="mt-4 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
-                        No regions have been registered for this country yet.
-                    </div>
-                    <ul v-else class="mt-4 space-y-4">
-                        <li v-for="region in country.regions" :key="region.id"
-                            class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                <section v-if="activeTab === 'overview'" class="space-y-6">
+                    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                        <div class="rounded-lg bg-white p-5 shadow">
                             <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="text-base font-semibold text-surface-900">{{ region.region_name }}</h3>
-                                    <p class="text-xs uppercase tracking-wide text-surface-500">Slug: {{
-                                        region.region_slug }}</p>
-                                </div>
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-primary-100 px-3 py-1 text-xs font-medium text-primary-700">
-                                    <Icon icon="mdi:city-variant-outline" :size="14" />
-                                    {{ region.districts_count ?? 0 }} Districts
-                                </span>
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
-                                    <Icon icon="mdi:location-multiple" :size="14" />
-                                    {{ region.counties_count ?? 0 }} Counties
-                                </span>
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700">
-                                    <Icon icon="mdi:location-multiple-outline" :size="14" />
-                                    {{ region.subcounties_count ?? 0 }} Sub counties
-                                </span>
-                                <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                                    <Icon icon="mdi:account-group-outline" :size="14" />
-                                    {{ region.subcounties_count ?? 0 }} Farmers
-                                </span>
-                                <router-link :to="`/admin/regions/${region.id}`"
-                                    class="inline-flex items-center text-sm gap-1 text-primary-600 hover:text-primary-900 mr-4">
-                                    <Icon icon="mdi:eye" :size="16" />
-                                    View
-                                </router-link>
+                                <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Regions</h3>
+                                <Icon icon="mdi:map-outline" :size="20" className="text-primary-600" />
                             </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="rounded-lg bg-white p-6 shadow">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <h2 class="text-lg font-semibold text-surface-900">Farmers</h2>
-                            <p class="text-sm text-surface-500">Paginated list of farmers linked by district</p>
-                        </div>
-                        <div class="inline-flex items-center gap-2 text-sm text-surface-500">
-                            <Icon icon="mdi:database" :size="18" />
-                            Total: {{ farmerTotal }}
-                        </div>
-                    </div>
-
-                    <div v-if="isFarmersLoading" class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
-                        Loading farmers...
-                    </div>
-
-                    <div v-else>
-                        <div v-if="farmers.length === 0"
-                            class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
-                            No farmers found for this country.
-                        </div>
-                        <div v-else class="mt-6 overflow-x-auto">
-                            <table class="min-w-full divide-y divide-surface-200">
-                                <thead class="bg-surface-50">
-                                    <tr>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
-                                            Farmer</th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
-                                            Contact</th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
-                                            Location</th>
-                                        <th scope="col"
-                                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
-                                            Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-surface-200">
-                                    <tr v-for="farmer in farmers" :key="farmer.id" class="hover:bg-surface-50">
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm font-medium text-surface-900">
-                                                {{ farmer.first_name }} {{ farmer.last_name }}
-                                            </div>
-                                            <div class="text-xs text-surface-500 uppercase tracking-wide">
-                                                ID: {{ farmer.farmer_id }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-surface-500">
-                                            <div>{{ farmer.phone_number ?? '—' }}</div>
-                                            <div class="text-xs text-surface-400">
-                                                MCC: {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm text-surface-500">
-                                            <div>{{ farmer.district ?? '—' }}</div>
-                                            <div class="text-xs text-surface-400">
-                                                {{ [farmer.county, farmer.sub_county, farmer.parish,
-                                                farmer.village].filter(Boolean).join(' • ') || 'Location details unavailable' }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 text-sm">
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
-                                                :class="farmer.status === 'active'
-                                                    ? 'bg-green-100 text-green-700'
-                                                    : farmer.status === 'pending'
-                                                        ? 'bg-yellow-100 text-yellow-700'
-                                                        : 'bg-surface-100 text-surface-600'">
-                                                <Icon :icon="farmer.status === 'active'
-                                                    ? 'mdi:check-circle-outline'
-                                                    : farmer.status === 'pending'
-                                                        ? 'mdi:clock-outline'
-                                                        : 'mdi:alert-circle-outline'" :size="14" />
-                                                {{ farmer.status ?? 'Unknown' }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div v-if="countryFarmers"
-                            class="mt-6 flex items-center justify-between border-t border-surface-200 pt-4">
-                            <p class="text-sm text-surface-500">
-                                Page {{ countryFarmers.current_page }} of {{ countryFarmers.last_page }}
+                            <p class="mt-3 text-3xl font-semibold text-surface-900">
+                                {{ country.regions?.length ?? 0 }}
                             </p>
-                            <div class="flex items-center gap-2">
-                                <button
-                                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-3 py-2 text-sm font-medium text-surface-600 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
-                                    :disabled="!canGoToPrevious"
-                                    @click="changeFarmersPage(countryFarmers.current_page - 1)">
-                                    <Icon icon="mdi:chevron-left" :size="18" />
-                                    Previous
-                                </button>
-                                <button
-                                    class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-3 py-2 text-sm font-medium text-surface-600 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
-                                    :disabled="!canGoToNext"
-                                    @click="changeFarmersPage(countryFarmers.current_page + 1)">
-                                    Next
-                                    <Icon icon="mdi:chevron-right" :size="18" />
-                                </button>
+                            <p class="text-xs text-surface-500 mt-1">Total regions in this country</p>
+                        </div>
+
+                        <div class="rounded-lg bg-white p-5 shadow">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Registered Farmers
+                                </h3>
+                                <Icon icon="mdi:account-group-outline" :size="20" className="text-green-600" />
+                            </div>
+                            <p class="mt-3 text-3xl font-semibold text-surface-900">
+                                {{ farmerTotal }}
+                            </p>
+                            <p class="text-xs text-surface-500 mt-1">Farmers linked to this country</p>
+                        </div>
+
+                        <div class="rounded-lg bg-white p-5 shadow">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Milk Collection
+                                    Centers</h3>
+                                <Icon icon="mdi:milk-outline" :size="20" className="text-orange-500" />
+                            </div>
+                            <p class="mt-3 text-3xl font-semibold text-surface-900">
+                                {{ milkCentersCount }}
+                            </p>
+                            <p class="text-xs text-surface-500 mt-1">Centers registered within this country</p>
+                        </div>
+
+                        <div class="rounded-lg bg-white p-5 shadow">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-sm font-medium text-surface-500 uppercase tracking-wide">Data Status</h3>
+                                <Icon icon="mdi:database-search-outline" :size="20" className="text-purple-600" />
+                            </div>
+                            <p class="mt-3 text-2xl font-semibold text-surface-900">Up to date</p>
+                            <p class="text-xs text-surface-500 mt-1">Last refreshed when page loaded</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="activeTab === 'milk-centers'" class="space-y-6">
+                    <div class="rounded-lg bg-white p-6 shadow">
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <h2 class="text-lg font-semibold text-surface-900">Milk Collection Centers</h2>
+                                <p class="text-sm text-surface-500">
+                                    Facilities registered within this country's administrative hierarchy
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center gap-2 text-sm text-surface-500">
+                                <Icon icon="mdi:milk-outline" :size="18" />
+                                Showing {{ milkCentersCount }} center{{ milkCentersCount === 1 ? '' : 's' }}
+                            </div>
+                        </div>
+
+                        <div v-if="isMilkCentersLoading"
+                            class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
+                            Loading milk collection centers...
+                        </div>
+                        <div v-else>
+                            <div v-if="milkCentersError"
+                                class="mt-6 rounded-md border border-red-200 bg-red-50 p-4 text-red-700">
+                                {{ milkCentersError }}
+                            </div>
+                            <template v-else>
+                                <div v-if="milkCenters.length === 0"
+                                    class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
+                                    No milk collection centers registered for this country.
+                                </div>
+                                <div v-else class="mt-6 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+                                    <CountryMilkCenterCard v-for="center in milkCenters" :key="center.id" :center="center"
+                                        :format-location="formatCenterLocation" :minified="true" />
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </section>
+
+                <section v-if="activeTab === 'regions'" class="space-y-6">
+                    <div class="rounded-lg bg-white p-6 shadow">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-semibold text-surface-900">Regions &amp; Districts</h2>
+                            <span class="text-sm text-surface-500">Regions loaded from hierarchy</span>
+                        </div>
+                        <div v-if="(country.regions?.length ?? 0) === 0"
+                            class="mt-4 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
+                            No regions have been registered for this country yet.
+                        </div>
+                        <ul v-else class="mt-4 space-y-4">
+                            <li v-for="region in country.regions" :key="region.id"
+                                class="rounded-lg border border-surface-100 bg-surface-50 p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-base font-semibold text-surface-900">{{ region.name }}</h3>
+                                        <p class="text-xs uppercase tracking-wide text-surface-500">Slug: {{
+                                            region.slug }}</p>
+                                    </div>
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-primary-100 px-3 py-1 text-xs font-medium text-primary-700">
+                                        <Icon icon="mdi:city-variant-outline" :size="14" />
+                                        {{ region.districts_count ?? 0 }} Districts
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700">
+                                        <Icon icon="mdi:location-multiple" :size="14" />
+                                        {{ region.counties_count ?? 0 }} Counties
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-purple-100 px-3 py-1 text-xs font-medium text-purple-700">
+                                        <Icon icon="mdi:location-multiple-outline" :size="14" />
+                                        {{ region.subcounties_count ?? 0 }} Sub counties
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                                        <Icon icon="mdi:account-group-outline" :size="14" />
+                                        {{ region.subcounties_count ?? 0 }} Farmers
+                                    </span>
+                                    <router-link :to="`/admin/regions/${region.id}`"
+                                        class="inline-flex items-center text-sm gap-1 text-primary-600 hover:text-primary-900 mr-4">
+                                        <Icon icon="mdi:eye" :size="16" />
+                                        View
+                                    </router-link>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section v-if="activeTab === 'farmers'" class="space-y-6">
+                    <div class="rounded-lg bg-white p-6 shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-lg font-semibold text-surface-900">Farmers</h2>
+                                <p class="text-sm text-surface-500">Paginated list of farmers linked by district</p>
+                            </div>
+                            <div class="inline-flex items-center gap-2 text-sm text-surface-500">
+                                <Icon icon="mdi:database" :size="18" />
+                                Total: {{ farmerTotal }}
+                            </div>
+                        </div>
+
+                        <div v-if="isFarmersLoading" class="mt-6 rounded-md border border-surface-200 p-6 text-surface-600">
+                            Loading farmers...
+                        </div>
+
+                        <div v-else>
+                            <div v-if="farmers.length === 0"
+                                class="mt-6 rounded-md border border-dashed border-surface-200 p-6 text-center text-surface-500">
+                                No farmers found for this country.
+                            </div>
+                            <div v-else class="mt-6 overflow-x-auto">
+                                <table class="min-w-full divide-y divide-surface-200">
+                                    <thead class="bg-surface-50">
+                                        <tr>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
+                                                Farmer</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
+                                                Contact</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
+                                                Location</th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-surface-500">
+                                                Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-surface-200">
+                                        <tr v-for="farmer in farmers" :key="farmer.id" class="hover:bg-surface-50">
+                                            <td class="px-6 py-4">
+                                                <div class="text-sm font-medium text-surface-900">
+                                                    <router-link :to="`/admin/farmers/${farmer.id}`"
+                                                        class="hover:text-primary-600 hover:underline">
+                                                        {{ farmer.first_name }} {{ farmer.last_name }}
+                                                    </router-link>
+                                                </div>
+                                                <div class="text-xs text-surface-500 uppercase tracking-wide">
+                                                    ID: {{ farmer.farmer_id }}
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-surface-500">
+                                                <div>{{ farmer.phone_number ?? '—' }}</div>
+                                                <div class="text-xs text-surface-400">
+                                                    MCC: {{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm text-surface-500">
+                                                <div>{{ farmer.district ?? '—' }}</div>
+                                                <div class="text-xs text-surface-400">
+                                                    {{ [farmer.county, farmer.sub_county, farmer.parish,
+                                                    farmer.village].filter(Boolean).join(' • ') || 'Location details unavailable' }}
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 text-sm">
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                                                    :class="farmer.status === 'active'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : farmer.status === 'pending'
+                                                            ? 'bg-yellow-100 text-yellow-700'
+                                                            : 'bg-surface-100 text-surface-600'">
+                                                    <Icon :icon="farmer.status === 'active'
+                                                        ? 'mdi:check-circle-outline'
+                                                        : farmer.status === 'pending'
+                                                            ? 'mdi:clock-outline'
+                                                            : 'mdi:alert-circle-outline'" :size="14" />
+                                                    {{ farmer.status ?? 'Unknown' }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div v-if="countryFarmers"
+                                class="mt-6 flex items-center justify-between border-t border-surface-200 pt-4">
+                                <p class="text-sm text-surface-500">
+                                    Page {{ countryFarmers.current_page }} of {{ countryFarmers.last_page }}
+                                </p>
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-3 py-2 text-sm font-medium text-surface-600 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                        :disabled="!canGoToPrevious"
+                                        @click="changeFarmersPage(countryFarmers.current_page - 1)">
+                                        <Icon icon="mdi:chevron-left" :size="18" />
+                                        Previous
+                                    </button>
+                                    <button
+                                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-3 py-2 text-sm font-medium text-surface-600 hover:bg-surface-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                        :disabled="!canGoToNext"
+                                        @click="changeFarmersPage(countryFarmers.current_page + 1)">
+                                        Next
+                                        <Icon icon="mdi:chevron-right" :size="18" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </template>
     </div>
@@ -287,6 +312,15 @@ const route = useRoute();
 const countriesStore = useGeographyStore();
 
 const countryId = computed(() => Number(route.params.id));
+
+const activeTab = ref('overview');
+const tabs = [
+    { id: 'overview', label: 'Overview', icon: 'mdi:information-outline' },
+    { id: 'milk-centers', label: 'Milk Centers', icon: 'mdi:milk-outline' },
+    { id: 'regions', label: 'Regions & Districts', icon: 'mdi:map-outline' },
+    { id: 'farmers', label: 'Farmers', icon: 'mdi:account-group-outline' },
+];
+const selectTab = (tabId: string) => { activeTab.value = tabId; };
 
 type RegionWithMetrics = Region & {
     region_name?: string | null;
