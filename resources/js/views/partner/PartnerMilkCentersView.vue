@@ -38,69 +38,87 @@
                         v-for="center in centers"
                         :key="center.id"
                         :id="`center-card-${center.id}`"
-                        class="p-5 rounded border border-surface-200 bg-white relative overflow-hidden transition duration-300 hover:border-primary-300 hover:shadow-md"
+                        class="pl-7 pr-5 py-5 rounded border border-surface-200 bg-white relative overflow-hidden transition duration-300 hover:shadow-lg hover:-translate-y-1 center-card-container"
                         :class="focusId === center.id ? 'ring-2 ring-primary-500' : ''"
                     >
-                        <div class="flex items-start justify-between gap-3">
-                            <div>
-                                <h4 class="text-sm font-bold text-surface-800">{{ center.name }}</h4>
-                                <p class="text-[10px] uppercase tracking-wider text-surface-400 mt-0.5">
+                        <!-- Left indicator bar -->
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-primary-500 to-indigo-600"></div>
+
+                        <!-- Top Title & Badge row -->
+                        <div class="flex items-start gap-3">
+                            <div class="h-10 w-10 rounded bg-primary-50 text-primary-600 flex items-center justify-center border border-primary-100 flex-shrink-0">
+                                <Icon icon="mdi:storefront-outline" :size="20" />
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h4 class="text-sm font-bold text-surface-800 truncate" :title="center.name">{{ center.name }}</h4>
+                                <p class="text-[9px] font-bold uppercase tracking-wider text-surface-400 mt-0.5">
                                     {{ center.registration_number || 'Unregistered' }}
                                 </p>
                             </div>
-                            <span class="inline-flex items-center gap-1 rounded bg-primary-50 px-2 py-0.5 text-[10px] font-bold text-primary-700">
+                            <span class="inline-flex items-center gap-1 rounded bg-primary-50 px-2 py-0.5 text-[10px] font-bold text-primary-700 border border-primary-100 flex-shrink-0">
                                 <Icon icon="mdi:thermometer-lines" :size="12" />
                                 {{ center.cooler_capacity_liters ? `${center.cooler_capacity_liters} L` : 'Capacity —' }}
                             </span>
                         </div>
 
-                        <p class="mt-3 text-xs leading-relaxed text-surface-500">
+                        <!-- Address description -->
+                        <p class="mt-3.5 text-xs leading-relaxed text-surface-500 line-clamp-2 min-h-[2.5rem]">
                             {{ center.physical_address }}
                         </p>
 
-                        <div class="mt-4 flex flex-wrap gap-1 text-[10px] uppercase font-bold tracking-wider text-surface-400">
+                        <!-- Region / Location chips -->
+                        <div class="mt-3 flex flex-wrap gap-1 text-[9px] uppercase font-bold tracking-wider text-surface-400">
                             <span
                                 v-for="chip in formatArea(center.area)"
                                 :key="chip"
-                                class="rounded bg-surface-100 px-2 py-0.5"
+                                class="rounded bg-surface-100 px-2 py-0.5 text-surface-600 border border-surface-200/30"
                             >
                                 {{ chip }}
                             </span>
                         </div>
 
-                        <dl class="mt-4 pt-4 border-t border-surface-100 grid grid-cols-2 gap-3 text-[10px] text-surface-400 font-semibold uppercase tracking-wider">
-                            <div>
-                                <dt>Manager</dt>
-                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.manager_name || 'Not set' }}</dd>
+                        <!-- Info Grid Panel (Four Quadrants) -->
+                        <div class="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-surface-100">
+                            <div class="bg-surface-50 p-2 rounded border border-surface-200/50">
+                                <span class="text-[9px] font-bold text-surface-400 uppercase tracking-wider block">Manager</span>
+                                <span class="text-xs font-bold text-surface-700 block truncate" :title="center.manager_name">{{ center.manager_name || 'Not set' }}</span>
                             </div>
-                            <div>
-                                <dt>Phone</dt>
-                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.manager_phone || '—' }}</dd>
+                            <div class="bg-surface-50 p-2 rounded border border-surface-200/50">
+                                <span class="text-[9px] font-bold text-surface-400 uppercase tracking-wider block">Phone</span>
+                                <span class="text-xs font-bold text-surface-700 block truncate" :title="center.manager_phone">{{ center.manager_phone || '—' }}</span>
                             </div>
-                            <div>
-                                <dt>Farmers</dt>
-                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.farmers_count ?? 0 }}</dd>
+                            <div class="bg-surface-50 p-2 rounded border border-surface-200/50">
+                                <span class="text-[9px] font-bold text-surface-400 uppercase tracking-wider block">Farmers</span>
+                                <span class="text-xs font-bold text-surface-700 block">{{ center.farmers_count ?? 0 }}</span>
                             </div>
-                            <div>
-                                <dt>Claims</dt>
-                                <dd class="mt-0.5 text-xs font-bold text-surface-700 normal-case">{{ center.pending_claims_count ?? 0 }}</dd>
+                            <div class="bg-surface-50 p-2 rounded border border-surface-200/50">
+                                <span class="text-[9px] font-bold text-surface-400 uppercase tracking-wider block">Claims</span>
+                                <span class="text-xs font-bold text-surface-700 block">{{ center.pending_claims_count ?? 0 }}</span>
                             </div>
-                        </dl>
+                        </div>
 
-                        <div class="mt-5 flex gap-2">
+                        <!-- Action Links -->
+                        <div class="mt-5 pt-3.5 border-t border-surface-100 flex items-center justify-between">
+                            <router-link
+                                :to="{ name: 'partner-milk-center-detail', params: { id: center.id } }"
+                                class="text-xs font-bold text-primary-600 hover:text-primary-700 inline-flex items-center gap-1 transition-colors duration-150"
+                            >
+                                <Icon icon="mdi:eye-outline" :size="14" />
+                                Details
+                            </router-link>
                             <router-link
                                 :to="{ name: 'partner-farmers', query: { center: center.id } }"
-                                class="ynex-btn-secondary py-1 px-2.5 text-[11px]"
+                                class="text-xs font-semibold text-surface-500 hover:text-primary-600 inline-flex items-center gap-1 transition-colors duration-150"
                             >
+                                <Icon icon="mdi:account-group-outline" :size="14" />
                                 Farmers
-                                <Icon icon="mdi:arrow-right" :size="12" />
                             </router-link>
                             <router-link
                                 :to="{ name: 'partner-dashboard', query: { highlight: center.id } }"
-                                class="ynex-btn-secondary py-1 px-2.5 text-[11px]"
+                                class="text-xs font-semibold text-surface-500 hover:text-primary-600 inline-flex items-center gap-1 transition-colors duration-150"
                             >
+                                <Icon icon="mdi:chart-bar" :size="14" />
                                 Insights
-                                <Icon icon="mdi:chart-bar" :size="12" />
                             </router-link>
                         </div>
                     </article>
@@ -567,4 +585,10 @@ watch(
     },
 );
 </script>
+
+<style scoped>
+.center-card-container {
+    container-type: inline-size;
+}
+</style>
 

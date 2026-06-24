@@ -82,6 +82,46 @@ class AuthController extends Controller
     }
 
     /**
+     * Update user profile details
+     * @description Update name, email, phone, location, and optionally password
+     */
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'location' => ['nullable', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $updates = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ];
+
+        if (array_key_exists('phone', $validated)) {
+            $updates['phone'] = $validated['phone'];
+        }
+        if (array_key_exists('location', $validated)) {
+            $updates['location'] = $validated['location'];
+        }
+
+        if (!empty($validated['password'])) {
+            $updates['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($updates);
+
+        return response()->json([
+            'message' => 'Profile updated successfully',
+            'user' => $user->fresh(['milkCollectionCenter', 'partner', 'agent']),
+        ]);
+    }
+
+    /**
      * Logout user
      * @description Revoke the current access token
      */

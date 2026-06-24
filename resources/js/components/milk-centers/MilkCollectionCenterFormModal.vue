@@ -317,7 +317,7 @@ const resetForm = () => {
             physical_address: data.physical_address,
             latitude: data.latitude ?? '',
             longitude: data.longitude ?? '',
-            established_date: data.established_date ?? '',
+            established_date: data.established_date ? data.established_date.substring(0, 10) : '',
             manager_name: data.manager_name ?? '',
             manager_phone: data.manager_phone ?? '',
             staff_count: data.staff_count ?? '',

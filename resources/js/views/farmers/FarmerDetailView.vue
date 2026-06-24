@@ -7,7 +7,7 @@
             </div>
             <div class="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div class="flex flex-col gap-4">
-                    <router-link to="/admin/farmers"
+                    <router-link :to="backLink"
                         class="inline-flex items-center gap-2 self-start rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white/25">
                         <Icon icon="mdi:arrow-left" :size="18" />
                         Back to Farmers
@@ -632,6 +632,9 @@ import { useGeographyStore } from '../../stores/geographyStore';
 import type { Farmer, Cow, CowMilkProduction, FarmerFeedingHistory } from '../../stores/geographyStore';
 
 const route = useRoute();
+const isPartnerRoute = computed(() => route.path.startsWith('/partner'));
+const backLink = computed(() => isPartnerRoute.value ? '/partner/farmers' : '/admin/farmers');
+
 const farmerStore = useFarmerStore();
 const geographyStore = useGeographyStore();
 const { milkCenters } = storeToRefs(geographyStore);

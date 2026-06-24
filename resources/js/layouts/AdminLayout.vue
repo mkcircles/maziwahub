@@ -110,18 +110,18 @@
                     <div class="h-8 w-px bg-surface-200 mx-1"></div>
 
                     <!-- Profile Dropdown -->
-                    <div class="flex items-center gap-3 cursor-pointer group">
-                        <div class="hidden sm:flex flex-col items-end">
+                    <div class="flex items-center gap-3">
+                        <router-link to="/admin/profile" class="hidden sm:flex flex-col items-end group cursor-pointer">
                             <span
                                 class="text-xs font-bold text-surface-800 group-hover:text-primary-600 transition-colors">{{
                                     authStore.user?.name ?? 'Administrator' }}</span>
                             <span class="text-[10px] text-surface-400 font-semibold uppercase tracking-wider capitalize">{{ authStore.user?.user_type ?? 'user'
                                 }}</span>
-                        </div>
-                        <div
-                            class="h-9 w-9 rounded bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
+                        </router-link>
+                        <router-link to="/admin/profile"
+                            class="h-9 w-9 rounded bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm hover:bg-primary-200 transition-colors">
                             {{ (authStore.user?.name ?? 'A').charAt(0).toUpperCase() }}
-                        </div>
+                        </router-link>
                         <button @click="handleLogout" title="Logout"
                             class="p-2 text-surface-400 hover:text-red-500 transition-colors rounded hover:bg-red-50">
                             <Icon icon="mdi:logout" :size="18" />

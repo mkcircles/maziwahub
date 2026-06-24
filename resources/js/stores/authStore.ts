@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import axios from 'axios';
 import authService, { type LoginCredentials, type RegisterData } from '../services/authService';
 
 interface User {
     id: number;
     name: string;
     email: string;
+    phone?: string;
+    location?: string;
     user_type: 'super_admin' | 'admin' | 'partner' | 'mcc' | 'user';
     milk_collection_center_id?: number;
     partner_id?: number;
@@ -94,6 +97,22 @@ export const useAuthStore = defineStore('auth', () => {
         error.value = null;
     }
 
+    async function updateProfile(data: any) {
+        loading.value = true;
+        error.value = null;
+        try {
+            const response = await axios.put('/auth/profile', data);
+            user.value = response.data.user;
+            authService.setUser(response.data.user);
+            return response.data;
+        } catch (err: any) {
+            error.value = err.response?.data?.message || 'Profile update failed';
+            throw err;
+        } finally {
+            loading.value = false;
+        }
+    }
+
     return {
         user,
         token,
@@ -106,6 +125,7 @@ export const useAuthStore = defineStore('auth', () => {
         logout,
         fetchUser,
         clearError,
+        updateProfile,
     };
 });
 

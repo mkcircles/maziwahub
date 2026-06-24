@@ -99,6 +99,20 @@ class AgentController extends Controller
             'is_active' => ['boolean'],
         ]);
 
+        $user = $request->user();
+        if ($user->isPartner()) {
+            $validated['partner_id'] = $user->partner_id;
+        } elseif ($user->isMcc()) {
+            $validated['milk_collection_center_id'] = $user->milk_collection_center_id;
+        }
+
+        if (!empty($validated['milk_collection_center_id']) && empty($validated['partner_id'])) {
+            $mcc = \App\Models\MilkCollectionCenter::find($validated['milk_collection_center_id']);
+            if ($mcc && $mcc->partner_id) {
+                $validated['partner_id'] = $mcc->partner_id;
+            }
+        }
+
         // Ensure at least one of MCC or Partner is provided
         if (empty($validated['milk_collection_center_id']) && empty($validated['partner_id'])) {
             return response()->json([
@@ -174,36 +188,32 @@ class AgentController extends Controller
             'is_active' => ['sometimes', 'boolean'],
         ]);
 
+        $user = $request->user();
+        if ($user->isPartner()) {
+            $validated['partner_id'] = $user->partner_id;
+        }
+
+        if (isset($validated['milk_collection_center_id']) && $validated['milk_collection_center_id'] && !isset($validated['partner_id'])) {
+            $mcc = \App\Models\MilkCollectionCenter::find($validated['milk_collection_center_id']);
+            if ($mcc && $mcc->partner_id) {
+                $validated['partner_id'] = $mcc->partner_id;
+            }
+        }
+
         DB::beginTransaction();
         try {
-            // Update user if name, email, or password provided
-            if (isset($validated['name']) || isset($validated['email']) || isset($validated['password'])) {
-                $userUpdates = [];
-
-                if (isset($validated['name'])) {
-                    $userUpdates['name'] = $validated['name'];
+            // Update user model attributes if present in request
+            $userUpdates = [];
+            foreach (['name', 'email', 'milk_collection_center_id', 'partner_id', 'is_active'] as $field) {
+                if (isset($validated[$field])) {
+                    $userUpdates[$field] = $validated[$field];
                 }
+            }
+            if (isset($validated['password'])) {
+                $userUpdates['password'] = Hash::make($validated['password']);
+            }
 
-                if (isset($validated['email'])) {
-                    $userUpdates['email'] = $validated['email'];
-                }
-
-                if (isset($validated['password'])) {
-                    $userUpdates['password'] = Hash::make($validated['password']);
-                }
-
-                if (isset($validated['milk_collection_center_id'])) {
-                    $userUpdates['milk_collection_center_id'] = $validated['milk_collection_center_id'];
-                }
-
-                if (isset($validated['partner_id'])) {
-                    $userUpdates['partner_id'] = $validated['partner_id'];
-                }
-
-                if (isset($validated['is_active'])) {
-                    $userUpdates['is_active'] = $validated['is_active'];
-                }
-
+            if (!empty($userUpdates)) {
                 $agent->user->update($userUpdates);
             }
 

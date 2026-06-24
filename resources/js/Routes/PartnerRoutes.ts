@@ -34,9 +34,29 @@ const partnerRoutes: RouteRecordRaw[] = [
                 },
             },
             {
+                path: 'milk-centers/:id',
+                name: 'partner-milk-center-detail',
+                component: () => import('../views/milk-centers/MilkCollectionCenterDetailView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['partner'],
+                    layout: 'partner',
+                },
+            },
+            {
                 path: 'farmers',
                 name: 'partner-farmers',
                 component: () => import('../views/partner/PartnerFarmersView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['partner'],
+                    layout: 'partner',
+                },
+            },
+            {
+                path: 'farmers/:id',
+                name: 'partner-farmer-detail',
+                component: () => import('../views/farmers/FarmerDetailView.vue'),
                 meta: {
                     requiresAuth: true,
                     requiresRole: ['partner'],
@@ -57,6 +77,16 @@ const partnerRoutes: RouteRecordRaw[] = [
                 path: 'agents/:id',
                 name: 'partner-agent-detail',
                 component: () => import('../views/admin/AgentDetailView.vue'),
+                meta: {
+                    requiresAuth: true,
+                    requiresRole: ['partner'],
+                    layout: 'partner',
+                },
+            },
+            {
+                path: 'profile',
+                name: 'partner-profile',
+                component: () => import('../views/profile/ProfileView.vue'),
                 meta: {
                     requiresAuth: true,
                     requiresRole: ['partner'],

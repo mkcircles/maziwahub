@@ -68,6 +68,14 @@ const adminRoutes: RouteRecordRaw[] = [
                     requiresRole: ['super_admin', 'admin'],
                 },
             },
+            {
+                path: 'profile',
+                name: 'admin-profile',
+                component: () => import('../views/profile/ProfileView.vue'),
+                meta: {
+                    requiresAuth: true,
+                },
+            },
         ],
     },
 ];

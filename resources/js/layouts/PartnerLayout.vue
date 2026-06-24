@@ -65,14 +65,14 @@
                     <div class="flex items-center gap-3 sm:gap-5">
                         <!-- Profile Dropdown -->
                         <div class="flex items-center gap-3">
-                            <div class="hidden sm:flex flex-col items-end">
-                                <span class="text-xs font-bold text-surface-800">{{ authStore.user?.name }}</span>
+                            <router-link to="/partner/profile" class="hidden sm:flex flex-col items-end group cursor-pointer">
+                                <span class="text-xs font-bold text-surface-800 group-hover:text-primary-600 transition-colors">{{ authStore.user?.name }}</span>
                                 <span class="text-[10px] text-surface-400 font-semibold uppercase tracking-wider truncate max-w-[120px]">{{ partnerTitle }}</span>
-                            </div>
-                            <div
-                                class="h-9 w-9 rounded bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm">
+                            </router-link>
+                            <router-link to="/partner/profile"
+                                class="h-9 w-9 rounded bg-primary-100 text-primary-600 flex items-center justify-center font-bold shadow-sm hover:bg-primary-200 transition-colors">
                                 {{ (authStore.user?.name ?? 'P').charAt(0).toUpperCase() }}
-                            </div>
+                            </router-link>
                             <div class="h-6 w-px bg-surface-200 mx-1"></div>
                             <button @click="handleLogout" title="Logout"
                                 class="p-2 text-surface-400 hover:text-red-500 transition-colors rounded hover:bg-red-50">
@@ -145,7 +145,9 @@ const partnerTitle = computed(() => partnerStore.activePartner?.name ?? authStor
 const pageTitle = computed(() => {
     if (route.name === 'partner-dashboard') return 'Daily Insight Board';
     if (route.name === 'partner-milk-centers') return 'Milk Collection Centers';
+    if (route.name === 'partner-milk-center-detail') return 'Collection Center Details';
     if (route.name === 'partner-farmers') return 'Farmer Profiles';
+    if (route.name === 'partner-profile') return 'Account Settings';
     return 'Partner Workspace';
 });
 

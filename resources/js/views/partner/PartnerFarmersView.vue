@@ -1,10 +1,10 @@
 <template>
     <div class="space-y-10">
-        <section class="relative overflow-hidden rounded-md border border-surface-200 bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-10 text-white">
+        <section class="relative overflow-hidden rounded-2xl border border-surface-200/60 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 px-8 py-10 text-white shadow-xl shadow-slate-950/20">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(94,234,212,0.25),transparent_65%)] opacity-80"></div>
             <div class="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div class="max-w-xl space-y-4">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-white/60">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.45em] text-emerald-400">
                         Farmer Registry
                     </p>
                     <h2 class="text-3xl font-semibold tracking-tight lg:text-4xl">
@@ -28,35 +28,35 @@
         </section>
 
         <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <StatisticalCard icon="mdi:account-group-outline" icon-class="text-primary-500">
+            <StatisticalCard icon="mdi:account-group-outline" icon-class="text-primary-500" class="rounded-xl border border-surface-200/50 shadow-sm">
                 <template #title>Total Farmers</template>
                 <template #default>{{ metrics.total }}</template>
                 <template #caption>Overall farmers linked to your centers</template>
             </StatisticalCard>
-            <StatisticalCard icon="mdi:check-circle-outline" icon-class="text-emerald-500">
+            <StatisticalCard icon="mdi:check-circle-outline" icon-class="text-emerald-500" class="rounded-xl border border-surface-200/50 shadow-sm">
                 <template #title>Active</template>
                 <template #default>{{ metrics.active }}</template>
                 <template #caption>In good standing</template>
             </StatisticalCard>
-            <StatisticalCard icon="mdi:clock-outline" icon-class="text-amber-500">
+            <StatisticalCard icon="mdi:clock-outline" icon-class="text-amber-500" class="rounded-xl border border-surface-200/50 shadow-sm">
                 <template #title>Pending</template>
                 <template #default>{{ metrics.pending }}</template>
                 <template #caption>Awaiting verification</template>
             </StatisticalCard>
-            <StatisticalCard icon="mdi:shield-check-outline" icon-class="text-primary-600">
+            <StatisticalCard icon="mdi:shield-check-outline" icon-class="text-primary-600" class="rounded-xl border border-surface-200/50 shadow-sm">
                 <template #title>Insured</template>
                 <template #default>{{ metrics.insured }}</template>
                 <template #caption>Farmers with insurance cover</template>
             </StatisticalCard>
         </section>
 
-        <section class="rounded-md border border-surface-200 bg-white/90 p-8">
+        <section class="rounded-2xl border border-surface-200 bg-white/95 p-8 shadow-sm backdrop-blur-sm">
             <form class="grid gap-4 md:grid-cols-2 xl:grid-cols-5" @submit.prevent="applyFilters">
                 <div class="xl:col-span-2">
                     <label class="text-xs font-semibold uppercase tracking-wide text-surface-500">
                         Search
                     </label>
-                    <div class="mt-1 flex items-center gap-2 rounded-md border border-surface-200 px-3 py-2">
+                    <div class="mt-1 flex items-center gap-2 rounded-lg border border-surface-200 bg-surface-50/50 px-3 py-2 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-200 transition-all">
                         <Icon icon="mdi:magnify" :size="18" class="text-surface-400" />
                         <input
                             v-model.trim="filters.search"
@@ -72,7 +72,7 @@
                     </label>
                     <select
                         v-model.number="filters.centerId"
-                        class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     >
                         <option :value="0">All centers</option>
                         <option
@@ -90,7 +90,7 @@
                     </label>
                     <select
                         v-model="filters.status"
-                        class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     >
                         <option value="">All statuses</option>
                         <option value="active">Active</option>
@@ -104,7 +104,7 @@
                     </label>
                     <select
                         v-model.number="perPage"
-                        class="mt-1 w-full rounded-md border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+                        class="mt-1 w-full rounded-lg border border-surface-200 px-3 py-2 text-sm text-surface-800 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                     >
                         <option v-for="option in perPageOptions" :key="option" :value="option">
                             {{ option }}
@@ -114,13 +114,13 @@
                 <div class="flex items-end gap-3">
                     <button
                         type="submit"
-                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+                        class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
                     >
                         Apply filters
                     </button>
                     <button
                         type="button"
-                        class="inline-flex items-center gap-2 rounded-md border border-surface-200 px-4 py-2 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
+                        class="inline-flex items-center gap-2 rounded-lg border border-surface-200 px-4 py-2.5 text-sm font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
                         @click="resetFilters"
                     >
                         Reset
@@ -130,31 +130,31 @@
 
             <div
                 v-if="errorMessage"
-                class="mt-4 rounded-md border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700"
+                class="mt-4 rounded-lg border border-rose-200 bg-rose-50/70 px-4 py-3 text-sm text-rose-700"
             >
                 {{ errorMessage }}
             </div>
 
-            <div v-if="farmers.length" class="mt-6 overflow-hidden rounded-lg border border-surface-200/70">
+            <div v-if="farmers.length" class="mt-6 overflow-hidden rounded-xl border border-surface-200/70 shadow-sm">
                 <table class="min-w-full divide-y divide-slate-200 text-sm">
-                    <thead class="bg-surface-50 text-xs uppercase tracking-wide text-surface-500">
+                    <thead class="bg-surface-50 text-xs uppercase tracking-wide text-surface-500 border-b border-surface-200">
                         <tr class="text-left">
-                            <th class="px-6 py-3 font-semibold">Farmer</th>
-                            <th class="px-6 py-3 font-semibold">Contact</th>
-                            <th class="px-6 py-3 font-semibold">Center</th>
-                            <th class="px-6 py-3 font-semibold">Herd Size</th>
-                            <th class="px-6 py-3 font-semibold">Grazing</th>
-                            <th class="px-6 py-3 font-semibold text-right">Status</th>
-                            <th class="px-6 py-3"></th>
+                            <th class="px-6 py-3.5 font-semibold">Farmer</th>
+                            <th class="px-6 py-3.5 font-semibold">Contact</th>
+                            <th class="px-6 py-3.5 font-semibold">Center</th>
+                            <th class="px-6 py-3.5 font-semibold">Herd Size</th>
+                            <th class="px-6 py-3.5 font-semibold">Grazing</th>
+                            <th class="px-6 py-3.5 font-semibold text-right">Status</th>
+                            <th class="px-6 py-3.5"></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 bg-white">
-                        <tr v-for="farmer in farmers" :key="farmer.id" class="hover:bg-surface-50/60">
+                        <tr v-for="farmer in farmers" :key="farmer.id" class="hover:bg-surface-50/60 transition-colors duration-150">
                             <td class="px-6 py-4 align-top">
                                 <div class="font-semibold text-surface-900">
                                     {{ farmer.first_name }} {{ farmer.last_name }}
                                 </div>
-                                <div class="text-xs text-surface-500">
+                                <div class="text-xs text-surface-500 mt-0.5">
                                     {{ farmer.farmer_id }}
                                 </div>
                             </td>
@@ -163,7 +163,7 @@
                                     <Icon icon="mdi:phone-outline" :size="16" class="text-surface-400" />
                                     <span>{{ farmer.phone_number || '—' }}</span>
                                 </div>
-                                <div class="mt-1 flex items-center gap-2 text-xs text-surface-400">
+                                <div class="mt-1.5 flex items-center gap-2 text-xs text-surface-400">
                                     <Icon icon="mdi:map-marker-outline" :size="16" />
                                     <span>
                                         {{ farmer.village || farmer.parish || farmer.sub_county || 'Location unknown' }}
@@ -178,7 +178,7 @@
                                     {{ farmer.milkCollectionCenter?.physical_address || '—' }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-surface-600">
+                            <td class="px-6 py-4 align-top text-surface-600 font-medium">
                                 {{ farmer.herd_size || '—' }}
                             </td>
                             <td class="px-6 py-4 align-top text-surface-600">
@@ -186,17 +186,17 @@
                             </td>
                             <td class="px-6 py-4 align-top text-right">
                                 <span
-                                    class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                                    class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
                                     :class="statusClass(farmer.status)"
                                 >
-                                    <span class="inline-block h-2 w-2 rounded-full" :class="statusDotClass(farmer.status)"></span>
+                                    <span class="inline-block h-1.5 w-1.5 rounded-full animate-pulse" :class="statusDotClass(farmer.status)"></span>
                                     {{ farmer.status || 'Unknown' }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 align-top text-right">
                                 <router-link
-                                    class="inline-flex items-center gap-1 rounded-full border border-surface-200 px-3 py-1 text-xs font-medium text-surface-600 transition hover:bg-surface-100 hover:text-surface-800"
-                                    :to="`/admin/farmers/${farmer.id}`"
+                                    class="inline-flex items-center gap-1 rounded-full border border-primary-100 bg-primary-50/30 px-3 py-1 text-xs font-semibold text-primary-700 transition-all hover:bg-primary-600 hover:text-white hover:border-primary-600"
+                                    :to="`/partner/farmers/${farmer.id}`"
                                 >
                                     View profile
                                     <Icon icon="mdi:arrow-right" :size="16" />

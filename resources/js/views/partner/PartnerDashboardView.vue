@@ -318,8 +318,8 @@ const pendingInvitations = computed<PartnerInvitation[]>(() =>
 const pendingInvitationsCount = computed(() => pendingInvitations.value.length);
 
 const todaysSummary = computed(() => dailySummary.value.find(entry => entry.date === today.value));
-const centerTotalsState = milkDeliveriesStore.centerDailyTotals;
-const centerTotalsLoadingState = milkDeliveriesStore.centerTotalsLoading;
+const centerTotalsState = computed(() => milkDeliveriesStore.centerDailyTotals);
+const centerTotalsLoadingState = computed(() => milkDeliveriesStore.centerTotalsLoading);
 
 const centerTotalFor = (centerId: number) => centerTotalsState.value[`${centerId}:${today.value}`] ?? 0;
 const isCenterLoading = (centerId: number) => Boolean(centerTotalsLoadingState.value[`${centerId}:${today.value}`]);

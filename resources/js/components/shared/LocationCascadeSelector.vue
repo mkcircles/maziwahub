@@ -283,17 +283,81 @@ const loadVillagesForParish = async (parishId: number) => {
     villages.value = list ?? [];
 };
 
+const isInitializing = ref(false);
+
+const loadInitialCascadeData = async (value: LocationSelection) => {
+    isInitializing.value = true;
+    
+    // Copy values to local state first
+    Object.assign(local, defaultSelection(), value ?? {});
+    
+    try {
+        await ensureCountriesLoaded();
+        
+        if (local.country_id) {
+            const selectedCountry = countries.value.find(c => c.id === local.country_id);
+            local.country_name = selectedCountry?.name ?? '';
+            await loadDistrictsForCountry(local.country_id);
+        }
+        
+        if (local.district_id) {
+            const selectedDistrict = districts.value.find(d => d.id === local.district_id);
+            local.district_name = selectedDistrict?.district_name ?? selectedDistrict?.name ?? '';
+            
+            const region = regionLookup.value.get(local.district_id);
+            if (region) {
+                local.region_id = region.id;
+                local.region_name = region.name ?? (region as any)?.region_name ?? '';
+            }
+            
+            await loadCountiesForDistrict(local.district_id);
+        }
+        
+        if (local.county_id) {
+            const selectedCounty = counties.value.find(c => c.id === local.county_id);
+            local.county_name = selectedCounty?.county_name ?? selectedCounty?.name ?? '';
+            await loadSubcountiesForCounty(local.county_id);
+        }
+        
+        if (local.subcounty_id) {
+            const selectedSubcounty = subcounties.value.find(s => s.id === local.subcounty_id);
+            local.subcounty_name = selectedSubcounty?.subcounty_name ?? selectedSubcounty?.name ?? '';
+            await loadParishesForSubcounty(local.subcounty_id);
+        }
+        
+        if (local.parish_id) {
+            const selectedParish = parishes.value.find(p => p.id === local.parish_id);
+            local.parish_name = selectedParish?.parish_name ?? selectedParish?.name ?? '';
+            await loadVillagesForParish(local.parish_id);
+        }
+        
+        if (local.village_id) {
+            const selectedVillage = villages.value.find(v => v.id === local.village_id);
+            local.village_name = selectedVillage?.village_name ?? selectedVillage?.name ?? '';
+        }
+    } catch (err) {
+        console.error('Error loading cascade location data:', err);
+    } finally {
+        isInitializing.value = false;
+    }
+};
+
 watch(
     () => props.modelValue,
-    (value) => {
-        Object.assign(local, defaultSelection(), value ?? {});
+    async (value) => {
+        const keys = ['country_id', 'district_id', 'county_id', 'subcounty_id', 'parish_id', 'village_id'] as const;
+        const hasChanges = keys.some(key => local[key] !== (value?.[key] ?? null));
+        if (hasChanges) {
+            await loadInitialCascadeData(value ?? {});
+        }
     },
-    { deep: true }
+    { deep: true, immediate: true }
 );
 
 watch(
     local,
     (value) => {
+        if (isInitializing.value) return;
         emit('update:modelValue', { ...value });
     },
     { deep: true }
@@ -302,6 +366,7 @@ watch(
 watch(
     () => local.country_id,
     async (countryId) => {
+        if (isInitializing.value) return;
         resetBelow('country');
         const id = parseId(countryId);
         if (!id) return;
@@ -316,6 +381,7 @@ watch(
 watch(
     () => local.district_id,
     async (districtId) => {
+        if (isInitializing.value) return;
         resetBelow('district');
         const id = parseId(districtId);
         if (!id) {
@@ -344,6 +410,7 @@ watch(
 watch(
     () => local.county_id,
     async (countyId) => {
+        if (isInitializing.value) return;
         resetBelow('county');
         const id = parseId(countyId);
         if (!id) {
@@ -361,6 +428,7 @@ watch(
 watch(
     () => local.subcounty_id,
     async (subcountyId) => {
+        if (isInitializing.value) return;
         resetBelow('subcounty');
         const id = parseId(subcountyId);
         if (!id) {
@@ -378,6 +446,7 @@ watch(
 watch(
     () => local.parish_id,
     async (parishId) => {
+        if (isInitializing.value) return;
         resetBelow('parish');
         const id = parseId(parishId);
         if (!id) {
@@ -395,6 +464,7 @@ watch(
 watch(
     () => local.village_id,
     (villageId) => {
+        if (isInitializing.value) return;
         const id = parseId(villageId);
         if (!id) {
             local.village_name = '';

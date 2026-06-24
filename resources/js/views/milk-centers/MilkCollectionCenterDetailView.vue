@@ -3,7 +3,7 @@
         <div class="space-y-8 pb-16">
         <div v-if="loading" class="rounded-md border border-surface-200 bg-white p-5 shadow-sm shadow-slate-100">
             <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                <router-link to="/admin/milk-collection-centers"
+                <router-link :to="backPath"
                     class="inline-flex items-center gap-2 self-start rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to centers
@@ -17,7 +17,7 @@
         <div v-else-if="error"
             class="rounded-md border border-red-200/60 bg-red-50/80 p-8 text-red-700 shadow-sm shadow-red-100">
             <div class="flex flex-col gap-4">
-                <router-link to="/admin/milk-collection-centers"
+                <router-link :to="backPath"
                     class="inline-flex items-center gap-2 self-start rounded-full bg-red-100/80 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-200/80">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to centers
@@ -28,7 +28,7 @@
         <div v-else-if="!center"
             class="rounded-md border border-surface-200 bg-white p-10 text-center text-surface-600 shadow-sm shadow-slate-100">
             <div class="mx-auto flex max-w-xl flex-col items-center gap-4">
-                <router-link to="/admin/milk-collection-centers"
+                <router-link :to="backPath"
                     class="inline-flex items-center gap-2 rounded-full bg-surface-100 px-4 py-2 text-sm font-medium text-surface-700 transition hover:bg-surface-200">
                     <Icon icon="mdi:arrow-left" :size="18" />
                     Back to centers
@@ -45,7 +45,7 @@
                 </div>
                 <div class="relative flex flex-col gap-6">
                     <div class="flex flex-wrap items-center justify-between gap-4">
-                        <router-link to="/admin/milk-collection-centers"
+                        <router-link :to="backPath"
                             class="inline-flex items-center gap-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 px-3 py-1.5 text-xs font-semibold text-white transition duration-200">
                             <Icon icon="mdi:arrow-left" :size="14" />
                             Back to Centers
@@ -351,6 +351,9 @@ type TabKey = 'overview' | 'deliveries' | 'agents';
 
 const route = useRoute();
 const centerId = computed(() => Number(route.params.id));
+const backPath = computed(() => {
+    return route.path.startsWith('/partner') ? '/partner/milk-centers' : '/admin/milk-collection-centers';
+});
 
 const agentStore = useAgentStore();
 const { agents: mccAgents, loading: mccAgentsLoading } = storeToRefs(agentStore);

@@ -30,6 +30,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware(['auth:sanctum', 'active'])->group(function () {
         Route::get('auth/user', [AuthController::class, 'user']);
+        Route::put('auth/profile', [AuthController::class, 'updateProfile']);
         Route::post('auth/logout', [AuthController::class, 'logout']);
 
         // Geography routes - accessible to all authenticated users (view-only for 'user' role)
