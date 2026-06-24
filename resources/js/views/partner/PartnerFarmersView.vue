@@ -136,71 +136,70 @@
             </div>
 
             <div v-if="farmers.length" class="mt-6 overflow-hidden rounded-xl border border-surface-200/70 shadow-sm">
-                <table class="min-w-full divide-y divide-slate-200 text-sm">
-                    <thead class="bg-surface-50 text-xs uppercase tracking-wide text-surface-500 border-b border-surface-200">
-                        <tr class="text-left">
-                            <th class="px-6 py-3.5 font-semibold">Farmer</th>
-                            <th class="px-6 py-3.5 font-semibold">Contact</th>
-                            <th class="px-6 py-3.5 font-semibold">Center</th>
-                            <th class="px-6 py-3.5 font-semibold">Herd Size</th>
-                            <th class="px-6 py-3.5 font-semibold">Grazing</th>
-                            <th class="px-6 py-3.5 font-semibold text-right">Status</th>
-                            <th class="px-6 py-3.5"></th>
+                <table class="min-w-full divide-y divide-slate-100">
+                    <thead class="bg-surface-50/70 border-b border-surface-200 text-xs uppercase tracking-wide text-surface-500">
+                        <tr>
+                            <th class="px-6 py-3.5 text-left font-semibold">Farmer</th>
+                            <th class="px-6 py-3.5 text-left font-semibold">Contact</th>
+                            <th class="px-6 py-3.5 text-left font-semibold">Milk Collection Center</th>
+                            <th class="px-6 py-3.5 text-left font-semibold">Location</th>
+                            <th class="px-6 py-3.5 text-left font-semibold">Status</th>
+                            <th class="px-6 py-3.5 text-right font-semibold">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-100 bg-white">
-                        <tr v-for="farmer in farmers" :key="farmer.id" class="hover:bg-surface-50/60 transition-colors duration-150">
-                            <td class="px-6 py-4 align-top">
-                                <div class="font-semibold text-surface-900">
-                                    {{ farmer.first_name }} {{ farmer.last_name }}
+                    <tbody class="divide-y divide-slate-100 bg-white text-xs text-surface-700">
+                        <tr v-for="farmer in farmers" :key="farmer.id" class="transition hover:bg-surface-50/60 duration-150">
+                            <td class="px-6 py-4">
+                                <div class="text-xs font-semibold text-surface-900">
+                                    <router-link :to="`/partner/farmers/${farmer.id}`"
+                                        class="hover:text-primary-600 hover:underline">
+                                        {{ farmer.first_name }} {{ farmer.last_name }}
+                                    </router-link>
                                 </div>
-                                <div class="text-xs text-surface-500 mt-0.5">
-                                    {{ farmer.farmer_id }}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 align-top text-surface-600">
-                                <div class="flex items-center gap-2">
-                                    <Icon icon="mdi:phone-outline" :size="16" class="text-surface-400" />
-                                    <span>{{ farmer.phone_number || '—' }}</span>
-                                </div>
-                                <div class="mt-1.5 flex items-center gap-2 text-xs text-surface-400">
-                                    <Icon icon="mdi:map-marker-outline" :size="16" />
-                                    <span>
-                                        {{ farmer.village || farmer.parish || farmer.sub_county || 'Location unknown' }}
-                                    </span>
+                                <div class="text-xs text-surface-400 uppercase tracking-wide">
+                                    ID: {{ farmer.farmer_id }}
                                 </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-surface-600">
-                                <div class="font-medium text-surface-800">
-                                    {{ farmer.milkCollectionCenter?.name || 'Not assigned' }}
-                                </div>
-                                <div class="mt-1 text-xs text-surface-400">
-                                    {{ farmer.milkCollectionCenter?.physical_address || '—' }}
+                            <td class="px-6 py-4 text-xs text-surface-600">
+                                <div>
+                                    <Icon icon="mdi:phone" :size="10" class="inline-block text-emerald-500" /> 
+                                    <span class="text-[12px] text-surface-400 ml-1"> {{ farmer.phone_number ?? '—' }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-surface-600 font-medium">
-                                {{ farmer.herd_size || '—' }}
+                            <td class="px-6 py-4 text-xs text-surface-600">
+                                <div class="font-medium text-surface-800">{{ farmer.milkCollectionCenter?.name ?? 'Not assigned' }}</div>
+                                <div v-if="farmer.milkCollectionCenter?.physical_address" class="text-xs text-surface-400 mt-0.5">
+                                    {{ farmer.milkCollectionCenter.physical_address }}
+                                </div>
                             </td>
-                            <td class="px-6 py-4 align-top text-surface-600">
-                                {{ formatGrazing(farmer.grazing_type) }}
+                            <td class="px-6 py-4 text-[12px] text-surface-500">
+                                <div>{{ formatFarmerLocation(farmer) }}</div>
                             </td>
-                            <td class="px-6 py-4 align-top text-right">
-                                <span
-                                    class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
-                                    :class="statusClass(farmer.status)"
-                                >
-                                    <span class="inline-block h-1.5 w-1.5 rounded-full animate-pulse" :class="statusDotClass(farmer.status)"></span>
-                                    {{ farmer.status || 'Unknown' }}
+                            <td class="px-6 py-4 text-xs">
+                                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium"
+                                    :class="statusChipClass(farmer.status)">
+                                    <Icon :icon="statusChipIcon(farmer.status)" :size="14" />
+                                    {{ farmer.status ?? 'Unknown' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 align-top text-right">
-                                <router-link
-                                    class="inline-flex items-center gap-1 rounded-full border border-primary-100 bg-primary-50/30 px-3 py-1 text-xs font-semibold text-primary-700 transition-all hover:bg-primary-600 hover:text-white hover:border-primary-600"
-                                    :to="`/partner/farmers/${farmer.id}`"
-                                >
-                                    View profile
-                                    <Icon icon="mdi:arrow-right" :size="16" />
-                                </router-link>
+                            <td class="px-6 py-4 text-right">
+                                <div class="inline-flex items-center justify-end gap-1">
+                                    <button v-if="farmer.status === 'pending' || farmer.status === 'inactive'"
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-emerald-600 transition-colors"
+                                        title="Activate" @click="toggleFarmerStatus(farmer, 'active')">
+                                        <Icon icon="mdi:check-circle-outline" :size="18" />
+                                    </button>
+                                    <button v-if="farmer.status === 'active'"
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-red-600 transition-colors"
+                                        title="Deactivate" @click="toggleFarmerStatus(farmer, 'inactive')">
+                                        <Icon icon="mdi:pause-circle-outline" :size="18" />
+                                    </button>
+                                    <button
+                                        class="inline-flex items-center justify-center rounded-full p-2 text-surface-400 hover:bg-surface-100 hover:text-primary-600 transition-colors"
+                                        title="Edit" @click="openEditModal(farmer)">
+                                        <Icon icon="mdi:pencil-outline" :size="18" />
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -254,6 +253,8 @@
                 </div>
             </div>
         </section>
+        <EditFarmerModal :is-open="showEditModal" :farmer="selectedFarmerForEdit" :milk-centers="centers"
+            @close="closeEditModal" @updated="handleFarmerUpdated" />
     </div>
 </template>
 
@@ -262,9 +263,11 @@ import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import Icon from '../../components/shared/Icon.vue';
 import StatisticalCard from '../../components/shared/StatisticalCard.vue';
+import EditFarmerModal from '../../components/farmers/EditFarmerModal.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { usePartnerStore } from '../../stores/partnerStore';
 import { useFarmerStore } from '../../stores/farmerStore';
+import type { Farmer } from '../../stores/geographyStore';
 
 const authStore = useAuthStore();
 const partnerStore = usePartnerStore();
@@ -392,6 +395,54 @@ watch(
     },
 );
 
+const showEditModal = ref(false);
+const selectedFarmerForEdit = ref<Farmer | null>(null);
+
+const openEditModal = (farmer: Farmer) => {
+    selectedFarmerForEdit.value = farmer;
+    showEditModal.value = true;
+};
+
+const closeEditModal = () => {
+    showEditModal.value = false;
+    selectedFarmerForEdit.value = null;
+};
+
+const handleFarmerUpdated = async () => {
+    showEditModal.value = false;
+    selectedFarmerForEdit.value = null;
+    await loadFarmers(pagination.value.current_page);
+    await fetchMetrics();
+};
+
+const toggleFarmerStatus = async (farmer: Farmer, newStatus: 'active' | 'inactive') => {
+    const label = newStatus === 'active' ? 'activate' : 'deactivate';
+    const confirmed = window.confirm(
+        `Are you sure you want to ${label} ${farmer.first_name} ${farmer.last_name}?`
+    );
+    if (!confirmed) return;
+
+    try {
+        await farmerStore.updateFarmer(farmer.id, { ...farmer, status: newStatus });
+    } catch (err: any) {
+        window.alert(`Failed to update farmer status: ${err.message || err}`);
+    }
+};
+
+const formatFarmerLocation = (farmer: Farmer) => {
+    const location = (farmer as any)?.location ?? {};
+    const segments = [
+        location.country,
+        location.region,
+        location.district ?? farmer.district,
+        // location.county ?? farmer.county,
+        // location.sub_county ?? farmer.sub_county,
+        // location.parish ?? farmer.parish,
+        // location.village ?? farmer.village,
+    ].filter((segment): segment is string => Boolean(segment));
+    return segments.length ? segments.join(' > ') : 'Location details unavailable';
+};
+
 const formatGrazing = (value?: string | null) => {
     if (!value) return '—';
     return value
@@ -424,6 +475,32 @@ const statusDotClass = (status?: string | null) => {
         default:
             return 'bg-slate-400';
     }
+};
+
+const statusChipClass = (status?: string | null) => {
+    if (status === 'active') {
+        return 'bg-green-100 text-green-700';
+    }
+    if (status === 'pending') {
+        return 'bg-yellow-100 text-yellow-700';
+    }
+    if (status === 'inactive') {
+        return 'bg-surface-100 text-surface-600';
+    }
+    return 'bg-surface-100 text-surface-600';
+};
+
+const statusChipIcon = (status?: string | null) => {
+    if (status === 'active') {
+        return 'mdi:check-circle-outline';
+    }
+    if (status === 'pending') {
+        return 'mdi:clock-outline';
+    }
+    if (status === 'inactive') {
+        return 'mdi:alert-circle-outline';
+    }
+    return 'mdi:help-circle-outline';
 };
 </script>
 

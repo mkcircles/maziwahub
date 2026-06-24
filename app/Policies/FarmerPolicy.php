@@ -95,9 +95,10 @@ class FarmerPolicy
             return false;
         }
 
-        // Partner cannot update (view-only)
-        if ($user->isPartner()) {
-            return false;
+        // Partner can update farmers from their MCCs
+        if ($user->isPartner() && $user->partner_id) {
+            $mccIds = $user->partner->milkCollectionCenters()->pluck('id')->toArray();
+            return in_array($farmer->milk_collection_center_id, $mccIds);
         }
 
         // MCC can update farmers attached to their center
